@@ -26,7 +26,7 @@
   },
   "bundle": {
     "active": true,
-    "publisher": "Théo Ponthieu",
+    "publisher": "J’écoute",
     "homepage": "https://github.com/ponthieutheo/jecoute",
     "createUpdaterArtifacts": true,
     "targets": "all",
