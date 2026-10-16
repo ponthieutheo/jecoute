@@ -47,10 +47,10 @@ export const HEAD_Y = HS + 0.02;
 /* Clavier (repère du groupe racine, dont l'origine est au bas de la tête) : devant et sous la tête, incliné vers
    la caméra pour qu'on voie ses touches ; la tête monte de TYPING_LIFT pour le laisser passer dessous. Plus près
    de la caméra, il serait coupé par le bas de la fenêtre (la caméra regarde un peu vers le bas). */
-const KB_POS = new THREE.Vector3(0, HEAD_Y - 0.57, 0.75);
+const KB_POS = new THREE.Vector3(0, HEAD_Y - 0.5, 0.75);
 const KB_TILT = 0.75;
 const KB_SCALE = 1;
-const TYPING_LIFT = 0.5;
+const TYPING_LIFT = 0.56;
 /** Hauteur (repère du clavier, en unités de la scène) sous laquelle une main qui redescend frappe une touche. */
 const HIT_Y = 0.325;
 const KB_REST = new THREE.Matrix4().compose(
@@ -240,6 +240,18 @@ export class Choreography {
       this.enterFrom = this.phase === "hidden" ? 0 : this.scale;
       this.enterT = 0;
       if (this.phase === "hidden") this.resetPose();
+      else if (this.kbScale > 0) {
+        // relance pendant le pop inverse d'après la frappe : clavier et mains (petits à ce moment) s'en vont tout de suite
+        this.kbOn = false;
+        this.kbScale = this.kbFrom = 0;
+        this.rig.keyboard.group.visible = false;
+        this.rig.keyboard.reset();
+        for (const h of this.hands) {
+          h.on = false;
+          h.scale = h.from = 0;
+          h.mesh.visible = false;
+        }
+      }
     }
     if (state === "recording") {
       this.worked = false;
@@ -435,7 +447,7 @@ export class Choreography {
           const w = clamp((u - 0.06) / (EXIT_POP - 0.06));
           exitM = Math.max(0, 1.07 * (1 - easeInBack(w)));
           exitSx = 1.05 - 0.17 * w;
-          exitSy = 0.94 + 0.3 * w;
+          exitSy = 0.94 + 0.16 * w;
         }
         if (u >= EXIT_POP) finished = true;
       }
@@ -577,9 +589,9 @@ export class Choreography {
       face.open = 0.2 + 0.45 * clamp(m);
       handR = { on: true, cup: 1 };
       wantBubble = true;
-      // la tête redescend à mesure que le clavier repart (jamais à travers lui)
-      ty = TYPING_LIFT * this.kbScale;
     }
+    // hors frappe, la tête ne redescend qu'au rythme du clavier qui repart (jamais à travers lui)
+    if (!typing) ty += TYPING_LIFT * this.kbScale;
 
     this.hx = approach(this.hx, tx, rate, dt);
     this.hy = approach(this.hy, ty, rate, dt);
