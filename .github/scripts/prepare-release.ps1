@@ -26,7 +26,10 @@ param(
   # Date de publication RFC 3339 ; par défaut, maintenant (UTC).
   [string] $PubDate = "",
   # Fichier Markdown du texte de la release (facultatif).
-  [string] $BodyPath = ""
+  [string] $BodyPath = "",
+  # Le texte de la release mentionne les attestations de provenance : seulement depuis release.yml, qui les
+  # crée (une publication manuelle n'en a pas).
+  [switch] $Attestations
 )
 
 $ErrorActionPreference = "Stop"
@@ -151,7 +154,15 @@ if ($BodyPath) {
     "Les installeurs ne sont pas encore signés : Windows SmartScreen peut afficher « Windows a protégé votre ordinateur ». Clique sur « Informations complémentaires », puis sur « Exécuter quand même ».",
     "",
     "Une installation existante se met à jour d'elle-même (``latest.json`` et fichiers ``.sig``).",
-    "",
+    ""
+  )
+  if ($Attestations) {
+    $lines += @(
+      "Provenance vérifiable : les installeurs et ``latest.json`` sont attestés par le workflow de release de ce dépôt (``gh attestation verify <fichier> --repo $Repository``).",
+      ""
+    )
+  }
+  $lines += @(
     "### Sommes de contrôle SHA-256",
     "",
     "| Fichier | SHA-256 |",
