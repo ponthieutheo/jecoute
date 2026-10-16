@@ -13,6 +13,11 @@
    finir avant le chuchotement ou le sourire. Seule l'animation attend : le texte est déjà collé (le collage ne
    dépend pas de l'overlay) et la fenêtre native n'est cachée qu'après la dernière image.
 
+   Fenêtre principale (idleMode) : le personnage reste à l'écran entre deux dictées. Au repos (phase « idle »),
+   un RestDriver (rest.ts) donne la pose à chaque image ; la sortie d'une dictée joue la même réaction (sourire ou
+   haussement) puis le ramène au repos, sans pop inverse. Les mêmes lissages servent partout : aucun saut entre le
+   repos et la dictée.
+
    Tout est calculé à partir du temps (dt, t), sans état caché dans le rendu : la même suite d'événements donne
    toujours les mêmes images. */
 
@@ -28,6 +33,7 @@ export type CharacterState = "recording" | "transcribing" | "processing";
 export type ExitReason = "done" | "cancel";
 type Phase =
   | "hidden"
+  | "idle"
   | "arming"
   | "listening"
   | "transcribing"
@@ -40,6 +46,10 @@ export const EXIT_POP = 0.2;
 
 /** Durée minimale de la frappe au clavier (s), même si la transcription est plus rapide. */
 export const MIN_TYPING = 1.0;
+
+/** Fenêtre principale : après la réaction de fin (sourire ou haussement), il la garde ce temps (s) puis revient
+    au repos. */
+const IDLE_RETURN = { done: 0.55, cancel: 0.7 } as const;
 
 /** Le pivot du pop : le bas de la tête (il surgit depuis le bas de l'écran). */
 export const HEAD_Y = HS + 0.02;
@@ -93,13 +103,76 @@ interface HandAnim {
   cup: number;
 }
 
-interface HandWant {
+export interface HandWant {
   on: boolean;
   pos?: THREE.Vector3;
   dir?: THREE.Vector3;
   cup?: number;
   /** Vitesse de suivi (1/s) : plus haute quand il tape. */
   rate?: number;
+  /** Main droite sans `pos` : à l'oreille (il écoute) ou devant le coin de la bouche (il chuchote). Par défaut :
+      l'oreille pendant l'écoute, la bouche sinon. */
+  at?: "ear" | "mouth";
+  /** Décalage ajouté à cette place, dans le repère de la tête (petites tapes). */
+  off?: THREE.Vector3;
+}
+
+/** La pose du repos, demandée à chaque image au RestDriver, qui part de valeurs neutres. */
+export interface RestPose {
+  /** Cibles lissées de la tête. */
+  tx: number;
+  ty: number;
+  roll: number;
+  yaw: number;
+  pitch: number;
+  /** Vitesse de suivi des cibles (1/s). */
+  rate: number;
+  /** Gestes vifs, ajoutés tels quels (sans lissage) : saut, tour sur lui-même, secousses. */
+  dx: number;
+  dy: number;
+  dRoll: number;
+  dYaw: number;
+  dPitch: number;
+  /** Écrasement / étirement de la tête (multiplicateurs). */
+  sx: number;
+  sy: number;
+  /** Amplitude de la respiration (1 = normale). */
+  breath: number;
+  face: FaceState;
+  eyeTX: number;
+  eyeTY: number;
+  saccades: boolean;
+  /** Plafond d'ouverture des yeux : 0 = fermés (il dort). */
+  blinkCap: number;
+  /** Cligne maintenant. */
+  blink: boolean;
+  handL: HandWant;
+  handR: HandWant;
+  /** Lance la goutte de sueur. */
+  drop: boolean;
+}
+
+export interface RestDriver {
+  /** Il arrive au repos (apparition, ou fin d'une dictée). */
+  enter(t: number): void;
+  /** Remplit la pose du repos à l'instant t. */
+  pose(p: RestPose, t: number, dt: number): void;
+}
+
+const HAND_OFF: HandWant = { on: false };
+
+function neutralRestPose(p: RestPose, face: FaceState) {
+  p.tx = p.ty = p.roll = p.yaw = p.pitch = 0;
+  p.rate = 6;
+  p.dx = p.dy = p.dRoll = p.dYaw = p.dPitch = 0;
+  p.sx = p.sy = p.breath = 1;
+  p.face = face;
+  p.eyeTX = p.eyeTY = 0;
+  p.saccades = false;
+  p.blinkCap = 1;
+  p.blink = false;
+  p.handL = p.handR = HAND_OFF;
+  p.drop = false;
 }
 
 interface Arc {
@@ -191,6 +264,12 @@ export class Choreography {
 
   private hands: [HandAnim, HandAnim];
 
+  // fenêtre principale
+  /** Le personnage reste à l'écran : une sortie le ramène au repos. */
+  idleMode = false;
+  rest: RestDriver | null = null;
+  private restPose = {} as RestPose;
+
   constructor(
     private rig: Rig,
     seed = 7,
@@ -221,6 +300,51 @@ export class Choreography {
     return this.phase !== "hidden";
   }
 
+  /** Au repos (fenêtre principale), réaction de fin comprise. */
+  get resting() {
+    return this.phase === "idle" || (this.phase === "exiting" && this.idleMode);
+  }
+
+  /** En pleine dictée (fenêtre principale : hors repos). */
+  get dictating() {
+    return this.phase !== "hidden" && !this.resting;
+  }
+
+  /** Quelque chose s'anime à part la tête : main qui apparaît ou disparaît, clavier, goutte, apparition. */
+  get busy() {
+    const popping = (h: HandAnim) => h.scale > 0 && h.scale !== 1;
+    return (
+      popping(this.hands[0]) ||
+      popping(this.hands[1]) ||
+      this.kbScale > 0 ||
+      this.rig.decor.drop.visible ||
+      this.enterT >= 0
+    );
+  }
+
+  /** Fenêtre principale : il apparaît (pop) et reste au repos. */
+  appear(t: number) {
+    if (this.phase !== "hidden") return;
+    this.resetPose();
+    this.enterFrom = 0;
+    this.enterT = 0;
+    this.setPhase("idle", t);
+  }
+
+  /** Fenêtre principale : « oups » (haussement d'épaules, goutte de sueur), puis retour au repos. */
+  oops(t: number) {
+    if (this.phase === "idle") {
+      this.exitKind = "cancel";
+      this.exitFrom = "idle";
+      this.setPhase("exiting", t);
+      this.exitT = 0;
+      this.dropT = 0;
+    } else if (this.phase !== "hidden" && this.phase !== "exiting") {
+      this.failed = true;
+      this.hide("done", t);
+    }
+  }
+
   /** L'overlay s'affiche (ou change d'état). */
   show(state: CharacterState, t: number) {
     this.pendingExit = null;
@@ -234,7 +358,8 @@ export class Choreography {
       return;
     }
     this.pendingProcessing = false;
-    const wasAway = this.phase === "hidden" || this.phase === "exiting";
+    const wasAway =
+      this.phase === "hidden" || (this.phase === "exiting" && !this.idleMode);
     if (wasAway) {
       // repart de sa taille du moment (0 s'il était caché) : aucun saut
       this.enterFrom = this.phase === "hidden" ? 0 : this.scale;
@@ -292,7 +417,12 @@ export class Choreography {
 
   /** L'overlay se cache : réaction, puis pop inverse. */
   hide(reason: ExitReason, t: number) {
-    if (this.phase === "hidden" || this.phase === "exiting") return;
+    if (
+      this.phase === "hidden" ||
+      this.phase === "exiting" ||
+      this.phase === "idle"
+    )
+      return;
     const cancel = reason === "cancel" || this.failed || !this.worked;
     if (!cancel && this.phase === "transcribing" && this.phaseT < MIN_TYPING) {
       // la transcription a été plus rapide que la frappe minimale : il finit de taper, puis sourit
@@ -317,11 +447,12 @@ export class Choreography {
     this.applyHidden();
   }
 
-  private setPhase(p: Phase, _t: number) {
+  private setPhase(p: Phase, t: number) {
     if (p !== this.phase) {
       this.phase = p;
       this.phaseT = 0;
       if (p === "processing") this.bubbleT = -1;
+      if (p === "idle") this.rest?.enter(t);
     }
   }
 
@@ -434,7 +565,13 @@ export class Choreography {
     let exitSx = 1;
     let exitSy = 1;
     let finished = false;
-    if (this.phase === "exiting") {
+    if (this.phase === "exiting" && this.idleMode) {
+      // fenêtre principale : la réaction, puis le repos (pas de pop inverse)
+      this.exitT += dt;
+      const k = this.exitKind;
+      if (this.exitT >= EXIT_REACTION[k] + IDLE_RETURN[k])
+        this.setPhase("idle", t);
+    } else if (this.phase === "exiting") {
       this.exitT += dt;
       const u = this.exitT - EXIT_REACTION[this.exitKind];
       if (u > 0) {
@@ -491,6 +628,7 @@ export class Choreography {
     let handL: HandWant = { on: false };
     let wantArcs = false;
     let wantBubble = false;
+    let rp: RestPose | null = null;
     // le clavier reste sous lui jusqu'au bout s'il tapait (fin ou annulation) ; il repart s'il chuchote ensuite
     const typing = ph === "transcribing";
     const lift = typing ? TYPING_LIFT : 0;
@@ -532,6 +670,24 @@ export class Choreography {
         dir: new THREE.Vector3(0.15, 1, 0.35).normalize(),
         cup: 0.75,
       };
+    } else if (ph === "idle") {
+      // fenêtre principale, au repos : la pose vient du RestDriver
+      rp = this.restPose;
+      neutralRestPose(rp, face);
+      this.rest?.pose(rp, t, dt);
+      tx = rp.tx;
+      ty = rp.ty;
+      tRoll = rp.roll;
+      tYaw = rp.yaw;
+      tPitch = rp.pitch;
+      rate = rp.rate;
+      eyeTX = rp.eyeTX;
+      eyeTY = rp.eyeTY;
+      saccades = rp.saccades;
+      handL = rp.handL;
+      handR = rp.handR;
+      if (rp.drop) this.dropT = 0;
+      if (rp.blink && this.blinkT <= 0) this.blinkT = 0.16;
     } else if (ph === "arming") {
       // il se redresse, yeux grands ouverts
       tPitch = -0.1;
@@ -599,13 +755,35 @@ export class Choreography {
     this.yaw = approach(this.yaw, tYaw, rate * 0.8, dt);
     this.pitch = approach(this.pitch, tPitch, rate, dt);
     const breath = Math.sin(t * 2.1);
-    head.group.position.set(this.hx, HEAD_Y + this.hy, 0);
-    head.group.rotation.set(this.pitch + nodPitch, this.yaw, this.roll, "YXZ");
-    head.group.scale.set(
-      HS * (1 - 0.005 * breath),
-      HS * (1 + 0.011 * breath),
-      HS * (1 - 0.005 * breath),
-    );
+    if (rp) {
+      // repos : gestes vifs et écrasement par-dessus la pose lissée
+      const b = breath * rp.breath;
+      head.group.position.set(this.hx + rp.dx, HEAD_Y + this.hy + rp.dy, 0);
+      head.group.rotation.set(
+        this.pitch + nodPitch + rp.dPitch,
+        this.yaw + rp.dYaw,
+        this.roll + rp.dRoll,
+        "YXZ",
+      );
+      head.group.scale.set(
+        HS * (1 - 0.005 * b) * rp.sx,
+        HS * (1 + 0.011 * b) * rp.sy,
+        HS * (1 - 0.005 * b) * rp.sx,
+      );
+    } else {
+      head.group.position.set(this.hx, HEAD_Y + this.hy, 0);
+      head.group.rotation.set(
+        this.pitch + nodPitch,
+        this.yaw,
+        this.roll,
+        "YXZ",
+      );
+      head.group.scale.set(
+        HS * (1 - 0.005 * breath),
+        HS * (1 + 0.011 * breath),
+        HS * (1 - 0.005 * breath),
+      );
+    }
     head.group.updateMatrix();
 
     // ---------- visage ----------
@@ -633,6 +811,7 @@ export class Choreography {
       face.eyes === "happy" || face.eyes === "squint"
         ? 1
         : Math.round(blink * 6) / 6;
+    if (rp) face.blink = Math.min(face.blink, rp.blinkCap);
     face.ex = Math.round(this.ex / 3) * 3;
     face.ey = Math.round(this.ey / 3) * 3;
     face.open = Math.round(face.open * 24) / 24;
@@ -648,7 +827,7 @@ export class Choreography {
     const center = head.group.position;
     const headQ = head.group.quaternion;
     if (handR.on && !handR.pos) {
-      if (ph === "listening") {
+      if ((handR.at ?? (ph === "listening" ? "ear" : "mouth")) === "ear") {
         // à côté de la tête, à hauteur de l'oreille, creux tourné vers le son
         handR.pos = _v
           .set(HS + HAND_R + 0.035, 0.12, -0.1)
@@ -666,6 +845,7 @@ export class Choreography {
           .clone();
         handR.dir = new THREE.Vector3(-1, 0.1, 0.55).normalize();
       }
+      if (handR.off) handR.pos.add(_v.copy(handR.off).applyQuaternion(headQ));
     }
     this.stepKeyboard(typing, t);
     this.stepHand(this.hands[1], handR, t, dt);
