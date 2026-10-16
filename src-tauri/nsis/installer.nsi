@@ -132,6 +132,7 @@ VIAddVersionKey "ProductVersion" "${VERSION}"
 ; Installer icon
 !if "${INSTALLERICON}" != ""
   !define MUI_ICON "${INSTALLERICON}"
+  !define MUI_UNICON "${INSTALLERICON}"
 !endif
 
 ; Installer sidebar image
