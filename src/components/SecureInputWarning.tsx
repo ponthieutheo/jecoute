@@ -5,9 +5,19 @@ import { openUrl } from "@tauri-apps/plugin-opener";
 import { ExternalLink, TriangleAlert, X } from "lucide-react";
 import { commands, type SecureInputStatus } from "@/bindings";
 
-// Detailed remediation steps live in the docs rather than in the banner
-export const SECURE_INPUT_HELP_URL =
-  "https://handy.computer/docs/troubleshooting#shortcuts-stopped-working-on-macos-secure-input";
+// Detailed remediation steps live in the README's troubleshooting section
+// rather than in the banner. Both READMEs carry the same explicit anchor.
+const README_URL = "https://github.com/ponthieutheo/jecoute/blob/main";
+const SECURE_INPUT_ANCHOR = "macos-secure-input";
+
+/** French README (the main one). */
+export const SECURE_INPUT_HELP_URL = `${README_URL}/README.md#${SECURE_INPUT_ANCHOR}`;
+
+/** README matching the UI language: French for `fr*`, English otherwise. */
+export const secureInputHelpUrl = (language: string | undefined): string =>
+  language?.toLowerCase().startsWith("fr")
+    ? SECURE_INPUT_HELP_URL
+    : `${README_URL}/README.en.md#${SECURE_INPUT_ANCHOR}`;
 
 /**
  * Compact warning banner shown while macOS Secure Input is stuck on.
@@ -19,7 +29,7 @@ export const SECURE_INPUT_HELP_URL =
  * the normal momentary activation from focusing a password field.
  */
 const SecureInputWarning: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [status, setStatus] = useState<SecureInputStatus | null>(null);
   const [dismissed, setDismissed] = useState(false);
 
@@ -97,7 +107,7 @@ const SecureInputWarning: React.FC = () => {
         </p>
         <div className="flex shrink-0 items-center gap-1">
           <button
-            onClick={() => openUrl(SECURE_INPUT_HELP_URL)}
+            onClick={() => openUrl(secureInputHelpUrl(i18n.language))}
             className="cursor-pointer whitespace-nowrap rounded px-2 py-1.5 text-sm font-medium text-text hover:text-warning focus:outline-none focus:ring-1 focus:ring-warning"
           >
             <span className="flex items-center gap-1 border-b border-current leading-4">
