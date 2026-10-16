@@ -76,6 +76,42 @@ function hasKeyPath(obj: TranslationData, keyPath: string[]): boolean {
   return true;
 }
 
+// Plural keys: English has only `_one` / `_other`, but i18next looks up the
+// forms of the active language (`_few`, `_many`, …). A language must provide
+// every form an integer count can reach, and may add the other CLDR forms.
+const PLURAL_SUFFIX = /^(.*)_(zero|one|two|few|many|other)$/;
+
+function pluralForms(lang: string): { required: string[]; allowed: string[] } {
+  const rules = new Intl.PluralRules(lang);
+  const required = new Set<string>();
+  for (let n = 0; n <= 1000; n++) required.add(rules.select(n));
+  return {
+    required: [...required],
+    allowed: rules.resolvedOptions().pluralCategories,
+  };
+}
+
+/** Reference keys plus the plural forms `lang` needs for each plural key. */
+function expectedKeyPaths(referenceKeyPaths: string[][], lang: string) {
+  const { required, allowed } = pluralForms(lang);
+  const expected: string[][] = [];
+  const optional: string[][] = [];
+  for (const keyPath of referenceKeyPaths) {
+    expected.push(keyPath);
+    const match = keyPath[keyPath.length - 1].match(PLURAL_SUFFIX);
+    if (!match || match[2] !== "other") continue;
+    const parent = keyPath.slice(0, -1);
+    for (const form of allowed) {
+      if (form === "one" || form === "other") continue;
+      (required.includes(form) ? expected : optional).push([
+        ...parent,
+        `${match[1]}_${form}`,
+      ]);
+    }
+  }
+  return { expected, optional };
+}
+
 function loadTranslationFile(lang: string): TranslationData | null {
   const filePath = path.join(LOCALES_DIR, lang, "translation.json");
 
@@ -121,15 +157,18 @@ function validateTranslations(): void {
       continue;
     }
 
-    // Find missing keys
-    const missing = referenceKeyPaths.filter(
+    const { expected, optional } = expectedKeyPaths(referenceKeyPaths, lang);
+    const known = new Set([...expected, ...optional].map((k) => k.join(".")));
+
+    // Find missing keys (including the plural forms of this language)
+    const missing = expected.filter(
       (keyPath) => !hasKeyPath(langData, keyPath),
     );
 
     // Find extra keys (keys in language but not in reference)
     const langKeyPaths = getAllKeyPaths(langData);
     const extra = langKeyPaths.filter(
-      (keyPath) => !hasKeyPath(referenceData, keyPath),
+      (keyPath) => !known.has(keyPath.join(".")),
     );
 
     results[lang] = {
