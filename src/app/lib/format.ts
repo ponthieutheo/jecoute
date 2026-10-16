@@ -58,9 +58,21 @@ export const formatDay = (
 export const dayKey = (timestampSec: number): number =>
   startOfDay(new Date(timestampSec * 1000));
 
+const twelveHour = (language: string): boolean => {
+  try {
+    return (
+      new Intl.DateTimeFormat(language, { hour: "numeric" }).resolvedOptions()
+        .hour12 === true
+    );
+  } catch {
+    return false;
+  }
+};
+
+/** « 09:14 » sur 24 h, « 9:14 PM » sur 12 h. */
 export const formatTime = (timestampSec: number, language: string): string =>
   new Intl.DateTimeFormat(language, {
-    hour: "2-digit",
+    hour: twelveHour(language) ? "numeric" : "2-digit",
     minute: "2-digit",
   }).format(new Date(timestampSec * 1000));
 

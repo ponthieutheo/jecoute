@@ -280,10 +280,12 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    width: 214px;
-    max-width: 100%;
+    /* Au moins la largeur de la maquette ; s'élargit pour une valeur longue
+       (allemand, russe…) plutôt que de la couper. */
+    width: auto;
+    min-width: 214px;
+    max-width: min(300px, 100%);
     height: 34px;
-    min-width: 0;
     padding: 0 10px 0 12px;
     border-radius: var(--j-r-s);
     border: 1px solid var(--color-border-strong);
@@ -318,6 +320,7 @@
   }
   .j-select.full {
     width: 100%;
+    max-width: 100%;
   }
   .j-select .placeholder {
     color: var(--color-mid-gray);
@@ -1665,7 +1668,7 @@
   }
   .j-item {
     display: grid;
-    grid-template-columns: 48px minmax(0, 1fr) auto;
+    grid-template-columns: minmax(48px, max-content) minmax(0, 1fr) auto;
     align-items: start;
     gap: 12px;
     margin: 0 -10px;
@@ -1680,6 +1683,7 @@
   }
   .j-item .tm {
     padding-top: 1px;
+    white-space: nowrap;
     color: var(--color-mid-gray);
     font: 600 13px/20px var(--j-font-t);
   }
@@ -1844,6 +1848,13 @@
     align-items: center;
     padding: 0 24px;
     background: var(--color-background);
+  }
+  /* Centré verticalement quand il y a de la place, défilant sinon. */
+  .j-onb > :first-child {
+    margin-top: auto;
+  }
+  .j-onb > :last-child {
+    margin-bottom: auto;
   }
   .j-onb-hero {
     position: relative;

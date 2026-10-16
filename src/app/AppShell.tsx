@@ -126,7 +126,21 @@ export const AppShell: React.FC<AppShellProps> = ({ onPreviewOnboarding }) => {
       }
     };
     window.addEventListener("focus", refresh);
-    return () => window.removeEventListener("focus", refresh);
+    // Un micro est revenu : l'alerte « aucun micro » d'une dictée précédente
+    // ne tient plus.
+    const unsubscribe = useSettingsStore.subscribe((state, previous) => {
+      if (
+        state.audioDevices !== previous.audioDevices &&
+        (state.inputDeviceCount ?? 0) > 0 &&
+        useDictationStore.getState().micProblem === "no-device"
+      ) {
+        useDictationStore.getState().clearMicProblem();
+      }
+    });
+    return () => {
+      window.removeEventListener("focus", refresh);
+      unsubscribe();
+    };
   }, []);
 
   useUpdaterLifecycle();

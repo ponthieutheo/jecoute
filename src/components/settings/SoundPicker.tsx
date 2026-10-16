@@ -53,7 +53,6 @@ export const SoundPicker: React.FC<SoundPickerProps> = ({
         options={options}
         disabled={disabled}
         ariaLabel={label}
-        className="w-[178px]"
       />
       <button
         type="button"
