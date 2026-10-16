@@ -19,6 +19,8 @@ interface SettingsStore {
   isLoading: boolean;
   isUpdating: Record<string, boolean>;
   audioDevices: AudioDevice[];
+  /** Micros réellement détectés (hors entrée « par défaut »), null avant la première lecture. */
+  inputDeviceCount: number | null;
   outputDevices: AudioDevice[];
   customSounds: { start: boolean; stop: boolean };
   postProcessModelOptions: Record<string, string[]>;
@@ -206,6 +208,7 @@ export const useSettingsStore = create<SettingsStore>()(
     isLoading: true,
     isUpdating: {},
     audioDevices: [],
+    inputDeviceCount: null,
     outputDevices: [],
     customSounds: { start: false, stop: false },
     postProcessModelOptions: {},
@@ -257,13 +260,14 @@ export const useSettingsStore = create<SettingsStore>()(
       try {
         const result = await commands.getAvailableMicrophones();
         if (result.status === "ok") {
-          const devicesWithDefault = [
-            DEFAULT_AUDIO_DEVICE,
-            ...result.data.filter(
-              (d) => d.name !== "Default" && d.name !== "default",
-            ),
-          ];
-          set({ audioDevices: devicesWithDefault });
+          const detected = result.data.filter(
+            (d) => d.name !== "Default" && d.name !== "default",
+          );
+          const devicesWithDefault = [DEFAULT_AUDIO_DEVICE, ...detected];
+          set({
+            audioDevices: devicesWithDefault,
+            inputDeviceCount: detected.length,
+          });
         } else {
           set({ audioDevices: [DEFAULT_AUDIO_DEVICE] });
         }
