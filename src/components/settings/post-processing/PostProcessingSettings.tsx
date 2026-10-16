@@ -4,12 +4,7 @@ import { RefreshCcw } from "lucide-react";
 import { commands } from "@/bindings";
 
 import { Alert } from "../../ui/Alert";
-import {
-  Dropdown,
-  SettingContainer,
-  SettingsGroup,
-  Textarea,
-} from "@/components/ui";
+import { Dropdown, SettingContainer, Textarea } from "@/components/ui";
 import { Button } from "../../ui/Button";
 import { ResetButton } from "../../ui/ResetButton";
 import { Input } from "../../ui/Input";
@@ -31,17 +26,13 @@ const PostProcessingSettingsApiComponent: React.FC = () => {
       <SettingContainer
         title={t("settings.postProcessing.api.provider.title")}
         description={t("settings.postProcessing.api.provider.description")}
-        descriptionMode="tooltip"
-        layout="horizontal"
-        grouped={true}
+        layout="stacked"
       >
-        <div className="flex items-center gap-2">
-          <ProviderSelect
-            options={state.providerOptions}
-            value={state.selectedProviderId}
-            onChange={state.handleProviderSelect}
-          />
-        </div>
+        <ProviderSelect
+          options={state.providerOptions}
+          value={state.selectedProviderId}
+          onChange={state.handleProviderSelect}
+        />
       </SettingContainer>
 
       {state.isAppleProvider ? (
@@ -56,42 +47,32 @@ const PostProcessingSettingsApiComponent: React.FC = () => {
             <SettingContainer
               title={t("settings.postProcessing.api.baseUrl.title")}
               description={t("settings.postProcessing.api.baseUrl.description")}
-              descriptionMode="tooltip"
-              layout="horizontal"
-              grouped={true}
+              layout="stacked"
             >
-              <div className="flex items-center gap-2">
-                <BaseUrlField
-                  value={state.baseUrl}
-                  onBlur={state.handleBaseUrlChange}
-                  placeholder={t(
-                    "settings.postProcessing.api.baseUrl.placeholder",
-                  )}
-                  disabled={state.isBaseUrlUpdating}
-                  className="min-w-[380px]"
-                />
-              </div>
+              <BaseUrlField
+                value={state.baseUrl}
+                onBlur={state.handleBaseUrlChange}
+                placeholder={t(
+                  "settings.postProcessing.api.baseUrl.placeholder",
+                )}
+                disabled={state.isBaseUrlUpdating}
+                className="w-full"
+              />
             </SettingContainer>
           )}
 
           <SettingContainer
             title={t("settings.postProcessing.api.apiKey.title")}
             description={t("settings.postProcessing.api.apiKey.description")}
-            descriptionMode="tooltip"
-            layout="horizontal"
-            grouped={true}
+            layout="stacked"
           >
-            <div className="flex items-center gap-2">
-              <ApiKeyField
-                value={state.apiKey}
-                onBlur={state.handleApiKeyChange}
-                placeholder={t(
-                  "settings.postProcessing.api.apiKey.placeholder",
-                )}
-                disabled={state.isApiKeyUpdating}
-                className="min-w-[320px]"
-              />
-            </div>
+            <ApiKeyField
+              value={state.apiKey}
+              onBlur={state.handleApiKeyChange}
+              placeholder={t("settings.postProcessing.api.apiKey.placeholder")}
+              disabled={state.isApiKeyUpdating}
+              className="w-full"
+            />
           </SettingContainer>
         </>
       )}
@@ -104,11 +85,9 @@ const PostProcessingSettingsApiComponent: React.FC = () => {
               ? t("settings.postProcessing.api.model.descriptionCustom")
               : t("settings.postProcessing.api.model.descriptionDefault")
           }
-          descriptionMode="tooltip"
           layout="stacked"
-          grouped={true}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full">
             <ModelSelect
               value={state.model}
               options={state.modelOptions}
@@ -124,16 +103,17 @@ const PostProcessingSettingsApiComponent: React.FC = () => {
               onSelect={state.handleModelSelect}
               onCreate={state.handleModelCreate}
               onBlur={() => {}}
-              className="flex-1 min-w-[380px]"
+              className="flex-1 min-w-0"
             />
             <ResetButton
               onClick={state.handleRefreshModels}
               disabled={state.isFetchingModels}
               ariaLabel={t("settings.postProcessing.api.model.refreshModels")}
-              className="flex h-10 w-10 items-center justify-center"
             >
               <RefreshCcw
-                className={`h-4 w-4 ${state.isFetchingModels ? "animate-spin" : ""}`}
+                size={15}
+                className={state.isFetchingModels ? "j-spin" : ""}
+                aria-hidden="true"
               />
             </ResetButton>
           </div>
@@ -253,11 +233,9 @@ const PostProcessingSettingsPromptsComponent: React.FC = () => {
       description={t(
         "settings.postProcessing.prompts.selectedPrompt.description",
       )}
-      descriptionMode="tooltip"
       layout="stacked"
-      grouped={true}
     >
-      <div className="space-y-3">
+      <div className="space-y-3 w-full">
         <div className="flex gap-2 min-w-0">
           <Dropdown
             selectedValue={selectedPromptId || null}
@@ -428,22 +406,12 @@ export const PostProcessingSettings: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="max-w-3xl w-full mx-auto space-y-6">
-      <SettingsGroup title={t("settings.postProcessing.hotkey.title")}>
-        <ShortcutInput
-          shortcutId="transcribe_with_post_process"
-          descriptionMode="tooltip"
-          grouped={true}
-        />
-      </SettingsGroup>
-
-      <SettingsGroup title={t("settings.postProcessing.api.title")}>
-        <PostProcessingSettingsApi />
-      </SettingsGroup>
-
-      <SettingsGroup title={t("settings.postProcessing.prompts.title")}>
-        <PostProcessingSettingsPrompts />
-      </SettingsGroup>
+    <div className="j-pp">
+      <ShortcutInput shortcutId="transcribe_with_post_process" />
+      <h4 className="j-grp">{t("settings.postProcessing.api.title")}</h4>
+      <PostProcessingSettingsApi />
+      <h4 className="j-grp">{t("settings.postProcessing.prompts.title")}</h4>
+      <PostProcessingSettingsPrompts />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Dropdown } from "../ui/Dropdown";
 import { SettingContainer } from "../ui/SettingContainer";
 import { useSettings } from "../../hooks/useSettings";
 import type { ShortcutActivation } from "@/bindings";
@@ -10,54 +9,48 @@ interface ShortcutActivationProps {
   grouped?: boolean;
 }
 
+const MODES: { value: ShortcutActivation; option: string; key: string }[] = [
+  { value: "hold_or_toggle", option: "holdOrToggle", key: "hold_or_toggle" },
+  { value: "push_to_talk", option: "pushToTalk", key: "push_to_talk" },
+  { value: "toggle", option: "toggle", key: "toggle" },
+];
+
+/** Comportement du raccourci : segments, la description suit le choix. */
 export const ShortcutActivationSetting: React.FC<ShortcutActivationProps> =
-  React.memo(({ descriptionMode = "tooltip", grouped = false }) => {
+  React.memo(() => {
     const { t } = useTranslation();
     const { getSetting, updateSetting, isUpdating } = useSettings();
-
-    const options = [
-      {
-        value: "hold_or_toggle",
-        label: t("settings.general.shortcutActivation.options.holdOrToggle"),
-        description: t(
-          "settings.general.shortcutActivation.descriptions.hold_or_toggle",
-        ),
-      },
-      {
-        value: "push_to_talk",
-        label: t("settings.general.shortcutActivation.options.pushToTalk"),
-        description: t(
-          "settings.general.shortcutActivation.descriptions.push_to_talk",
-        ),
-      },
-      {
-        value: "toggle",
-        label: t("settings.general.shortcutActivation.options.toggle"),
-        description: t(
-          "settings.general.shortcutActivation.descriptions.toggle",
-        ),
-      },
-    ];
-
     const selected = (getSetting("shortcut_activation") ||
       "hold_or_toggle") as ShortcutActivation;
+    const current = MODES.find((m) => m.value === selected) ?? MODES[0];
+    const busy = isUpdating("shortcut_activation");
 
     return (
       <SettingContainer
         title={t("settings.general.shortcutActivation.title")}
-        description={t("settings.general.shortcutActivation.description")}
-        descriptionMode={descriptionMode}
-        grouped={grouped}
+        description={t(
+          `settings.general.shortcutActivation.descriptions.${current.key}`,
+        )}
+        layout="stacked"
       >
-        <Dropdown
-          options={options}
-          menuClassName="right-0 w-80 max-w-[calc(100vw-2rem)]"
-          selectedValue={selected}
-          onSelect={(value) =>
-            updateSetting("shortcut_activation", value as ShortcutActivation)
-          }
-          disabled={isUpdating("shortcut_activation")}
-        />
+        <div
+          className="j-seg"
+          role="radiogroup"
+          aria-label={t("settings.general.shortcutActivation.title")}
+        >
+          {MODES.map((mode) => (
+            <button
+              key={mode.value}
+              type="button"
+              role="radio"
+              aria-checked={selected === mode.value}
+              disabled={busy}
+              onClick={() => updateSetting("shortcut_activation", mode.value)}
+            >
+              {t(`settings.general.shortcutActivation.options.${mode.option}`)}
+            </button>
+          ))}
+        </div>
       </SettingContainer>
     );
   });
