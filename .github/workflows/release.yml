@@ -4,7 +4,8 @@
 # Résultat : une release BROUILLON (jamais publiée automatiquement) avec
 #   Jecoute_<version>_x64-setup.exe(.sig), Jecoute_<version>_x64_en-US.msi(.sig), latest.json, SHA256SUMS.txt.
 # Les installeurs ne sont pas signés (pas de certificat de signature de code) ; les fichiers de mise à jour
-# sont signés avec la clé des secrets TAURI_SIGNING_PRIVATE_KEY(_PASSWORD).
+# sont signés avec la clé des secrets TAURI_SIGNING_PRIVATE_KEY(_PASSWORD). Les deux installeurs et latest.json
+# reçoivent une attestation de provenance GitHub (gh attestation verify <fichier> --repo <dépôt>).
 #
 # Mise en place, publication et réactivation de Linux / macOS : .github/RELEASE.md.
 # Les actions tierces sont épinglées par commit (le commentaire donne la version).
@@ -263,14 +264,17 @@ jobs:
         shell: powershell
         env:
           NOTES: ${{ inputs.notes }}
+          # Le job « attester » crée les attestations quand un brouillon suit : le texte peut alors les citer.
+          BROUILLON: ${{ github.event_name == 'push' || inputs.brouillon }}
         run: |
           New-Item -ItemType Directory -Force -Path dist/notes | Out-Null
           $params = @{
-            BundleDir  = "src-tauri/target/release/bundle"
-            Version    = $env:VERSION
-            OutDir     = "dist/files"
-            Repository = $env:GITHUB_REPOSITORY
-            BodyPath   = "dist/notes/release-notes.md"
+            BundleDir    = "src-tauri/target/release/bundle"
+            Version      = $env:VERSION
+            OutDir       = "dist/files"
+            Repository   = $env:GITHUB_REPOSITORY
+            BodyPath     = "dist/notes/release-notes.md"
+            Attestations = ($env:BROUILLON -eq "true")
           }
           if ($env:NOTES) { $params.Notes = $env:NOTES }
           ./.github/scripts/prepare-release.ps1 @params
@@ -292,9 +296,41 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+  # Attestations de provenance (SLSA, signées avec Sigstore et inscrites dans son journal public) des fichiers que
+  # l'utilisateur télécharge ou que la mise à jour lit. Vérification : .github/RELEASE.md. Job séparé, sans
+  # checkout ni build : le jeton OIDC (id-token) n'est jamais à portée du build et de ses dépendances. Créées
+  # seulement quand un brouillon suit, et avant lui : pas de brouillon sans attestations.
+  attester:
+    name: Attestations de provenance
+    needs: [preparer, windows-x64]
+    if: github.event_name == 'push' || inputs.brouillon
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      id-token: write
+      attestations: write
+    env:
+      VERSION: ${{ needs.preparer.outputs.version }}
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: jecoute-${{ env.VERSION }}-windows-x64
+          path: dist
+
+      # Sans prédicat ni SBOM, actions/attest produit une provenance de build SLSA. actions/attest-build-provenance
+      # n'est plus qu'une enveloppe de cette action depuis sa v4, et GitHub conseille actions/attest pour les
+      # nouveaux workflows.
+      - name: Attester les installeurs et latest.json
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: |
+            dist/files/Jecoute_${{ env.VERSION }}_x64-setup.exe
+            dist/files/Jecoute_${{ env.VERSION }}_x64_en-US.msi
+            dist/files/latest.json
+
   brouillon:
     name: Release brouillon
-    needs: [preparer, windows-x64]
+    needs: [preparer, windows-x64, attester]
     if: github.event_name == 'push' || inputs.brouillon
     runs-on: ubuntu-24.04
     timeout-minutes: 10

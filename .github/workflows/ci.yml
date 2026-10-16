@@ -4,6 +4,11 @@
 #   playwright     le serveur de dev répond (tests/app.spec.ts)
 #   rust           cargo test sur Windows x64, la plateforme publiée (backend Vulkan compris)
 #   outils-release test sans secret de prepare-release.ps1 et verify-updater-sig (voir .github/RELEASE.md)
+#   bilan          « Vérifications terminées » : réussit seulement si tous les jobs ci-dessus ont réussi. C'est le
+#                  seul contrôle à exiger dans la protection de main (ruleset).
+#
+# Les pull requests sont toujours vérifiées, même quand elles ne touchent que de la documentation : un contrôle
+# exigé qui ne démarre pas (filtre de chemins) bloquerait la fusion indéfiniment.
 #
 # Les actions tierces sont épinglées par commit (le commentaire donne la version).
 
@@ -17,10 +22,6 @@ on:
       - "LICENSE*"
       - ".github/ISSUE_TEMPLATE/**"
   pull_request:
-    paths-ignore:
-      - "**.md"
-      - "LICENSE*"
-      - ".github/ISSUE_TEMPLATE/**"
   workflow_dispatch:
 
 permissions:
@@ -185,3 +186,24 @@ jobs:
       - name: Clé jetable, faux installeurs, prepare-release.ps1, verify-updater-sig
         shell: powershell
         run: ./.github/scripts/test-release-tools.ps1
+
+  # always() et non !cancelled() : un job sauté compte comme réussi pour un contrôle exigé, alors qu'un bilan
+  # exécuté après une annulation échoue, comme il se doit.
+  bilan:
+    name: Vérifications terminées
+    if: always()
+    needs: [front, playwright, rust, outils-release]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Tous les jobs ont-ils réussi ?
+        env:
+          RESULTATS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Résultats : $RESULTATS"
+          for r in $RESULTATS; do
+            if [ "$r" != "success" ]; then
+              echo "::error::Au moins un job n'a pas réussi ($RESULTATS)."
+              exit 1
+            fi
+          done

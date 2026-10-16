@@ -15,7 +15,9 @@ Fichiers d'une release :
 | `SHA256SUMS.txt`                  | sommes de contrôle                                      |
 
 Les installeurs ne sont pas signés (pas de certificat de signature de code) : SmartScreen affiche un
-avertissement, expliqué dans le README et dans le texte de la release.
+avertissement, expliqué dans le README et dans le texte de la release. Les deux installeurs et `latest.json` ont
+en revanche une **attestation de provenance** GitHub, qui prouve qu'ils sortent du workflow de release de ce
+dépôt (voir [Vérifier une release](#vérifier-une-release)).
 
 ## Une seule fois, après la création du dépôt
 
@@ -39,11 +41,21 @@ avertissement, expliqué dans le README et dans le texte de la release.
 2. **Actions** (Settings > Actions > General) :
    - _Actions permissions_ : « Allow all actions », ou bien GitHub + ces actions tierces : `oven-sh/setup-bun`,
      `dtolnay/rust-toolchain`, `swatinem/rust-cache`, `humbletim/install-vulkan-sdk` ;
-   - _Workflow permissions_ : « Read repository contents » suffit. Les deux jobs qui écrivent (voir les
-     brouillons existants, créer le brouillon) demandent eux-mêmes `contents: write`.
+   - _Workflow permissions_ : « Read repository contents » suffit. Les jobs qui écrivent demandent eux-mêmes ce
+     qu'il leur faut : `contents: write` pour voir les brouillons existants et créer le brouillon,
+     `id-token: write` et `attestations: write` pour les attestations de provenance.
+
+   Les attestations de provenance demandent un dépôt **public** (sur un compte GitHub Free ou Pro, elles ne sont
+   pas disponibles pour un dépôt privé) : dans un dépôt privé, le job « Attestations de provenance » échoue et
+   aucun brouillon n'est créé.
 
 3. Facultatif : une règle (Settings > Rules > Rulesets) qui réserve la création des tags `v*` au propriétaire, car
    pousser un tag `v*` lance une release.
+
+4. Conseillé : **Settings > General > Releases > Enable release immutability**. Une fois publiée, une release ne
+   peut plus changer ni de fichiers ni de tag, et GitHub lui ajoute sa propre attestation (tag, commit, fichiers).
+   Compatible avec ce workflow : les fichiers sont joints au brouillon, l'immuabilité ne s'applique qu'à la
+   publication. Contrepartie : un fichier publié ne peut plus être remplacé, il faut une nouvelle version.
 
 ## Publier une version
 
@@ -55,7 +67,8 @@ avertissement, expliqué dans le README et dans le texte de la release.
 3. Le workflow vérifie les versions, les secrets et l'absence d'une release du même nom, construit avec Vulkan,
    contrôle le contenu des deux installeurs (installation portable silencieuse et extraction du MSI, puis
    `jecoute.exe --list-devices`), renomme les fichiers en ASCII, écrit `latest.json`, vérifie chaque signature
-   contre la clé publique, puis crée le brouillon `v<version>`.
+   contre la clé publique, atteste la provenance des installeurs et de `latest.json`, puis crée le brouillon
+   `v<version>`.
 4. Relire le brouillon (fichiers, texte), tester l'installeur, puis **Publish release**. Ne pas cocher
    « pre-release » : la mise à jour automatique lit `releases/latest/download/latest.json`, qui ignore les
    brouillons et les pre-releases.
@@ -68,6 +81,30 @@ Les outils utilisés par le workflow :
   même code que le plugin de mise à jour de Tauri ;
 - [`scripts/test-release-tools.ps1`](scripts/test-release-tools.ps1) : les teste sans secret (job
   `outils-release` de `ci.yml`).
+
+## Vérifier une release
+
+N'importe qui peut vérifier qu'un fichier téléchargé sort bien du workflow de release de ce dépôt, avec la
+[CLI GitHub](https://cli.github.com/) connectée à un compte GitHub quelconque (`gh auth login`) :
+
+```powershell
+gh attestation verify Jecoute_<version>_x64-setup.exe --repo ponthieutheo/jecoute
+gh attestation verify latest.json --repo ponthieutheo/jecoute
+# Plus strict : exiger aussi le fichier de workflow qui a signé.
+gh attestation verify Jecoute_<version>_x64-setup.exe --repo ponthieutheo/jecoute `
+  --signer-workflow ponthieutheo/jecoute/.github/workflows/release.yml
+```
+
+La commande retrouve l'attestation par l'empreinte SHA-256 du fichier, vérifie sa signature Sigstore et affiche le
+dépôt, le workflow et le commit d'origine. Un fichier modifié, même d'un octet, n'a pas d'attestation. La liste des
+attestations du dépôt est aussi visible sur `https://github.com/ponthieutheo/jecoute/attestations`.
+
+Si l'immuabilité des releases est activée (voir plus haut), la release entière se vérifie aussi :
+`gh release verify v<version> --repo ponthieutheo/jecoute`, et un fichier avec
+`gh release verify-asset v<version> <fichier> --repo ponthieutheo/jecoute`.
+
+Sans la CLI GitHub, `SHA256SUMS.txt` (et le tableau du texte de la release) permet au moins de contrôler
+l'intégrité du téléchargement : `Get-FileHash <fichier> -Algorithm SHA256`.
 
 ## Plus tard
 
