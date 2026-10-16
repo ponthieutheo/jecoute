@@ -31,6 +31,8 @@ param(
 
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version 3.0
+# Journaux lisibles (accents) quand la sortie est redirigée, comme dans GitHub Actions.
+try { [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding $false } catch { }
 
 if ($Version -notmatch '^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$') {
   throw "Version invalide : '$Version' (attendu : semver, sans 'v')."
