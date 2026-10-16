@@ -212,7 +212,8 @@
         "description": "Wybierz język rozpoznawania mowy. Opcja Auto automatycznie określi język, a wybór konkretnego języka może poprawić dokładność.",
         "searchPlaceholder": "Szukaj języka...",
         "noResults": "Nie znaleziono języków",
-        "auto": "Automatycznie"
+        "auto": "Automatycznie",
+        "autoWithLanguage": "Automatycznie ({{language}})"
       },
       "shortcutActivation": {
         "title": "Zachowanie skrótu",
@@ -306,7 +307,8 @@
           "options": {
             "none": "Brak",
             "minimal": "Minimalna",
-            "live": "Na żywo"
+            "live": "Na żywo",
+            "character": "Postać"
           }
         },
         "position": {

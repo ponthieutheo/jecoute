@@ -212,7 +212,8 @@
         "description": "Vyberte jazyk rozpoznávání řeči. Auto jazyk určí automaticky, zatímco výběr konkrétního jazyka může zlepšit přesnost.",
         "searchPlaceholder": "Hledat jazyky...",
         "noResults": "Žádné jazyky nenalezeny",
-        "auto": "Automaticky"
+        "auto": "Automaticky",
+        "autoWithLanguage": "Automaticky ({{language}})"
       },
       "shortcutActivation": {
         "title": "Chování zkratky",
@@ -306,7 +307,8 @@
           "options": {
             "none": "Žádné",
             "minimal": "Minimální",
-            "live": "Živě"
+            "live": "Živě",
+            "character": "Postavička"
           }
         },
         "position": {

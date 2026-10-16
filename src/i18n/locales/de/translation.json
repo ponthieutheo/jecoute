@@ -212,7 +212,8 @@
         "description": "Wähle die Sprache für die Spracherkennung. Auto erkennt die Sprache automatisch, die Auswahl einer bestimmten Sprache kann die Genauigkeit verbessern.",
         "searchPlaceholder": "Sprachen suchen...",
         "noResults": "Keine Sprachen gefunden",
-        "auto": "Automatisch"
+        "auto": "Automatisch",
+        "autoWithLanguage": "Automatisch ({{language}})"
       },
       "shortcutActivation": {
         "title": "Verhalten der Tastenkombination",
@@ -306,7 +307,8 @@
           "options": {
             "none": "Keine",
             "minimal": "Minimal",
-            "live": "Live"
+            "live": "Live",
+            "character": "Figur"
           }
         },
         "position": {

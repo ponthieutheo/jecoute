@@ -192,7 +192,8 @@
         "description": "Seleccioneu la llengua per al reconeixement de la parla. L'opció automàtica detecta la llengua, mentre que seleccionar-ne una d'específica pot millorar-ne la precisió.",
         "searchPlaceholder": "Cerca llengües...",
         "noResults": "No s'ha trobat cap llengua",
-        "auto": "Automàtica"
+        "auto": "Automàtica",
+        "autoWithLanguage": "Automàtica ({{language}})"
       },
       "shortcutActivation": {
         "title": "Comportament de la drecera",
@@ -306,7 +307,8 @@
           "options": {
             "none": "Cap",
             "minimal": "Mínima",
-            "live": "En directe"
+            "live": "En directe",
+            "character": "Personatge"
           }
         },
         "position": {

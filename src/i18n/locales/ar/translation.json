@@ -189,7 +189,8 @@
         "description": ".اختر لغة التعرف على الكلام. سيحدد 'تلقائي' اللغة تلقائياً، بينما يؤدي اختيار لغة معينة إلى تحسين الدقة لتلك اللغة",
         "searchPlaceholder": "البحث عن اللغات...",
         "noResults": "لم يتم العثور على لغات",
-        "auto": "تلقائي"
+        "auto": "تلقائي",
+        "autoWithLanguage": "تلقائي ({{language}})"
       },
       "shortcutActivation": {
         "title": "سلوك الاختصار",
@@ -283,7 +284,8 @@
           "options": {
             "none": "بلا",
             "minimal": "مبسط",
-            "live": "مباشر"
+            "live": "مباشر",
+            "character": "الشخصية"
           }
         },
         "position": {

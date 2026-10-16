@@ -212,7 +212,8 @@
         "description": "Scegli la lingua per il riconoscimento vocale. Auto la determinerà automaticamente, mentre scegliere una lingua specifica può migliorare l'accuratezza per quella lingua.",
         "searchPlaceholder": "Cerca lingue...",
         "noResults": "Nessuna lingua trovata",
-        "auto": "Automatico"
+        "auto": "Automatico",
+        "autoWithLanguage": "Automatico ({{language}})"
       },
       "shortcutActivation": {
         "title": "Comportamento della scorciatoia",
@@ -306,7 +307,8 @@
           "options": {
             "none": "Nessuno",
             "minimal": "Minimo",
-            "live": "In tempo reale"
+            "live": "In tempo reale",
+            "character": "Personaggio"
           }
         },
         "position": {

@@ -212,7 +212,8 @@
         "description": "Konuşma tanıma dilini seçin. 'Otomatik' seçeneği dili kendisi belirler, ancak belirli bir dil seçmek o dildeki doğruluğu artırabilir.",
         "searchPlaceholder": "Dil ara...",
         "noResults": "Dil bulunamadı",
-        "auto": "Otomatik"
+        "auto": "Otomatik",
+        "autoWithLanguage": "Otomatik ({{language}})"
       },
       "shortcutActivation": {
         "title": "Kısayol davranışı",
@@ -306,7 +307,8 @@
           "options": {
             "none": "Yok",
             "minimal": "Sade",
-            "live": "Canlı"
+            "live": "Canlı",
+            "character": "Karakter"
           }
         },
         "position": {

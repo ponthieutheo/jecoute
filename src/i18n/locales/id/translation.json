@@ -192,7 +192,8 @@
         "description": "Pilih bahasa untuk pengenalan ucapan. Opsi Otomatis akan mendeteksi bahasa, sedangkan memilih bahasa tertentu dapat meningkatkan akurasi untuk bahasa tersebut.",
         "searchPlaceholder": "Cari bahasa...",
         "noResults": "Bahasa tidak ditemukan",
-        "auto": "Otomatis"
+        "auto": "Otomatis",
+        "autoWithLanguage": "Otomatis ({{language}})"
       },
       "shortcutActivation": {
         "title": "Perilaku Pintasan",
@@ -306,7 +307,8 @@
           "options": {
             "none": "Tidak Ada",
             "minimal": "Minimal",
-            "live": "Waktu Nyata"
+            "live": "Waktu Nyata",
+            "character": "Karakter"
           }
         },
         "position": {

@@ -192,7 +192,8 @@
         "description": "Selecione o idioma para reconhecimento de fala. Auto detectará automaticamente o idioma, enquanto selecionar um idioma específico pode melhorar a precisão para esse idioma.",
         "searchPlaceholder": "Buscar idiomas...",
         "noResults": "Nenhum idioma encontrado",
-        "auto": "Automático"
+        "auto": "Automático",
+        "autoWithLanguage": "Automático ({{language}})"
       },
       "shortcutActivation": {
         "title": "Comportamento do atalho",
@@ -306,7 +307,8 @@
           "options": {
             "none": "Nenhum",
             "minimal": "Minimalista",
-            "live": "Ao vivo"
+            "live": "Ao vivo",
+            "character": "Personagem"
           }
         },
         "position": {

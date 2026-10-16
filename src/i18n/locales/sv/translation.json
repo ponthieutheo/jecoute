@@ -192,7 +192,8 @@
         "description": "Välj språk för taligenkänning. Auto kommer automatiskt att bestämma språket, medan val av ett specifikt språk kan förbättra noggrannheten för det språket.",
         "searchPlaceholder": "Sök språk...",
         "noResults": "Inga språk hittades",
-        "auto": "Automatiskt"
+        "auto": "Automatiskt",
+        "autoWithLanguage": "Automatiskt ({{language}})"
       },
       "shortcutActivation": {
         "title": "Genvägens beteende",
@@ -306,7 +307,8 @@
           "options": {
             "none": "Ingen",
             "minimal": "Minimal",
-            "live": "Live"
+            "live": "Live",
+            "character": "Figur"
           }
         },
         "position": {

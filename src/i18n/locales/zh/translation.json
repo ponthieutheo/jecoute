@@ -212,7 +212,8 @@
         "description": "选择语音识别的语言。自动将自动确定语言，选择特定语言可以提高该语言的准确度。",
         "searchPlaceholder": "搜索语言...",
         "noResults": "未找到语言",
-        "auto": "自动"
+        "auto": "自动",
+        "autoWithLanguage": "自动 ({{language}})"
       },
       "shortcutActivation": {
         "title": "快捷键行为",
@@ -306,7 +307,8 @@
           "options": {
             "none": "无",
             "minimal": "精简",
-            "live": "实时"
+            "live": "实时",
+            "character": "角色"
           }
         },
         "position": {

@@ -192,7 +192,8 @@
         "description": "選擇語音辨識的語言。選擇自動將自動判定語言，選擇特定語言可以提高該語言的準確度",
         "searchPlaceholder": "搜尋語言...",
         "noResults": "未找到語言",
-        "auto": "自動"
+        "auto": "自動",
+        "autoWithLanguage": "自動 ({{language}})"
       },
       "shortcutActivation": {
         "title": "快捷鍵行為",
@@ -306,7 +307,8 @@
           "options": {
             "none": "無",
             "minimal": "精簡",
-            "live": "即時"
+            "live": "即時",
+            "character": "角色"
           }
         },
         "position": {
