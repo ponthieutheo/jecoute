@@ -306,7 +306,8 @@
           "options": {
             "none": "None",
             "minimal": "Minimal",
-            "live": "Live"
+            "live": "Live",
+            "character": "Character"
           }
         },
         "position": {
