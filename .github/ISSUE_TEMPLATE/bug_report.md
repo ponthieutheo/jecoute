@@ -1,37 +1,41 @@
 ---
-name: Bug Report
-about: Create a report to help us improve Handy
-title: "[BUG] "
+name: Signaler un bug (bug report)
+about: Quelque chose ne marche pas comme prévu dans J’écoute
+title: "[Bug] "
 labels: ["bug"]
 assignees: ""
 ---
 
-## Before You Submit
+<!--
+Merci de signaler ce problème !
+Avant d'envoyer : cherche s'il n'est pas déjà signalé (issues ouvertes et fermées) et jette un œil à la section « Dépannage » du README.
 
-**Please search [existing issues](https://github.com/cjpais/Handy/issues) to avoid duplicates.** Your bug may already be reported! Right now it's just me maintaining this project so many issues can be overwhelming! Help me out by checking first.
+English is welcome: just fill in the same sections.
+-->
 
-## Bug Description
+## Le problème
 
-A clear and concise description of what the bug is.
+<!-- Ce qui se passe, et ce que tu attendais à la place. -->
 
-## System Information
+## Pour le reproduire
 
-**App Version:**
+1.
+2.
+3.
 
-<!-- You can find this in the app settings or about section -->
+## Ton système
 
-**Operating System:**
+- **Version de J’écoute** : <!-- Paramètres > À propos -->
+- **Installation** : <!-- installeur .exe, installeur .msi ou version portable -->
+- **Système d'exploitation** : <!-- ex. Windows 11 24H2 -->
+- **Processeur** : <!-- ex. AMD Ryzen 7 5800X, Intel Core i5-1135G7 -->
+- **Carte graphique** : <!-- ex. NVIDIA RTX 4070, Intel UHD Graphics -->
+- **Modèle de transcription** : <!-- ex. Whisper Large v3 Turbo, Parakeet V3 -->
+- **Raccourci** : <!-- ex. Ctrl+Espace, maintenu ou appui simple -->
 
-<!-- e.g., macOS 14.1, Windows 11, Ubuntu 22.04 -->
+## Journaux
 
-**CPU:**
-
-<!-- e.g., Apple M2, Intel i7-12700K, AMD Ryzen 7 5800X -->
-
-**GPU:**
-
-<!-- e.g., Apple M2 GPU, NVIDIA RTX 4080, AMD RX 6800 XT, Intel UHD Graphics -->
-
-## Logs
-
-<!-- Please attach relevant logs to help us diagnose the issue. You can find the log directory by going to Settings > About in the app. -->
+<!--
+Joins le fichier journal si tu peux. Son dossier est indiqué dans la section Débogage (Ctrl+Maj+D, Cmd+Maj+D sur Mac) > Répertoire des journaux.
+Relis-le avant de l'envoyer : il peut contenir des extraits de tes transcriptions.
+-->
