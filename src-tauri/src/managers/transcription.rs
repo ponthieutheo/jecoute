@@ -1657,7 +1657,8 @@ fn real_time_factor(audio_secs: f64, compute_secs: f64) -> f64 {
 }
 
 /// Resolve the persisted language intent into the language a specific model can
-/// use without writing the coerced value back to settings.
+/// use without writing the coerced value back to settings. A model that cannot
+/// detect the language gets the system language for an "auto" intent.
 fn effective_language_for_model(
     settings: &AppSettings,
     model_manager: &ModelManager,
@@ -1668,6 +1669,7 @@ fn effective_language_for_model(
             &settings.selected_language,
             &info.supported_languages,
             info.supports_language_detection,
+            crate::managers::system_language::system_language(),
         ),
         None => settings.selected_language.clone(),
     }
