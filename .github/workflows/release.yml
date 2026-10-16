@@ -203,12 +203,18 @@ jobs:
         run: bun install --frozen-lockfile
 
       # createUpdaterArtifacts (tauri.conf.json) : Tauri signe les installeurs avec la clé des secrets et
-      # écrit les .sig. Sans la clé, le build échoue.
+      # écrit les .sig. Sans la clé, le build échoue. La CLI décode la clé (base64) sans tolérer d'espace ni de
+      # retour à la ligne : on retire ceux qu'un copier-coller du secret aurait pu ajouter.
       - name: tauri build
+        shell: pwsh
         env:
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-        run: bun run tauri build
+          CLE_MISES_A_JOUR: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          MOT_DE_PASSE_CLE: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          $env:TAURI_SIGNING_PRIVATE_KEY = $env:CLE_MISES_A_JOUR.Trim()
+          $env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = $env:MOT_DE_PASSE_CLE.Trim()
+          bun run tauri build
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       # Les deux installeurs doivent contenir toutes les DLL préparées par build.rs, et l'exe installé doit
       # démarrer (`--list-devices` : chemin sans interface, qui liste les périphériques de calcul et quitte).
