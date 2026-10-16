@@ -11,6 +11,9 @@ import { ShowWhatsNewOnUpdate } from "../ShowWhatsNewOnUpdate";
 import { ThemeSelector } from "../ThemeSelector";
 import { LogDirectory } from "../debug";
 
+const SOURCE_CODE_URL = "https://github.com/ponthieutheo/jecoute";
+const HANDY_URL = "https://github.com/cjpais/Handy";
+
 export const AboutSettings: React.FC = () => {
   const { t } = useTranslation();
   const [version, setVersion] = useState("");
@@ -29,14 +32,6 @@ export const AboutSettings: React.FC = () => {
     fetchVersion();
   }, []);
 
-  const handleDonateClick = async () => {
-    try {
-      await openUrl("https://handy.computer/donate");
-    } catch (error) {
-      console.error("Failed to open donate link:", error);
-    }
-  };
-
   return (
     <div className="max-w-3xl w-full mx-auto space-y-6">
       <SettingsGroup title={t("settings.about.title")}>
@@ -54,16 +49,6 @@ export const AboutSettings: React.FC = () => {
         <ShowWhatsNewOnUpdate descriptionMode="tooltip" grouped={true} />
 
         <SettingContainer
-          title={t("settings.about.supportDevelopment.title")}
-          description={t("settings.about.supportDevelopment.description")}
-          grouped={true}
-        >
-          <Button variant="primary" size="md" onClick={handleDonateClick}>
-            {t("settings.about.supportDevelopment.button")}
-          </Button>
-        </SettingContainer>
-
-        <SettingContainer
           title={t("settings.about.sourceCode.title")}
           description={t("settings.about.sourceCode.description")}
           grouped={true}
@@ -71,7 +56,7 @@ export const AboutSettings: React.FC = () => {
           <Button
             variant="secondary"
             size="md"
-            onClick={() => openUrl("https://github.com/cjpais/Handy")}
+            onClick={() => openUrl(SOURCE_CODE_URL)}
           >
             {t("settings.about.sourceCode.button")}
           </Button>
@@ -93,6 +78,16 @@ export const AboutSettings: React.FC = () => {
           </div>
         </SettingContainer>
       </SettingsGroup>
+
+      <p className="pb-2 text-center">
+        <button
+          type="button"
+          onClick={() => openUrl(HANDY_URL)}
+          className="cursor-pointer rounded px-1 text-xs text-mid-gray underline-offset-2 hover:text-text hover:underline focus:outline-none focus-visible:underline"
+        >
+          {t("settings.about.basedOn")}
+        </button>
+      </p>
     </div>
   );
 };
