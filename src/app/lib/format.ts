@@ -58,7 +58,7 @@ export const formatDay = (
 export const dayKey = (timestampSec: number): number =>
   startOfDay(new Date(timestampSec * 1000));
 
-const twelveHour = (language: string): boolean => {
+export const twelveHour = (language: string): boolean => {
   try {
     return (
       new Intl.DateTimeFormat(language, { hour: "numeric" }).resolvedOptions()

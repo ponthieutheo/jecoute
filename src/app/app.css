@@ -1668,7 +1668,7 @@
   }
   .j-item {
     display: grid;
-    grid-template-columns: minmax(48px, max-content) minmax(0, 1fr) auto;
+    grid-template-columns: var(--j-tm, 48px) minmax(0, 1fr) auto;
     align-items: start;
     gap: 12px;
     margin: 0 -10px;

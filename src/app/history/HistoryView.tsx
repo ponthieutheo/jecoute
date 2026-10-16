@@ -20,7 +20,7 @@ import {
 } from "@/stores/historyStore";
 import { useNavigationStore } from "@/stores/navigationStore";
 import { AudioPlayerGroup } from "@/components/ui/AudioPlayer";
-import { dayKey, formatDay } from "../lib/format";
+import { dayKey, formatDay, twelveHour } from "../lib/format";
 import { HistoryItem } from "./HistoryItem";
 import { useInert } from "../hooks/useInert";
 
@@ -176,6 +176,7 @@ export const HistoryView: React.FC = () => {
     return t("app.history.count", { count: entries.length });
   })();
 
+  // Colonne des heures : plus large sur 12 h (« 11:20 AM »).
   const filters: { id: Filter; label: string }[] = [
     { id: "all", label: t("app.history.filters.all") },
     { id: "favorites", label: t("app.history.filters.favorites") },
@@ -275,7 +276,15 @@ export const HistoryView: React.FC = () => {
           ))}
         </div>
       </div>
-      <div className="j-h-list j-scroll" ref={listRef}>
+      <div
+        className="j-h-list j-scroll"
+        ref={listRef}
+        style={
+          {
+            "--j-tm": twelveHour(i18n.language) ? "68px" : "48px",
+          } as React.CSSProperties
+        }
+      >
         {body}
         <div ref={sentinelRef} style={{ height: 1 }} />
       </div>
