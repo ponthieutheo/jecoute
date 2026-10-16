@@ -1,0 +1,187 @@
+# Vérifications de J’écoute à chaque push sur main et à chaque pull request.
+#
+#   front          format (Prettier + rustfmt), ESLint, traductions, tests unitaires du front, build tsc + vite
+#   playwright     le serveur de dev répond (tests/app.spec.ts)
+#   rust           cargo test sur Windows x64, la plateforme publiée (backend Vulkan compris)
+#   outils-release test sans secret de prepare-release.ps1 et verify-updater-sig (voir .github/RELEASE.md)
+#
+# Les actions tierces sont épinglées par commit (le commentaire donne la version).
+
+name: "Vérifications"
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+      - "LICENSE*"
+      - ".github/ISSUE_TEMPLATE/**"
+  pull_request:
+    paths-ignore:
+      - "**.md"
+      - "LICENSE*"
+      - ".github/ISSUE_TEMPLATE/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  BUN_VERSION: "1.3.12"
+
+jobs:
+  front:
+    name: Front (format, lint, tests, build)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      # rustfmt pour `bun run format:check` (qui lance aussi `cargo fmt --check`).
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
+        with:
+          toolchain: stable
+          components: rustfmt
+
+      # --ignore-scripts : le seul script d'installation du projet (postinstall -> scripts/check-nix-deps.ts,
+      # hérité de Handy) ne sert qu'au paquet Nix et télécharge bun2nix sous Linux.
+      - name: Dépendances
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Traductions complètes
+        run: bun run check:translations
+
+      - name: Langues des modèles couvertes par l'interface
+        run: bun run check:model-languages
+
+      - name: Tests unitaires du front
+        run: |
+          bun run test:keyboard
+          bun src/components/update-checker/portableInstaller.test.ts
+          bun src/components/settings/history/clipboard.test.ts
+
+      - name: ESLint
+        run: bun run lint
+
+      - name: Format (Prettier + rustfmt)
+        run: bun run format:check
+
+      - name: Build du front (tsc + vite)
+        run: bun run build
+
+  playwright:
+    name: Playwright
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Dépendances
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Chromium pour Playwright
+        run: bunx playwright install --with-deps chromium
+
+      - name: Tests Playwright
+        run: bun run test:playwright
+
+      - name: Rapport Playwright
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  rust:
+    name: Tests Rust (Windows x64)
+    runs-on: windows-2025
+    timeout-minutes: 90
+    steps:
+      # Chemins longs pour git et l'outillage. La compilation native de transcribe-cpp-sys s'en passe : son
+      # build.rs compile à travers une jonction NTFS courte (%LOCALAPPDATA%\tcs), voir BUILD.md.
+      - name: Chemins longs (Windows)
+        shell: pwsh
+        run: |
+          New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
+            -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+          git config --system core.longpaths true
+
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
+        with:
+          toolchain: stable
+
+      - uses: swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
+        with:
+          workspaces: "./src-tauri -> target"
+          key: windows-x64-tests
+          cache-bin: false
+
+      # Le backend Vulkan de ggml (feature `vulkan` de transcribe-cpp sous Windows x64) a besoin des en-têtes
+      # Vulkan et de glslc.
+      - name: SDK Vulkan
+        uses: humbletim/install-vulkan-sdk@30ba978f977e81b72d091fc8888feb1fb26f9aff # v1.2
+        with:
+          version: 1.4.309.0
+          cache: true
+
+      # ggml-vulkan fait `find_package(SPIRV-Headers CONFIG REQUIRED)` ; le SDK installé ci-dessus n'expose pas
+      # SPIRV-HeadersConfig.cmake. vcpkg le fournit (paquet d'en-têtes seuls) et le cmake crate transmet
+      # CMAKE_PREFIX_PATH.
+      - name: SPIRV-Headers (vcpkg)
+        shell: pwsh
+        run: |
+          vcpkg install spirv-headers:x64-windows
+          if ($LASTEXITCODE -ne 0) { throw "vcpkg install spirv-headers a échoué" }
+          $prefix = "$env:VCPKG_INSTALLATION_ROOT/installed/x64-windows" -replace '\\','/'
+          $combined = if ($env:CMAKE_PREFIX_PATH) { "$prefix;$env:CMAKE_PREFIX_PATH" } else { $prefix }
+          Add-Content $env:GITHUB_ENV "CMAKE_PREFIX_PATH=$combined"
+
+      - name: cargo test
+        working-directory: src-tauri
+        run: cargo test --locked
+
+  outils-release:
+    name: Outils de release (sans secret)
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
+        with:
+          toolchain: stable
+
+      - name: Dépendances
+        run: bun install --frozen-lockfile
+
+      # Windows PowerShell 5.1, comme l'étape de préparation de release.yml et la publication manuelle.
+      - name: Clé jetable, faux installeurs, prepare-release.ps1, verify-updater-sig
+        shell: powershell
+        run: ./.github/scripts/test-release-tools.ps1

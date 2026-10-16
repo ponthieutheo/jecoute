@@ -1,83 +1,327 @@
+# Release de J’écoute : Windows x64 uniquement pour l'instant.
+#
+# Déclenchement : à la main (Actions > Release > Run workflow) ou en poussant un tag v<version>.
+# Résultat : une release BROUILLON (jamais publiée automatiquement) avec
+#   Jecoute_<version>_x64-setup.exe(.sig), Jecoute_<version>_x64_en-US.msi(.sig), latest.json, SHA256SUMS.txt.
+# Les installeurs ne sont pas signés (pas de certificat de signature de code) ; les fichiers de mise à jour
+# sont signés avec la clé des secrets TAURI_SIGNING_PRIVATE_KEY(_PASSWORD).
+#
+# Mise en place, publication et réactivation de Linux / macOS : .github/RELEASE.md.
+# Les actions tierces sont épinglées par commit (le commentaire donne la version).
+
 name: "Release"
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      notes:
+        description: "Notes de version (facultatif), reprises dans latest.json et dans le texte du brouillon"
+        required: false
+        type: string
+        default: ""
+      brouillon:
+        description: "Créer la release brouillon (décocher pour seulement construire les fichiers)"
+        required: false
+        type: boolean
+        default: true
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  BUN_VERSION: "1.3.12"
+  ORT_VERSION: "1.24.2"
+  # Digest publié par GitHub pour onnxruntime-win-x64-1.24.2.zip (release officielle de Microsoft).
+  ORT_SHA256: "8e3e9c826375352e29cb2614fe44f3d7a4b0ff7b8028ad7a456af9d949a7e8b0"
 
 jobs:
-  create-release:
+  preparer:
+    name: Préparer
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    # Écriture nécessaire uniquement pour voir les brouillons existants (l'API ne les montre qu'avec ce droit).
     permissions:
       contents: write
-    runs-on: ubuntu-latest
     outputs:
-      release-id: ${{ steps.create-release.outputs.result }}
-      version: ${{ steps.get-version.outputs.version }}
+      version: ${{ steps.version.outputs.version }}
+      construire: ${{ steps.existante.outputs.construire }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
 
-      - name: Get version from tauri.conf.json
-        id: get-version
+      - name: Version
+        id: version
+        run: |
+          set -euo pipefail
+          v_tauri=$(jq -r .version src-tauri/tauri.conf.json)
+          v_npm=$(jq -r .version package.json)
+          v_cargo=$(sed -n 's/^version *= *"\([^"]*\)".*/\1/p' src-tauri/Cargo.toml | head -n 1)
+          echo "tauri.conf.json=$v_tauri package.json=$v_npm src-tauri/Cargo.toml=$v_cargo"
+          if [ "$v_tauri" != "$v_npm" ] || [ "$v_tauri" != "$v_cargo" ]; then
+            echo "::error::Les versions de tauri.conf.json, package.json et src-tauri/Cargo.toml doivent être identiques."
+            exit 1
+          fi
+          if [ "$GITHUB_REF_TYPE" = "tag" ] && [ "$GITHUB_REF_NAME" != "v$v_tauri" ]; then
+            echo "::error::Le tag $GITHUB_REF_NAME ne correspond pas à la version de l'app (v$v_tauri)."
+            exit 1
+          fi
+          echo "version=$v_tauri" >> "$GITHUB_OUTPUT"
+
+      - name: Secrets de signature des mises à jour
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          missing=0
+          if [ -z "$TAURI_SIGNING_PRIVATE_KEY" ]; then echo "::error::Secret TAURI_SIGNING_PRIVATE_KEY absent (voir .github/RELEASE.md)."; missing=1; fi
+          if [ -z "$TAURI_SIGNING_PRIVATE_KEY_PASSWORD" ]; then echo "::error::Secret TAURI_SIGNING_PRIVATE_KEY_PASSWORD absent (voir .github/RELEASE.md)."; missing=1; fi
+          exit "$missing"
+
+      # Tag poussé alors que la release est déjà publiée (par exemple le tag créé en publiant un brouillon) :
+      # rien à faire. Lancement manuel sur une version qui a déjà une release : erreur, il faut changer de version
+      # ou supprimer l'ancien brouillon.
+      - name: Release déjà existante ?
+        id: existante
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: v${{ steps.version.outputs.version }}
+          BROUILLON: ${{ github.event_name == 'push' || inputs.brouillon }}
+        run: |
+          set -euo pipefail
+          if [ "$BROUILLON" != "true" ]; then
+            echo "Construction seule, sans release."
+            echo "construire=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          found=$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            --jq ".[] | select(.tag_name == \"$TAG\") | \"\(.draft) \(.html_url)\"")
+          if [ -z "$found" ]; then
+            echo "Aucune release $TAG : on construit."
+            echo "construire=true" >> "$GITHUB_OUTPUT"
+          elif [ "$GITHUB_EVENT_NAME" = "push" ] && ! grep -q '^true ' <<< "$found"; then
+            echo "::notice::La release $TAG est déjà publiée ($found) : rien à faire."
+            echo "construire=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::Une release $TAG existe déjà : $found. Change la version, ou supprime le brouillon, puis relance."
+            exit 1
+          fi
+
+  windows-x64:
+    name: Windows x64
+    needs: preparer
+    if: needs.preparer.outputs.construire == 'true'
+    runs-on: windows-2025
+    timeout-minutes: 120
+    env:
+      VERSION: ${{ needs.preparer.outputs.version }}
+    steps:
+      # Chemins longs pour git et l'outillage. La compilation native de transcribe-cpp-sys s'en passe : son
+      # build.rs compile à travers une jonction NTFS courte (%LOCALAPPDATA%\tcs), voir BUILD.md.
+      - name: Chemins longs (Windows)
+        shell: pwsh
+        run: |
+          New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
+            -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+          git config --system core.longpaths true
+
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      # Pas de cache Rust : une release se compile toujours de zéro.
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
+        with:
+          toolchain: stable
+
+      - name: SDK Vulkan
+        uses: humbletim/install-vulkan-sdk@30ba978f977e81b72d091fc8888feb1fb26f9aff # v1.2
+        with:
+          version: 1.4.309.0
+          cache: true
+
+      # ggml-vulkan fait `find_package(SPIRV-Headers CONFIG REQUIRED)` ; le SDK installé ci-dessus n'expose pas
+      # SPIRV-HeadersConfig.cmake. vcpkg le fournit (paquet d'en-têtes seuls) et le cmake crate transmet
+      # CMAKE_PREFIX_PATH.
+      - name: SPIRV-Headers (vcpkg)
+        shell: pwsh
+        run: |
+          vcpkg install spirv-headers:x64-windows
+          if ($LASTEXITCODE -ne 0) { throw "vcpkg install spirv-headers a échoué" }
+          $prefix = "$env:VCPKG_INSTALLATION_ROOT/installed/x64-windows" -replace '\\','/'
+          $combined = if ($env:CMAKE_PREFIX_PATH) { "$prefix;$env:CMAKE_PREFIX_PATH" } else { $prefix }
+          Add-Content $env:GITHUB_ENV "CMAKE_PREFIX_PATH=$combined"
+          Write-Host "CMAKE_PREFIX_PATH=$combined"
+
+      # Runtime VC++ copié à côté de jecoute.exe par src-tauri/build.rs (variable HANDY_VC_REDIST_DIRS), pour que
+      # l'app démarre sur un PC sans redistribuable VC++ récent. vcomp140.dll sert à OpenMP (ggml).
+      - name: Runtime VC++ à embarquer
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vsRoot = & $vswhere -latest -products * -property installationPath
+          if (-not $vsRoot) { throw "vswhere ne trouve aucune installation de Visual Studio" }
+          $redistVersion = (Get-Content (Join-Path $vsRoot "VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt")).Trim()
+          $archDir = Join-Path $vsRoot "VC\Redist\MSVC\$redistVersion\x64"
+          $crt = Get-ChildItem $archDir -Directory -Filter "Microsoft.VC*.CRT" | Sort-Object Name | Select-Object -Last 1
+          $omp = Get-ChildItem $archDir -Directory -Filter "Microsoft.VC*.OpenMP" | Sort-Object Name | Select-Object -Last 1
+          if (-not $crt -or -not (Test-Path (Join-Path $crt.FullName "msvcp140.dll"))) { throw "Runtime VC++ (CRT) introuvable sous $archDir" }
+          if (-not $omp -or -not (Test-Path (Join-Path $omp.FullName "vcomp140.dll"))) { throw "Runtime VC++ (OpenMP) introuvable sous $archDir" }
+          $dirs = "$($crt.FullName);$($omp.FullName)"
+          Write-Host "HANDY_VC_REDIST_DIRS=$dirs"
+          Add-Content -Path $env:GITHUB_ENV -Value "HANDY_VC_REDIST_DIRS=$dirs"
+
+      # ONNX Runtime officiel de Microsoft (base SSE2 + dispatch à l'exécution) lié en DLL, au lieu de l'ORT
+      # embarqué par défaut, compilé en AVX2 et qui plante au démarrage sur les processeurs d'avant Haswell.
+      # src-tauri/build.rs copie onnxruntime.dll à côté de jecoute.exe.
+      - name: ONNX Runtime ${{ env.ORT_VERSION }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $zip = "onnxruntime-win-x64-$env:ORT_VERSION.zip"
+          Invoke-WebRequest -Uri "https://github.com/microsoft/onnxruntime/releases/download/v$env:ORT_VERSION/$zip" -OutFile $zip
+          $hash = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($hash -ne $env:ORT_SHA256) { throw "SHA-256 inattendu pour ${zip} : $hash" }
+          Expand-Archive -Path $zip -DestinationPath "$env:RUNNER_TEMP\ort" -Force
+          $lib = (Resolve-Path "$env:RUNNER_TEMP\ort\onnxruntime-win-x64-$env:ORT_VERSION\lib").Path
+          Write-Host "ORT_LIB_LOCATION=$lib"
+          Add-Content -Path $env:GITHUB_ENV -Value "ORT_LIB_LOCATION=$lib"
+          Add-Content -Path $env:GITHUB_ENV -Value "ORT_PREFER_DYNAMIC_LINK=1"
+
+      - name: Dépendances du front
+        run: bun install --frozen-lockfile
+
+      # createUpdaterArtifacts (tauri.conf.json) : Tauri signe les installeurs avec la clé des secrets et
+      # écrit les .sig. Sans la clé, le build échoue. La CLI décode la clé (base64) sans tolérer d'espace ni de
+      # retour à la ligne : on retire ceux qu'un copier-coller du secret aurait pu ajouter.
+      - name: tauri build
+        shell: pwsh
+        env:
+          CLE_MISES_A_JOUR: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          MOT_DE_PASSE_CLE: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          $env:TAURI_SIGNING_PRIVATE_KEY = $env:CLE_MISES_A_JOUR.Trim()
+          $env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = $env:MOT_DE_PASSE_CLE.Trim()
+          bun run tauri build
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      # Les deux installeurs doivent contenir toutes les DLL préparées par build.rs, et l'exe installé doit
+      # démarrer (`--list-devices` : chemin sans interface, qui liste les périphériques de calcul et quitte).
+      - name: Contrôle du contenu des installeurs
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $bundle = "src-tauri/target/release/bundle"
+
+          $staged = @(Get-ChildItem "src-tauri/transcribe-libs" -Filter "*.dll" -ErrorAction SilentlyContinue)
+          foreach ($name in @("msvcp140.dll", "vcruntime140.dll", "vcomp140.dll", "onnxruntime.dll")) {
+            if (-not ($staged | Where-Object { $_.Name -ieq $name })) { throw "transcribe-libs : $name absente" }
+          }
+          if (-not ($staged | Where-Object { $_.Name -like "*transcribe*" })) { throw "transcribe-libs : DLL transcribe absente" }
+          if (-not ($staged | Where-Object { $_.Name -like "*ggml*" })) { throw "transcribe-libs : DLL ggml absentes" }
+          Write-Host "DLL préparées : $($staged.Name -join ', ')"
+
+          function Assert-Package([string] $Root, [string] $Label) {
+            $exe = Get-ChildItem $Root -Filter "jecoute.exe" -Recurse | Select-Object -First 1
+            if (-not $exe) { throw "$Label : jecoute.exe absent" }
+            foreach ($dll in $staged) {
+              if (-not (Get-ChildItem $exe.DirectoryName -Filter $dll.Name)) { throw "$Label : $($dll.Name) absente à côté de jecoute.exe" }
+            }
+            $out = (& $exe.FullName --list-devices | Out-String)
+            Write-Host $out
+            if ($LASTEXITCODE -ne 0) { throw "$Label : jecoute.exe --list-devices a échoué ($LASTEXITCODE)" }
+          }
+
+          $setup = @(Get-ChildItem "$bundle/nsis" -Filter "*_${env:VERSION}_x64-setup.exe")
+          if ($setup.Count -ne 1) { throw "Attendu un installeur NSIS, trouvé $($setup.Count)" }
+          $dir = Join-Path $env:RUNNER_TEMP "nsis-portable"
+          $p = Start-Process -FilePath $setup[0].FullName -ArgumentList @("/S", "/PORTABLE", "/D=$dir") -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "Installation portable silencieuse en échec ($($p.ExitCode))" }
+          Assert-Package $dir "NSIS"
+
+          $msi = @(Get-ChildItem "$bundle/msi" -Filter "*_${env:VERSION}_x64_en-US.msi")
+          if ($msi.Count -ne 1) { throw "Attendu un MSI, trouvé $($msi.Count)" }
+          $dir = Join-Path $env:RUNNER_TEMP "msi-admin"
+          $log = Join-Path $env:RUNNER_TEMP "msi-admin.log"
+          $p = Start-Process -FilePath "msiexec.exe" -ArgumentList "/a `"$($msi[0].FullName)`" /qn /L*v `"$log`" TARGETDIR=`"$dir`"" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { Get-Content $log | Out-Host; throw "Extraction administrative du MSI en échec ($($p.ExitCode))" }
+          Assert-Package $dir "MSI"
+
+      # Même script que la publication manuelle, avec le même interpréteur (Windows PowerShell 5.1).
+      - name: Noms ASCII, latest.json, SHA256SUMS.txt
+        shell: powershell
+        env:
+          NOTES: ${{ inputs.notes }}
+        run: |
+          New-Item -ItemType Directory -Force -Path dist/notes | Out-Null
+          $params = @{
+            BundleDir  = "src-tauri/target/release/bundle"
+            Version    = $env:VERSION
+            OutDir     = "dist/files"
+            Repository = $env:GITHUB_REPOSITORY
+            BodyPath   = "dist/notes/release-notes.md"
+          }
+          if ($env:NOTES) { $params.Notes = $env:NOTES }
+          ./.github/scripts/prepare-release.ps1 @params
+
+      # Vérifie latest.json et chaque signature avec la clé publique de tauri.conf.json, comme l'app installée :
+      # une clé de signature qui ne correspond pas à la clé publique casserait les mises à jour de tout le monde.
+      - name: Vérification des signatures de mise à jour
         shell: bash
         run: |
-          VERSION=$(grep -o '"version": "[^"]*"' src-tauri/tauri.conf.json | cut -d'"' -f4)
-          echo "Application version from tauri.conf.json: $VERSION"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          cargo run --quiet --release --locked --manifest-path .github/tools/verify-updater-sig/Cargo.toml -- \
+            src-tauri/tauri.conf.json dist/files \
+            --base-url "https://github.com/$GITHUB_REPOSITORY/releases/download/v$VERSION" \
+            --require windows-x86_64 --require windows-x86_64-nsis --require windows-x86_64-msi
 
-      - name: Create Draft Release
-        id: create-release
-        uses: actions/github-script@v9
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          script: |
-            const { data } = await github.rest.repos.createRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: `v${{ steps.get-version.outputs.version }}`,
-              name: `v${{ steps.get-version.outputs.version }}`,
-              draft: true,
-              prerelease: false,
-              generate_release_notes: true
-            })
-            return data.id
+          name: jecoute-${{ env.VERSION }}-windows-x64
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30
 
-  publish-tauri:
+  brouillon:
+    name: Release brouillon
+    needs: [preparer, windows-x64]
+    if: github.event_name == 'push' || inputs.brouillon
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     permissions:
       contents: write
-    needs: create-release
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: "macos-26" # for Arm based macs (M1 and above). Uses macOS 26 for Apple Intelligence SDK.
-            args: "--target aarch64-apple-darwin"
-            target: "aarch64-apple-darwin"
-          - platform: "macos-latest" # for Intel based macs.
-            args: "--target x86_64-apple-darwin"
-            target: "x86_64-apple-darwin"
-          - platform: "ubuntu-22.04" # Build .deb on 22.04
-            args: "--bundles deb"
-            target: "x86_64-unknown-linux-gnu"
-          - platform: "ubuntu-24.04" # Build AppImage and RPM on 24.04
-            args: "--bundles appimage,rpm"
-            target: "x86_64-unknown-linux-gnu"
-          - platform: "ubuntu-24.04-arm" # Build for ARM64 Linux
-            args: "--bundles appimage,deb,rpm"
-            target: "aarch64-unknown-linux-gnu"
-          - platform: "windows-latest"
-            args: ""
-            target: "x86_64-pc-windows-msvc"
-          - platform: "windows-11-arm" # for ARM64 Windows runner
-            args: "--target aarch64-pc-windows-msvc"
-            target: "aarch64-pc-windows-msvc"
+    env:
+      VERSION: ${{ needs.preparer.outputs.version }}
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: jecoute-${{ env.VERSION }}-windows-x64
+          path: dist
 
-    uses: ./.github/workflows/build.yml
-    with:
-      platform: ${{ matrix.platform }}
-      target: ${{ matrix.target }}
-      build-args: ${{ matrix.args }}
-      sign-binaries: true
-      asset-prefix: "handy"
-      upload-artifacts: false
-      release-id: ${{ needs.create-release.outputs.release-id }}
-      # Releases always build from scratch — never restore the Rust cache, so a
-      # stale cached native lib can never be linked into a shipped artifact.
-      no-cache: true
-    secrets: inherit
+      # --draft : rien n'est visible des utilisateurs ni de l'updater (releases/latest ignore les brouillons)
+      # tant que la release n'est pas publiée à la main.
+      - name: Créer la release brouillon
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ls -l dist/files
+          gh release create "v$VERSION" \
+            --repo "$GITHUB_REPOSITORY" \
+            --draft \
+            --target "$GITHUB_SHA" \
+            --title "J’écoute $VERSION" \
+            --notes-file dist/notes/release-notes.md \
+            dist/files/*
+          echo "### Brouillon v$VERSION créé" >> "$GITHUB_STEP_SUMMARY"
+          echo "À relire puis publier à la main : https://github.com/$GITHUB_REPOSITORY/releases" >> "$GITHUB_STEP_SUMMARY"
