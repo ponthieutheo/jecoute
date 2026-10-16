@@ -25,6 +25,14 @@
   --light-color-scrim: rgb(15 10 10 / 0.45);
   --light-elevation-popover:
     0 10px 28px rgb(27 20 21 / 0.14), 0 2px 6px rgb(27 20 21 / 0.08);
+  /* Fenêtre principale : surface en retrait (puces, touches, segments),
+     surface surélevée (segment choisi), teinte d'accent (étiquette IA,
+     surlignage), ombre de contact sous le perso, ombre du panneau. */
+  --light-color-surface-2: #ece6e4;
+  --light-color-raise: #ffffff;
+  --light-color-accent-soft: rgb(220 10 21 / 0.08);
+  --light-color-contact: rgb(60 20 20 / 0.22);
+  --light-elevation-panel: -4px 0 14px rgb(27 20 21 / 0.06);
 
   --dark-color-text: #f6ebe6;
   --dark-color-background: #0f0b0b;
@@ -37,6 +45,11 @@
   --dark-color-scrim: rgb(0 0 0 / 0.62);
   --dark-elevation-popover:
     0 12px 32px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.35);
+  --dark-color-surface-2: #251c1c;
+  --dark-color-raise: #2f2525;
+  --dark-color-accent-soft: rgb(240 16 28 / 0.14);
+  --dark-color-contact: rgb(0 0 0 / 0.55);
+  --dark-elevation-panel: -6px 0 18px rgb(0 0 0 / 0.28);
 
   /* Jetons identiques en clair et en sombre */
   /* Rouge vif : traits, voyants, anneaux de focus, détails du logo. */
@@ -60,10 +73,21 @@
   --color-success: var(--light-color-success);
   --color-scrim: var(--light-color-scrim);
   --elevation-popover: var(--light-elevation-popover);
+  --color-surface-2: var(--light-color-surface-2);
+  --color-raise: var(--light-color-raise);
+  --color-accent-soft: var(--light-color-accent-soft);
+  --color-contact: var(--light-color-contact);
+  --elevation-panel: var(--light-elevation-panel);
 
   /* Bordures : filet discret des cartes et séparateurs ; bordure des champs
      et menus, à 3:1 minimum sur les surfaces (WCAG 1.4.11). */
   --color-border: color-mix(in srgb, var(--color-mid-gray) 20%, transparent);
+  /* Bordure intermédiaire : boutons secondaires, puces, cartes du choix. */
+  --color-border-mid: color-mix(
+    in srgb,
+    var(--color-mid-gray) 30%,
+    transparent
+  );
   --color-border-strong: color-mix(
     in srgb,
     var(--color-mid-gray) 80%,
@@ -90,6 +114,11 @@
     --color-success: var(--dark-color-success);
     --color-scrim: var(--dark-color-scrim);
     --elevation-popover: var(--dark-elevation-popover);
+    --color-surface-2: var(--dark-color-surface-2);
+    --color-raise: var(--dark-color-raise);
+    --color-accent-soft: var(--dark-color-accent-soft);
+    --color-contact: var(--dark-color-contact);
+    --elevation-panel: var(--dark-elevation-panel);
   }
 }
 
@@ -104,6 +133,11 @@
  * la palette partagée — réglages et overlay — respectent la surcharge.
  */
 :root[data-theme="light"] {
+  --color-surface-2: var(--light-color-surface-2);
+  --color-raise: var(--light-color-raise);
+  --color-accent-soft: var(--light-color-accent-soft);
+  --color-contact: var(--light-color-contact);
+  --elevation-panel: var(--light-elevation-panel);
   --color-text: var(--light-color-text);
   --color-background: var(--light-color-background);
   --color-surface: var(--light-color-surface);
@@ -117,6 +151,11 @@
 }
 
 :root[data-theme="dark"] {
+  --color-surface-2: var(--dark-color-surface-2);
+  --color-raise: var(--dark-color-raise);
+  --color-accent-soft: var(--dark-color-accent-soft);
+  --color-contact: var(--dark-color-contact);
+  --elevation-panel: var(--dark-elevation-panel);
   --color-text: var(--dark-color-text);
   --color-background: var(--dark-color-background);
   --color-surface: var(--dark-color-surface);

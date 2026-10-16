@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./styles/theme.css";
+@import "./app/app.css";
 
 /* Enregistre les jetons partagés (src/styles/theme.css) comme utilitaires
    Tailwind */
@@ -24,6 +25,10 @@
   --color-border-strong: var(--color-border-strong);
   --color-focus: var(--color-focus);
   --color-scrim: var(--color-scrim);
+  --color-surface-2: var(--color-surface-2);
+  --color-raise: var(--color-raise);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-border-mid: var(--color-border-mid);
   --shadow-popover: var(--elevation-popover);
 }
 
