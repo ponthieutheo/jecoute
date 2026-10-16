@@ -358,26 +358,26 @@ const ACTS: Record<ActName, Act> = {
     run(s, p) {
       const beats: [number, number, number][] = [
         // instant, main (0 : gauche, 1 : droite), profondeur
-        [0.35, 1, 0.07],
-        [0.5, 0, 0.07],
-        [0.65, 1, 0.07],
-        [0.8, 0, 0.07],
-        [1.05, 1, 0.1],
-        [1.55, 1, 0.07],
-        [1.7, 0, 0.07],
-        [1.85, 1, 0.07],
-        [2.0, 0, 0.07],
-        [2.25, 1, 0.1],
+        [0.35, 1, 0.11],
+        [0.5, 0, 0.11],
+        [0.65, 1, 0.11],
+        [0.8, 0, 0.11],
+        [1.05, 1, 0.15],
+        [1.55, 1, 0.11],
+        [1.7, 0, 0.11],
+        [1.85, 1, 0.11],
+        [2.0, 0, 0.11],
+        [2.25, 1, 0.15],
       ];
       if (s > 0.15 && s < 2.85) {
         const down = [0, 0];
         for (const [at, i, d] of beats)
-          down[i] += d * tap(s, at, d > 0.08 ? 0.16 : 0.12);
+          down[i] += d * tap(s, at, d > 0.12 ? 0.16 : 0.12);
         const hand = (i: number): HandWant => {
           const side = i ? 1 : -1;
           return {
             on: true,
-            pos: hp(side * 1.16, -0.42 - down[i], 0.42),
+            pos: hp(side * 1.15, -0.36 - down[i], 0.46),
             dir: dirOf(side * 0.3, -1, 0.4),
             cup: 0.15,
             rate: 40,
@@ -412,18 +412,21 @@ const ACTS: Record<ActName, Act> = {
     dur: 2.5,
     run(s, p, r) {
       const side = r.side;
-      const w = env(s, 0.3, 2.05, 0.2);
-      const a = 0.38 * Math.sin(2 * Math.PI * 2.4 * (s - 0.3)) * w;
+      // la main monte à côté de la tête, puis se balance (surtout vers l'extérieur, jamais au-dessus de la tête)
+      const w = env(s, 0.35, 2.05, 0.2);
+      const a =
+        side * (0.15 + 0.55 * Math.sin(2 * Math.PI * 2.2 * (s - 0.35))) * w;
       if (s > 0.1 && s < 2.15) {
-        const pivot = hp(side * 1.2, 0.18, 0.34);
+        const rise = smooth(0.1, 0.4, s);
+        const pivot = hp(side * 1.22, mix(-0.5, 0.12, rise), 0.34);
         const hand: HandWant = {
           on: true,
           pos: pivot.add(
-            new THREE.Vector3(0.36 * Math.sin(a), 0.36 * Math.cos(a), 0),
+            new THREE.Vector3(0.42 * Math.sin(a), 0.42 * Math.cos(a), 0),
           ),
-          dir: dirOf(Math.sin(a) * 0.5, 0.2, 1),
+          dir: dirOf(Math.sin(a) * 0.6, 0.2, 1),
           cup: 0.5,
-          rate: 22,
+          rate: 24,
         };
         if (side < 0) p.handL = hand;
         else p.handR = hand;
@@ -432,7 +435,7 @@ const ACTS: Record<ActName, Act> = {
       p.roll = mix(p.roll, -side * 0.12, e);
       p.yaw = mix(p.yaw, 0, e);
       p.pitch = mix(p.pitch, -0.04, e);
-      p.dy = 0.02 * Math.abs(Math.sin(2 * Math.PI * 2.4 * s)) * w;
+      p.dy = 0.02 * Math.abs(Math.sin(2 * Math.PI * 2.2 * (s - 0.35))) * w;
       if (s > 0.25 && s < 2.1) {
         p.face.eyes = "happy";
         p.face.mouth = "grin";
