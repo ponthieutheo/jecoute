@@ -8,7 +8,8 @@ import {
   PORTABLE_RELEASES_URL,
 } from "./portableInstaller";
 
-const RELEASE = "https://github.com/ponthieutheo/jecoute/releases/download/v0.1.0";
+const RELEASE =
+  "https://github.com/ponthieutheo/jecoute/releases/download/v0.1.0";
 
 // Asset names as published by the release workflow.
 const X64_SETUP = `${RELEASE}/Jecoute_0.1.0_x64-setup.exe`;
@@ -161,7 +162,10 @@ for (const name of [
 
 // match levels
 assert.equal(installerMatch(X64_SETUP, "x86_64"), 3);
-assert.equal(installerMatch(`${RELEASE}/J.coute_0.1.0_x64-setup.exe`, "x86_64"), 2);
+assert.equal(
+  installerMatch(`${RELEASE}/J.coute_0.1.0_x64-setup.exe`, "x86_64"),
+  2,
+);
 assert.equal(installerMatch(`${RELEASE}/setup.exe`, "x86_64"), 1);
 assert.equal(installerMatch(ARM64_SETUP, "x86_64"), 0);
 assert.equal(installerMatch(X64_MSI, "x86_64"), 0);
@@ -184,7 +188,10 @@ assert.equal(
 );
 
 // non-https or unparsable URLs are never opened
-assert.equal(isWindowsInstallerUrl(X64_SETUP.replace("https:", "http:")), false);
+assert.equal(
+  isWindowsInstallerUrl(X64_SETUP.replace("https:", "http:")),
+  false,
+);
 assert.equal(isWindowsInstallerUrl("Jecoute_0.1.0_x64-setup.exe"), false);
 assert.equal(isWindowsInstallerUrl(42), false);
 
