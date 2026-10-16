@@ -117,13 +117,16 @@
       "errors": {
         "checkFailed": "Не вдалося перевірити дозволи. Будь ласка, спробуйте ще раз.",
         "requestFailed": "Не вдалося запросити дозвіл. Будь ласка, спробуйте ще раз."
-      }
+      },
+      "checking": "Перевірка дозволів…"
     }
   },
   "modelSelector": {
     "custom": "Користувацька",
+    "legacy": "Застаріле",
     "streaming": "Потокове",
     "active": "Активна",
+    "switching": "Перемикання...",
     "noModelsAvailable": "Немає доступних моделей",
     "verifying": "Перевірка {{modelName}}...",
     "verifyingGeneric": "Перевірка...",
@@ -139,20 +142,18 @@
     "modelUnloaded": "Модель вивантажена",
     "noModelDownloadRequired": "Немає моделі - потрібно завантажити",
     "deleteModel": "Видалити {{modelName}}",
-    "switching": "Перемикання...",
     "downloadSpeed": "{{speed}} MB/s",
-    "capabilities": {
-      "languageSelection": "Підтримує кілька мов введення",
-      "languageCount": "{{total}} мов",
-      "translation": "Може перекладати на англійську",
-      "translate": "Перекласти на англійську",
-      "singleLanguage": "Підтримує лише цю мову",
-      "languageOnly": "Лише {{language}}",
-      "streaming": "Показує транскрипцію в реальному часі під час мовлення"
-    },
     "cancel": "Скасувати",
     "cancelDownload": "Скасувати завантаження",
-    "legacy": "Застаріле"
+    "capabilities": {
+      "languageSelection": "Підтримує кілька мов введення",
+      "singleLanguage": "Підтримує лише цю мову",
+      "languageCount": "{{total}} мов",
+      "languageOnly": "Лише {{language}}",
+      "translation": "Може перекладати на англійську",
+      "translate": "Перекласти на англійську",
+      "streaming": "Показує транскрипцію в реальному часі під час мовлення"
+    }
   },
   "settings": {
     "modelSettings": {
@@ -169,16 +170,16 @@
         "pressKeys": "Натисніть клавіші...",
         "bindings": {
           "transcribe": {
-            "name": "Гаряча клавіша транскрипції",
-            "description": "Комбінація клавіш для запису та транскрибування вашого голосу."
+            "name": "Комбінація для диктування",
+            "description": "Утримуйте й говоріть, відпустіть — і я все напишу."
           },
           "cancel": {
-            "name": "Гаряча клавіша скасування",
-            "description": "Комбінація клавіш для скасування поточного запису."
+            "name": "Скасування диктування",
+            "description": "Перериває диктування, нічого не вставляючи."
           },
           "transcribe_with_post_process": {
-            "name": "Гаряча клавіша постобробки",
-            "description": "Необов'язково: Спеціальна гаряча клавіша, яка завжди застосовує AI-постобробку до вашої транскрипції."
+            "name": "Комбінація з ШІ-корекцією",
+            "description": "Диктування, після якого ШІ завжди перевіряє текст."
           }
         },
         "errors": {
@@ -188,8 +189,8 @@
         }
       },
       "language": {
-        "title": "Мова",
-        "description": "Оберіть мову для розпізнавання мовлення. Режим «Авто» визначить мову автоматично, а вибір конкретної мови може покращити точність.",
+        "title": "Мова диктування",
+        "description": "Мов, які розуміє поточна модель: {{count}}.",
         "searchPlaceholder": "Пошук мов...",
         "noResults": "Мов не знайдено",
         "auto": "Авто",
@@ -201,18 +202,21 @@
         "options": {
           "holdOrToggle": "Автоматично",
           "pushToTalk": "Утримання",
-          "toggle": "Перемикання"
+          "toggle": "Запуск натисканням"
         },
         "descriptions": {
-          "hold_or_toggle": "Утримуйте для запису або натисніть коротко для перемикання",
-          "push_to_talk": "Записує, поки комбінація клавіш утримується",
-          "toggle": "Натисніть комбінацію клавіш, щоб почати запис, натисніть ще раз, щоб зупинити"
+          "hold_or_toggle": "Утримуйте, щоб диктувати, або натисніть один раз, щоб почати, і ще раз, щоб зупинити.",
+          "push_to_talk": "Я слухаю, поки ви утримуєте клавіші.",
+          "toggle": "Одне натискання — старт, друге — стоп."
         }
       }
     },
     "models": {
       "title": "Моделі транскрипції",
       "description": "Виберіть модель транскрипції або завантажте додаткові моделі. Різні моделі пропонують різні рівні точності та швидкості.",
+      "searchPlaceholder": "Пошук моделей за назвою…",
+      "yourModels": "Завантажені моделі",
+      "availableModels": "Доступні для завантаження",
       "deleteConfirm": "Ви впевнені, що хочете видалити {{modelName}}? Вам потрібно буде завантажити її знову, щоб використовувати.",
       "deleteActiveConfirm": "{{modelName}} — ваша активна модель. Видалення зупинить транскрипцію, доки ви не оберете нову модель. Ви впевнені?",
       "deleteTitle": "Видалити модель",
@@ -221,41 +225,38 @@
         "streaming": "Фільтрувати моделі з підтримкою транскрипції в реальному часі",
         "translation": "Фільтрувати моделі з підтримкою перекладу англійською"
       },
-      "noModelsMatch": "Жодна модель не відповідає цьому фільтру.",
-      "yourModels": "Завантажені моделі",
-      "availableModels": "Доступні для завантаження",
-      "searchPlaceholder": "Пошук моделей за назвою…",
       "rescan": {
         "label": "Пересканувати",
         "tooltip": "Пересканувати моделі, додані до папки моделей або кешу Hugging Face поза межами J’écoute"
-      }
+      },
+      "noModelsMatch": "Жодна модель не відповідає цьому фільтру."
     },
     "sound": {
       "title": "Звук",
       "microphone": {
         "title": "Мікрофон",
-        "description": "Оберіть бажаний мікрофон",
+        "description": "Мікрофон, який вас слухає.",
         "placeholder": "Оберіть мікрофон...",
         "loading": "Завантаження..."
       },
       "channel": {
         "title": "Вхідний канал",
-        "description": "Виберіть вхідний канал для запису. Використовуйте цю опцію, якщо ваш аудіоінтерфейс має кілька входів.",
+        "description": "Для аудіоінтерфейсу з кількома входами.",
         "average": "Усереднювати всі канали",
         "channel": "Канал {{n}}"
       },
       "audioFeedback": {
-        "label": "Звукове сповіщення",
-        "description": "Відтворювати звук при початку та зупинці запису"
+        "label": "Звуковий сигнал",
+        "description": "Короткий звук на початку й наприкінці диктування."
       },
       "outputDevice": {
-        "title": "Пристрій виводу",
-        "description": "Оберіть бажаний пристрій виводу звуку для звукових сповіщень",
+        "title": "Виведення сигналу",
+        "description": "Де звучить сигнал.",
         "placeholder": "Оберіть пристрій виводу...",
         "loading": "Завантаження..."
       },
       "volume": {
-        "title": "Гучність",
+        "title": "Гучність сигналу",
         "description": "Налаштуйте гучність звукових сповіщень"
       }
     },
@@ -269,51 +270,51 @@
       },
       "experimentalToggle": {
         "label": "Експериментальні функції",
-        "description": "Увімкнути експериментальні функції, які ще в розробці."
+        "description": "Функції, які ще в розробці."
       },
       "lazyStreamClose": {
-        "label": "Залишати мікрофон увімкненим між транскрипціями",
-        "description": "Залишає потік мікрофона відкритим протягом 30 секунд після зупинки запису, зменшуючи затримку при послідовних транскрипціях. Може погіршити якість звуку Bluetooth."
+        "label": "Не вимикати мікрофон між диктуваннями",
+        "description": "Мікрофон лишається ввімкненим 30 секунд після диктування, тож наступне починається швидше. Може погіршити звук через Bluetooth."
       },
       "acceleration": {
         "transcribe": {
-          "title": "Прискорення Whisper",
-          "description": "Апаратне прискорення для моделей Whisper. Автоматичний режим використовує GPU за наявності (Metal на macOS, Vulkan на Windows/Linux)."
+          "title": "Прискорення",
+          "description": "Відеокарта (Vulkan, Metal) або процесор. «Авто» вибирає відеокарту, якщо вона є."
         },
         "ort": {
           "title": "Прискорення ONNX",
-          "description": "Апаратне прискорення для моделей ONNX (Parakeet, Canary, Moonshine тощо). DirectML на Windows є експериментальним. Моделі можуть не виконувати транскрипцію."
+          "description": "Для старіших моделей ONNX. DirectML (Windows) — експериментальний."
         },
         "gpuDevice": {
           "auto": "Авто"
         }
       },
       "startHidden": {
-        "label": "Запуск у фоні",
-        "description": "Запускати в системному треї без відкриття вікна"
+        "label": "Запускати згорнутим",
+        "description": "Запуск на панелі завдань без відкриття вікна."
       },
       "autostart": {
-        "label": "Запуск при старті системи",
-        "description": "Автоматично запускати J’écoute при вході в систему"
+        "label": "Автозапуск",
+        "description": "J’écoute запускається, коли ви входите в систему."
       },
       "showTrayIcon": {
-        "label": "Показати значок у треї",
-        "description": "Відображати значок J’écoute у системному треї."
+        "label": "Значок на панелі завдань",
+        "description": "В області сповіщень, біля годинника."
       },
       "overlay": {
         "style": {
-          "title": "Накладка",
-          "description": "Виберіть накладку під час запису: «Немає» приховує її, «Мінімальна» показує компактний індикатор, «У реальному часі» показує транскрипцію під час мовлення (лише моделі з підтримкою потокової обробки — шукайте позначку «Потокове» у списку моделей). У Linux рекомендовано «Немає».",
+          "title": "Під час диктування",
+          "description": "Що видно на екрані. Для тексту наживо потрібна сумісна модель. У Linux рекомендовано «Немає».",
           "options": {
             "none": "Немає",
             "minimal": "Мінімальна",
-            "live": "У реальному часі",
+            "live": "Текст наживо",
             "character": "Персонаж"
           }
         },
         "position": {
-          "title": "Позиція оверлею",
-          "description": "Показувати візуальний оверлей під час запису та транскрипції. На Linux рекомендовано «Немає»",
+          "title": "Розташування на екрані",
+          "description": "Угорі або внизу екрана.",
           "options": {
             "bottom": "Внизу",
             "top": "Вгорі"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "Метод вставки",
-        "description": "Оберіть спосіб вставки тексту. Прямий: емулює набір тексту. Немає: пропускає вставку, оновлює лише історію/буфер обміну.",
+        "title": "Введення тексту",
+        "description": "Як диктовка потрапляє у ваш застосунок.",
         "options": {
-          "clipboard": "Буфер обміну ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "Буфер обміну (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "Буфер обміну (Shift+Insert)",
-          "direct": "Прямий",
-          "none": "Немає",
+          "clipboard": "Вставка ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "Вставка (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "Вставка (Shift+Insert)",
+          "direct": "Набір тексту",
+          "none": "Не вводити",
           "externalScript": "Зовнішній скрипт"
         },
         "externalScriptPlaceholder": "/path/to/your/script.sh"
       },
       "typingTool": {
         "title": "Інструмент введення",
-        "description": "Виберіть, який інструмент введення в Linux використовувати для методу прямого вставлення. Auto автоматично визначить і використає найкращий доступний інструмент для вашої системи.",
+        "description": "Інструмент Linux, який набирає текст. Auto вибирає найкращий із доступних.",
         "options": {
           "auto": "Auto (Рекомендовано)"
         }
       },
       "clipboardHandling": {
-        "title": "Робота з буфером обміну",
-        "description": "Не змінювати буфер обміну зберігає поточний вміст буфера після транскрипції. Копіювати в буфер обміну залишає результат транскрипції в буфері після вставки.",
+        "title": "Буфер обміну",
+        "description": "Після вставки.",
         "options": {
-          "dontModify": "Не змінювати буфер обміну",
-          "copyToClipboard": "Копіювати в буфер обміну"
+          "dontModify": "Повернути попередній вміст",
+          "copyToClipboard": "Залишити диктовку"
         }
       },
       "autoSubmit": {
-        "title": "Автоматичне надсилання",
-        "description": "Автоматично надсилає вибрану комбінацію клавіш після вставки тексту. Cmd+Enter застосовується на macOS, тоді як Windows/Linux використовують Super+Enter.",
+        "title": "Надсилання після тексту",
+        "description": "Натискає клавішу за вас, щоб надіслати повідомлення.",
         "options": {
           "off": "Вимк.",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "Перекласти на англійську",
-        "description": "Автоматично перекладати мовлення з інших мов англійською під час транскрипції."
+        "description": "Сказане іншою мовою записується англійською."
       },
       "modelUnload": {
-        "title": "Вивантаження моделі",
-        "description": "Автоматично звільняти пам'ять GPU/CPU, коли модель не використовується протягом вказаного часу",
+        "title": "Звільняти пам’ять",
+        "description": "Вивантажує модель, коли ви перестаєте диктувати.",
         "options": {
           "never": "Ніколи",
           "immediately": "Негайно",
@@ -378,32 +379,32 @@
         }
       },
       "customWords": {
-        "title": "Власні слова",
-        "description": "Допоможіть підтримуваним моделям розпізнавати імена та спеціалізовані терміни. Нечітке виправлення наразі обмежене словами, що містять літери A–Z і цифри.",
+        "title": "Слова для розпізнавання",
+        "description": "Імена й спеціальні терміни, які мені треба писати без помилок.",
         "placeholder": "Додати слово",
         "add": "Додати",
         "remove": "Видалити {{word}}",
-        "duplicate": "\"{{word}}\" вже існує"
+        "duplicate": "«{{word}}» уже є в списку"
       },
       "voiceActivityDetection": {
-        "title": "Виявлення голосової активності",
-        "description": "Відфільтровує тишу із записів. Моделі з підтримкою потокової обробки використовують довший «хвіст» VAD; вимкнення VAD записує необроблений звук."
+        "title": "Виявлення голосу",
+        "description": "Ігнорує тишу до й після мовлення."
       },
       "vadBackend": {
-        "title": "Рушій виявлення голосу",
-        "description": "Виберіть детектор для фільтрації тиші. Earshot — експериментальний; поверніться до Silero, якщо мовлення обрізається або шум зберігається.",
+        "title": "Детектор голосу",
+        "description": "Earshot — експериментальний: якщо мовлення обрізається, поверніться до Silero.",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
         }
       },
       "fillerWordRemoval": {
-        "title": "Видаляти слова-паразити",
-        "description": "Видаляє поширені слова-вагання з транскрипцій. Вимкніть, щоб зберегти їх."
+        "title": "Прибирати слова-паразити",
+        "description": "«хм», «ммм»…"
       },
       "chineseScript": {
         "title": "Китайська писемність",
-        "description": "Записує транскрипції мандаринською та кантонською спрощеними або традиційними ієрогліфами. Інші мови не змінюються.",
+        "description": "Спрощені або традиційні ієрогліфи для мандаринської та кантонської.",
         "options": {
           "asTranscribed": "Як розпізнано",
           "simplified": "Спрощені",
@@ -416,22 +417,22 @@
         "title": "Гаряча клавіша"
       },
       "api": {
-        "title": "API (сумісний з OpenAI)",
+        "title": "Провайдер ШІ",
         "provider": {
           "title": "Провайдер",
-          "description": "Оберіть OpenAI-сумісного провайдера"
+          "description": "Сервіс, сумісний з OpenAI."
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence недоступний на цьому пристрої. Потрібен Mac з Apple Silicon під управлінням macOS Tahoe (26.0) або новіше з увімкненим Apple Intelligence в Системних налаштуваннях."
         },
         "baseUrl": {
-          "title": "Базова URL-адреса",
-          "description": "Базова URL-адреса API для обраного провайдера. Лише власний провайдер можна редагувати.",
+          "title": "Адреса API",
+          "description": "Можна змінити лише для власного провайдера.",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "API-ключ",
-          "description": "API-ключ для обраного провайдера",
+          "description": "Ключ вашого облікового запису в цього провайдера.",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "Промпт",
+        "title": "Інструкції",
         "selectedPrompt": {
-          "title": "Обраний промпт",
-          "description": "Оберіть шаблон для покращення транскрипцій або створіть новий. Використовуйте ${output} у тексті промпта для посилання на захоплену транскрипцію."
+          "title": "Інструкція",
+          "description": "Що ШІ робить із текстом. ${output} — це ваша диктовка."
         },
         "noPrompts": "Немає доступних промптів",
         "selectPrompt": "Оберіть промпт",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "Історія",
-      "openFolder": "Відкрити папку записів",
+      "openFolder": "Папка записів",
       "loading": "Завантаження історії...",
       "empty": "Транскрипцій поки немає. Почніть запис, щоб створити історію!",
-      "copyToClipboard": "Копіювати транскрипцію в буфер обміну",
+      "copyToClipboard": "Копіювати",
       "copyError": "Не вдалося скопіювати транскрипцію в буфер обміну.",
-      "save": "Зберегти транскрипцію",
-      "unsave": "Видалити зі збережених",
-      "delete": "Видалити запис",
+      "save": "Додати в обране",
+      "unsave": "Прибрати з обраного",
+      "delete": "Видалити",
       "deleteError": "Не вдалося видалити запис. Спробуйте ще раз.",
       "retranscribe": "Перетранскрибувати",
       "retranscribeError": "Не вдалося перетранскрибувати. Будь ласка, спробуйте ще раз.",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "Дебаг",
       "logDirectory": {
-        "title": "Папка логів",
-        "description": "Розташування файлів логів"
+        "title": "Журнали",
+        "description": "Папка з файлами журналів."
       },
       "logLevel": {
         "title": "Рівень логування",
@@ -503,26 +504,40 @@
         "empty": "Очікування логів… Записи з'являтимуться тут, щойно застосунок їх створюватиме."
       },
       "updateChecks": {
-        "label": "Перевірка оновлень",
-        "description": "Автоматично перевіряти наявність нових версій J’écoute",
+        "label": "Перевіряти оновлення",
+        "description": "Автоматично шукати нові версії J’écoute.",
         "lockedDescription": "Вимкнено системною конфігурацією (HANDY_DISABLE_UPDATER)"
       },
+      "whatsNewPreview": {
+        "title": "Попередній перегляд новин",
+        "description": "Відкрити останні вбудовані примітки до випуску, не позначаючи їх як переглянуті",
+        "button": "Перегляд",
+        "noNotes": "Вбудовані примітки до випуску не знайдено",
+        "error": "Не вдалося переглянути примітки до випуску"
+      },
+      "onboardingPreview": {
+        "title": "Попередній перегляд початкового налаштування",
+        "description": "Перегляньте екрани початкового налаштування, не змінюючи дозволи, моделі чи стан завершення",
+        "permissionsButton": "Дозволи",
+        "modelsButton": "Вибір моделі",
+        "exitButton": "Вийти з перегляду"
+      },
       "soundTheme": {
-        "label": "Звукова тема",
-        "description": "Оберіть звукову тему для сповіщень про початок і зупинку запису"
+        "label": "Звук сигналу",
+        "description": "Звук на початку й наприкінці диктування."
       },
       "wordCorrectionThreshold": {
         "title": "Поріг корекції слів",
         "description": "Чутливість для корекції власних слів"
       },
       "historyLimit": {
-        "title": "Ліміт історії",
-        "description": "Максимальна кількість записів в історії",
-        "entries": "записів"
+        "title": "Історія",
+        "description": "Найстаріші диктовки стираються (крім обраних).",
+        "entries": "диктовок"
       },
       "recordingRetention": {
-        "title": "Автовидалення записів",
-        "description": "Автоматично видаляти старі записи для економії місця",
+        "title": "Аудіозаписи",
+        "description": "Видаляти старі записи, щоб звільнити місце.",
         "never": "Ніколи",
         "preserveLimit": "Зберігати останні {{count}}",
         "days3": "Через 3 дні",
@@ -531,24 +546,24 @@
         "placeholder": "Оберіть період зберігання..."
       },
       "alwaysOnMicrophone": {
-        "label": "Постійно активний мікрофон",
-        "description": "Тримати мікрофон активним для швидшого відгуку"
+        "label": "Мікрофон завжди ввімкнений",
+        "description": "Диктування починається швидше."
       },
       "clamshellMicrophone": {
         "title": "Мікрофон у закритому режимі",
         "description": "Мікрофон для використання при закритій кришці ноутбука"
       },
       "postProcessingToggle": {
-        "label": "Постобробка",
-        "description": "Увімкнути покращення тексту за допомогою AI після транскрипції"
+        "label": "ШІ-корекція",
+        "description": "Онлайн-ШІ перевіряє диктовку перед вставкою. Потрібен API-ключ (OpenRouter, Anthropic, OpenAI…)."
       },
       "muteWhileRecording": {
-        "label": "Вимкнути звук під час запису",
-        "description": "Вимикати системний звук під час запису"
+        "label": "Вимикати звук комп’ютера",
+        "description": "Музика й відео замовкають під час диктування."
       },
       "appendTrailingSpace": {
-        "label": "Додавати пробіл в кінці",
-        "description": "Додавати пробіл після вставленої транскрипції"
+        "label": "Пробіл після тексту",
+        "description": "Додає пробіл після кожної диктовки."
       },
       "keyboardImplementation": {
         "title": "Реалізація клавіатури",
@@ -599,20 +614,6 @@
         "verdictOk": "Події клавіш надходять до J’écoute нормально.",
         "verdictNoEvents": "Подій не зафіксовано — ви натискали клавіші під час тесту?",
         "failed": "Не вдалося виконати діагностику: {{error}}"
-      },
-      "whatsNewPreview": {
-        "title": "Попередній перегляд новин",
-        "description": "Відкрити останні вбудовані примітки до випуску, не позначаючи їх як переглянуті",
-        "button": "Перегляд",
-        "noNotes": "Вбудовані примітки до випуску не знайдено",
-        "error": "Не вдалося переглянути примітки до випуску"
-      },
-      "onboardingPreview": {
-        "title": "Попередній перегляд початкового налаштування",
-        "description": "Перегляньте екрани початкового налаштування, не змінюючи дозволи, моделі чи стан завершення",
-        "permissionsButton": "Дозволи",
-        "modelsButton": "Вибір моделі",
-        "exitButton": "Вийти з перегляду"
       }
     },
     "about": {
@@ -621,9 +622,13 @@
         "title": "Версія",
         "description": "Поточна версія J’écoute"
       },
+      "whatsNewUpdates": {
+        "label": "Показувати, що нового",
+        "description": "Після оновлення J’écoute."
+      },
       "appDataDirectory": {
-        "title": "Папка даних програми",
-        "description": "Розташування даних J’écoute"
+        "title": "Дані застосунку",
+        "description": "Моделі, налаштування, записи."
       },
       "sourceCode": {
         "title": "Вихідний код",
@@ -635,12 +640,8 @@
         "ggml": {
           "title": "ggml",
           "description": "Високопродуктивний інференс моделі автоматичного розпізнавання мовлення Whisper від OpenAI",
-          "details": "J’écoute використовує ggml для швидкої локальної обробки мовлення в текст. Дякуємо за чудову роботу Георгію Герганову та контриб'юторам."
+          "details": "J’écoute розпізнає мовлення локально завдяки ggml. Дякуємо Георгію Герганову та учасникам проєкту за їхню чудову роботу."
         }
-      },
-      "whatsNewUpdates": {
-        "label": "Показувати новини",
-        "description": "Показувати примітки до випуску після оновлень J’écoute"
       },
       "basedOn": "На основі Handy від CJ Pais"
     }
@@ -660,6 +661,9 @@
     "portableUpdateBrowseMessage": "Портативні встановлення не можна оновити автоматично. Завантажте найновішу версію для вашої системи зі сторінки GitHub Releases та встановіть її в ту саму теку — ваша тека Data/ (налаштування, моделі, записи) залишиться на місці.",
     "portableUpdateBrowseButton": "Відкрити GitHub Releases"
   },
+  "whatsNew": {
+    "title": "Нове в J’écoute v{{version}}"
+  },
   "common": {
     "loading": "Завантаження...",
     "delete": "Видалити",
@@ -667,7 +671,9 @@
     "open": "Відкрити",
     "copy": "Копіювати",
     "clear": "Очистити",
-    "noOptionsFound": "Опцій не знайдено"
+    "noOptionsFound": "Опцій не знайдено",
+    "select": "Оберіть…",
+    "reset": "Повернути типове значення"
   },
   "accessibility": {
     "permissionsDescription": "J’écoute потребує дозволи доступності для введення транскрибованого тексту.",
@@ -693,10 +699,10 @@
   },
   "appLanguage": {
     "title": "Мова інтерфейсу",
-    "description": "Змінити мову інтерфейсу J’écoute"
+    "description": ""
   },
   "theme": {
-    "title": "Тема застосунку",
+    "title": "Вигляд",
     "description": "Виберіть, чи має J’écoute слідувати темі системи, чи залишатися світлою або темною",
     "options": {
       "system": "Системна",
@@ -708,18 +714,304 @@
     "transcribing": "Обробка...",
     "processing": "Постобробка..."
   },
-  "whatsNew": {
-    "title": "Нове в J’écoute v{{version}}"
-  },
   "secureInput": {
-    "blockedWithCulprit_one": "{{name}} може блокувати 1 комбінацію клавіш",
+    "blockedWithCulprit_one": "{{name}} може блокувати {{count}} комбінацію клавіш",
     "blockedWithCulprit_other": "{{name}} може блокувати {{count}} комбінацій клавіш",
-    "blockedNoCulprit_one": "macOS тимчасово блокує 1 комбінацію клавіш",
+    "blockedWithCulprit_few": "{{name}} може блокувати {{count}} комбінації клавіш",
+    "blockedWithCulprit_many": "{{name}} може блокувати {{count}} комбінацій клавіш",
+    "blockedNoCulprit_one": "macOS тимчасово блокує {{count}} комбінацію клавіш",
     "blockedNoCulprit_other": "macOS тимчасово блокує {{count}} комбінацій клавіш",
+    "blockedNoCulprit_few": "macOS тимчасово блокує {{count}} комбінації клавіш",
+    "blockedNoCulprit_many": "macOS тимчасово блокує {{count}} комбінацій клавіш",
     "recorderBlockedWithCulprit": "{{name}} може блокувати зміну комбінацій клавіш",
     "recorderBlockedNoCulprit": "macOS тимчасово блокує зміну комбінацій клавіш",
     "learnMore": "Як це виправити",
     "recorderBlocked": "Зараз неможливо записати комбінацію — Secure Input у macOS блокує події клавіш. Спершу усуньте попередження про Secure Input.",
     "dismiss": "Приховати"
+  },
+  "app": {
+    "home": {
+      "history": "Історія",
+      "update": "Оновлення",
+      "recent": "Останні диктовки",
+      "allHistory": "Уся історія",
+      "empty": "Тут з’являться ваші диктовки.",
+      "copyTitle": "Копіювати",
+      "copied": "Скопійовано",
+      "copiedToast": "Скопійовано в буфер обміну",
+      "modelPill": "Модель транскрипції: {{model}}",
+      "languagePill": "Мова диктування: {{language}}",
+      "allModels": "Усі моделі",
+      "downloadPill": "{{model}}, {{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "Готовий",
+        "desc": "Утримуйте <keys/> і говоріть: я пишу там, де стоїть ваш курсор.",
+        "descToggle": "Натисніть <keys/> і говоріть: я пишу там, де стоїть ваш курсор."
+      },
+      "loading": {
+        "title": "Запускаю {{model}}…",
+        "titleGeneric": "Запускаю модель…",
+        "desc": "Кілька секунд після старту, а далі я напоготові."
+      },
+      "downloading": {
+        "title": "Завантажую {{model}}…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%, {{speed}} МБ/с"
+      },
+      "noMic": {
+        "title": "Я нічого не чую",
+        "desc": "Мікрофон не знайдено. Підключіть його або виберіть інший.",
+        "action": "Вибрати мікрофон"
+      },
+      "micDenied": {
+        "title": "У мене немає доступу до мікрофона",
+        "action": "Відкрити налаштування мікрофона"
+      },
+      "noModel": {
+        "title": "Оберіть модель",
+        "desc": "Мені потрібна модель транскрипції, щоб записувати те, що ви кажете.",
+        "action": "Вибрати модель"
+      },
+      "error": {
+        "title": "Модель не запустилася",
+        "desc": "Спробуйте іншу модель або перезапустіть J’écoute.",
+        "action": "Змінити модель"
+      },
+      "listening": {
+        "title": "Слухаю…",
+        "desc": "Відпустіть <keys/>, коли закінчите.",
+        "descToggle": "Натисніть <keys/> ще раз, коли закінчите."
+      },
+      "writing": {
+        "title": "Пишу…",
+        "desc": "{{model}} розпізнає вашу фразу.",
+        "descGeneric": "Розпізнаю вашу фразу."
+      },
+      "processing": {
+        "title": "Шліфую…",
+        "desc": "ШІ перевіряє вашу диктовку."
+      },
+      "done": {
+        "title": "Вставлено",
+        "titleNoPaste": "Прийнято",
+        "desc": "Вона чекає на вас в останніх диктовках."
+      },
+      "short": {
+        "ready": "Готовий",
+        "loading": "Запуск…",
+        "downloading": "Завантаження…",
+        "nomic": "Немає мікрофона",
+        "micDenied": "Мікрофон заблоковано",
+        "nomodel": "Немає моделі",
+        "error": "Помилка",
+        "listening": "Слухаю…",
+        "writing": "Пишу…",
+        "processing": "Шліфую…",
+        "done": "Вставлено"
+      }
+    },
+    "history": {
+      "title": "Історія",
+      "back": "На головну",
+      "search": "Пошук",
+      "searchLabel": "Пошук в історії",
+      "filters": {
+        "label": "Показати",
+        "all": "Усі",
+        "favorites": "Обрані",
+        "corrected": "Виправлені ШІ"
+      },
+      "iaBadge": "ШІ",
+      "correctedBadge": "Виправлено ШІ",
+      "correctedWith": "Виправлено ШІ ({{prompt}})",
+      "versionLabel": "Показана версія",
+      "corrected": "Виправлений",
+      "raw": "Вихідний",
+      "legendAddedSample": "виділене",
+      "legendAdded": "додав ШІ",
+      "legendRemovedSample": "закреслене",
+      "legendRemoved": "прибрав ШІ",
+      "favorite": "В обраному",
+      "more": "Ще",
+      "play": "Слухати",
+      "pause": "Пауза",
+      "seek": "Позиція в записі",
+      "count_one": "{{count}} диктовка",
+      "count_other": "{{count}} диктовки",
+      "count_few": "{{count}} диктовки",
+      "count_many": "{{count}} диктовок",
+      "countKept_one": "Збережено {{count}} диктовку з {{limit}}",
+      "countKept_other": "Збережено {{count}} диктовки з {{limit}}",
+      "countKept_few": "Збережено {{count}} диктовки з {{limit}}",
+      "countKept_many": "Збережено {{count}} диктовок з {{limit}}",
+      "countMore": "Понад {{count}} диктовок",
+      "empty": "Диктовок поки немає. Утримуйте комбінацію клавіш і говоріть!",
+      "noResults": "Немає відповідних диктовок."
+    },
+    "settings": {
+      "title": "Налаштування",
+      "close": "Закрити налаштування",
+      "hint": "Зміни застосовуються одразу.",
+      "tabs": {
+        "dictation": "Диктування",
+        "sound": "Звук",
+        "text": "Текст",
+        "app": "Застосунок",
+        "about": "Про програму"
+      },
+      "advanced": "Додаткові параметри",
+      "editShortcut": "Змінити",
+      "editShortcutNamed": "Змінити: {{name}}",
+      "resetShortcut": "Повернути типову комбінацію",
+      "systemDefault": "Як у системі",
+      "playSound": "Прослухати сигнал",
+      "customSound": "Свій",
+      "micLevelHint": "Тут буде видно рівень звуку під час диктування.",
+      "micLevelLive": "Я вас чую.",
+      "model": {
+        "title": "Модель транскрипції",
+        "change": "Змінити",
+        "choose": "Вибрати",
+        "none": "Немає моделі",
+        "loading": "Запуск…",
+        "error": "Не вдалося запустити"
+      },
+      "debugMode": {
+        "label": "Режим налагодження",
+        "description": "Показує інструменти налагодження. Також Ctrl+Shift+D."
+      }
+    },
+    "models": {
+      "title": "Модель транскрипції",
+      "back": "Назад до налаштувань",
+      "search": "Пошук",
+      "download": "Завантажити",
+      "use": "Вибрати",
+      "live": "Текст наживо",
+      "accuracy": "Точність",
+      "speed": "Швидкість",
+      "sorted": "Спершу найкращі для вашої мови.",
+      "sortedFor": "Спершу найкращі для мови: {{language}}.",
+      "count_one": "{{count}} модель",
+      "count_other": "{{count}} моделі",
+      "count_few": "{{count}} моделі",
+      "count_many": "{{count}} моделей",
+      "countFiltered": "{{count}} з {{total}}",
+      "translation": "Перекладає англійською"
+    },
+    "onboarding": {
+      "welcome": "Ласкаво просимо до J’écoute",
+      "lead": "Оберіть модель, яка розпізнаватиме ваш голос. Вона працює на вашому комп’ютері, нічого не йде в інтернет.",
+      "choose": "Оберіть модель",
+      "recommendedFor": "Рекомендовано: {{language}}",
+      "light": "Дуже легка",
+      "onDisk": "Уже завантажена",
+      "download": "Завантажити {{model}} ({{size}})",
+      "use": "Використати {{model}}",
+      "showAll": "Показати всі моделі ({{count}})",
+      "allModels": "Усі моделі",
+      "downloading": "Завантаження {{model}}",
+      "downloadingSpeed": "Завантаження {{model}}, {{speed}} МБ/с",
+      "preparing": "Готую {{model}}…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "Версія {{version}}",
+      "versionUpToDate": "Версія {{version}}, актуальна",
+      "versionUpdate": "Версія {{version}}, є оновлення",
+      "license": "Ліцензія MIT. Локальна транскрипція завдяки ggml.",
+      "handy": "Handy",
+      "character": "Персонаж: Copyright (c) 2026 Théo Ponthieu, ліцензія PolyForm Noncommercial 1.0.0.",
+      "updates": {
+        "title": "Оновлення",
+        "auto": "Перевіряються автоматично.",
+        "upToDate": "У вас остання версія.",
+        "failed": "Не вдалося перевірити. Спробуйте пізніше.",
+        "availableVersion": "Доступна версія {{version}}.",
+        "downloading": "Завантаження… {{progress}}%",
+        "check": "Перевірити",
+        "install": "Встановити"
+      }
+    },
+    "dates": {
+      "today": "Сьогодні",
+      "yesterday": "Учора",
+      "todayAt": "Сьогодні о {{time}}",
+      "yesterdayAt": "Учора о {{time}}",
+      "dayAt": "{{day}} о {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} ГБ",
+      "mb": "{{value}} МБ"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "Пробіл",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "Лівий {{key}}",
+      "rightSide": "Правий {{key}}"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "Англійська наживо, швидко й точно.",
+      "live_multilingual_transcription_across_28_languages": "Текст наживо 28 мовами.",
+      "tiny_and_instant_runs_well_on_any_hardware": "Крихітна й миттєва, працює на будь-якому комп’ютері.",
+      "highest_accuracy_14_languages_slower": "Найвища точність, 14 мов, повільніша.",
+      "broadest_language_but_may_run_a_bit_slow": "Найбільше мов, але може працювати трохи повільно.",
+      "live_multilingual_excellent_on_powerful_machines": "Багатомовний текст наживо, чудово на потужних комп’ютерах.",
+      "fast_and_accurate_supports_25_european_languages": "Швидка й точна. 25 європейських мов.",
+      "english_only_the_best_model_for_english_speakers": "Лише англійська. Найкраща модель для англійської.",
+      "excellent_multilingual_model": "Чудова багатомовна модель.",
+      "a_tiny_multilingual_model": "Крихітна багатомовна модель.",
+      "4_language_speech_to_text_with_translation": "4 мови, з перекладом.",
+      "25_language_speech_to_text_with_translation": "25 мов, з перекладом.",
+      "english_speech_to_text": "Англійська.",
+      "2_language_speech_to_text": "2 мови.",
+      "3_language_speech_to_text": "3 мови.",
+      "russian_speech_to_text_with_token_level_timestamps": "Російська, з послівними мітками часу.",
+      "5_language_speech_to_text": "5 мов.",
+      "6_language_speech_to_text_with_translation": "6 мов, з перекладом.",
+      "5_language_speech_to_text_with_word_level_timestamps": "5 мов, з мітками часу для кожного слова.",
+      "english_speech_to_text_with_token_level_timestamps": "Англійська, з послівними мітками часу.",
+      "english_speech_to_text_with_streaming": "Англійська, текст наживо.",
+      "arabic_speech_to_text": "Арабська.",
+      "japanese_speech_to_text": "Японська.",
+      "korean_speech_to_text": "Корейська.",
+      "ukrainian_speech_to_text": "Українська.",
+      "vietnamese_speech_to_text": "В’єтнамська.",
+      "chinese_speech_to_text": "Китайська.",
+      "2_language_speech_to_text_with_segment_level_timestamps": "2 мови, з мітками часу по фрагментах.",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "Англійська, текст наживо, послівні мітки часу.",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "25 мов, автовизначення мови, послівні мітки часу.",
+      "30_language_speech_to_text_with_auto_language_detection": "30 мов, автовизначення мови.",
+      "5_language_speech_to_text_with_auto_language_detection": "5 мов, автовизначення мови.",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "8 мов, переклад, автовизначення мови.",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "99 мов, переклад, автовизначення мови, мітки часу по фрагментах.",
+      "english_speech_to_text_with_segment_level_timestamps": "Англійська, з мітками часу по фрагментах.",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 мов, автовизначення мови, мітки часу по фрагментах.",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "Оптимізована для тайванської мандаринської. Розуміє змішування мов.",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 мов, переклад, автовизначення мови, мітки часу по фрагментах."
+    }
   }
 }

@@ -11,12 +11,12 @@
   },
   "sidebar": {
     "general": "عام",
+    "models": "النماذج",
     "advanced": "متقدم",
     "postProcessing": "معالجة لاحقة",
     "history": "السجل",
     "debug": "تصحيح الأخطاء",
-    "about": "حول",
-    "models": "النماذج"
+    "about": "حول"
   },
   "onboarding": {
     "subtitle": "للبدء، اختر نموذج التفريغ الصوتي",
@@ -117,13 +117,16 @@
       "errors": {
         "checkFailed": "فشل التحقق من الأذونات. يرجير المحاولة مرة أخرى.",
         "requestFailed": "فشل طلب الإذن. يرجى المحاولة مرة أخرى."
-      }
+      },
+      "checking": "جارٍ التحقق من الأذونات…"
     }
   },
   "modelSelector": {
     "custom": "مخصص",
+    "legacy": "قديم",
     "streaming": "البث",
     "active": "نشط",
+    "switching": "جارٍ التبديل...",
     "noModelsAvailable": "لا توجد نماذج متاحة",
     "verifying": "جارٍ التحقق من {{modelName}}...",
     "verifyingGeneric": "جارٍ التحقق...",
@@ -139,7 +142,6 @@
     "modelUnloaded": "تم إلغاء تحميل النموذج",
     "noModelDownloadRequired": "لا يوجد نموذج - التنزيل مطلوب",
     "deleteModel": "حذف {{modelName}}",
-    "switching": "جارٍ التبديل...",
     "downloadSpeed": "{{speed}} ميجابايت/ث",
     "cancel": "إلغاء",
     "cancelDownload": "إلغاء التنزيل",
@@ -151,10 +153,12 @@
       "translation": "يدعم الترجمة",
       "translate": "ترجمة",
       "streaming": "يعرض النسخ المباشر أثناء التحدث"
-    },
-    "legacy": "قديم"
+    }
   },
   "settings": {
+    "modelSettings": {
+      "title": "إعدادات {{model}}"
+    },
     "general": {
       "title": "عام",
       "shortcut": {
@@ -166,16 +170,16 @@
         "pressKeys": "...اضغط على المفاتيح",
         "bindings": {
           "transcribe": {
-            "name": "اختصار التفريغ الصوتي",
-            "description": ".اختصار لوحة المفاتيح لتسجيل وتفريغ صوتك"
+            "name": "اختصار الإملاء",
+            "description": "اضغط مطوّلًا للكلام، وأفلِت للكتابة."
           },
           "cancel": {
-            "name": "اختصار الإلغاء",
-            "description": ".اختصار لوحة المفاتيح لإلغاء التسجيل الحالي"
+            "name": "إلغاء الإملاء",
+            "description": "يتوقف دون كتابة أي شيء."
           },
           "transcribe_with_post_process": {
-            "name": "مفتاح المعالجة اللاحقة",
-            "description": "اختياري: مفتاح اختصار مخصص يطبق دائماً المعالجة اللاحقة بالذكاء الاصطناعي على التفريغ الصوتي."
+            "name": "اختصار مع تصحيح بالذكاء الاصطناعي",
+            "description": "إملاء مع مراجعة النص دائمًا بالذكاء الاصطناعي."
           }
         },
         "errors": {
@@ -185,8 +189,8 @@
         }
       },
       "language": {
-        "title": "اللغة",
-        "description": ".اختر لغة التعرف على الكلام. سيحدد 'تلقائي' اللغة تلقائياً، بينما يؤدي اختيار لغة معينة إلى تحسين الدقة لتلك اللغة",
+        "title": "لغة الكلام",
+        "description": "اللغات التي يفهمها النموذج النشط: {{count}}",
         "searchPlaceholder": "البحث عن اللغات...",
         "noResults": "لم يتم العثور على لغات",
         "auto": "تلقائي",
@@ -198,41 +202,61 @@
         "options": {
           "holdOrToggle": "تلقائي",
           "pushToTalk": "ضغط مطوّل",
-          "toggle": "تبديل"
+          "toggle": "ضغطة للبدء"
         },
         "descriptions": {
-          "hold_or_toggle": "اضغط مطوّلًا للتسجيل أو انقر للتبديل",
-          "push_to_talk": "يسجّل أثناء الضغط على الاختصار",
-          "toggle": "انقر على الاختصار لبدء التسجيل، وانقر مرة أخرى للإيقاف"
+          "hold_or_toggle": "اضغط مطوّلًا للإملاء، أو اضغط مرة للبدء ومرة للإيقاف.",
+          "push_to_talk": "أستمع ما دمت تضغط على المفاتيح.",
+          "toggle": "ضغطة للبدء، وأخرى للإيقاف."
         }
       }
+    },
+    "models": {
+      "title": "نماذج النسخ",
+      "description": "اختر نموذج نسخ أو قم بتنزيل نماذج إضافية. تقدم النماذج المختلفة مستويات متفاوتة من الدقة والسرعة.",
+      "searchPlaceholder": "ابحث عن النماذج بالاسم…",
+      "yourModels": "النماذج المحمّلة",
+      "availableModels": "متاح للتنزيل",
+      "deleteConfirm": "هل أنت متأكد أنك تريد حذف {{modelName}}؟ ستحتاج إلى تنزيله مرة أخرى لاستخدامه.",
+      "deleteActiveConfirm": "{{modelName}} هو النموذج النشط حاليًا. حذفه سيوقف النسخ حتى تختار نموذجًا جديدًا. هل أنت متأكد؟",
+      "deleteTitle": "حذف النموذج",
+      "filters": {
+        "allLanguages": "جميع اللغات",
+        "streaming": "تصفية النماذج التي تدعم النسخ المباشر",
+        "translation": "تصفية النماذج التي تدعم الترجمة إلى الإنجليزية"
+      },
+      "rescan": {
+        "label": "إعادة الفحص",
+        "tooltip": "إعادة الفحص بحثًا عن النماذج المضافة إلى مجلد النماذج أو ذاكرة Hugging Face التخزينية المؤقتة خارج J’écoute"
+      },
+      "noModelsMatch": "لا توجد نماذج مطابقة لهذا الفلتر."
     },
     "sound": {
       "title": "الصوت",
       "microphone": {
         "title": "الميكروفون",
-        "description": "اختر جهاز الميكروفون المفضل لديك",
+        "description": "الميكروفون الذي يستمع إليك.",
         "placeholder": "...اختر الميكروفون",
         "loading": "...جاري التحميل"
       },
       "channel": {
         "title": "قناة الإدخال",
-        "description": "اختر قناة الإدخال التي تريد التسجيل منها. استخدم هذا الخيار إذا كانت واجهة الصوت لديك تحتوي على عدة مداخل.",
+        "description": "لواجهة صوتية متعددة المداخل.",
         "average": "متوسط جميع القنوات",
         "channel": "القناة {{n}}"
       },
       "audioFeedback": {
-        "label": "تنبيهات صوتية",
-        "description": "تشغيل صوت عند بدء التسجيل وتوقفه"
+        "label": "تنبيه صوتي",
+        "description": "صوت قصير عند بدء الإملاء وانتهائه."
       },
       "outputDevice": {
-        "title": "جهاز الإخراج",
-        "description": "اختر جهاز إخراج الصوت المفضل لتنبيهات الصوت",
+        "title": "مخرج التنبيه",
+        "description": "الجهاز الذي يُسمع منه التنبيه الصوتي.",
         "placeholder": "...اختر جهاز الإخراج",
         "loading": "...جاري التحميل"
       },
       "volume": {
-        "title": "مستوى الصوت",
+        "title": "مستوى صوت التنبيه",
         "description": "ضبط مستوى صوت تنبيهات الصوت"
       }
     },
@@ -245,52 +269,52 @@
         "experimental": "تجريبي"
       },
       "experimentalToggle": {
-        "label": "الميزات التجريبية",
-        "description": ".تمكين الميزات التجريبية التي لا تزال قيد التطوير"
+        "label": "ميزات تجريبية",
+        "description": "ميزات لا تزال قيد التطوير."
       },
       "lazyStreamClose": {
-        "label": "إبقاء الميكروفون مفتوحًا بين عمليات النسخ",
-        "description": "يبقي بث الميكروفون مفتوحًا لمدة 30 ثانية بعد توقف التسجيل، مما يقلل التأخير عند النسخ المتتالي. قد يؤثر على جودة صوت البلوتوث أثناء التفعيل."
+        "label": "إبقاء الميكروفون مفتوحًا بين الإملاءات",
+        "description": "يبقى الميكروفون مفتوحًا 30 ثانية بعد الإملاء ليبدأ الإملاء التالي أسرع. قد يُضعف جودة صوت Bluetooth."
       },
       "acceleration": {
         "transcribe": {
-          "title": "تسريع Whisper",
-          "description": "تسريع الأجهزة لنماذج Whisper. الوضع التلقائي يستخدم GPU إن توفر (Metal على macOS، Vulkan على Windows/Linux)."
+          "title": "التسريع",
+          "description": "بطاقة الرسومات (Vulkan، Metal) أو المعالج. «تلقائي» يستخدم بطاقة الرسومات عند توفرها."
         },
         "ort": {
           "title": "تسريع ONNX",
-          "description": "تسريع الأجهزة لنماذج ONNX (Parakeet، Canary، Moonshine، إلخ). DirectML على Windows تجريبي. قد تفشل النماذج في النسخ."
+          "description": "لنماذج ONNX القديمة. DirectML (Windows) تجريبي."
         },
         "gpuDevice": {
           "auto": "تلقائي"
         }
       },
       "startHidden": {
-        "label": "بدء مخفي",
-        "description": ".التشغيل في صينية النظام دون فتح النافذة"
+        "label": "البدء مخفيًا",
+        "description": "البدء في شريط المهام دون فتح النافذة."
       },
       "autostart": {
-        "label": "التشغيل عند بدء التشغيل",
-        "description": ".بدء تشغيل J’écoute تلقائياً عند تسجيل الدخول إلى جهاز الكمبيوتر الخاص بك"
+        "label": "التشغيل مع بدء النظام",
+        "description": "يبدأ J’écoute عند تسجيل دخولك."
       },
       "showTrayIcon": {
-        "label": "إظهار أيقونة شريط النظام",
-        "description": ".عرض أيقونة J’écoute في شريط النظام"
+        "label": "أيقونة شريط المهام",
+        "description": "في منطقة الإشعارات، بجانب الساعة."
       },
       "overlay": {
         "style": {
-          "title": "التراكب",
-          "description": "اختر تراكب التسجيل: «بلا» يخفيه، و«مبسط» يعرض شارة صغيرة، و«مباشر» يعرض النص المكتوب فوريًا أثناء التحدث (النماذج التي تدعم البث فقط — ابحث عن شارة «البث» في منتقي النماذج). على Linux يُنصح باختيار «بلا».",
+          "title": "أثناء الإملاء",
+          "description": "ما يظهر على الشاشة. يتطلب «نص مباشر» نموذجًا متوافقًا. على Linux يُنصح بـ«بلا».",
           "options": {
             "none": "بلا",
             "minimal": "مبسط",
-            "live": "مباشر",
+            "live": "نص مباشر",
             "character": "الشخصية"
           }
         },
         "position": {
-          "title": "موقع التراكب",
-          "description": "عرض تراكب الملاحظات المرئية أثناء التسجيل والتفريغ. على نظام Linux يوصى بـ 'بلا'.",
+          "title": "الموضع على الشاشة",
+          "description": "أعلى الشاشة أو أسفلها.",
           "options": {
             "bottom": "أسفل",
             "top": "أعلى"
@@ -298,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "طريقة اللصق",
-        "description": ".اختر كيفية إدراج النص. مباشر: يحاكي الكتابة عبر إدخال النظام. بلا: يتخطى اللصق، ويحدث السجل/الحافظة فقط",
+        "title": "كتابة النص",
+        "description": "كيف يصل الإملاء إلى تطبيقك.",
         "options": {
-          "clipboard": "الحافظة ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "الحافظة (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "الحافظة (Shift+Insert)",
-          "direct": "مباشر",
-          "none": "بلا",
+          "clipboard": "لصق ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "لصق (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "لصق (Shift+Insert)",
+          "direct": "محاكاة الكتابة",
+          "none": "عدم الكتابة",
           "externalScript": "نص برمجي خارجي"
         },
         "externalScriptPlaceholder": "/path/to/your/script.sh"
       },
       "typingTool": {
         "title": "أداة الكتابة",
-        "description": ".اختر أداة الكتابة في Linux لاستخدامها مع طريقة اللصق المباشر. سيكتشف \"تلقائي\" تلقائياً أفضل أداة متاحة لنظامك ويستخدمها",
+        "description": "أداة Linux التي تكتب النص. «تلقائي» يختار أفضل أداة متاحة.",
         "options": {
           "auto": "تلقائي (موصى به)"
         }
       },
       "clipboardHandling": {
-        "title": "التعامل مع الحافظة",
-        "description": ".'عدم تعديل الحافظة' يحافظ على محتويات حافظتك الحالية بعد التفريغ. 'نسخ إلى الحافظة' يترك نتيجة التفريغ في حافظتك بعد اللصق",
+        "title": "الحافظة",
+        "description": "بعد اللصق.",
         "options": {
-          "dontModify": "عدم تعديل الحافظة",
-          "copyToClipboard": "نسخ إلى الحافظة"
+          "dontModify": "استعادة المحتوى السابق",
+          "copyToClipboard": "الاحتفاظ بالإملاء"
         }
       },
       "autoSubmit": {
-        "title": "إرسال تلقائي",
-        "description": "إرسال مجموعة المفاتيح المحددة تلقائياً بعد إدراج النص. Cmd+Enter ينطبق على macOS، بينما يستخدم Windows/Linux مفتاح Super+Enter.",
+        "title": "الإرسال بعد النص",
+        "description": "يضغط مفتاحًا بدلًا منك لإرسال رسالة.",
         "options": {
           "off": "إيقاف",
           "enter": "Enter",
@@ -338,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "الترجمة إلى الإنجليزية",
-        "description": ".ترجمة الكلام من اللغات الأخرى تلقائياً إلى الإنجليزية أثناء التفريغ"
+        "description": "ما تقوله بلغة أخرى يُكتب بالإنجليزية."
       },
       "modelUnload": {
-        "title": "إلغاء تحميل النموذج",
-        "description": "تحرير ذاكرة GPU/CPU تلقائياً عندما لا يتم استخدام النموذج للوقت المحدد",
+        "title": "تحرير الذاكرة",
+        "description": "يُلغي تحميل النموذج عندما تتوقف عن الإملاء.",
         "options": {
           "never": "أبداً",
           "immediately": "فوراً",
@@ -355,20 +379,20 @@
         }
       },
       "customWords": {
-        "title": "كلمات مخصصة",
-        "description": "ساعد النماذج المدعومة على التعرّف على الأسماء والمصطلحات المتخصصة. يقتصر التصحيح التقريبي حاليًا على الكلمات التي تستخدم الأحرف A–Z والأرقام.",
+        "title": "كلمات للتعرّف عليها",
+        "description": "أسماء ومصطلحات تقنية عليّ كتابتها بشكل صحيح.",
         "placeholder": "أضف كلمة",
         "add": "إضافة",
         "remove": "إزالة {{word}}",
-        "duplicate": "\"{{word}}\" موجود بالفعل"
+        "duplicate": "«{{word}}» موجودة في القائمة بالفعل"
       },
       "voiceActivityDetection": {
-        "title": "كشف النشاط الصوتي",
-        "description": "تصفية الصمت من التسجيلات. النماذج التي تدعم البث تستخدم فترة VAD أطول؛ وتعطيل VAD يسجّل الصوت الخام."
+        "title": "كشف الصوت",
+        "description": "يتجاهل الصمت قبل الكلام وبعده."
       },
       "vadBackend": {
-        "title": "محرك كشف النشاط الصوتي",
-        "description": "اختر الكاشف المستخدم لتصفية الصمت. Earshot تجريبي؛ ارجع إلى Silero إذا تم اقتطاع الكلام أو الاحتفاظ بالضوضاء.",
+        "title": "كاشف الصوت",
+        "description": "Earshot تجريبي: عُد إلى Silero إذا انقطع الكلام.",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
@@ -376,11 +400,11 @@
       },
       "fillerWordRemoval": {
         "title": "إزالة كلمات الحشو",
-        "description": "يزيل كلمات التردد الشائعة من النصوص. عطّل هذا الخيار للاحتفاظ بها."
+        "description": "«آه»، «إمم»، «يعني»…"
       },
       "chineseScript": {
         "title": "الكتابة الصينية",
-        "description": "يكتب نصوص الماندرين والكانتونية بالأحرف المبسطة أو التقليدية. لا تتغير اللغات الأخرى.",
+        "description": "أحرف مبسطة أو تقليدية للماندرين والكانتونية.",
         "options": {
           "asTranscribed": "كما نُسخ",
           "simplified": "مبسطة",
@@ -393,22 +417,22 @@
         "title": "مفتاح الاختصار"
       },
       "api": {
-        "title": "API (متوافق مع OpenAI)",
+        "title": "مزود الذكاء الاصطناعي",
         "provider": {
           "title": "المزود",
-          "description": "اختر مزوداً متوافقاً مع OpenAI."
+          "description": "خدمة متوافقة مع OpenAI."
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence غير متاح على هذا الجهاز. يتطلب جهاز Mac بمعالج Apple Silicon يعمل بنظام macOS Tahoe (26.0) أو أحدث مع تمكين Apple Intelligence في إعدادات النظام."
         },
         "baseUrl": {
-          "title": "URL الأساسي",
-          "description": "URL الأساسي لـ API للمزود المختار. يمكن تعديل المزود المخصص فقط.",
+          "title": "عنوان API",
+          "description": "قابل للتعديل لمزود مخصص فقط.",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "مفتاح API",
-          "description": "مفتاح API للمزود المختار.",
+          "description": "مفتاح حسابك لدى هذا المزود.",
           "placeholder": "sk-..."
         },
         "model": {
@@ -421,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "المطالبة",
+        "title": "التعليمات",
         "selectedPrompt": {
-          "title": "المطالبة المختارة",
-          "description": ".اختر قالباً لتحسين التفريغ الصوتي أو أنشئ قالباً جديداً. استخدم ${output} داخل نص المطالبة للإشارة إلى النص الملتقط"
+          "title": "التعليمة",
+          "description": "ما يفعله الذكاء الاصطناعي بالنص. يشير ${output} إلى إملائك."
         },
         "noPrompts": "لا توجد مطالبات متاحة",
         "selectPrompt": "اختر مطالبة",
@@ -444,14 +468,14 @@
     },
     "history": {
       "title": "السجل",
-      "openFolder": "فتح مجلد التسجيلات",
+      "openFolder": "مجلد التسجيلات",
       "loading": "...جاري تحميل السجل",
       "empty": "!لا يوجد تفريغ صوتي بعد. ابدأ التسجيل لبناء سجلك",
-      "copyToClipboard": "نسخ التفريغ إلى الحافظة",
+      "copyToClipboard": "نسخ",
       "copyError": "تعذر نسخ التفريغ إلى الحافظة.",
-      "save": "حفظ التفريغ",
-      "unsave": "إزالة من المحفوظات",
-      "delete": "حذف الإدخال",
+      "save": "إضافة إلى المفضلة",
+      "unsave": "إزالة من المفضلة",
+      "delete": "حذف",
       "deleteError": ".فشل حذف الإدخال. يرجى المحاولة مرة أخرى",
       "retranscribe": "إعادة النسخ",
       "retranscribeError": "فشلت إعادة النسخ. يرجى المحاولة مرة أخرى.",
@@ -461,8 +485,8 @@
     "debug": {
       "title": "تصحيح الأخطاء",
       "logDirectory": {
-        "title": "مجلد السجلات",
-        "description": "الموقع الذي يتم فيه تخزين ملفات السجل"
+        "title": "ملفات السجل",
+        "description": "المجلد الذي يحوي ملفات السجل."
       },
       "logLevel": {
         "title": "مستوى السجل",
@@ -480,26 +504,40 @@
         "empty": "بانتظار السجلات… ستظهر الإدخالات هنا فور إصدار التطبيق لها."
       },
       "updateChecks": {
-        "label": "التحقق من وجود تحديثات",
-        "description": "التحقق تلقائياً من وجود إصدارات جديدة من J’écoute",
+        "label": "التحقق من التحديثات",
+        "description": "البحث تلقائيًا عن إصدارات جديدة من J’écoute.",
         "lockedDescription": "معطّل بواسطة إعدادات النظام (HANDY_DISABLE_UPDATER)"
       },
+      "whatsNewPreview": {
+        "title": "معاينة الجديد",
+        "description": "افتح أحدث ملاحظات إصدار مضمنة دون وضع علامة عليها كمقروءة",
+        "button": "معاينة",
+        "noNotes": "لم يتم العثور على ملاحظات إصدار مضمنة",
+        "error": "تعذرت معاينة ملاحظات الإصدار"
+      },
+      "onboardingPreview": {
+        "title": "معاينة الإعداد الأولي",
+        "description": "عاين شاشات الإعداد الأولي دون تغيير الأذونات أو النماذج أو حالة الإكمال",
+        "permissionsButton": "الأذونات",
+        "modelsButton": "اختيار النموذج",
+        "exitButton": "إنهاء المعاينة"
+      },
       "soundTheme": {
-        "label": "سمة الصوت",
-        "description": "اختر سمة صوت لتنبيهات بدء وتوقف التسجيل"
+        "label": "صوت التنبيه",
+        "description": "الصوت عند بدء الإملاء وانتهائه."
       },
       "wordCorrectionThreshold": {
         "title": "عتبة تصحيح الكلمات",
         "description": "حساسية تصحيح الكلمات المخصصة"
       },
       "historyLimit": {
-        "title": "حد السجل",
-        "description": "الحد الأقصى لعدد إدخالات السجل المراد الاحتفاظ بها",
-        "entries": "إدخالات"
+        "title": "السجل",
+        "description": "تُمحى الإملاءات الأقدم (عدا المفضلة).",
+        "entries": "إملاءات"
       },
       "recordingRetention": {
-        "title": "حذف التسجيلات تلقائياً",
-        "description": "حذف التسجيلات القديمة تلقائياً لتوفير المساحة",
+        "title": "التسجيلات الصوتية",
+        "description": "حذف التسجيلات القديمة لتوفير المساحة.",
         "never": "أبداً",
         "preserveLimit": "الاحتفاظ بآخر {{count}}",
         "days3": "بعد 3 أيام",
@@ -508,24 +546,24 @@
         "placeholder": "اختر فترة الاحتفاظ..."
       },
       "alwaysOnMicrophone": {
-        "label": "ميكروفون يعمل دائماً",
-        "description": "إبقاء الميكروفون نشطاً لاستجابة أسرع"
+        "label": "ميكروفون مفتوح دائمًا",
+        "description": "يبدأ الإملاء أسرع."
       },
       "clamshellMicrophone": {
         "title": "ميكروفون وضع الإغلاق",
         "description": "الميكروفون المراد استخدامه عندما يكون غطاء المحمول مغلقاً"
       },
       "postProcessingToggle": {
-        "label": "معالجة لاحقة",
-        "description": "تمكين تحسين النص المدعوم بالذكاء الاصطناعي بعد التفريغ الصوتي"
+        "label": "التصحيح بالذكاء الاصطناعي",
+        "description": "ذكاء اصطناعي على الإنترنت يراجع الإملاء قبل لصقه. يتطلب مفتاح API (OpenRouter، Anthropic، OpenAI…)."
       },
       "muteWhileRecording": {
-        "label": "كتم الصوت أثناء التسجيل",
-        "description": "كتم صوت النظام أثناء التسجيل"
+        "label": "كتم صوت الكمبيوتر",
+        "description": "تصمت الموسيقى ومقاطع الفيديو أثناء الإملاء."
       },
       "appendTrailingSpace": {
-        "label": "إضافة مسافة تابعة",
-        "description": "إضافة مسافة بعد التفريغ الملصق"
+        "label": "مسافة بعد النص",
+        "description": "يضيف مسافة بعد كل إملاء."
       },
       "keyboardImplementation": {
         "title": "تنفيذ لوحة المفاتيح",
@@ -576,20 +614,6 @@
         "verdictOk": "أحداث المفاتيح تصل إلى J’écoute بشكل طبيعي.",
         "verdictNoEvents": "لم يُسجَّل أي حدث — هل ضغطت أي مفاتيح أثناء الاختبار؟",
         "failed": "فشل التشخيص: {{error}}"
-      },
-      "whatsNewPreview": {
-        "title": "معاينة الجديد",
-        "description": "افتح أحدث ملاحظات إصدار مضمنة دون وضع علامة عليها كمقروءة",
-        "button": "معاينة",
-        "noNotes": "لم يتم العثور على ملاحظات إصدار مضمنة",
-        "error": "تعذرت معاينة ملاحظات الإصدار"
-      },
-      "onboardingPreview": {
-        "title": "معاينة الإعداد الأولي",
-        "description": "عاين شاشات الإعداد الأولي دون تغيير الأذونات أو النماذج أو حالة الإكمال",
-        "permissionsButton": "الأذونات",
-        "modelsButton": "اختيار النموذج",
-        "exitButton": "إنهاء المعاينة"
       }
     },
     "about": {
@@ -598,9 +622,13 @@
         "title": "الإصدار",
         "description": "الإصدار الحالي من J’écoute"
       },
+      "whatsNewUpdates": {
+        "label": "عرض الجديد",
+        "description": "بعد تحديث J’écoute."
+      },
       "appDataDirectory": {
-        "title": "مجلد بيانات التطبيق",
-        "description": "الموقع الذي يخزن فيه J’écoute بياناته"
+        "title": "بيانات التطبيق",
+        "description": "النماذج والإعدادات والتسجيلات."
       },
       "sourceCode": {
         "title": "كود المصدر",
@@ -612,37 +640,10 @@
         "ggml": {
           "title": "ggml",
           "description": "استنتاج عالي الأداء لنموذج التعرف التلقائي على الكلام Whisper من OpenAI",
-          "details": ".يستخدم J’écoute برنامج ggml لمعالجة سريعة ومحلية لتحويل الكلام إلى نص. شكراً للعمل الرائع الذي قام به Georgi Gerganov والمساهمون"
+          "details": "يحوّل J’écoute الكلام إلى نص محليًا بفضل ggml. شكرًا لـ Georgi Gerganov والمساهمين على عملهم الرائع."
         }
       },
-      "whatsNewUpdates": {
-        "label": "إظهار الجديد",
-        "description": "إظهار ملاحظات الإصدار بعد تحديثات J’écoute"
-      },
       "basedOn": "مبني على Handy من تطوير CJ Pais"
-    },
-    "modelSettings": {
-      "title": "إعدادات {{model}}"
-    },
-    "models": {
-      "title": "نماذج النسخ",
-      "description": "اختر نموذج نسخ أو قم بتنزيل نماذج إضافية. تقدم النماذج المختلفة مستويات متفاوتة من الدقة والسرعة.",
-      "yourModels": "النماذج المحمّلة",
-      "availableModels": "متاح للتنزيل",
-      "deleteConfirm": "هل أنت متأكد أنك تريد حذف {{modelName}}؟ ستحتاج إلى تنزيله مرة أخرى لاستخدامه.",
-      "deleteActiveConfirm": "{{modelName}} هو النموذج النشط حاليًا. حذفه سيوقف النسخ حتى تختار نموذجًا جديدًا. هل أنت متأكد؟",
-      "deleteTitle": "حذف النموذج",
-      "filters": {
-        "allLanguages": "جميع اللغات",
-        "streaming": "تصفية النماذج التي تدعم النسخ المباشر",
-        "translation": "تصفية النماذج التي تدعم الترجمة إلى الإنجليزية"
-      },
-      "noModelsMatch": "لا توجد نماذج مطابقة لهذا الفلتر.",
-      "searchPlaceholder": "ابحث عن النماذج بالاسم…",
-      "rescan": {
-        "label": "إعادة الفحص",
-        "tooltip": "إعادة الفحص بحثًا عن النماذج المضافة إلى مجلد النماذج أو ذاكرة Hugging Face التخزينية المؤقتة خارج J’écoute"
-      }
     }
   },
   "footer": {
@@ -660,6 +661,9 @@
     "portableUpdateBrowseMessage": "لا يمكن تحديث التثبيتات المحمولة تلقائيًا. نزّل أحدث إصدار مناسب لنظامك من GitHub Releases وثبّته في المجلد نفسه — يبقى مجلد Data/ (الإعدادات والنماذج والتسجيلات) في مكانه.",
     "portableUpdateBrowseButton": "فتح GitHub Releases"
   },
+  "whatsNew": {
+    "title": "الجديد في J’écoute v{{version}}"
+  },
   "common": {
     "loading": "...جاري التحميل",
     "delete": "حذف",
@@ -667,7 +671,9 @@
     "open": "فتح",
     "copy": "نسخ",
     "clear": "مسح",
-    "noOptionsFound": "لم يتم العثور على خيارات"
+    "noOptionsFound": "لم يتم العثور على خيارات",
+    "select": "اختر…",
+    "reset": "استعادة الافتراضي"
   },
   "accessibility": {
     "permissionsDescription": ".يحتاج J’écoute إلى أذونات إمكانية الوصول لكتابة النص المفرغ",
@@ -692,11 +698,11 @@
     "transcriptionFailedTitle": "فشل التفريغ النصي"
   },
   "appLanguage": {
-    "title": "لغة التطبيق",
-    "description": "تغيير لغة واجهة J’écoute"
+    "title": "لغة الواجهة",
+    "description": ""
   },
   "theme": {
-    "title": "سمة التطبيق",
+    "title": "المظهر",
     "description": "اختر ما إذا كان J’écoute يتبع مظهر النظام أو يبقى فاتحًا أو داكنًا",
     "options": {
       "system": "النظام",
@@ -708,18 +714,314 @@
     "transcribing": "...جاري التفريغ",
     "processing": "...جاري المعالجة"
   },
-  "whatsNew": {
-    "title": "الجديد في J’écoute v{{version}}"
-  },
   "secureInput": {
     "blockedWithCulprit_one": "قد يحظر {{name}} اختصارًا واحدًا",
-    "blockedWithCulprit_other": "قد يحظر {{name}} {{count}} اختصارات",
+    "blockedWithCulprit_other": "قد يحظر {{name}} {{count}} اختصار",
+    "blockedWithCulprit_zero": "لا يحظر {{name}} أي اختصار",
+    "blockedWithCulprit_two": "قد يحظر {{name}} اختصارين",
+    "blockedWithCulprit_few": "قد يحظر {{name}} {{count}} اختصارات",
+    "blockedWithCulprit_many": "قد يحظر {{name}} {{count}} اختصارًا",
     "blockedNoCulprit_one": "يحظر macOS مؤقتًا اختصارًا واحدًا",
-    "blockedNoCulprit_other": "يحظر macOS مؤقتًا {{count}} اختصارات",
+    "blockedNoCulprit_other": "يحظر macOS مؤقتًا {{count}} اختصار",
+    "blockedNoCulprit_zero": "لا يحظر macOS أي اختصار حاليًا",
+    "blockedNoCulprit_two": "يحظر macOS مؤقتًا اختصارين",
+    "blockedNoCulprit_few": "يحظر macOS مؤقتًا {{count}} اختصارات",
+    "blockedNoCulprit_many": "يحظر macOS مؤقتًا {{count}} اختصارًا",
     "recorderBlockedWithCulprit": "قد يمنع {{name}} تغيير الاختصارات",
     "recorderBlockedNoCulprit": "يمنع macOS مؤقتًا تغيير الاختصارات",
     "learnMore": "كيفية الإصلاح",
     "recorderBlocked": "لا يمكن تسجيل الاختصارات الآن — يحجب Secure Input في macOS أحداث المفاتيح. عالج تحذير Secure Input أولاً.",
     "dismiss": "تجاهل"
+  },
+  "app": {
+    "home": {
+      "history": "السجل",
+      "update": "تحديث",
+      "recent": "آخر الإملاءات",
+      "allHistory": "السجل كاملًا",
+      "empty": "ستظهر إملاءاتك هنا.",
+      "copyTitle": "نسخ",
+      "copied": "تم النسخ",
+      "copiedToast": "تم النسخ إلى الحافظة",
+      "modelPill": "نموذج النسخ: {{model}}",
+      "languagePill": "لغة الكلام: {{language}}",
+      "allModels": "كل النماذج",
+      "downloadPill": "{{model}}، {{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "جاهز",
+        "desc": "اضغط مطوّلًا على <keys/> وتكلّم: أكتب حيث يوجد المؤشر.",
+        "descToggle": "اضغط <keys/> وتكلّم: أكتب حيث يوجد المؤشر."
+      },
+      "loading": {
+        "title": "أحمّل {{model}}…",
+        "titleGeneric": "أحمّل النموذج…",
+        "desc": "بضع ثوانٍ بعد التشغيل، ثم أبقى جاهزًا."
+      },
+      "downloading": {
+        "title": "أنزّل {{model}}…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%، {{speed}} ميجابايت/ث"
+      },
+      "noMic": {
+        "title": "لا أسمع شيئًا",
+        "desc": "لم يُعثر على ميكروفون. وصّل ميكروفونًا أو اختر غيره.",
+        "action": "اختيار ميكروفون"
+      },
+      "micDenied": {
+        "title": "لا يمكنني استخدام الميكروفون",
+        "action": "فتح إعدادات الميكروفون"
+      },
+      "noModel": {
+        "title": "اختر نموذجًا",
+        "desc": "أحتاج إلى نموذج نسخ لأكتب ما تقوله.",
+        "action": "اختيار نموذج"
+      },
+      "error": {
+        "title": "تعذّر تحميل النموذج",
+        "desc": "جرّب نموذجًا آخر، أو أعد تشغيل J’écoute.",
+        "action": "تغيير النموذج"
+      },
+      "listening": {
+        "title": "أستمع…",
+        "desc": "أفلِت <keys/> عندما تنتهي.",
+        "descToggle": "اضغط <keys/> مجددًا عندما تنتهي."
+      },
+      "writing": {
+        "title": "أكتب…",
+        "desc": "يحوّل {{model}} جملتك إلى نص.",
+        "descGeneric": "أحوّل جملتك إلى نص."
+      },
+      "processing": {
+        "title": "أنقّح…",
+        "desc": "يراجع الذكاء الاصطناعي إملاءك."
+      },
+      "done": {
+        "title": "تم اللصق",
+        "titleNoPaste": "دوّنتُه",
+        "desc": "تجده في آخر الإملاءات."
+      },
+      "short": {
+        "ready": "جاهز",
+        "loading": "تحميل…",
+        "downloading": "تنزيل…",
+        "nomic": "لا ميكروفون",
+        "micDenied": "الميكروفون محظور",
+        "nomodel": "لا نموذج",
+        "error": "خطأ",
+        "listening": "أستمع…",
+        "writing": "أكتب…",
+        "processing": "أنقّح…",
+        "done": "تم اللصق"
+      }
+    },
+    "history": {
+      "title": "السجل",
+      "back": "العودة إلى الرئيسية",
+      "search": "بحث",
+      "searchLabel": "البحث في السجل",
+      "filters": {
+        "label": "عرض",
+        "all": "الكل",
+        "favorites": "المفضلة",
+        "corrected": "مصحّحة آليًا"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "صحّحه الذكاء الاصطناعي",
+      "correctedWith": "صحّحه الذكاء الاصطناعي ({{prompt}})",
+      "versionLabel": "النسخة المعروضة",
+      "corrected": "المصحَّح",
+      "raw": "الخام",
+      "legendAddedSample": "مظلَّل",
+      "legendAdded": "أضافه الذكاء الاصطناعي",
+      "legendRemovedSample": "مشطوب",
+      "legendRemoved": "حذفه الذكاء الاصطناعي",
+      "favorite": "مفضّل",
+      "more": "المزيد",
+      "play": "تشغيل",
+      "pause": "إيقاف مؤقت",
+      "seek": "الموضع في التسجيل",
+      "count_one": "إملاء واحد",
+      "count_other": "{{count}} إملاء",
+      "count_zero": "لا إملاءات",
+      "count_two": "إملاءان",
+      "count_few": "{{count}} إملاءات",
+      "count_many": "{{count}} إملاءً",
+      "countKept_one": "إملاء واحد محفوظ من أصل {{limit}}",
+      "countKept_other": "{{count}} إملاء محفوظ من أصل {{limit}}",
+      "countKept_zero": "لا إملاءات محفوظة من أصل {{limit}}",
+      "countKept_two": "إملاءان محفوظان من أصل {{limit}}",
+      "countKept_few": "{{count}} إملاءات محفوظة من أصل {{limit}}",
+      "countKept_many": "{{count}} إملاءً محفوظًا من أصل {{limit}}",
+      "countMore": "أكثر من {{count}} إملاء",
+      "empty": "لا إملاءات بعد. اضغط مطوّلًا على اختصارك وتكلّم!",
+      "noResults": "لا يوجد إملاء مطابق."
+    },
+    "settings": {
+      "title": "الإعدادات",
+      "close": "إغلاق الإعدادات",
+      "hint": "كل تغيير يُطبَّق فورًا.",
+      "tabs": {
+        "dictation": "الإملاء",
+        "sound": "الصوت",
+        "text": "النص",
+        "app": "التطبيق",
+        "about": "حول"
+      },
+      "advanced": "خيارات متقدمة",
+      "editShortcut": "تعديل",
+      "editShortcutNamed": "تعديل: {{name}}",
+      "resetShortcut": "استعادة الاختصار الافتراضي",
+      "systemDefault": "افتراضي النظام",
+      "playSound": "تشغيل التنبيه",
+      "customSound": "مخصص",
+      "micLevelHint": "يظهر المستوى هنا أثناء الإملاء.",
+      "micLevelLive": "أسمعك.",
+      "model": {
+        "title": "نموذج النسخ",
+        "change": "تغيير",
+        "choose": "اختيار",
+        "none": "لا نموذج",
+        "loading": "جارٍ التحميل…",
+        "error": "فشل التحميل"
+      },
+      "debugMode": {
+        "label": "وضع تصحيح الأخطاء",
+        "description": "يعرض أدوات تصحيح الأخطاء. متاح أيضًا عبر Ctrl+Shift+D."
+      }
+    },
+    "models": {
+      "title": "نموذج النسخ",
+      "back": "العودة إلى الإعدادات",
+      "search": "بحث",
+      "download": "تنزيل",
+      "use": "استخدام",
+      "live": "نص مباشر",
+      "accuracy": "الدقة",
+      "speed": "السرعة",
+      "sorted": "مرتّبة حسب لغتك.",
+      "sortedFor": "مرتّبة للغة {{language}}.",
+      "count_one": "نموذج واحد",
+      "count_other": "{{count}} نموذج",
+      "count_zero": "لا نماذج",
+      "count_two": "نموذجان",
+      "count_few": "{{count}} نماذج",
+      "count_many": "{{count}} نموذجًا",
+      "countFiltered": "{{count}} من {{total}}",
+      "translation": "يترجم إلى الإنجليزية"
+    },
+    "onboarding": {
+      "welcome": "مرحبًا بك في J’écoute",
+      "lead": "اختر النموذج الذي يحوّل صوتك إلى نص. يعمل على جهازك، ولا يُرسَل شيء إلى الإنترنت.",
+      "choose": "اختر نموذجًا",
+      "recommendedFor": "موصى به للغة {{language}}",
+      "light": "خفيف جدًا",
+      "onDisk": "مُنزَّل مسبقًا",
+      "download": "تنزيل {{model}} ({{size}})",
+      "use": "استخدام {{model}}",
+      "showAll": "عرض كل النماذج ({{count}})",
+      "allModels": "كل النماذج",
+      "downloading": "جارٍ تنزيل {{model}}",
+      "downloadingSpeed": "جارٍ تنزيل {{model}}، {{speed}} ميجابايت/ث",
+      "preparing": "أجهّز {{model}}…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "الإصدار {{version}}",
+      "versionUpToDate": "الإصدار {{version}}، محدَّث",
+      "versionUpdate": "الإصدار {{version}}، يتوفر تحديث",
+      "license": "رخصة MIT. نسخ محلي بفضل ggml.",
+      "handy": "Handy",
+      "character": "الشخصية: Copyright (c) 2026 Théo Ponthieu، رخصة PolyForm Noncommercial 1.0.0.",
+      "updates": {
+        "title": "التحديثات",
+        "auto": "يتم التحقق منها تلقائيًا.",
+        "upToDate": "لديك أحدث إصدار.",
+        "failed": "تعذّر التحقق. حاول لاحقًا.",
+        "availableVersion": "الإصدار {{version}} متاح.",
+        "downloading": "جارٍ التنزيل… {{progress}}%",
+        "check": "تحقّق",
+        "install": "تثبيت"
+      }
+    },
+    "dates": {
+      "today": "اليوم",
+      "yesterday": "أمس",
+      "todayAt": "اليوم، {{time}}",
+      "yesterdayAt": "أمس، {{time}}",
+      "dayAt": "{{day}}، {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} جيجابايت",
+      "mb": "{{value}} ميجابايت"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "مسافة",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "{{key}} الأيسر",
+      "rightSide": "{{key}} الأيمن"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "نسخ مباشر للإنجليزية، سريع ودقيق",
+      "live_multilingual_transcription_across_28_languages": "نسخ مباشر متعدد اللغات في 28 لغة",
+      "tiny_and_instant_runs_well_on_any_hardware": "صغير جدًا وفوري، يعمل جيدًا على أي جهاز",
+      "highest_accuracy_14_languages_slower": "الأعلى دقة، 14 لغة، أبطأ",
+      "broadest_language_but_may_run_a_bit_slow": "أكبر عدد من اللغات، لكنه قد يكون أبطأ قليلًا",
+      "live_multilingual_excellent_on_powerful_machines": "مباشر ومتعدد اللغات، ممتاز على الأجهزة القوية",
+      "fast_and_accurate_supports_25_european_languages": "سريع ودقيق. يدعم 25 لغة أوروبية",
+      "english_only_the_best_model_for_english_speakers": "الإنجليزية فقط. أفضل نموذج للمتحدثين بالإنجليزية",
+      "excellent_multilingual_model": "نموذج ممتاز متعدد اللغات",
+      "a_tiny_multilingual_model": "نموذج صغير جدًا متعدد اللغات",
+      "4_language_speech_to_text_with_translation": "تحويل الكلام إلى نص في 4 لغات، مع الترجمة.",
+      "25_language_speech_to_text_with_translation": "تحويل الكلام إلى نص في 25 لغة، مع الترجمة.",
+      "english_speech_to_text": "تحويل الكلام الإنجليزي إلى نص.",
+      "2_language_speech_to_text": "تحويل الكلام إلى نص في لغتين.",
+      "3_language_speech_to_text": "تحويل الكلام إلى نص في 3 لغات.",
+      "russian_speech_to_text_with_token_level_timestamps": "تحويل الكلام الروسي إلى نص، مع توقيت كل كلمة.",
+      "5_language_speech_to_text": "تحويل الكلام إلى نص في 5 لغات.",
+      "6_language_speech_to_text_with_translation": "تحويل الكلام إلى نص في 6 لغات، مع الترجمة.",
+      "5_language_speech_to_text_with_word_level_timestamps": "تحويل الكلام إلى نص في 5 لغات، مع توقيت كل كلمة.",
+      "english_speech_to_text_with_token_level_timestamps": "تحويل الكلام الإنجليزي إلى نص، مع توقيت كل كلمة.",
+      "english_speech_to_text_with_streaming": "تحويل الكلام الإنجليزي إلى نص، مع نص مباشر.",
+      "arabic_speech_to_text": "تحويل الكلام العربي إلى نص.",
+      "japanese_speech_to_text": "تحويل الكلام الياباني إلى نص.",
+      "korean_speech_to_text": "تحويل الكلام الكوري إلى نص.",
+      "ukrainian_speech_to_text": "تحويل الكلام الأوكراني إلى نص.",
+      "vietnamese_speech_to_text": "تحويل الكلام الفيتنامي إلى نص.",
+      "chinese_speech_to_text": "تحويل الكلام الصيني إلى نص.",
+      "2_language_speech_to_text_with_segment_level_timestamps": "تحويل الكلام إلى نص في لغتين، مع توقيت كل مقطع.",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "تحويل الكلام الإنجليزي إلى نص، مع نص مباشر وتوقيت كل كلمة.",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "تحويل الكلام إلى نص في 25 لغة، مع كشف تلقائي للغة وتوقيت كل كلمة.",
+      "30_language_speech_to_text_with_auto_language_detection": "تحويل الكلام إلى نص في 30 لغة، مع كشف تلقائي للغة.",
+      "5_language_speech_to_text_with_auto_language_detection": "تحويل الكلام إلى نص في 5 لغات، مع كشف تلقائي للغة.",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "تحويل الكلام إلى نص في 8 لغات، مع الترجمة وكشف تلقائي للغة.",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "تحويل الكلام إلى نص في 99 لغة، مع الترجمة وكشف تلقائي للغة وتوقيت كل مقطع.",
+      "english_speech_to_text_with_segment_level_timestamps": "تحويل الكلام الإنجليزي إلى نص، مع توقيت كل مقطع.",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "تحويل الكلام إلى نص في 100 لغة، مع كشف تلقائي للغة وتوقيت كل مقطع.",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "محسّن للماندرين التايوانية. يدعم التبديل بين اللغات.",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "تحويل الكلام إلى نص في 100 لغة، مع الترجمة وكشف تلقائي للغة وتوقيت كل مقطع."
+    }
   }
 }

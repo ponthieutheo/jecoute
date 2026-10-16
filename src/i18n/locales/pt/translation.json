@@ -117,13 +117,16 @@
       "errors": {
         "checkFailed": "Erro ao verificar permissões. Por favor, tente novamente.",
         "requestFailed": "Erro ao solicitar permissão. Por favor, tente novamente."
-      }
+      },
+      "checking": "Verificando permissões…"
     }
   },
   "modelSelector": {
     "custom": "Personalizado",
+    "legacy": "Legado",
     "streaming": "Streaming",
     "active": "Ativo",
+    "switching": "Alternando...",
     "noModelsAvailable": "Nenhum modelo disponível",
     "verifying": "Verificando {{modelName}}...",
     "verifyingGeneric": "Verificando...",
@@ -139,20 +142,18 @@
     "modelUnloaded": "Modelo Descarregado",
     "noModelDownloadRequired": "Sem Modelo - Download Necessário",
     "deleteModel": "Excluir {{modelName}}",
-    "switching": "Alternando...",
     "downloadSpeed": "{{speed}} MB/s",
-    "capabilities": {
-      "languageSelection": "Suporta vários idiomas de entrada",
-      "languageCount": "{{total}} idiomas",
-      "translation": "Pode traduzir para inglês",
-      "translate": "Traduzir para inglês",
-      "singleLanguage": "Suporta apenas este idioma",
-      "languageOnly": "Apenas {{language}}",
-      "streaming": "Mostra a transcrição ao vivo enquanto você fala"
-    },
     "cancel": "Cancelar",
     "cancelDownload": "Cancelar download",
-    "legacy": "Legado"
+    "capabilities": {
+      "languageSelection": "Suporta vários idiomas de entrada",
+      "singleLanguage": "Suporta apenas este idioma",
+      "languageCount": "{{total}} idiomas",
+      "languageOnly": "Apenas {{language}}",
+      "translation": "Pode traduzir para inglês",
+      "translate": "Traduzir para inglês",
+      "streaming": "Mostra a transcrição ao vivo enquanto você fala"
+    }
   },
   "settings": {
     "modelSettings": {
@@ -169,16 +170,16 @@
         "pressKeys": "Pressione as teclas...",
         "bindings": {
           "transcribe": {
-            "name": "Atalho de Transcrição",
-            "description": "O atalho de teclado para gravar e transcrever sua voz."
+            "name": "Atalho de ditado",
+            "description": "Segure para falar e solte para escrever."
           },
           "cancel": {
-            "name": "Atalho de Cancelar",
-            "description": "O atalho de teclado para cancelar a gravação atual."
+            "name": "Cancelar um ditado",
+            "description": "Interrompe sem escrever nada."
           },
           "transcribe_with_post_process": {
-            "name": "Tecla de Pós-Processamento",
-            "description": "Opcional: Uma tecla de atalho dedicada que sempre aplica pós-processamento com IA à sua transcrição."
+            "name": "Atalho com correção por IA",
+            "description": "Dita e a IA sempre revisa o texto."
           }
         },
         "errors": {
@@ -188,8 +189,8 @@
         }
       },
       "language": {
-        "title": "Idioma",
-        "description": "Selecione o idioma para reconhecimento de fala. Auto detectará automaticamente o idioma, enquanto selecionar um idioma específico pode melhorar a precisão para esse idioma.",
+        "title": "Idioma falado",
+        "description": "O modelo ativo entende {{count}} idiomas.",
         "searchPlaceholder": "Buscar idiomas...",
         "noResults": "Nenhum idioma encontrado",
         "auto": "Automático",
@@ -201,18 +202,21 @@
         "options": {
           "holdOrToggle": "Automático",
           "pushToTalk": "Segurar",
-          "toggle": "Alternar"
+          "toggle": "Pressionar para iniciar"
         },
         "descriptions": {
-          "hold_or_toggle": "Segure para gravar ou toque para alternar",
-          "push_to_talk": "Grava enquanto você mantém o atalho pressionado",
-          "toggle": "Toque no atalho para começar a gravar, toque novamente para parar"
+          "hold_or_toggle": "Segure para ditar ou pressione uma vez para iniciar e outra para parar.",
+          "push_to_talk": "Eu escuto enquanto você mantém as teclas pressionadas.",
+          "toggle": "Um toque para iniciar, outro para parar."
         }
       }
     },
     "models": {
       "title": "Modelos de Transcrição",
       "description": "Selecione um modelo de transcrição ou baixe modelos adicionais. Diferentes modelos oferecem diferentes níveis de precisão e velocidade.",
+      "searchPlaceholder": "Buscar modelos por nome…",
+      "yourModels": "Modelos baixados",
+      "availableModels": "Disponíveis para download",
       "deleteConfirm": "Tem certeza de que deseja excluir {{modelName}}? Você precisará baixá-lo novamente para usá-lo.",
       "deleteActiveConfirm": "{{modelName}} é o seu modelo ativo. Excluí-lo interromperá as transcrições até que você selecione um novo modelo. Tem certeza?",
       "deleteTitle": "Excluir Modelo",
@@ -221,41 +225,38 @@
         "streaming": "Filtrar modelos compatíveis com transcrição ao vivo",
         "translation": "Filtrar modelos compatíveis com tradução para inglês"
       },
-      "noModelsMatch": "Nenhum modelo corresponde a este filtro.",
-      "yourModels": "Modelos baixados",
-      "availableModels": "Disponíveis para download",
-      "searchPlaceholder": "Buscar modelos por nome…",
       "rescan": {
         "label": "Reescanear",
         "tooltip": "Reescaneia em busca de modelos adicionados à pasta de modelos ou ao cache do Hugging Face fora do J’écoute"
-      }
+      },
+      "noModelsMatch": "Nenhum modelo corresponde a este filtro."
     },
     "sound": {
       "title": "Som",
       "microphone": {
         "title": "Microfone",
-        "description": "Selecione seu dispositivo de microfone preferido",
+        "description": "O microfone que escuta você.",
         "placeholder": "Selecionar microfone...",
         "loading": "Carregando..."
       },
       "channel": {
         "title": "Canal de entrada",
-        "description": "Selecione o canal de entrada que será gravado. Use esta opção se a sua interface de áudio tiver várias entradas.",
+        "description": "Para uma interface de áudio com várias entradas.",
         "average": "Média de todos os canais",
         "channel": "Canal {{n}}"
       },
       "audioFeedback": {
-        "label": "Feedback de Áudio",
-        "description": "Reproduzir som quando a gravação iniciar e parar"
+        "label": "Sinal sonoro",
+        "description": "Um som curto no início e no fim do ditado."
       },
       "outputDevice": {
-        "title": "Dispositivo de Saída",
-        "description": "Selecione seu dispositivo de saída de áudio preferido para sons de feedback",
+        "title": "Saída do sinal",
+        "description": "Onde o sinal sonoro é reproduzido.",
         "placeholder": "Selecionar dispositivo de saída...",
         "loading": "Carregando..."
       },
       "volume": {
-        "title": "Volume",
+        "title": "Volume do sinal",
         "description": "Ajustar o volume dos sons de feedback de áudio"
       }
     },
@@ -268,52 +269,52 @@
         "experimental": "Experimental"
       },
       "experimentalToggle": {
-        "label": "Recursos Experimentais",
-        "description": "Ativar recursos experimentais que ainda estão em desenvolvimento."
+        "label": "Recursos experimentais",
+        "description": "Recursos ainda em desenvolvimento."
       },
       "lazyStreamClose": {
-        "label": "Manter microfone aberto entre transcrições",
-        "description": "Mantém o fluxo do microfone aberto por 30 segundos após parar a gravação, reduzindo a latência em transcrições consecutivas. Pode degradar a qualidade do áudio Bluetooth enquanto ativo."
+        "label": "Manter o microfone aberto entre ditados",
+        "description": "O microfone fica aberto por 30 segundos após um ditado, para que o próximo comece mais rápido. Pode piorar o áudio Bluetooth."
       },
       "acceleration": {
         "transcribe": {
-          "title": "Aceleração Whisper",
-          "description": "Aceleração por hardware para modelos Whisper. Auto usa GPU se disponível (Metal no macOS, Vulkan no Windows/Linux)."
+          "title": "Aceleração",
+          "description": "Placa de vídeo (Vulkan, Metal) ou processador. Automático usa a placa de vídeo quando disponível."
         },
         "ort": {
           "title": "Aceleração ONNX",
-          "description": "Aceleração por hardware para modelos ONNX (Parakeet, Canary, Moonshine, etc.). DirectML no Windows é experimental. Os modelos podem falhar na transcrição."
+          "description": "Para modelos ONNX mais antigos. O DirectML (Windows) é experimental."
         },
         "gpuDevice": {
           "auto": "Automático"
         }
       },
       "startHidden": {
-        "label": "Iniciar Oculto",
-        "description": "Iniciar na bandeja do sistema sem abrir a janela."
+        "label": "Iniciar oculto",
+        "description": "Iniciar na barra de tarefas sem abrir a janela."
       },
       "autostart": {
-        "label": "Iniciar na Inicialização",
-        "description": "Iniciar automaticamente o J’écoute quando você fizer login no seu computador."
+        "label": "Iniciar com o sistema",
+        "description": "O J’écoute abre quando você faz login."
       },
       "showTrayIcon": {
-        "label": "Mostrar ícone na bandeja",
-        "description": "Exibir o ícone do J’écoute na bandeja do sistema."
+        "label": "Ícone na barra de tarefas",
+        "description": "Na área de notificação, perto do relógio."
       },
       "overlay": {
         "style": {
-          "title": "Sobreposição",
-          "description": "Escolha a sobreposição de gravação: 'Nenhum' a oculta, 'Minimalista' mostra um indicador compacto, 'Ao vivo' mostra a transcrição em tempo real enquanto você fala (apenas modelos com suporte a streaming — procure o selo 'Streaming' no seletor de modelos). No Linux, recomenda-se 'Nenhum'.",
+          "title": "Durante o ditado",
+          "description": "O que aparece na tela. O texto ao vivo requer um modelo compatível. No Linux, recomenda-se “Nenhum”.",
           "options": {
             "none": "Nenhum",
             "minimal": "Minimalista",
-            "live": "Ao vivo",
+            "live": "Texto ao vivo",
             "character": "Personagem"
           }
         },
         "position": {
-          "title": "Posição da Sobreposição",
-          "description": "Exibir sobreposição de feedback visual durante gravação e transcrição. No Linux, 'Nenhum' é recomendado.",
+          "title": "Posição na tela",
+          "description": "Na parte de cima ou de baixo da tela.",
           "options": {
             "bottom": "Inferior",
             "top": "Superior"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "Método de Colar",
-        "description": "Escolha como o texto é inserido. Direto: simula digitação via entrada do sistema. Nenhum: ignora colar, apenas atualiza histórico/área de transferência.",
+        "title": "Escrever o texto",
+        "description": "Como o ditado chega ao seu aplicativo.",
         "options": {
-          "clipboard": "Área de Transferência ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "Área de Transferência (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "Área de Transferência (Shift+Insert)",
-          "direct": "Direto",
-          "none": "Nenhum",
+          "clipboard": "Colar ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "Colar (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "Colar (Shift+Insert)",
+          "direct": "Digitar o texto",
+          "none": "Não escrever",
           "externalScript": "Script externo"
         },
         "externalScriptPlaceholder": "/caminho/para/seu/script.sh"
       },
       "typingTool": {
         "title": "Ferramenta de digitação",
-        "description": "Escolha qual ferramenta de digitação do Linux usar para o método de colagem direta. Auto detectará e usará automaticamente a melhor ferramenta disponível para o seu sistema.",
+        "description": "A ferramenta do Linux que digita o texto. Auto escolhe a melhor disponível.",
         "options": {
           "auto": "Auto (Recomendado)"
         }
       },
       "clipboardHandling": {
-        "title": "Manipulação da Área de Transferência",
-        "description": "Não Modificar Área de Transferência preserva o conteúdo atual da área de transferência após a transcrição. Copiar para Área de Transferência deixa o resultado da transcrição na área de transferência após colar.",
+        "title": "Área de transferência",
+        "description": "Depois de colar.",
         "options": {
-          "dontModify": "Não Modificar Área de Transferência",
-          "copyToClipboard": "Copiar para Área de Transferência"
+          "dontModify": "Restaurar o conteúdo anterior",
+          "copyToClipboard": "Manter o ditado"
         }
       },
       "autoSubmit": {
-        "title": "Envio automático",
-        "description": "Envia automaticamente a combinação de teclas selecionada após a inserção do texto. Cmd+Enter aplica-se no macOS, enquanto Windows/Linux usam Super+Enter.",
+        "title": "Enviar depois do texto",
+        "description": "Pressiona uma tecla por você, para enviar uma mensagem.",
         "options": {
           "off": "Desativado",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "Traduzir para Inglês",
-        "description": "Traduzir automaticamente fala de outros idiomas para inglês durante a transcrição."
+        "description": "O que você diz em outro idioma é escrito em inglês."
       },
       "modelUnload": {
-        "title": "Descarregar Modelo",
-        "description": "Liberar automaticamente memória GPU/CPU quando o modelo não for usado pelo tempo especificado",
+        "title": "Liberar memória",
+        "description": "Descarrega o modelo quando você para de ditar.",
         "options": {
           "never": "Nunca",
           "immediately": "Imediatamente",
@@ -378,32 +379,32 @@
         }
       },
       "customWords": {
-        "title": "Palavras Personalizadas",
-        "description": "Ajude os modelos compatíveis a reconhecer nomes e termos especializados. A correção aproximada está atualmente limitada a palavras que usam letras de A–Z e números.",
+        "title": "Palavras a reconhecer",
+        "description": "Nomes e termos técnicos que devo escrever certo.",
         "placeholder": "Adicionar uma palavra",
         "add": "Adicionar",
         "remove": "Remover {{word}}",
-        "duplicate": "\"{{word}}\" já existe"
+        "duplicate": "“{{word}}” já está na lista"
       },
       "voiceActivityDetection": {
-        "title": "Detecção de atividade de voz",
-        "description": "Filtra o silêncio das gravações. Modelos com suporte a streaming usam uma cauda de VAD mais longa; desativar o VAD grava o áudio bruto."
+        "title": "Detecção de voz",
+        "description": "Ignora os silêncios antes e depois da fala."
       },
       "vadBackend": {
-        "title": "Backend de detecção de voz",
-        "description": "Escolha o detector usado para filtrar o silêncio. O Earshot é experimental; volte para o Silero se a fala for cortada ou o ruído for mantido.",
+        "title": "Detector de voz",
+        "description": "O Earshot é experimental: volte para o Silero se a fala for cortada.",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
         }
       },
       "fillerWordRemoval": {
-        "title": "Remover palavras de preenchimento",
-        "description": "Remove hesitações comuns das transcrições. Desative para mantê-las."
+        "title": "Remover hesitações",
+        "description": "“hã”, “né”, “tipo”…"
       },
       "chineseScript": {
         "title": "Escrita chinesa",
-        "description": "Escreve as transcrições em mandarim e cantonês com caracteres simplificados ou tradicionais. Os outros idiomas não são alterados.",
+        "description": "Caracteres simplificados ou tradicionais para mandarim e cantonês.",
         "options": {
           "asTranscribed": "Como transcrito",
           "simplified": "Simplificado",
@@ -416,22 +417,22 @@
         "title": "Tecla de atalho"
       },
       "api": {
-        "title": "API (Compatível com OpenAI)",
+        "title": "Provedor de IA",
         "provider": {
           "title": "Provedor",
-          "description": "Selecione um provedor compatível com OpenAI."
+          "description": "Um serviço compatível com OpenAI."
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence não está disponível neste dispositivo. Requer um Mac Apple Silicon executando macOS Tahoe (26.0) ou posterior com Apple Intelligence habilitado nas Configurações do Sistema."
         },
         "baseUrl": {
-          "title": "URL Base",
-          "description": "URL base da API para o provedor selecionado. Apenas o provedor personalizado pode ser editado.",
+          "title": "Endereço da API",
+          "description": "Editável apenas para um provedor personalizado.",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "Chave da API",
-          "description": "Chave da API para o provedor selecionado.",
+          "description": "A chave da sua conta neste provedor.",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "Prompt",
+        "title": "Instruções",
         "selectedPrompt": {
-          "title": "Prompt Selecionado",
-          "description": "Selecione um modelo para refinar transcrições ou crie um novo. Use ${output} dentro do texto do prompt para referenciar a transcrição capturada."
+          "title": "Instrução",
+          "description": "O que a IA faz com o texto. ${output} representa o seu ditado."
         },
         "noPrompts": "Nenhum prompt disponível",
         "selectPrompt": "Selecionar um prompt",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "Histórico",
-      "openFolder": "Abrir Pasta de Gravações",
+      "openFolder": "Pasta de gravações",
       "loading": "Carregando histórico...",
       "empty": "Nenhuma transcrição ainda. Comece a gravar para construir seu histórico!",
-      "copyToClipboard": "Copiar transcrição para área de transferência",
+      "copyToClipboard": "Copiar",
       "copyError": "Não foi possível copiar a transcrição para a área de transferência.",
-      "save": "Salvar transcrição",
-      "unsave": "Remover dos salvos",
-      "delete": "Excluir entrada",
+      "save": "Adicionar aos favoritos",
+      "unsave": "Remover dos favoritos",
+      "delete": "Excluir",
       "deleteError": "Falha ao excluir entrada. Por favor, tente novamente.",
       "retranscribe": "Re-transcrever",
       "retranscribeError": "Falha ao re-transcrever. Por favor, tente novamente.",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "Depuração",
       "logDirectory": {
-        "title": "Diretório de Logs",
-        "description": "Local onde os arquivos de log são armazenados"
+        "title": "Logs",
+        "description": "A pasta dos arquivos de log."
       },
       "logLevel": {
         "title": "Nível de Log",
@@ -503,26 +504,40 @@
         "empty": "Aguardando logs… As entradas aparecem aqui à medida que o app as emite."
       },
       "updateChecks": {
-        "label": "Verificar Atualizações",
-        "description": "Verificar automaticamente novas versões do J’écoute",
+        "label": "Verificar atualizações",
+        "description": "Procurar automaticamente novas versões do J’écoute.",
         "lockedDescription": "Desativado pela configuração do sistema (HANDY_DISABLE_UPDATER)"
       },
+      "whatsNewPreview": {
+        "title": "Pré-visualizar novidades",
+        "description": "Abrir a nota de versão incorporada mais recente sem marcá-la como vista",
+        "button": "Pré-visualizar",
+        "noNotes": "Nenhuma nota de versão incorporada encontrada",
+        "error": "Falha ao pré-visualizar as notas de versão"
+      },
+      "onboardingPreview": {
+        "title": "Pré-visualizar configuração inicial",
+        "description": "Pré-visualize os ecrãs de configuração sem alterar permissões, modelos ou o estado de conclusão",
+        "permissionsButton": "Permissões",
+        "modelsButton": "Seleção de modelo",
+        "exitButton": "Sair da pré-visualização"
+      },
       "soundTheme": {
-        "label": "Tema de Som",
-        "description": "Escolha um tema de som para feedback de início e parada de gravação"
+        "label": "Som do sinal",
+        "description": "O som no início e no fim de um ditado."
       },
       "wordCorrectionThreshold": {
         "title": "Limite de Correção de Palavras",
         "description": "Sensibilidade para correções de palavras personalizadas"
       },
       "historyLimit": {
-        "title": "Limite de Histórico",
-        "description": "Número máximo de entradas de histórico a manter",
-        "entries": "entradas"
+        "title": "Histórico",
+        "description": "Os ditados mais antigos são apagados (os favoritos são mantidos).",
+        "entries": "ditados"
       },
       "recordingRetention": {
-        "title": "Excluir Gravações Automaticamente",
-        "description": "Excluir automaticamente gravações antigas para economizar espaço",
+        "title": "Gravações de áudio",
+        "description": "Excluir gravações antigas para economizar espaço.",
         "never": "Nunca",
         "preserveLimit": "Manter as últimas {{count}}",
         "days3": "Após 3 dias",
@@ -531,24 +546,24 @@
         "placeholder": "Selecionar período de retenção..."
       },
       "alwaysOnMicrophone": {
-        "label": "Microfone Sempre Ativo",
-        "description": "Manter microfone ativo para resposta mais rápida"
+        "label": "Microfone sempre ativo",
+        "description": "O ditado começa mais rápido."
       },
       "clamshellMicrophone": {
         "title": "Microfone em Modo Fechado",
         "description": "Microfone a usar quando a tampa do laptop está fechada"
       },
       "postProcessingToggle": {
-        "label": "Pós-Processamento",
-        "description": "Habilitar refinamento de texto com IA após a transcrição"
+        "label": "Correção por IA",
+        "description": "Uma IA on-line revisa o ditado antes de colá-lo. Requer uma chave de API (OpenRouter, Anthropic, OpenAI…)."
       },
       "muteWhileRecording": {
-        "label": "Silenciar Durante Gravação",
-        "description": "Silenciar áudio do sistema durante a gravação"
+        "label": "Silenciar o computador",
+        "description": "Músicas e vídeos ficam mudos durante o ditado."
       },
       "appendTrailingSpace": {
-        "label": "Adicionar Espaço Final",
-        "description": "Adicionar um espaço após a transcrição colada"
+        "label": "Espaço após o texto",
+        "description": "Adiciona um espaço após cada ditado."
       },
       "keyboardImplementation": {
         "title": "Implementação do Teclado",
@@ -599,20 +614,6 @@
         "verdictOk": "Os eventos de tecla estão chegando normalmente ao J’écoute.",
         "verdictNoEvents": "Nenhum evento capturado — você pressionou alguma tecla durante o teste?",
         "failed": "Falha no diagnóstico: {{error}}"
-      },
-      "whatsNewPreview": {
-        "title": "Pré-visualizar novidades",
-        "description": "Abrir a nota de versão incorporada mais recente sem marcá-la como vista",
-        "button": "Pré-visualizar",
-        "noNotes": "Nenhuma nota de versão incorporada encontrada",
-        "error": "Falha ao pré-visualizar as notas de versão"
-      },
-      "onboardingPreview": {
-        "title": "Pré-visualizar configuração inicial",
-        "description": "Pré-visualize os ecrãs de configuração sem alterar permissões, modelos ou o estado de conclusão",
-        "permissionsButton": "Permissões",
-        "modelsButton": "Seleção de modelo",
-        "exitButton": "Sair da pré-visualização"
       }
     },
     "about": {
@@ -621,9 +622,13 @@
         "title": "Versão",
         "description": "Versão atual do J’écoute"
       },
+      "whatsNewUpdates": {
+        "label": "Mostrar novidades",
+        "description": "Após cada atualização do J’écoute."
+      },
       "appDataDirectory": {
-        "title": "Diretório de Dados do App",
-        "description": "Local onde o J’écoute armazena seus dados"
+        "title": "Dados do aplicativo",
+        "description": "Modelos, configurações, gravações."
       },
       "sourceCode": {
         "title": "Código Fonte",
@@ -635,12 +640,8 @@
         "ggml": {
           "title": "ggml",
           "description": "Inferência de alto desempenho do modelo de reconhecimento automático de fala Whisper da OpenAI",
-          "details": "O J’écoute usa ggml para processamento rápido e local de fala para texto. Agradecemos ao incrível trabalho de Georgi Gerganov e colaboradores."
+          "details": "O J’écoute transcreve localmente graças ao ggml. Obrigado a Georgi Gerganov e aos colaboradores pelo trabalho notável."
         }
-      },
-      "whatsNewUpdates": {
-        "label": "Mostrar novidades",
-        "description": "Mostrar notas de versão após atualizações do J’écoute"
       },
       "basedOn": "Baseado no Handy de CJ Pais"
     }
@@ -660,6 +661,9 @@
     "portableUpdateBrowseMessage": "Instalações portáteis não podem ser atualizadas automaticamente. Baixe a versão mais recente para o seu sistema no GitHub Releases e instale-a na mesma pasta — a sua pasta Data/ (configurações, modelos, gravações) é mantida.",
     "portableUpdateBrowseButton": "Abrir GitHub Releases"
   },
+  "whatsNew": {
+    "title": "Novidades no J’écoute v{{version}}"
+  },
   "common": {
     "loading": "Carregando...",
     "delete": "Excluir",
@@ -667,7 +671,9 @@
     "open": "Abrir",
     "copy": "Copiar",
     "clear": "Limpar",
-    "noOptionsFound": "Nenhuma opção encontrada"
+    "noOptionsFound": "Nenhuma opção encontrada",
+    "select": "Escolher…",
+    "reset": "Restaurar o padrão"
   },
   "accessibility": {
     "permissionsDescription": "O J’écoute precisa de permissões de acessibilidade para digitar o texto transcrito.",
@@ -692,11 +698,11 @@
     "transcriptionFailedTitle": "Falha na transcrição"
   },
   "appLanguage": {
-    "title": "Idioma da Aplicação",
-    "description": "Alterar o idioma da interface do J’écoute"
+    "title": "Idioma da interface",
+    "description": ""
   },
   "theme": {
-    "title": "Tema do aplicativo",
+    "title": "Aparência",
     "description": "Escolha se o J’écoute segue o tema do sistema ou permanece claro ou escuro",
     "options": {
       "system": "Sistema",
@@ -708,9 +714,6 @@
     "transcribing": "Transcrevendo...",
     "processing": "Processando..."
   },
-  "whatsNew": {
-    "title": "Novidades no J’écoute v{{version}}"
-  },
   "secureInput": {
     "blockedWithCulprit_one": "{{name}} pode estar bloqueando 1 atalho",
     "blockedWithCulprit_other": "{{name}} pode estar bloqueando {{count}} atalhos",
@@ -721,5 +724,284 @@
     "learnMore": "Como resolver isso",
     "recorderBlocked": "Não é possível gravar atalhos agora — o Secure Input do macOS está bloqueando os eventos de tecla. Resolva primeiro o aviso do Secure Input.",
     "dismiss": "Dispensar"
+  },
+  "app": {
+    "home": {
+      "history": "Histórico",
+      "update": "Atualização",
+      "recent": "Últimos ditados",
+      "allHistory": "Todo o histórico",
+      "empty": "Seus ditados vão aparecer aqui.",
+      "copyTitle": "Copiar",
+      "copied": "Copiado",
+      "copiedToast": "Copiado para a área de transferência",
+      "modelPill": "Modelo de transcrição: {{model}}",
+      "languagePill": "Idioma falado: {{language}}",
+      "allModels": "Todos os modelos",
+      "downloadPill": "{{model}}, {{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "Pronto",
+        "desc": "Segure <keys/> e fale: eu escrevo onde estiver o seu cursor.",
+        "descToggle": "Pressione <keys/> e fale: eu escrevo onde estiver o seu cursor."
+      },
+      "loading": {
+        "title": "Carregando {{model}}…",
+        "titleGeneric": "Carregando o modelo…",
+        "desc": "Leva alguns segundos ao iniciar; depois eu fico pronto."
+      },
+      "downloading": {
+        "title": "Baixando {{model}}…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%, {{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "Não estou ouvindo nada",
+        "desc": "Nenhum microfone encontrado. Conecte um ou escolha outro.",
+        "action": "Escolher um microfone"
+      },
+      "micDenied": {
+        "title": "Não consigo usar o microfone",
+        "action": "Abrir as configurações do microfone"
+      },
+      "noModel": {
+        "title": "Escolha um modelo",
+        "desc": "Preciso de um modelo de transcrição para escrever o que você diz.",
+        "action": "Escolher um modelo"
+      },
+      "error": {
+        "title": "O modelo não carregou",
+        "desc": "Tente outro modelo ou reinicie o J’écoute.",
+        "action": "Trocar de modelo"
+      },
+      "listening": {
+        "title": "Ouvindo…",
+        "desc": "Solte <keys/> quando terminar.",
+        "descToggle": "Pressione <keys/> de novo quando terminar."
+      },
+      "writing": {
+        "title": "Escrevendo…",
+        "desc": "{{model}} está transcrevendo sua frase.",
+        "descGeneric": "Transcrevendo sua frase."
+      },
+      "processing": {
+        "title": "Refinando…",
+        "desc": "A IA está revisando seu ditado."
+      },
+      "done": {
+        "title": "Colado",
+        "titleNoPaste": "Anotado",
+        "desc": "Está nos seus últimos ditados."
+      },
+      "short": {
+        "ready": "Pronto",
+        "loading": "Carregando…",
+        "downloading": "Baixando…",
+        "nomic": "Sem microfone",
+        "micDenied": "Microfone bloqueado",
+        "nomodel": "Sem modelo",
+        "error": "Erro",
+        "listening": "Ouvindo…",
+        "writing": "Escrevendo…",
+        "processing": "Refinando…",
+        "done": "Colado"
+      }
+    },
+    "history": {
+      "title": "Histórico",
+      "back": "Voltar ao início",
+      "search": "Buscar",
+      "searchLabel": "Buscar no histórico",
+      "filters": {
+        "label": "Mostrar",
+        "all": "Todos",
+        "favorites": "Favoritos",
+        "corrected": "Corrigidos por IA"
+      },
+      "iaBadge": "IA",
+      "correctedBadge": "Corrigido pela IA",
+      "correctedWith": "Corrigido pela IA ({{prompt}})",
+      "versionLabel": "Texto exibido",
+      "corrected": "Corrigido",
+      "raw": "Original",
+      "legendAddedSample": "destacado",
+      "legendAdded": "adicionado pela IA",
+      "legendRemovedSample": "riscado",
+      "legendRemoved": "removido pela IA",
+      "favorite": "Favorito",
+      "more": "Mais",
+      "play": "Reproduzir",
+      "pause": "Pausar",
+      "seek": "Posição na gravação",
+      "count_one": "{{count}} ditado",
+      "count_other": "{{count}} ditados",
+      "countKept_one": "{{count}} ditado mantido de {{limit}}",
+      "countKept_other": "{{count}} ditados mantidos de {{limit}}",
+      "countMore": "Mais de {{count}} ditados",
+      "empty": "Nenhum ditado ainda. Segure seu atalho e fale!",
+      "noResults": "Nenhum ditado encontrado."
+    },
+    "settings": {
+      "title": "Configurações",
+      "close": "Fechar as configurações",
+      "hint": "Cada mudança é aplicada na hora.",
+      "tabs": {
+        "dictation": "Ditado",
+        "sound": "Som",
+        "text": "Texto",
+        "app": "App",
+        "about": "Sobre"
+      },
+      "advanced": "Opções avançadas",
+      "editShortcut": "Alterar",
+      "editShortcutNamed": "Alterar: {{name}}",
+      "resetShortcut": "Restaurar o atalho padrão",
+      "systemDefault": "Padrão do sistema",
+      "playSound": "Ouvir o sinal",
+      "customSound": "Personalizado",
+      "micLevelHint": "O nível aparece aqui durante um ditado.",
+      "micLevelLive": "Estou ouvindo você.",
+      "model": {
+        "title": "Modelo de transcrição",
+        "change": "Trocar",
+        "choose": "Escolher",
+        "none": "Nenhum modelo",
+        "loading": "Carregando…",
+        "error": "Falha ao carregar"
+      },
+      "debugMode": {
+        "label": "Modo de depuração",
+        "description": "Mostra as ferramentas de depuração. Também com Ctrl+Shift+D."
+      }
+    },
+    "models": {
+      "title": "Modelo de transcrição",
+      "back": "Voltar às configurações",
+      "search": "Buscar",
+      "download": "Baixar",
+      "use": "Usar",
+      "live": "Texto ao vivo",
+      "accuracy": "Precisão",
+      "speed": "Velocidade",
+      "sorted": "Ordenados para o seu idioma.",
+      "sortedFor": "Ordenados para o seu idioma ({{language}}).",
+      "count_one": "{{count}} modelo",
+      "count_other": "{{count}} modelos",
+      "countFiltered": "{{count}} de {{total}}",
+      "translation": "Traduz para o inglês"
+    },
+    "onboarding": {
+      "welcome": "Boas-vindas ao J’écoute",
+      "lead": "Escolha o modelo que transcreve a sua voz. Ele roda no seu computador: nada vai para a internet.",
+      "choose": "Escolha um modelo",
+      "recommendedFor": "Recomendado ({{language}})",
+      "light": "Muito leve",
+      "onDisk": "Já baixado",
+      "download": "Baixar {{model}} ({{size}})",
+      "use": "Usar {{model}}",
+      "showAll": "Ver os {{count}} modelos",
+      "allModels": "Todos os modelos",
+      "downloading": "Baixando {{model}}",
+      "downloadingSpeed": "Baixando {{model}}, {{speed}} MB/s",
+      "preparing": "Preparando {{model}}…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "Versão {{version}}",
+      "versionUpToDate": "Versão {{version}}, atualizada",
+      "versionUpdate": "Versão {{version}}, atualização disponível",
+      "license": "Licença MIT. Transcrição local graças ao ggml.",
+      "handy": "Handy",
+      "character": "O personagem: Copyright (c) 2026 Théo Ponthieu, licença PolyForm Noncommercial 1.0.0.",
+      "updates": {
+        "title": "Atualizações",
+        "auto": "Verificadas automaticamente.",
+        "upToDate": "Você tem a versão mais recente.",
+        "failed": "Não foi possível verificar. Tente mais tarde.",
+        "availableVersion": "A versão {{version}} está disponível.",
+        "downloading": "Baixando… {{progress}}%",
+        "check": "Verificar",
+        "install": "Instalar"
+      }
+    },
+    "dates": {
+      "today": "Hoje",
+      "yesterday": "Ontem",
+      "todayAt": "Hoje, {{time}}",
+      "yesterdayAt": "Ontem, {{time}}",
+      "dayAt": "{{day}}, {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "Espaço",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "{{key}} esquerdo",
+      "rightSide": "{{key}} direito"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "Inglês ao vivo, rápido e preciso.",
+      "live_multilingual_transcription_across_28_languages": "Transcrição multilíngue ao vivo, 28 idiomas.",
+      "tiny_and_instant_runs_well_on_any_hardware": "Minúsculo e instantâneo, roda bem em qualquer máquina.",
+      "highest_accuracy_14_languages_slower": "A maior precisão, 14 idiomas, mais lento.",
+      "broadest_language_but_may_run_a_bit_slow": "Cobre mais idiomas, mas pode ser um pouco lento.",
+      "live_multilingual_excellent_on_powerful_machines": "Multilíngue ao vivo, excelente em máquinas potentes.",
+      "fast_and_accurate_supports_25_european_languages": "Rápido e preciso. Suporta 25 idiomas europeus.",
+      "english_only_the_best_model_for_english_speakers": "Apenas inglês. O melhor modelo para falantes de inglês.",
+      "excellent_multilingual_model": "Excelente modelo multilíngue.",
+      "a_tiny_multilingual_model": "Um modelo multilíngue minúsculo.",
+      "4_language_speech_to_text_with_translation": "4 idiomas, com tradução.",
+      "25_language_speech_to_text_with_translation": "25 idiomas, com tradução.",
+      "english_speech_to_text": "Inglês.",
+      "2_language_speech_to_text": "2 idiomas.",
+      "3_language_speech_to_text": "3 idiomas.",
+      "russian_speech_to_text_with_token_level_timestamps": "Russo, com marcas de tempo palavra a palavra.",
+      "5_language_speech_to_text": "5 idiomas.",
+      "6_language_speech_to_text_with_translation": "6 idiomas, com tradução.",
+      "5_language_speech_to_text_with_word_level_timestamps": "5 idiomas, com marcas de tempo por palavra.",
+      "english_speech_to_text_with_token_level_timestamps": "Inglês, com marcas de tempo palavra a palavra.",
+      "english_speech_to_text_with_streaming": "Inglês, texto ao vivo.",
+      "arabic_speech_to_text": "Árabe.",
+      "japanese_speech_to_text": "Japonês.",
+      "korean_speech_to_text": "Coreano.",
+      "ukrainian_speech_to_text": "Ucraniano.",
+      "vietnamese_speech_to_text": "Vietnamita.",
+      "chinese_speech_to_text": "Chinês.",
+      "2_language_speech_to_text_with_segment_level_timestamps": "2 idiomas, com marcas de tempo por trecho.",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "Inglês, texto ao vivo, marcas de tempo palavra a palavra.",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "25 idiomas, detecção automática do idioma, marcas de tempo palavra a palavra.",
+      "30_language_speech_to_text_with_auto_language_detection": "30 idiomas, detecção automática do idioma.",
+      "5_language_speech_to_text_with_auto_language_detection": "5 idiomas, detecção automática do idioma.",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "8 idiomas, tradução, detecção automática do idioma.",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "99 idiomas, tradução, detecção automática do idioma, marcas de tempo por trecho.",
+      "english_speech_to_text_with_segment_level_timestamps": "Inglês, com marcas de tempo por trecho.",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 idiomas, detecção automática do idioma, marcas de tempo por trecho.",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "Otimizado para o mandarim de Taiwan. Suporta alternância entre idiomas.",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 idiomas, tradução, detecção automática do idioma, marcas de tempo por trecho."
+    }
   }
 }

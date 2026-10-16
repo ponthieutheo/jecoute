@@ -117,11 +117,13 @@
       "errors": {
         "checkFailed": "Không thể kiểm tra quyền. Vui lòng thử lại.",
         "requestFailed": "Không thể yêu cầu quyền. Vui lòng thử lại."
-      }
+      },
+      "checking": "Đang kiểm tra quyền…"
     }
   },
   "modelSelector": {
     "custom": "Tùy chỉnh",
+    "legacy": "Cũ",
     "streaming": "Truyền trực tiếp",
     "active": "Đang hoạt động",
     "switching": "Đang chuyển...",
@@ -141,42 +143,21 @@
     "noModelDownloadRequired": "Chưa Có Mô Hình - Cần Tải Xuống",
     "deleteModel": "Xóa {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
-    "capabilities": {
-      "languageSelection": "Hỗ trợ nhiều ngôn ngữ đầu vào",
-      "languageCount": "{{total}} ngôn ngữ",
-      "translation": "Có thể dịch sang tiếng Anh",
-      "translate": "Dịch sang tiếng Anh",
-      "singleLanguage": "Chỉ hỗ trợ ngôn ngữ này",
-      "languageOnly": "Chỉ {{language}}",
-      "streaming": "Hiển thị phiên âm trực tiếp khi bạn nói"
-    },
     "cancel": "Hủy",
     "cancelDownload": "Hủy tải xuống",
-    "legacy": "Cũ"
+    "capabilities": {
+      "languageSelection": "Hỗ trợ nhiều ngôn ngữ đầu vào",
+      "singleLanguage": "Chỉ hỗ trợ ngôn ngữ này",
+      "languageCount": "{{total}} ngôn ngữ",
+      "languageOnly": "Chỉ {{language}}",
+      "translation": "Có thể dịch sang tiếng Anh",
+      "translate": "Dịch sang tiếng Anh",
+      "streaming": "Hiển thị phiên âm trực tiếp khi bạn nói"
+    }
   },
   "settings": {
     "modelSettings": {
       "title": "Cài đặt {{model}}"
-    },
-    "models": {
-      "title": "Mô hình chuyển đổi",
-      "description": "Chọn mô hình chuyển đổi hoặc tải thêm mô hình. Các mô hình khác nhau có mức độ chính xác và tốc độ khác nhau.",
-      "deleteConfirm": "Bạn có chắc chắn muốn xóa {{modelName}}? Bạn sẽ cần tải lại để sử dụng.",
-      "deleteActiveConfirm": "{{modelName}} là mô hình đang hoạt động của bạn. Xóa nó sẽ dừng phiên âm cho đến khi bạn chọn một mô hình mới. Bạn có chắc không?",
-      "deleteTitle": "Xóa mô hình",
-      "filters": {
-        "allLanguages": "Tất cả ngôn ngữ",
-        "streaming": "Lọc các mô hình hỗ trợ phiên âm trực tiếp",
-        "translation": "Lọc các mô hình hỗ trợ dịch sang tiếng Anh"
-      },
-      "noModelsMatch": "Không có mô hình nào khớp với bộ lọc này.",
-      "yourModels": "Mô hình đã tải",
-      "availableModels": "Có sẵn để tải xuống",
-      "searchPlaceholder": "Tìm mô hình theo tên…",
-      "rescan": {
-        "label": "Quét lại",
-        "tooltip": "Quét lại các mô hình được thêm vào thư mục mô hình hoặc bộ nhớ đệm Hugging Face bên ngoài J’écoute"
-      }
     },
     "general": {
       "title": "Chung",
@@ -189,16 +170,16 @@
         "pressKeys": "Nhấn phím...",
         "bindings": {
           "transcribe": {
-            "name": "Phím tắt chuyển đổi",
-            "description": "Phím tắt để ghi âm và chuyển đổi giọng nói của bạn."
+            "name": "Phím tắt đọc chính tả",
+            "description": "Giữ để nói, thả ra để viết."
           },
           "cancel": {
-            "name": "Phím tắt hủy",
-            "description": "Phím tắt để hủy bản ghi hiện tại."
+            "name": "Hủy đọc chính tả",
+            "description": "Dừng lại mà không viết gì."
           },
           "transcribe_with_post_process": {
-            "name": "Phím tắt xử lý sau",
-            "description": "Tùy chọn: Phím tắt chuyên dụng luôn áp dụng xử lý sau bằng AI cho bản chuyển đổi của bạn."
+            "name": "Phím tắt có AI chỉnh sửa",
+            "description": "Đọc chính tả và luôn để AI rà soát văn bản."
           }
         },
         "errors": {
@@ -208,8 +189,8 @@
         }
       },
       "language": {
-        "title": "Ngôn ngữ",
-        "description": "Chọn ngôn ngữ để nhận dạng giọng nói. Tự động sẽ tự động xác định ngôn ngữ, trong khi chọn một ngôn ngữ cụ thể có thể cải thiện độ chính xác cho ngôn ngữ đó.",
+        "title": "Ngôn ngữ nói",
+        "description": "Mô hình hiện tại hiểu {{count}} ngôn ngữ.",
         "searchPlaceholder": "Tìm kiếm ngôn ngữ...",
         "noResults": "Không tìm thấy ngôn ngữ",
         "auto": "Tự động",
@@ -221,41 +202,61 @@
         "options": {
           "holdOrToggle": "Tự động",
           "pushToTalk": "Giữ",
-          "toggle": "Bật/tắt"
+          "toggle": "Nhấn để bắt đầu"
         },
         "descriptions": {
-          "hold_or_toggle": "Giữ để ghi âm hoặc nhấn nhanh để bật/tắt",
-          "push_to_talk": "Ghi âm trong lúc bạn giữ phím tắt",
-          "toggle": "Nhấn phím tắt để bắt đầu ghi âm, nhấn lại để dừng"
+          "hold_or_toggle": "Giữ để đọc, hoặc nhấn một lần để bắt đầu và một lần nữa để dừng.",
+          "push_to_talk": "Mình nghe chừng nào bạn còn giữ phím.",
+          "toggle": "Nhấn một lần để bắt đầu, nhấn lần nữa để dừng."
         }
       }
+    },
+    "models": {
+      "title": "Mô hình chuyển đổi",
+      "description": "Chọn mô hình chuyển đổi hoặc tải thêm mô hình. Các mô hình khác nhau có mức độ chính xác và tốc độ khác nhau.",
+      "searchPlaceholder": "Tìm mô hình theo tên…",
+      "yourModels": "Mô hình đã tải",
+      "availableModels": "Có sẵn để tải xuống",
+      "deleteConfirm": "Bạn có chắc chắn muốn xóa {{modelName}}? Bạn sẽ cần tải lại để sử dụng.",
+      "deleteActiveConfirm": "{{modelName}} là mô hình đang hoạt động của bạn. Xóa nó sẽ dừng phiên âm cho đến khi bạn chọn một mô hình mới. Bạn có chắc không?",
+      "deleteTitle": "Xóa mô hình",
+      "filters": {
+        "allLanguages": "Tất cả ngôn ngữ",
+        "streaming": "Lọc các mô hình hỗ trợ phiên âm trực tiếp",
+        "translation": "Lọc các mô hình hỗ trợ dịch sang tiếng Anh"
+      },
+      "rescan": {
+        "label": "Quét lại",
+        "tooltip": "Quét lại các mô hình được thêm vào thư mục mô hình hoặc bộ nhớ đệm Hugging Face bên ngoài J’écoute"
+      },
+      "noModelsMatch": "Không có mô hình nào khớp với bộ lọc này."
     },
     "sound": {
       "title": "Âm thanh",
       "microphone": {
         "title": "Micrô",
-        "description": "Chọn thiết bị micrô ưa thích của bạn",
+        "description": "Micrô lắng nghe bạn.",
         "placeholder": "Chọn micrô...",
         "loading": "Đang tải..."
       },
       "channel": {
         "title": "Kênh đầu vào",
-        "description": "Chọn kênh đầu vào để ghi âm. Sử dụng tùy chọn này nếu giao diện âm thanh của bạn có nhiều đầu vào.",
+        "description": "Dành cho giao diện âm thanh có nhiều đầu vào.",
         "average": "Trung bình tất cả các kênh",
         "channel": "Kênh {{n}}"
       },
       "audioFeedback": {
-        "label": "Phản hồi âm thanh",
-        "description": "Phát âm thanh khi bắt đầu và kết thúc ghi âm"
+        "label": "Tín hiệu âm thanh",
+        "description": "Một âm ngắn khi bắt đầu và kết thúc đọc chính tả."
       },
       "outputDevice": {
-        "title": "Thiết bị đầu ra",
-        "description": "Chọn thiết bị đầu ra âm thanh ưa thích của bạn cho âm thanh phản hồi",
+        "title": "Đầu ra tín hiệu",
+        "description": "Nơi phát tín hiệu âm thanh.",
         "placeholder": "Chọn thiết bị đầu ra...",
         "loading": "Đang tải..."
       },
       "volume": {
-        "title": "Âm lượng",
+        "title": "Âm lượng tín hiệu",
         "description": "Điều chỉnh âm lượng của âm thanh phản hồi"
       }
     },
@@ -269,20 +270,20 @@
       },
       "experimentalToggle": {
         "label": "Tính năng thử nghiệm",
-        "description": "Bật các tính năng thử nghiệm đang trong quá trình phát triển."
+        "description": "Các tính năng vẫn đang phát triển."
       },
       "lazyStreamClose": {
-        "label": "Giữ micro mở giữa các lần phiên âm",
-        "description": "Giữ luồng micro mở trong 30 giây sau khi dừng ghi âm, giảm độ trễ khi phiên âm liên tiếp. Có thể làm giảm chất lượng âm thanh Bluetooth khi đang hoạt động."
+        "label": "Giữ micrô mở giữa các lần đọc",
+        "description": "Micrô mở thêm 30 giây sau mỗi lần đọc để lần sau bắt đầu nhanh hơn. Có thể làm giảm chất lượng âm thanh Bluetooth."
       },
       "acceleration": {
         "transcribe": {
-          "title": "Tăng tốc Whisper",
-          "description": "Tăng tốc phần cứng cho các mô hình Whisper. Chế độ tự động sử dụng GPU nếu có (Metal trên macOS, Vulkan trên Windows/Linux)."
+          "title": "Tăng tốc",
+          "description": "Card đồ họa (Vulkan, Metal) hoặc bộ xử lý. Chế độ Tự động sẽ dùng card đồ họa nếu có."
         },
         "ort": {
           "title": "Tăng tốc ONNX",
-          "description": "Tăng tốc phần cứng cho các mô hình ONNX (Parakeet, Canary, Moonshine, v.v.). DirectML trên Windows là thử nghiệm. Các mô hình có thể không chuyển đổi giọng nói được."
+          "description": "Cho các mô hình ONNX cũ. DirectML (Windows) đang thử nghiệm."
         },
         "gpuDevice": {
           "auto": "Tự động"
@@ -290,30 +291,30 @@
       },
       "startHidden": {
         "label": "Khởi động ẩn",
-        "description": "Khởi động vào khay hệ thống mà không mở cửa sổ."
+        "description": "Khởi động trên thanh tác vụ mà không mở cửa sổ."
       },
       "autostart": {
-        "label": "Khởi động cùng hệ thống",
-        "description": "Tự động khởi động J’écoute khi bạn đăng nhập vào máy tính."
+        "label": "Mở khi khởi động máy",
+        "description": "J’écoute tự mở khi bạn đăng nhập."
       },
       "showTrayIcon": {
-        "label": "Hiển thị biểu tượng khay",
-        "description": "Hiển thị biểu tượng J’écoute trong khay hệ thống."
+        "label": "Biểu tượng trên thanh tác vụ",
+        "description": "Trong vùng thông báo, cạnh đồng hồ."
       },
       "overlay": {
         "style": {
-          "title": "Lớp phủ",
-          "description": "Chọn lớp phủ khi ghi âm: 'Không có' sẽ ẩn nó, 'Tối giản' hiển thị một chỉ báo nhỏ gọn, 'Trực tiếp' hiển thị bản chép lời theo thời gian thực khi bạn nói (chỉ với các mô hình hỗ trợ truyền trực tiếp — hãy tìm huy hiệu 'Truyền trực tiếp' trong bộ chọn mô hình). Trên Linux, khuyến nghị chọn 'Không có'.",
+          "title": "Khi đọc chính tả",
+          "description": "Những gì hiện trên màn hình. Chữ trực tiếp cần mô hình tương thích. Trên Linux, nên chọn “Không có”.",
           "options": {
             "none": "Không có",
             "minimal": "Tối giản",
-            "live": "Trực tiếp",
+            "live": "Chữ trực tiếp",
             "character": "Nhân vật"
           }
         },
         "position": {
-          "title": "Vị trí lớp phủ",
-          "description": "Hiển thị lớp phủ phản hồi trực quan trong quá trình ghi âm và chuyển đổi. Trên Linux, 'Không có' được khuyến nghị.",
+          "title": "Vị trí trên màn hình",
+          "description": "Ở phía trên hoặc phía dưới màn hình.",
           "options": {
             "bottom": "Dưới",
             "top": "Trên"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "Phương thức dán",
-        "description": "Chọn cách chèn văn bản. Trực tiếp: mô phỏng gõ phím qua đầu vào hệ thống. Không có: bỏ qua dán, chỉ cập nhật lịch sử/clipboard.",
+        "title": "Cách viết văn bản",
+        "description": "Cách văn bản bạn đọc được đưa vào ứng dụng.",
         "options": {
-          "clipboard": "Bảng nhớ tạm ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "Bảng nhớ tạm (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "Bảng nhớ tạm (Shift+Insert)",
-          "direct": "Trực tiếp",
-          "none": "Không có",
+          "clipboard": "Dán ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "Dán (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "Dán (Shift+Insert)",
+          "direct": "Gõ văn bản",
+          "none": "Không viết",
           "externalScript": "Script bên ngoài"
         },
         "externalScriptPlaceholder": "/duong-dan/toi/script.sh"
       },
       "typingTool": {
         "title": "Công cụ gõ",
-        "description": "Chọn công cụ gõ trên Linux cho phương thức dán trực tiếp. Auto sẽ tự động phát hiện và dùng công cụ tốt nhất có sẵn cho hệ thống của bạn.",
+        "description": "Công cụ Linux gõ văn bản. Auto chọn công cụ tốt nhất hiện có.",
         "options": {
           "auto": "Auto (Khuyến nghị)"
         }
       },
       "clipboardHandling": {
-        "title": "Xử lý Clipboard",
-        "description": "Không sửa đổi Clipboard giữ nguyên nội dung clipboard hiện tại sau khi chuyển đổi. Sao chép vào Clipboard để lại kết quả chuyển đổi trong clipboard sau khi dán.",
+        "title": "Bảng nhớ tạm",
+        "description": "Sau khi dán.",
         "options": {
-          "dontModify": "Không sửa đổi Clipboard",
-          "copyToClipboard": "Sao chép vào Clipboard"
+          "dontModify": "Khôi phục nội dung cũ",
+          "copyToClipboard": "Giữ văn bản vừa đọc"
         }
       },
       "autoSubmit": {
-        "title": "Gửi tự động",
-        "description": "Tự động gửi tổ hợp phím đã chọn sau khi chèn văn bản. Cmd+Enter áp dụng trên macOS, còn Windows/Linux dùng Super+Enter.",
+        "title": "Gửi sau khi viết",
+        "description": "Nhấn một phím thay bạn, để gửi tin nhắn.",
         "options": {
           "off": "Tắt",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "Dịch sang tiếng Anh",
-        "description": "Tự động dịch giọng nói từ các ngôn ngữ khác sang tiếng Anh trong quá trình chuyển đổi."
+        "description": "Những gì bạn nói bằng ngôn ngữ khác sẽ được viết bằng tiếng Anh."
       },
       "modelUnload": {
-        "title": "Giải phóng mô hình",
-        "description": "Tự động giải phóng bộ nhớ GPU/CPU khi mô hình không được sử dụng trong thời gian quy định",
+        "title": "Giải phóng bộ nhớ",
+        "description": "Dỡ mô hình khỏi bộ nhớ khi bạn ngừng đọc chính tả.",
         "options": {
           "never": "Không bao giờ",
           "immediately": "Ngay lập tức",
@@ -378,32 +379,32 @@
         }
       },
       "customWords": {
-        "title": "Từ tùy chỉnh",
-        "description": "Giúp các mô hình được hỗ trợ nhận dạng tên và thuật ngữ chuyên ngành. Tính năng sửa gần đúng hiện chỉ áp dụng cho các từ sử dụng chữ cái A–Z và chữ số.",
+        "title": "Từ cần nhận dạng",
+        "description": "Tên riêng và thuật ngữ mà mình cần viết cho đúng.",
         "placeholder": "Thêm một từ",
         "add": "Thêm",
         "remove": "Xóa {{word}}",
-        "duplicate": "\"{{word}}\" đã tồn tại"
+        "duplicate": "“{{word}}” đã có trong danh sách"
       },
       "voiceActivityDetection": {
-        "title": "Phát hiện hoạt động giọng nói",
-        "description": "Lọc bỏ khoảng lặng khỏi bản ghi. Các mô hình hỗ trợ truyền trực tiếp dùng đuôi VAD dài hơn; tắt VAD sẽ ghi âm thanh thô."
+        "title": "Phát hiện giọng nói",
+        "description": "Bỏ qua khoảng lặng trước và sau khi nói."
       },
       "vadBackend": {
         "title": "Bộ phát hiện giọng nói",
-        "description": "Chọn bộ phát hiện dùng để lọc khoảng lặng. Earshot đang thử nghiệm; hãy chuyển về Silero nếu giọng nói bị cắt hoặc tiếng ồn vẫn còn.",
+        "description": "Earshot đang thử nghiệm: hãy chuyển về Silero nếu lời nói bị cắt.",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
         }
       },
       "fillerWordRemoval": {
-        "title": "Loại bỏ từ đệm",
-        "description": "Loại bỏ các từ ngập ngừng phổ biến khỏi bản chép lời. Tắt để giữ lại các từ này."
+        "title": "Bỏ từ đệm",
+        "description": "“ờ”, “ừm”, “à”…"
       },
       "chineseScript": {
         "title": "Chữ Hán giản thể/phồn thể",
-        "description": "Ghi bản chép tiếng Quan Thoại và tiếng Quảng Đông bằng chữ Giản thể hoặc Phồn thể. Các ngôn ngữ khác không bị thay đổi.",
+        "description": "Chữ Giản thể hoặc Phồn thể cho tiếng Quan Thoại và tiếng Quảng Đông.",
         "options": {
           "asTranscribed": "Giữ nguyên bản chép",
           "simplified": "Giản thể",
@@ -416,22 +417,22 @@
         "title": "Phím tắt"
       },
       "api": {
-        "title": "API (Tương thích OpenAI)",
+        "title": "Nhà cung cấp AI",
         "provider": {
           "title": "Nhà cung cấp",
-          "description": "Chọn một nhà cung cấp tương thích OpenAI."
+          "description": "Một dịch vụ tương thích OpenAI."
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence không khả dụng trên thiết bị này. Yêu cầu Mac Apple Silicon chạy macOS Tahoe (26.0) trở lên với Apple Intelligence được bật trong Cài đặt Hệ thống."
         },
         "baseUrl": {
-          "title": "URL cơ sở",
-          "description": "URL cơ sở API cho nhà cung cấp đã chọn. Chỉ có thể chỉnh sửa nhà cung cấp tùy chỉnh.",
+          "title": "Địa chỉ API",
+          "description": "Chỉ sửa được với nhà cung cấp tùy chỉnh.",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "Khóa API",
-          "description": "Khóa API cho nhà cung cấp đã chọn.",
+          "description": "Khóa tài khoản của bạn tại nhà cung cấp này.",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "Câu lệnh",
+        "title": "Chỉ dẫn",
         "selectedPrompt": {
-          "title": "Prompt đã chọn",
-          "description": "Chọn một mẫu để tinh chỉnh bản ghi hoặc tạo mới. Sử dụng ${output} trong văn bản prompt để tham chiếu bản ghi đã chụp."
+          "title": "Chỉ dẫn",
+          "description": "Việc AI sẽ làm với văn bản. ${output} là phần bạn đã đọc."
         },
         "noPrompts": "Không có prompt nào",
         "selectPrompt": "Chọn một prompt",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "Lịch sử",
-      "openFolder": "Mở thư mục ghi âm",
+      "openFolder": "Thư mục ghi âm",
       "loading": "Đang tải lịch sử...",
       "empty": "Chưa có bản ghi nào. Bắt đầu ghi âm để xây dựng lịch sử của bạn!",
-      "copyToClipboard": "Sao chép bản ghi vào clipboard",
+      "copyToClipboard": "Sao chép",
       "copyError": "Không thể sao chép bản ghi vào bộ nhớ tạm.",
-      "save": "Lưu bản ghi",
-      "unsave": "Xóa khỏi đã lưu",
-      "delete": "Xóa mục",
+      "save": "Thêm vào mục yêu thích",
+      "unsave": "Bỏ khỏi mục yêu thích",
+      "delete": "Xóa",
       "deleteError": "Không thể xóa mục. Vui lòng thử lại.",
       "retranscribe": "Phiên âm lại",
       "retranscribeError": "Không thể phiên âm lại. Vui lòng thử lại.",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "Gỡ lỗi",
       "logDirectory": {
-        "title": "Thư mục nhật ký",
-        "description": "Vị trí lưu trữ các tệp nhật ký"
+        "title": "Nhật ký",
+        "description": "Thư mục chứa các tệp nhật ký."
       },
       "logLevel": {
         "title": "Mức nhật ký",
@@ -504,25 +505,39 @@
       },
       "updateChecks": {
         "label": "Kiểm tra cập nhật",
-        "description": "Tự động kiểm tra phiên bản mới của J’écoute",
+        "description": "Tự động tìm phiên bản mới của J’écoute.",
         "lockedDescription": "Đã bị vô hiệu hóa bởi cấu hình hệ thống (HANDY_DISABLE_UPDATER)"
       },
+      "whatsNewPreview": {
+        "title": "Xem trước điểm mới",
+        "description": "Mở ghi chú phát hành mới nhất được đóng gói mà không đánh dấu là đã xem",
+        "button": "Xem trước",
+        "noNotes": "Không tìm thấy ghi chú phát hành được đóng gói",
+        "error": "Không thể xem trước ghi chú phát hành"
+      },
+      "onboardingPreview": {
+        "title": "Xem trước thiết lập ban đầu",
+        "description": "Xem trước các màn hình thiết lập mà không thay đổi quyền, mô hình hoặc trạng thái hoàn tất",
+        "permissionsButton": "Quyền",
+        "modelsButton": "Chọn mô hình",
+        "exitButton": "Thoát xem trước"
+      },
       "soundTheme": {
-        "label": "Chủ đề âm thanh",
-        "description": "Chọn chủ đề âm thanh cho phản hồi bắt đầu và kết thúc ghi âm"
+        "label": "Âm báo",
+        "description": "Âm thanh lúc bắt đầu và kết thúc đọc chính tả."
       },
       "wordCorrectionThreshold": {
         "title": "Ngưỡng sửa từ",
         "description": "Độ nhạy cho việc sửa từ tùy chỉnh"
       },
       "historyLimit": {
-        "title": "Giới hạn lịch sử",
-        "description": "Số lượng mục lịch sử tối đa cần giữ",
-        "entries": "mục"
+        "title": "Lịch sử",
+        "description": "Các bản ghi cũ nhất sẽ bị xóa (trừ mục yêu thích).",
+        "entries": "bản ghi"
       },
       "recordingRetention": {
-        "title": "Tự động xóa ghi âm",
-        "description": "Tự động xóa các bản ghi âm cũ để tiết kiệm dung lượng",
+        "title": "Bản ghi âm",
+        "description": "Xóa bản ghi âm cũ để tiết kiệm dung lượng.",
         "never": "Không bao giờ",
         "preserveLimit": "Giữ {{count}} bản mới nhất",
         "days3": "Sau 3 ngày",
@@ -532,23 +547,23 @@
       },
       "alwaysOnMicrophone": {
         "label": "Micrô luôn bật",
-        "description": "Giữ micrô hoạt động để phản hồi nhanh hơn"
+        "description": "Đọc chính tả bắt đầu nhanh hơn."
       },
       "clamshellMicrophone": {
         "title": "Micrô chế độ gập",
         "description": "Micrô sử dụng khi nắp laptop được đóng"
       },
       "postProcessingToggle": {
-        "label": "Xử lý sau",
-        "description": "Bật tinh chỉnh văn bản bằng AI sau khi chuyển đổi"
+        "label": "Sửa bằng AI",
+        "description": "Một AI trực tuyến rà soát văn bản trước khi dán. Cần khóa API (OpenRouter, Anthropic, OpenAI…)."
       },
       "muteWhileRecording": {
-        "label": "Tắt tiếng khi ghi âm",
-        "description": "Tắt tiếng âm thanh hệ thống trong khi ghi âm"
+        "label": "Tắt tiếng máy tính",
+        "description": "Nhạc và video im lặng trong lúc đọc chính tả."
       },
       "appendTrailingSpace": {
-        "label": "Thêm dấu cách cuối",
-        "description": "Thêm một dấu cách sau bản ghi đã dán"
+        "label": "Dấu cách sau văn bản",
+        "description": "Thêm một dấu cách sau mỗi lần đọc."
       },
       "keyboardImplementation": {
         "title": "Triển khai bàn phím",
@@ -599,20 +614,6 @@
         "verdictOk": "Các sự kiện phím đang đến J’écoute bình thường.",
         "verdictNoEvents": "Không ghi nhận sự kiện nào — bạn có bấm phím nào trong lúc kiểm tra không?",
         "failed": "Chẩn đoán thất bại: {{error}}"
-      },
-      "whatsNewPreview": {
-        "title": "Xem trước điểm mới",
-        "description": "Mở ghi chú phát hành mới nhất được đóng gói mà không đánh dấu là đã xem",
-        "button": "Xem trước",
-        "noNotes": "Không tìm thấy ghi chú phát hành được đóng gói",
-        "error": "Không thể xem trước ghi chú phát hành"
-      },
-      "onboardingPreview": {
-        "title": "Xem trước thiết lập ban đầu",
-        "description": "Xem trước các màn hình thiết lập mà không thay đổi quyền, mô hình hoặc trạng thái hoàn tất",
-        "permissionsButton": "Quyền",
-        "modelsButton": "Chọn mô hình",
-        "exitButton": "Thoát xem trước"
       }
     },
     "about": {
@@ -621,9 +622,13 @@
         "title": "Phiên bản",
         "description": "Phiên bản hiện tại của J’écoute"
       },
+      "whatsNewUpdates": {
+        "label": "Hiện điểm mới",
+        "description": "Sau khi J’écoute cập nhật."
+      },
       "appDataDirectory": {
-        "title": "Thư mục dữ liệu ứng dụng",
-        "description": "Vị trí J’écoute lưu trữ dữ liệu"
+        "title": "Dữ liệu ứng dụng",
+        "description": "Mô hình, cài đặt, bản ghi âm."
       },
       "sourceCode": {
         "title": "Mã nguồn",
@@ -635,12 +640,8 @@
         "ggml": {
           "title": "ggml",
           "description": "Suy luận hiệu suất cao của mô hình nhận dạng giọng nói tự động Whisper của OpenAI",
-          "details": "J’écoute sử dụng ggml để xử lý chuyển đổi giọng nói thành văn bản nhanh, cục bộ. Cảm ơn công việc tuyệt vời của Georgi Gerganov và các cộng tác viên."
+          "details": "J’écoute chép lời ngay trên máy nhờ ggml. Cảm ơn Georgi Gerganov và các cộng tác viên vì công việc tuyệt vời của họ."
         }
-      },
-      "whatsNewUpdates": {
-        "label": "Hiển thị điểm mới",
-        "description": "Hiển thị ghi chú phát hành sau khi J’écoute cập nhật"
       },
       "basedOn": "Dựa trên Handy của CJ Pais"
     }
@@ -660,6 +661,9 @@
     "portableUpdateBrowseMessage": "Bản cài đặt di động không thể cập nhật tự động. Hãy tải phiên bản mới nhất phù hợp với hệ thống của bạn từ GitHub Releases và cài vào cùng thư mục — thư mục Data/ (cài đặt, mô hình, bản ghi) của bạn được giữ nguyên.",
     "portableUpdateBrowseButton": "Mở GitHub Releases"
   },
+  "whatsNew": {
+    "title": "Điểm mới trong J’écoute v{{version}}"
+  },
   "common": {
     "loading": "Đang tải...",
     "delete": "Xóa",
@@ -667,7 +671,9 @@
     "open": "Mở",
     "copy": "Sao chép",
     "clear": "Xóa",
-    "noOptionsFound": "Không tìm thấy tùy chọn"
+    "noOptionsFound": "Không tìm thấy tùy chọn",
+    "select": "Chọn…",
+    "reset": "Đặt lại mặc định"
   },
   "accessibility": {
     "permissionsDescription": "J’écoute cần quyền truy cập để gõ văn bản đã chuyển đổi.",
@@ -692,11 +698,11 @@
     "transcriptionFailedTitle": "Phiên âm thất bại"
   },
   "appLanguage": {
-    "title": "Ngôn ngữ ứng dụng",
-    "description": "Thay đổi ngôn ngữ giao diện của J’écoute"
+    "title": "Ngôn ngữ giao diện",
+    "description": ""
   },
   "theme": {
-    "title": "Giao diện ứng dụng",
+    "title": "Giao diện",
     "description": "Chọn xem J’écoute theo chủ đề hệ thống hay giữ ở chế độ sáng hoặc tối",
     "options": {
       "system": "Hệ thống",
@@ -708,9 +714,6 @@
     "transcribing": "Đang chuyển đổi...",
     "processing": "Đang xử lý..."
   },
-  "whatsNew": {
-    "title": "Điểm mới trong J’écoute v{{version}}"
-  },
   "secureInput": {
     "blockedWithCulprit_one": "{{name}} có thể đang chặn 1 phím tắt",
     "blockedWithCulprit_other": "{{name}} có thể đang chặn {{count}} phím tắt",
@@ -721,5 +724,284 @@
     "learnMore": "Cách khắc phục",
     "recorderBlocked": "Hiện không thể ghi phím tắt — Secure Input của macOS đang chặn các sự kiện phím. Hãy xử lý cảnh báo Secure Input trước.",
     "dismiss": "Bỏ qua"
+  },
+  "app": {
+    "home": {
+      "history": "Lịch sử",
+      "update": "Cập nhật",
+      "recent": "Bản ghi gần đây",
+      "allHistory": "Toàn bộ lịch sử",
+      "empty": "Các bản ghi của bạn sẽ hiện ở đây.",
+      "copyTitle": "Sao chép",
+      "copied": "Đã sao chép",
+      "copiedToast": "Đã sao chép vào bảng nhớ tạm",
+      "modelPill": "Mô hình chép lời: {{model}}",
+      "languagePill": "Ngôn ngữ nói: {{language}}",
+      "allModels": "Tất cả mô hình",
+      "downloadPill": "{{model}}, {{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "Sẵn sàng",
+        "desc": "Giữ <keys/> và nói: mình sẽ viết ngay chỗ con trỏ của bạn.",
+        "descToggle": "Nhấn <keys/> và nói: mình sẽ viết ngay chỗ con trỏ của bạn."
+      },
+      "loading": {
+        "title": "Đang tải {{model}}…",
+        "titleGeneric": "Đang tải mô hình…",
+        "desc": "Mất vài giây sau khi khởi động, rồi mình luôn sẵn sàng."
+      },
+      "downloading": {
+        "title": "Đang tải xuống {{model}}…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%, {{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "Mình không nghe thấy gì",
+        "desc": "Không tìm thấy micrô. Hãy cắm micrô hoặc chọn micrô khác.",
+        "action": "Chọn micrô"
+      },
+      "micDenied": {
+        "title": "Mình không dùng được micrô",
+        "action": "Mở cài đặt micrô"
+      },
+      "noModel": {
+        "title": "Chọn một mô hình",
+        "desc": "Mình cần một mô hình chép lời để viết ra những gì bạn nói.",
+        "action": "Chọn mô hình"
+      },
+      "error": {
+        "title": "Không tải được mô hình",
+        "desc": "Hãy thử mô hình khác, hoặc khởi động lại J’écoute.",
+        "action": "Đổi mô hình"
+      },
+      "listening": {
+        "title": "Mình đang nghe…",
+        "desc": "Thả <keys/> khi bạn nói xong.",
+        "descToggle": "Nhấn lại <keys/> khi bạn nói xong."
+      },
+      "writing": {
+        "title": "Mình đang viết…",
+        "desc": "{{model}} đang chép lại câu của bạn.",
+        "descGeneric": "Đang chép lại câu của bạn."
+      },
+      "processing": {
+        "title": "Mình đang trau chuốt…",
+        "desc": "AI đang rà soát văn bản của bạn."
+      },
+      "done": {
+        "title": "Đã dán",
+        "titleNoPaste": "Đã ghi nhận",
+        "desc": "Bạn có thể xem lại trong bản ghi gần đây."
+      },
+      "short": {
+        "ready": "Sẵn sàng",
+        "loading": "Đang tải…",
+        "downloading": "Đang tải xuống…",
+        "nomic": "Không có micrô",
+        "micDenied": "Micrô bị chặn",
+        "nomodel": "Chưa có mô hình",
+        "error": "Lỗi",
+        "listening": "Đang nghe…",
+        "writing": "Đang viết…",
+        "processing": "Đang trau chuốt…",
+        "done": "Đã dán"
+      }
+    },
+    "history": {
+      "title": "Lịch sử",
+      "back": "Về trang chính",
+      "search": "Tìm kiếm",
+      "searchLabel": "Tìm trong lịch sử",
+      "filters": {
+        "label": "Hiển thị",
+        "all": "Tất cả",
+        "favorites": "Yêu thích",
+        "corrected": "AI đã sửa"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "AI đã sửa",
+      "correctedWith": "AI đã sửa ({{prompt}})",
+      "versionLabel": "Phiên bản hiển thị",
+      "corrected": "Đã sửa",
+      "raw": "Bản gốc",
+      "legendAddedSample": "phần tô sáng",
+      "legendAdded": "do AI thêm vào",
+      "legendRemovedSample": "phần gạch ngang",
+      "legendRemoved": "do AI xóa bỏ",
+      "favorite": "Yêu thích",
+      "more": "Xem thêm",
+      "play": "Phát",
+      "pause": "Tạm dừng",
+      "seek": "Vị trí trong bản ghi âm",
+      "count_one": "{{count}} bản ghi",
+      "count_other": "{{count}} bản ghi",
+      "countKept_one": "Giữ {{count}} trên tối đa {{limit}} bản ghi",
+      "countKept_other": "Giữ {{count}} trên tối đa {{limit}} bản ghi",
+      "countMore": "Hơn {{count}} bản ghi",
+      "empty": "Chưa có bản ghi nào. Hãy giữ phím tắt và nói!",
+      "noResults": "Không có bản ghi nào khớp."
+    },
+    "settings": {
+      "title": "Cài đặt",
+      "close": "Đóng cài đặt",
+      "hint": "Mọi thay đổi được áp dụng ngay.",
+      "tabs": {
+        "dictation": "Đọc chính tả",
+        "sound": "Âm thanh",
+        "text": "Văn bản",
+        "app": "Ứng dụng",
+        "about": "Giới thiệu"
+      },
+      "advanced": "Tùy chọn nâng cao",
+      "editShortcut": "Đổi",
+      "editShortcutNamed": "Đổi: {{name}}",
+      "resetShortcut": "Khôi phục phím tắt mặc định",
+      "systemDefault": "Mặc định hệ thống",
+      "playSound": "Nghe thử tín hiệu",
+      "customSound": "Tùy chỉnh",
+      "micLevelHint": "Mức âm thanh sẽ hiện ở đây khi đọc chính tả.",
+      "micLevelLive": "Mình nghe thấy bạn rồi.",
+      "model": {
+        "title": "Mô hình chép lời",
+        "change": "Đổi",
+        "choose": "Chọn",
+        "none": "Chưa có mô hình",
+        "loading": "Đang tải…",
+        "error": "Tải thất bại"
+      },
+      "debugMode": {
+        "label": "Chế độ gỡ lỗi",
+        "description": "Hiện các công cụ gỡ lỗi. Cũng bật được bằng Ctrl+Shift+D."
+      }
+    },
+    "models": {
+      "title": "Mô hình chép lời",
+      "back": "Quay lại cài đặt",
+      "search": "Tìm kiếm",
+      "download": "Tải xuống",
+      "use": "Dùng",
+      "live": "Chữ trực tiếp",
+      "accuracy": "Độ chính xác",
+      "speed": "Tốc độ",
+      "sorted": "Sắp xếp theo ngôn ngữ của bạn.",
+      "sortedFor": "Sắp xếp cho {{language}}.",
+      "count_one": "{{count}} mô hình",
+      "count_other": "{{count}} mô hình",
+      "countFiltered": "{{count}}/{{total}}",
+      "translation": "Dịch sang tiếng Anh"
+    },
+    "onboarding": {
+      "welcome": "Chào mừng bạn đến với J’écoute",
+      "lead": "Chọn mô hình chép lời giọng nói của bạn. Mô hình chạy ngay trên máy tính, không gửi gì lên Internet.",
+      "choose": "Chọn một mô hình",
+      "recommendedFor": "Đề xuất cho {{language}}",
+      "light": "Rất nhẹ",
+      "onDisk": "Đã tải về",
+      "download": "Tải {{model}} ({{size}})",
+      "use": "Dùng {{model}}",
+      "showAll": "Xem cả {{count}} mô hình",
+      "allModels": "Tất cả mô hình",
+      "downloading": "Đang tải xuống {{model}}",
+      "downloadingSpeed": "Đang tải xuống {{model}}, {{speed}} MB/s",
+      "preparing": "Đang chuẩn bị {{model}}…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "Phiên bản {{version}}",
+      "versionUpToDate": "Phiên bản {{version}}, mới nhất",
+      "versionUpdate": "Phiên bản {{version}}, có bản cập nhật",
+      "license": "Giấy phép MIT. Chép lời ngay trên máy nhờ ggml.",
+      "handy": "Handy",
+      "character": "Nhân vật: Copyright (c) 2026 Théo Ponthieu, giấy phép PolyForm Noncommercial 1.0.0.",
+      "updates": {
+        "title": "Cập nhật",
+        "auto": "Được kiểm tra tự động.",
+        "upToDate": "Bạn đang dùng phiên bản mới nhất.",
+        "failed": "Không kiểm tra được. Hãy thử lại sau.",
+        "availableVersion": "Đã có phiên bản {{version}}.",
+        "downloading": "Đang tải xuống… {{progress}}%",
+        "check": "Kiểm tra",
+        "install": "Cài đặt"
+      }
+    },
+    "dates": {
+      "today": "Hôm nay",
+      "yesterday": "Hôm qua",
+      "todayAt": "Hôm nay, {{time}}",
+      "yesterdayAt": "Hôm qua, {{time}}",
+      "dayAt": "{{day}}, {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "Space",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "{{key}} trái",
+      "rightSide": "{{key}} phải"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "Chép lời tiếng Anh trực tiếp, nhanh và chính xác.",
+      "live_multilingual_transcription_across_28_languages": "Chép lời trực tiếp đa ngôn ngữ, 28 ngôn ngữ.",
+      "tiny_and_instant_runs_well_on_any_hardware": "Siêu nhỏ, tức thì, chạy tốt trên mọi phần cứng.",
+      "highest_accuracy_14_languages_slower": "Chính xác nhất, 14 ngôn ngữ, chậm hơn.",
+      "broadest_language_but_may_run_a_bit_slow": "Nhiều ngôn ngữ nhất, nhưng có thể hơi chậm.",
+      "live_multilingual_excellent_on_powerful_machines": "Trực tiếp, đa ngôn ngữ, tuyệt vời trên máy mạnh.",
+      "fast_and_accurate_supports_25_european_languages": "Nhanh và chính xác. Hỗ trợ 25 ngôn ngữ châu Âu.",
+      "english_only_the_best_model_for_english_speakers": "Chỉ tiếng Anh. Mô hình tốt nhất cho người nói tiếng Anh.",
+      "excellent_multilingual_model": "Mô hình đa ngôn ngữ xuất sắc.",
+      "a_tiny_multilingual_model": "Mô hình đa ngôn ngữ siêu nhỏ.",
+      "4_language_speech_to_text_with_translation": "Chép lời 4 ngôn ngữ, có dịch.",
+      "25_language_speech_to_text_with_translation": "Chép lời 25 ngôn ngữ, có dịch.",
+      "english_speech_to_text": "Chép lời tiếng Anh.",
+      "2_language_speech_to_text": "Chép lời 2 ngôn ngữ.",
+      "3_language_speech_to_text": "Chép lời 3 ngôn ngữ.",
+      "russian_speech_to_text_with_token_level_timestamps": "Chép lời tiếng Nga, có mốc thời gian theo token.",
+      "5_language_speech_to_text": "Chép lời 5 ngôn ngữ.",
+      "6_language_speech_to_text_with_translation": "Chép lời 6 ngôn ngữ, có dịch.",
+      "5_language_speech_to_text_with_word_level_timestamps": "Chép lời 5 ngôn ngữ, có mốc thời gian theo từng từ.",
+      "english_speech_to_text_with_token_level_timestamps": "Chép lời tiếng Anh, có mốc thời gian theo token.",
+      "english_speech_to_text_with_streaming": "Chép lời tiếng Anh trực tiếp.",
+      "arabic_speech_to_text": "Chép lời tiếng Ả Rập.",
+      "japanese_speech_to_text": "Chép lời tiếng Nhật.",
+      "korean_speech_to_text": "Chép lời tiếng Hàn.",
+      "ukrainian_speech_to_text": "Chép lời tiếng Ukraina.",
+      "vietnamese_speech_to_text": "Chép lời tiếng Việt.",
+      "chinese_speech_to_text": "Chép lời tiếng Trung.",
+      "2_language_speech_to_text_with_segment_level_timestamps": "Chép lời 2 ngôn ngữ, có mốc thời gian theo đoạn.",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "Chép lời tiếng Anh trực tiếp, mốc thời gian theo token.",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "Chép lời 25 ngôn ngữ, tự nhận diện ngôn ngữ, mốc thời gian theo token.",
+      "30_language_speech_to_text_with_auto_language_detection": "Chép lời 30 ngôn ngữ, tự nhận diện ngôn ngữ.",
+      "5_language_speech_to_text_with_auto_language_detection": "Chép lời 5 ngôn ngữ, tự nhận diện ngôn ngữ.",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "Chép lời 8 ngôn ngữ, có dịch, tự nhận diện ngôn ngữ.",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Chép lời 99 ngôn ngữ, có dịch, tự nhận diện ngôn ngữ, mốc thời gian theo đoạn.",
+      "english_speech_to_text_with_segment_level_timestamps": "Chép lời tiếng Anh, có mốc thời gian theo đoạn.",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Chép lời 100 ngôn ngữ, tự nhận diện ngôn ngữ, mốc thời gian theo đoạn.",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "Tối ưu cho tiếng Quan Thoại Đài Loan. Hỗ trợ chuyển đổi ngôn ngữ.",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Chép lời 100 ngôn ngữ, có dịch, tự nhận diện ngôn ngữ, mốc thời gian theo đoạn."
+    }
   }
 }

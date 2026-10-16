@@ -117,11 +117,13 @@
       "errors": {
         "checkFailed": "権限の確認に失敗しました。もう一度お試しください。",
         "requestFailed": "権限のリクエストに失敗しました。もう一度お試しください。"
-      }
+      },
+      "checking": "権限を確認中…"
     }
   },
   "modelSelector": {
     "custom": "カスタム",
+    "legacy": "旧式",
     "streaming": "ストリーミング",
     "active": "アクティブ",
     "switching": "切替中…",
@@ -141,42 +143,21 @@
     "noModelDownloadRequired": "モデルなし - ダウンロードが必要",
     "deleteModel": "{{modelName}}を削除",
     "downloadSpeed": "{{speed}} MB/s",
-    "capabilities": {
-      "languageSelection": "複数の入力言語をサポート",
-      "languageCount": "{{total}}言語",
-      "translation": "英語への翻訳が可能",
-      "translate": "英語に翻訳",
-      "singleLanguage": "この言語のみ対応",
-      "languageOnly": "{{language}}のみ",
-      "streaming": "話しながらリアルタイムで文字起こしを表示"
-    },
     "cancel": "キャンセル",
     "cancelDownload": "ダウンロードをキャンセル",
-    "legacy": "旧式"
+    "capabilities": {
+      "languageSelection": "複数の入力言語をサポート",
+      "singleLanguage": "この言語のみ対応",
+      "languageCount": "{{total}}言語",
+      "languageOnly": "{{language}}のみ",
+      "translation": "英語への翻訳が可能",
+      "translate": "英語に翻訳",
+      "streaming": "話しながらリアルタイムで文字起こしを表示"
+    }
   },
   "settings": {
     "modelSettings": {
       "title": "{{model}} の設定"
-    },
-    "models": {
-      "title": "文字起こしのモデル",
-      "description": "文字起こしのモデルを選択するか、追加のモデルをダウンロードします。異なるモデルは精度と速度のレベルが異なります。",
-      "deleteConfirm": "{{modelName}}を削除してもよろしいですか? 再度使用するにはダウンロードが必要です。",
-      "deleteActiveConfirm": "{{modelName}}は現在使用中のモデルです。削除すると、新しいモデルを選択するまで文字起こしが停止します。本当に削除しますか?",
-      "deleteTitle": "モデルを削除",
-      "filters": {
-        "allLanguages": "すべての言語",
-        "streaming": "リアルタイム文字起こしに対応するモデルを絞り込む",
-        "translation": "英語への翻訳に対応するモデルを絞り込む"
-      },
-      "noModelsMatch": "このフィルターに一致するモデルがありません。",
-      "yourModels": "ダウンロード済みモデル",
-      "availableModels": "ダウンロード可能",
-      "searchPlaceholder": "モデルを名前で検索…",
-      "rescan": {
-        "label": "再スキャン",
-        "tooltip": "J’écoute を使わずに models フォルダーまたは Hugging Face キャッシュに追加されたモデルを再スキャンします"
-      }
     },
     "general": {
       "title": "一般",
@@ -189,16 +170,16 @@
         "pressKeys": "キーを押してください…",
         "bindings": {
           "transcribe": {
-            "name": "文字起こしのショートカット",
-            "description": "音声を録音して文字起こしするためのキーボードショートカット。"
+            "name": "音声入力のショートカット",
+            "description": "押しながら話し、離すと入力します。"
           },
           "cancel": {
-            "name": "キャンセルのショートカット",
-            "description": "現在の録音をキャンセルするためのキーボードショートカット。"
+            "name": "音声入力をキャンセル",
+            "description": "何も入力せずに止めます。"
           },
           "transcribe_with_post_process": {
-            "name": "後処理のショートカット",
-            "description": "文字起こしに常に AI 後処理を適用するキーボードショートカット。 (任意)"
+            "name": "AI 校正付きショートカット",
+            "description": "音声入力のあと、毎回 AI が文章を校正します。"
           }
         },
         "errors": {
@@ -208,8 +189,8 @@
         }
       },
       "language": {
-        "title": "言語",
-        "description": "音声認識の言語を選択してください。自動を選択すると言語を自動的に判定します。特定の言語を選択すると、その言語の精度が向上する場合があります。",
+        "title": "話す言語",
+        "description": "使用中のモデルは{{count}}言語を聞き取れます。",
         "searchPlaceholder": "言語を検索…",
         "noResults": "言語が見つかりません",
         "auto": "自動",
@@ -221,41 +202,61 @@
         "options": {
           "holdOrToggle": "自動",
           "pushToTalk": "長押し",
-          "toggle": "切り替え"
+          "toggle": "押して開始"
         },
         "descriptions": {
-          "hold_or_toggle": "長押しで録音、タップで切り替え",
-          "push_to_talk": "ショートカットを押している間だけ録音します",
-          "toggle": "ショートカットをタップすると録音を開始し、もう一度タップすると停止します"
+          "hold_or_toggle": "長押しで音声入力するか、1回押して開始、もう1回押して停止します。",
+          "push_to_talk": "キーを押している間だけ聞いています。",
+          "toggle": "1回押して開始、もう1回押して停止。"
         }
       }
+    },
+    "models": {
+      "title": "文字起こしのモデル",
+      "description": "文字起こしのモデルを選択するか、追加のモデルをダウンロードします。異なるモデルは精度と速度のレベルが異なります。",
+      "searchPlaceholder": "モデルを名前で検索…",
+      "yourModels": "ダウンロード済みモデル",
+      "availableModels": "ダウンロード可能",
+      "deleteConfirm": "{{modelName}}を削除してもよろしいですか? 再度使用するにはダウンロードが必要です。",
+      "deleteActiveConfirm": "{{modelName}}は現在使用中のモデルです。削除すると、新しいモデルを選択するまで文字起こしが停止します。本当に削除しますか?",
+      "deleteTitle": "モデルを削除",
+      "filters": {
+        "allLanguages": "すべての言語",
+        "streaming": "リアルタイム文字起こしに対応するモデルを絞り込む",
+        "translation": "英語への翻訳に対応するモデルを絞り込む"
+      },
+      "rescan": {
+        "label": "再スキャン",
+        "tooltip": "J’écoute を使わずに models フォルダーまたは Hugging Face キャッシュに追加されたモデルを再スキャンします"
+      },
+      "noModelsMatch": "このフィルターに一致するモデルがありません。"
     },
     "sound": {
       "title": "サウンド",
       "microphone": {
         "title": "マイク",
-        "description": "使用するマイクデバイスを選択",
+        "description": "声を聞き取るマイク。",
         "placeholder": "マイクを選択…",
         "loading": "読み込み中…"
       },
       "channel": {
         "title": "入力チャンネル",
-        "description": "録音に使用する入力チャンネルを選択します。オーディオインターフェースに複数の入力がある場合に使用してください。",
+        "description": "複数の入力があるオーディオインターフェース向け。",
         "average": "すべてのチャンネルの平均",
         "channel": "チャンネル{{n}}"
       },
       "audioFeedback": {
-        "label": "オーディオフィードバック",
-        "description": "録音の開始と停止時にサウンドを再生"
+        "label": "効果音",
+        "description": "音声入力の開始時と終了時に短い音を鳴らします。"
       },
       "outputDevice": {
-        "title": "出力デバイス",
-        "description": "フィードバック用の音声出力デバイスを選択",
+        "title": "効果音の出力先",
+        "description": "効果音を鳴らすデバイス。",
         "placeholder": "出力デバイスを選択…",
         "loading": "読み込み中…"
       },
       "volume": {
-        "title": "音量",
+        "title": "効果音の音量",
         "description": "オーディオフィードバックの音量を調整"
       }
     },
@@ -269,20 +270,20 @@
       },
       "experimentalToggle": {
         "label": "実験的な機能",
-        "description": "まだ開発中の実験的な機能を有効にします。"
+        "description": "まだ開発中の機能です。"
       },
       "lazyStreamClose": {
-        "label": "文字起こし間でマイクを有効にする",
-        "description": "録音停止後マイクを30秒間有効なままにし、連続した文字起こしの遅延を軽減します。Bluetooth 音声品質に影響する場合があります。"
+        "label": "入力の合間もマイクをオンに保つ",
+        "description": "音声入力のあと30秒間マイクをオンのままにし、次の入力をすばやく始められます。Bluetooth の音質が下がることがあります。"
       },
       "acceleration": {
         "transcribe": {
-          "title": "transcribe.cpp アクセラレーション",
-          "description": "transcribe.cpp (Whisper 系) モデルのハードウェアアクセラレーション。「自動」では利用可能な場合 GPU を使用します (macOS では Metal、Windows/Linux では Vulkan)。"
+          "title": "アクセラレーション",
+          "description": "グラフィックボード（Vulkan、Metal）か CPU を使います。「自動」なら、使える場合はグラフィックボードを使います。"
         },
         "ort": {
           "title": "ONNX アクセラレーション",
-          "description": "ONNX モデルのハードウェアアクセラレーション (Parakeet、Canary、Moonshine など)。Windows の DirectML は実験的です。モデルの文字起こしに失敗する場合があります。"
+          "description": "旧来の ONNX モデル用。DirectML（Windows）は実験的です。"
         },
         "gpuDevice": {
           "auto": "自動"
@@ -290,30 +291,30 @@
       },
       "startHidden": {
         "label": "非表示で起動",
-        "description": "ウィンドウを開かずにシステムトレイに起動。"
+        "description": "ウィンドウを開かずにタスクバーで起動します。"
       },
       "autostart": {
-        "label": "起動時に実行",
-        "description": "コンピューターにログインしたときに J’écoute を自動的に起動。"
+        "label": "ログイン時に起動",
+        "description": "サインインすると J’écoute が起動します。"
       },
       "showTrayIcon": {
-        "label": "トレイアイコンを表示",
-        "description": "システムトレイに J’écoute のアイコンを表示します。"
+        "label": "タスクバーのアイコン",
+        "description": "時計の横の通知領域に表示します。"
       },
       "overlay": {
         "style": {
-          "title": "オーバーレイ",
-          "description": "録音中のオーバーレイを選択します。「なし」は非表示、「ミニマル」はコンパクトなカプセル型表示、「ライブ」はリアルタイムで文字起こしを表示します(ストリーミング対応モデルのみ。モデル選択画面の「ストリーミング」表示を確認してください)。Linux では「なし」を推奨します。",
+          "title": "音声入力中の表示",
+          "description": "画面に表示する内容。リアルタイム表示には対応モデルが必要です。Linux では「なし」をおすすめします。",
           "options": {
             "none": "なし",
             "minimal": "ミニマル",
-            "live": "ライブ",
+            "live": "リアルタイム表示",
             "character": "キャラクター"
           }
         },
         "position": {
-          "title": "オーバーレイの位置",
-          "description": "録音と文字起こし中に表示するオーバーレイが表示される位置を選択します。",
+          "title": "画面上の位置",
+          "description": "画面の上か下に表示します。",
           "options": {
             "bottom": "下",
             "top": "上"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "貼り付け方法",
-        "description": "テキストの挿入方法を選択。「直接」はシステム入力でタイピングをシミュレート。「なし」は貼り付けをスキップし、履歴/クリップボードのみ更新。",
+        "title": "テキストの入力方法",
+        "description": "音声入力の内容をアプリに届ける方法です。",
         "options": {
-          "clipboard": "クリップボード ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "クリップボード (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "クリップボード (Shift+Insert)",
-          "direct": "直接",
-          "none": "なし",
+          "clipboard": "貼り付け（{{modifier}}+V）",
+          "clipboardCtrlShiftV": "貼り付け（Ctrl+Shift+V）",
+          "clipboardShiftInsert": "貼り付け（Shift+Insert）",
+          "direct": "タイピングで入力",
+          "none": "入力しない",
           "externalScript": "外部スクリプト"
         },
         "externalScriptPlaceholder": "/path/to/your/script.sh"
       },
       "typingTool": {
         "title": "タイピングツール",
-        "description": "直接貼り付け方式で使用する Linux のタイピングツールを選択します。Auto は自動的に最適なツールを検出して使用します。",
+        "description": "テキストを入力する Linux のツール。「自動」なら使える中から最適なものを選びます。",
         "options": {
           "auto": "自動 (推奨)"
         }
       },
       "clipboardHandling": {
-        "title": "クリップボードの処理",
-        "description": "クリップボードを変更しないを選択すると、文字起こし後も現在のクリップボード内容が保持されます。クリップボードにコピーを選択すると、貼り付け後も文字起こし結果がクリップボードに残ります。",
+        "title": "クリップボード",
+        "description": "貼り付けたあとの扱い。",
         "options": {
-          "dontModify": "クリップボードを変更しない",
-          "copyToClipboard": "クリップボードにコピー"
+          "dontModify": "元の内容に戻す",
+          "copyToClipboard": "入力内容を残す"
         }
       },
       "autoSubmit": {
-        "title": "自動送信",
-        "description": "テキスト挿入後に選択したキーの組み合わせを自動的に送信します。macOS では Cmd+Enter、Windows/Linux では Super+Enter が適用されます。",
+        "title": "入力後に送信",
+        "description": "代わりにキーを押して、メッセージを送信します。",
         "options": {
           "off": "オフ",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "英語に翻訳",
-        "description": "文字起こし中に他の言語から英語に自動的に翻訳。"
+        "description": "ほかの言語で話した内容を英語で書きます。"
       },
       "modelUnload": {
-        "title": "モデルのアンロード",
-        "description": "指定時間モデルが使用されていない場合、GPU/CPU メモリを自動的に解放",
+        "title": "メモリを解放",
+        "description": "音声入力をしていない間はモデルをアンロードします。",
         "options": {
           "never": "しない",
           "immediately": "即座に",
@@ -378,32 +379,32 @@
         }
       },
       "customWords": {
-        "title": "カスタム単語",
-        "description": "対応モデルが名前や専門用語を認識しやすくします。あいまい補正は現在、A～Zの英字と数字を使用する単語に限定されています。",
+        "title": "認識させたい単語",
+        "description": "正しく書き取りたい名前や専門用語。",
         "placeholder": "単語を追加",
         "add": "追加",
         "remove": "{{word}}を削除",
-        "duplicate": "「{{word}}」は既に存在します"
+        "duplicate": "「{{word}}」はすでにリストにあります"
       },
       "voiceActivityDetection": {
-        "title": "音声区間検出 (VAD)",
-        "description": "録音から無音部分を除去します。ストリーミング対応モデルはより長い音声検出区間を使用します。VAD を無効にすると音声をそのまま録音します。"
+        "title": "音声検出",
+        "description": "話す前後の無音を無視します。"
       },
       "vadBackend": {
-        "title": "音声区間検出バックエンド",
-        "description": "無音のフィルタリングに使用する検出器を選択します。Earshot は実験的機能です。音声が途切れたりノイズが残る場合は Silero に戻してください。",
+        "title": "音声検出エンジン",
+        "description": "Earshot は実験的です。声が途切れるときは Silero に戻してください。",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
         }
       },
       "fillerWordRemoval": {
-        "title": "フィラー語を削除",
-        "description": "文字起こしから一般的なフィラー語を削除します。残すにはオフにしてください。"
+        "title": "言いよどみを削除",
+        "description": "「えー」「あのー」「えっと」…"
       },
       "chineseScript": {
         "title": "中国語の表記",
-        "description": "北京語と広東語の文字起こしを簡体字または繁体字で出力します。他の言語は変更されません。",
+        "description": "北京語と広東語を簡体字か繁体字で書きます。",
         "options": {
           "asTranscribed": "文字起こしのまま",
           "simplified": "簡体字",
@@ -416,22 +417,22 @@
         "title": "ショートカット"
       },
       "api": {
-        "title": "API (OpenAI 互換)",
+        "title": "AI プロバイダー",
         "provider": {
           "title": "プロバイダー",
-          "description": "OpenAI 互換のプロバイダーを選択。"
+          "description": "OpenAI 互換のサービス。"
         },
         "appleIntelligence": {
           "unavailable": "このデバイスでは Apple Intelligence を利用できません。macOS Tahoe (26.0) 以降を実行し、システム設定で Apple Intelligence が有効になっている Apple Silicon Mac が必要です。"
         },
         "baseUrl": {
-          "title": "ベース URL",
-          "description": "選択したプロバイダーの API ベース URL。カスタムプロバイダーのみ編集可能。",
+          "title": "API の URL",
+          "description": "カスタムプロバイダーのときだけ編集できます。",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "API キー",
-          "description": "選択したプロバイダーの API キー。",
+          "description": "このプロバイダーのアカウントのキー。",
           "placeholder": "sk-…"
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "プロンプト",
+        "title": "指示",
         "selectedPrompt": {
-          "title": "選択したプロンプト",
-          "description": "文字起こしを改善するテンプレートを選択するか、新しく作成します。プロンプトテキスト内で ${output} を使用して、キャプチャした文字起こしを参照します。"
+          "title": "指示",
+          "description": "AI がテキストに対して行うこと。${output} は音声入力の内容を表します。"
         },
         "noPrompts": "プロンプトがありません",
         "selectPrompt": "プロンプトを選択",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "履歴",
-      "openFolder": "録音フォルダを開く",
+      "openFolder": "録音フォルダー",
       "loading": "履歴を読み込み中…",
       "empty": "まだ文字起こしがありません。録音を開始して履歴を作成しましょう!",
-      "copyToClipboard": "文字起こしをクリップボードにコピー",
+      "copyToClipboard": "コピー",
       "copyError": "文字起こしをクリップボードにコピーできませんでした。",
-      "save": "文字起こしを保存",
-      "unsave": "保存から削除",
-      "delete": "エントリーを削除",
+      "save": "お気に入りに追加",
+      "unsave": "お気に入りから外す",
+      "delete": "削除",
       "deleteError": "エントリーの削除に失敗しました。もう一度お試しください。",
       "retranscribe": "再文字起こし",
       "retranscribeError": "再文字起こしに失敗しました。もう一度お試しください。",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "デバッグ",
       "logDirectory": {
-        "title": "ログディレクトリ",
-        "description": "ログファイルの保存場所"
+        "title": "ログ",
+        "description": "ログファイルのフォルダー。"
       },
       "logLevel": {
         "title": "ログレベル",
@@ -504,25 +505,39 @@
       },
       "updateChecks": {
         "label": "アップデートを確認",
-        "description": "J’écoute の新しいバージョンを自動的にチェック",
+        "description": "J’écoute の新しいバージョンを自動で確認します。",
         "lockedDescription": "システム設定により無効化されています (HANDY_DISABLE_UPDATER)"
       },
+      "whatsNewPreview": {
+        "title": "新機能をプレビュー",
+        "description": "最新の同梱リリースノートを既読にせずに開く",
+        "button": "プレビュー",
+        "noNotes": "同梱リリースノートが見つかりません",
+        "error": "リリースノートのプレビューに失敗しました"
+      },
+      "onboardingPreview": {
+        "title": "オンボーディングをプレビュー",
+        "description": "権限、モデル、完了状態を変更せずにオンボーディング画面をプレビューします",
+        "permissionsButton": "権限",
+        "modelsButton": "モデル選択",
+        "exitButton": "プレビューを終了"
+      },
       "soundTheme": {
-        "label": "サウンドテーマ",
-        "description": "録音開始・停止フィードバックのサウンドテーマを選択"
+        "label": "効果音の種類",
+        "description": "音声入力の開始時と終了時の音。"
       },
       "wordCorrectionThreshold": {
         "title": "単語修正しきい値",
         "description": "カスタム単語修正の感度"
       },
       "historyLimit": {
-        "title": "履歴上限",
-        "description": "保持する履歴エントリーの最大数",
+        "title": "履歴",
+        "description": "古い音声入力から順に消えます（お気に入りは残ります）。",
         "entries": "件"
       },
       "recordingRetention": {
-        "title": "録音の自動削除",
-        "description": "古い録音を自動的に削除して容量を節約",
+        "title": "録音データ",
+        "description": "古い録音を削除して容量を節約します。",
         "never": "しない",
         "preserveLimit": "最新{{count}}件を保持",
         "days3": "3日後",
@@ -531,24 +546,24 @@
         "placeholder": "保持期間を選択…"
       },
       "alwaysOnMicrophone": {
-        "label": "マイク常時オン",
-        "description": "より速い応答のためにマイクをアクティブに保つ"
+        "label": "マイクを常にオン",
+        "description": "音声入力をすばやく始められます。"
       },
       "clamshellMicrophone": {
         "title": "クラムシェルマイク",
         "description": "ノートパソコンの蓋を閉じたときに使用するマイク"
       },
       "postProcessingToggle": {
-        "label": "後処理",
-        "description": "文字起こし後の AI によるテキスト改善を有効化"
+        "label": "AI 校正",
+        "description": "貼り付ける前に、オンラインの AI が文章を校正します。API キーが必要です（OpenRouter、Anthropic、OpenAI など）。"
       },
       "muteWhileRecording": {
-        "label": "録音中にミュート",
-        "description": "録音中にシステムオーディオをミュート"
+        "label": "PC の音をミュート",
+        "description": "音声入力中は音楽や動画の音を消します。"
       },
       "appendTrailingSpace": {
-        "label": "末尾にスペースを追加",
-        "description": "貼り付けた文字起こしの後にスペースを追加"
+        "label": "末尾にスペース",
+        "description": "音声入力のたびに最後にスペースを入れます。"
       },
       "keyboardImplementation": {
         "title": "キーボード実装",
@@ -599,20 +614,6 @@
         "verdictOk": "キーイベントは J’écoute に正常に届いています。",
         "verdictNoEvents": "イベントを検出できませんでした。テスト中にキーを押しましたか？",
         "failed": "診断に失敗しました: {{error}}"
-      },
-      "whatsNewPreview": {
-        "title": "新機能をプレビュー",
-        "description": "最新の同梱リリースノートを既読にせずに開く",
-        "button": "プレビュー",
-        "noNotes": "同梱リリースノートが見つかりません",
-        "error": "リリースノートのプレビューに失敗しました"
-      },
-      "onboardingPreview": {
-        "title": "オンボーディングをプレビュー",
-        "description": "権限、モデル、完了状態を変更せずにオンボーディング画面をプレビューします",
-        "permissionsButton": "権限",
-        "modelsButton": "モデル選択",
-        "exitButton": "プレビューを終了"
       }
     },
     "about": {
@@ -621,9 +622,13 @@
         "title": "バージョン",
         "description": "J’écoute の現在のバージョン"
       },
+      "whatsNewUpdates": {
+        "label": "新機能を表示",
+        "description": "J’écoute のアップデート後に表示します。"
+      },
       "appDataDirectory": {
-        "title": "アプリデータディレクトリ",
-        "description": "J’écoute がデータを保存する場所"
+        "title": "アプリのデータ",
+        "description": "モデル、設定、録音。"
       },
       "sourceCode": {
         "title": "ソースコード",
@@ -635,12 +640,8 @@
         "ggml": {
           "title": "ggml",
           "description": "オンデバイス機械学習推論のための高性能テンソルライブラリ",
-          "details": "J’écoute のローカルの音声からテキストへの文字起こしは transcribe.cpp と ggml を基盤としています。Georgi Gerganov 氏と貢献者の皆様の素晴らしい仕事に感謝します。"
+          "details": "J’écoute は ggml のおかげでローカルで文字起こしできます。Georgi Gerganov 氏と貢献者の皆様のすばらしい仕事に感謝します。"
         }
-      },
-      "whatsNewUpdates": {
-        "label": "新機能を表示",
-        "description": "J’écoute のアップデート後にリリースノートを表示"
       },
       "basedOn": "CJ Pais 氏の Handy をベースにしています"
     }
@@ -660,6 +661,9 @@
     "portableUpdateBrowseMessage": "ポータブル版は自動的に更新できません。GitHub Releases からお使いのシステム向けの最新版をダウンロードし、同じフォルダーにインストールしてください。Data フォルダー(設定、モデル、録音)はそのまま残ります。",
     "portableUpdateBrowseButton": "GitHub Releases を開く"
   },
+  "whatsNew": {
+    "title": "J’écoute v{{version}} の新機能"
+  },
   "common": {
     "loading": "読み込み中…",
     "delete": "削除",
@@ -667,7 +671,9 @@
     "open": "開く",
     "copy": "コピー",
     "clear": "クリア",
-    "noOptionsFound": "オプションが見つかりません"
+    "noOptionsFound": "オプションが見つかりません",
+    "select": "選択…",
+    "reset": "初期設定に戻す"
   },
   "accessibility": {
     "permissionsDescription": "J’écoute が文字起こしテキストを入力するには、アクセシビリティ権限が必要です。",
@@ -692,11 +698,11 @@
     "transcriptionFailedTitle": "文字起こしに失敗しました"
   },
   "appLanguage": {
-    "title": "アプリの言語",
-    "description": "J’écoute インターフェースの言語を変更"
+    "title": "表示言語",
+    "description": ""
   },
   "theme": {
-    "title": "アプリのテーマ",
+    "title": "外観",
     "description": "J’écoute をシステムのテーマに合わせるか、ライトまたはダークで固定するかを選択します",
     "options": {
       "system": "システム",
@@ -708,9 +714,6 @@
     "transcribing": "文字起こし中…",
     "processing": "処理中…"
   },
-  "whatsNew": {
-    "title": "J’écoute v{{version}} の新機能"
-  },
   "secureInput": {
     "blockedWithCulprit_one": "{{name}} が1個のショートカットをブロックしている可能性があります",
     "blockedWithCulprit_other": "{{name}} が{{count}}個のショートカットをブロックしている可能性があります",
@@ -721,5 +724,284 @@
     "learnMore": "解決方法",
     "recorderBlocked": "現在ショートカットを記録できません。macOS の Secure Input がキーイベントをブロックしています。先に Secure Input の警告を解消してください。",
     "dismiss": "閉じる"
+  },
+  "app": {
+    "home": {
+      "history": "履歴",
+      "update": "アップデート",
+      "recent": "最近の音声入力",
+      "allHistory": "すべての履歴",
+      "empty": "音声入力した内容がここに表示されます。",
+      "copyTitle": "コピー",
+      "copied": "コピー済み",
+      "copiedToast": "クリップボードにコピーしました",
+      "modelPill": "文字起こしモデル：{{model}}",
+      "languagePill": "話す言語：{{language}}",
+      "allModels": "すべてのモデル",
+      "downloadPill": "{{model}}、{{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "準備OK",
+        "desc": "<keys/> を押しながら話してください。カーソルのある場所に書き込みます。",
+        "descToggle": "<keys/> を押して話してください。カーソルのある場所に書き込みます。"
+      },
+      "loading": {
+        "title": "{{model}} を読み込み中…",
+        "titleGeneric": "モデルを読み込み中…",
+        "desc": "起動後に数秒かかりますが、そのあとはいつでも準備OKです。"
+      },
+      "downloading": {
+        "title": "{{model}} をダウンロード中…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%、{{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "何も聞こえません",
+        "desc": "マイクが見つかりません。マイクをつなぐか、別のマイクを選んでください。",
+        "action": "マイクを選ぶ"
+      },
+      "micDenied": {
+        "title": "マイクを使えません",
+        "action": "マイクの設定を開く"
+      },
+      "noModel": {
+        "title": "モデルを選んでください",
+        "desc": "話した内容を書くには、文字起こしモデルが必要です。",
+        "action": "モデルを選ぶ"
+      },
+      "error": {
+        "title": "モデルを読み込めませんでした",
+        "desc": "別のモデルを試すか、J’écoute を再起動してください。",
+        "action": "モデルを変更"
+      },
+      "listening": {
+        "title": "聞いています…",
+        "desc": "話し終えたら <keys/> を離してください。",
+        "descToggle": "話し終えたら、もう一度 <keys/> を押してください。"
+      },
+      "writing": {
+        "title": "書いています…",
+        "desc": "{{model}} が文字起こししています。",
+        "descGeneric": "文字起こししています。"
+      },
+      "processing": {
+        "title": "仕上げ中…",
+        "desc": "AI が文章を校正しています。"
+      },
+      "done": {
+        "title": "貼り付けました",
+        "titleNoPaste": "書き取りました",
+        "desc": "最近の音声入力から確認できます。"
+      },
+      "short": {
+        "ready": "準備OK",
+        "loading": "読み込み中…",
+        "downloading": "ダウンロード中…",
+        "nomic": "マイクなし",
+        "micDenied": "マイク使用不可",
+        "nomodel": "モデルなし",
+        "error": "エラー",
+        "listening": "聞いています…",
+        "writing": "書いています…",
+        "processing": "仕上げ中…",
+        "done": "貼り付けました"
+      }
+    },
+    "history": {
+      "title": "履歴",
+      "back": "ホームに戻る",
+      "search": "検索",
+      "searchLabel": "履歴を検索",
+      "filters": {
+        "label": "表示",
+        "all": "すべて",
+        "favorites": "お気に入り",
+        "corrected": "AI 校正済み"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "AI による校正",
+      "correctedWith": "AI による校正（{{prompt}}）",
+      "versionLabel": "表示するバージョン",
+      "corrected": "校正後",
+      "raw": "校正前",
+      "legendAddedSample": "ハイライト",
+      "legendAdded": "AI が追加",
+      "legendRemovedSample": "取り消し線",
+      "legendRemoved": "AI が削除",
+      "favorite": "お気に入り",
+      "more": "その他",
+      "play": "再生",
+      "pause": "一時停止",
+      "seek": "録音の再生位置",
+      "count_one": "{{count}}件の音声入力",
+      "count_other": "{{count}}件の音声入力",
+      "countKept_one": "{{count}}件を保存（上限{{limit}}件）",
+      "countKept_other": "{{count}}件を保存（上限{{limit}}件）",
+      "countMore": "{{count}}件以上の音声入力",
+      "empty": "まだ音声入力がありません。ショートカットを押しながら話してみてください！",
+      "noResults": "一致する音声入力はありません。"
+    },
+    "settings": {
+      "title": "設定",
+      "close": "設定を閉じる",
+      "hint": "変更はすぐに反映されます。",
+      "tabs": {
+        "dictation": "音声入力",
+        "sound": "サウンド",
+        "text": "テキスト",
+        "app": "アプリ",
+        "about": "概要"
+      },
+      "advanced": "詳細オプション",
+      "editShortcut": "変更",
+      "editShortcutNamed": "{{name}} を変更",
+      "resetShortcut": "ショートカットを初期設定に戻す",
+      "systemDefault": "システムの既定",
+      "playSound": "効果音を再生",
+      "customSound": "カスタム",
+      "micLevelHint": "音声入力中はここに音量が表示されます。",
+      "micLevelLive": "聞こえています。",
+      "model": {
+        "title": "文字起こしモデル",
+        "change": "変更",
+        "choose": "選択",
+        "none": "モデルなし",
+        "loading": "読み込み中…",
+        "error": "読み込みに失敗"
+      },
+      "debugMode": {
+        "label": "デバッグモード",
+        "description": "デバッグツールを表示します。Ctrl+Shift+D でも切り替えられます。"
+      }
+    },
+    "models": {
+      "title": "文字起こしモデル",
+      "back": "設定に戻る",
+      "search": "検索",
+      "download": "ダウンロード",
+      "use": "使用",
+      "live": "リアルタイム表示",
+      "accuracy": "精度",
+      "speed": "速度",
+      "sorted": "お使いの言語に合わせて並べています。",
+      "sortedFor": "{{language}}に合わせて並べています。",
+      "count_one": "{{count}}個のモデル",
+      "count_other": "{{count}}個のモデル",
+      "countFiltered": "{{total}}個中{{count}}個",
+      "translation": "英語に翻訳"
+    },
+    "onboarding": {
+      "welcome": "J’écoute へようこそ",
+      "lead": "声を文字にするモデルを選んでください。このパソコンの中で動くので、インターネットには何も送られません。",
+      "choose": "モデルを選んでください",
+      "recommendedFor": "{{language}}におすすめ",
+      "light": "とても軽量",
+      "onDisk": "ダウンロード済み",
+      "download": "{{model}} をダウンロード（{{size}}）",
+      "use": "{{model}} を使う",
+      "showAll": "{{count}}個のモデルをすべて表示",
+      "allModels": "すべてのモデル",
+      "downloading": "{{model}} をダウンロード中",
+      "downloadingSpeed": "{{model}} をダウンロード中（{{speed}} MB/s）",
+      "preparing": "{{model}} を準備しています…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "バージョン {{version}}",
+      "versionUpToDate": "バージョン {{version}}（最新）",
+      "versionUpdate": "バージョン {{version}}（アップデートあり）",
+      "license": "MIT ライセンス。ggml によるローカル文字起こし。",
+      "handy": "Handy",
+      "character": "キャラクター：Copyright (c) 2026 Théo Ponthieu、PolyForm Noncommercial 1.0.0 ライセンス。",
+      "updates": {
+        "title": "アップデート",
+        "auto": "自動で確認します。",
+        "upToDate": "最新バージョンです。",
+        "failed": "確認できませんでした。しばらくしてからもう一度お試しください。",
+        "availableVersion": "バージョン {{version}} が利用できます。",
+        "downloading": "ダウンロード中… {{progress}}%",
+        "check": "確認",
+        "install": "インストール"
+      }
+    },
+    "dates": {
+      "today": "今日",
+      "yesterday": "昨日",
+      "todayAt": "今日 {{time}}",
+      "yesterdayAt": "昨日 {{time}}",
+      "dayAt": "{{day}} {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "スペース",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "BackSpace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "左 {{key}}",
+      "rightSide": "右 {{key}}"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "英語をリアルタイムで、速く正確に文字起こし",
+      "live_multilingual_transcription_across_28_languages": "28言語に対応したリアルタイム多言語文字起こし",
+      "tiny_and_instant_runs_well_on_any_hardware": "超小型で反応が速い。どんなパソコンでも快適に動作",
+      "highest_accuracy_14_languages_slower": "最高の精度、14言語、やや低速",
+      "broadest_language_but_may_run_a_bit_slow": "対応言語は最多。ただし少し遅いことも",
+      "live_multilingual_excellent_on_powerful_machines": "リアルタイム多言語対応。高性能なパソコンで真価を発揮",
+      "fast_and_accurate_supports_25_european_languages": "高速で正確。ヨーロッパの25言語に対応",
+      "english_only_the_best_model_for_english_speakers": "英語のみ。英語話者に最適なモデル",
+      "excellent_multilingual_model": "優れた多言語モデル",
+      "a_tiny_multilingual_model": "小型の多言語モデル",
+      "4_language_speech_to_text_with_translation": "4言語の文字起こし。翻訳に対応。",
+      "25_language_speech_to_text_with_translation": "25言語の文字起こし。翻訳に対応。",
+      "english_speech_to_text": "英語の文字起こし。",
+      "2_language_speech_to_text": "2言語の文字起こし。",
+      "3_language_speech_to_text": "3言語の文字起こし。",
+      "russian_speech_to_text_with_token_level_timestamps": "ロシア語の文字起こし。トークン単位のタイムスタンプ付き。",
+      "5_language_speech_to_text": "5言語の文字起こし。",
+      "6_language_speech_to_text_with_translation": "6言語の文字起こし。翻訳に対応。",
+      "5_language_speech_to_text_with_word_level_timestamps": "5言語の文字起こし。単語単位のタイムスタンプ付き。",
+      "english_speech_to_text_with_token_level_timestamps": "英語の文字起こし。トークン単位のタイムスタンプ付き。",
+      "english_speech_to_text_with_streaming": "英語の文字起こし。リアルタイム表示に対応。",
+      "arabic_speech_to_text": "アラビア語の文字起こし。",
+      "japanese_speech_to_text": "日本語の文字起こし。",
+      "korean_speech_to_text": "韓国語の文字起こし。",
+      "ukrainian_speech_to_text": "ウクライナ語の文字起こし。",
+      "vietnamese_speech_to_text": "ベトナム語の文字起こし。",
+      "chinese_speech_to_text": "中国語の文字起こし。",
+      "2_language_speech_to_text_with_segment_level_timestamps": "2言語の文字起こし。セグメント単位のタイムスタンプ付き。",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "英語の文字起こし。リアルタイム表示、トークン単位のタイムスタンプに対応。",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "25言語の文字起こし。言語の自動判定、トークン単位のタイムスタンプに対応。",
+      "30_language_speech_to_text_with_auto_language_detection": "30言語の文字起こし。言語の自動判定に対応。",
+      "5_language_speech_to_text_with_auto_language_detection": "5言語の文字起こし。言語の自動判定に対応。",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "8言語の文字起こし。翻訳、言語の自動判定に対応。",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "99言語の文字起こし。翻訳、言語の自動判定、セグメント単位のタイムスタンプに対応。",
+      "english_speech_to_text_with_segment_level_timestamps": "英語の文字起こし。セグメント単位のタイムスタンプ付き。",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100言語の文字起こし。言語の自動判定、セグメント単位のタイムスタンプに対応。",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "台湾華語に最適化。中国語と英語が混ざった発話にも対応。",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100言語の文字起こし。翻訳、言語の自動判定、セグメント単位のタイムスタンプに対応。"
+    }
   }
 }

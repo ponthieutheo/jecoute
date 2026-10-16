@@ -117,13 +117,16 @@
       "errors": {
         "checkFailed": "Nepodařilo se zkontrolovat oprávnění. Zkuste to prosím znovu.",
         "requestFailed": "Nepodařilo se požádat o oprávnění. Zkuste to prosím znovu."
-      }
+      },
+      "checking": "Kontroluji oprávnění…"
     }
   },
   "modelSelector": {
     "custom": "Vlastní",
+    "legacy": "Zastaralé",
     "streaming": "Streaming",
     "active": "Aktivní",
+    "switching": "Přepínání...",
     "noModelsAvailable": "Nejsou dostupné žádné modely",
     "verifying": "Ověřování {{modelName}}...",
     "verifyingGeneric": "Ověřování...",
@@ -139,44 +142,22 @@
     "modelUnloaded": "Model uvolněn",
     "noModelDownloadRequired": "Žádný model - je nutné stáhnout",
     "deleteModel": "Smazat {{modelName}}",
-    "switching": "Přepínání...",
     "downloadSpeed": "{{speed}} MB/s",
-    "capabilities": {
-      "languageSelection": "Podporuje více vstupních jazyků",
-      "languageCount": "{{total}} jazyků",
-      "translation": "Umí překládat do angličtiny",
-      "translate": "Přeložit do angličtiny",
-      "singleLanguage": "Podporuje pouze tento jazyk",
-      "languageOnly": "Pouze {{language}}",
-      "streaming": "Zobrazuje přepis živě, jak mluvíte"
-    },
     "cancel": "Zrušit",
     "cancelDownload": "Zrušit stahování",
-    "legacy": "Zastaralé"
+    "capabilities": {
+      "languageSelection": "Podporuje více vstupních jazyků",
+      "singleLanguage": "Podporuje pouze tento jazyk",
+      "languageCount": "{{total}} jazyků",
+      "languageOnly": "Pouze {{language}}",
+      "translation": "Umí překládat do angličtiny",
+      "translate": "Přeložit do angličtiny",
+      "streaming": "Zobrazuje přepis živě, jak mluvíte"
+    }
   },
   "settings": {
     "modelSettings": {
       "title": "Nastavení {{model}}"
-    },
-    "models": {
-      "title": "Modely přepisu",
-      "description": "Vyberte model přepisu nebo stáhněte další modely. Různé modely nabízejí různé úrovně přesnosti a rychlosti.",
-      "deleteConfirm": "Opravdu chcete smazat {{modelName}}? Pro opětovné použití jej budete muset znovu stáhnout.",
-      "deleteActiveConfirm": "{{modelName}} je váš aktivní model. Jeho smazáním se zastaví přepisy, dokud nevyberete nový model. Opravdu chcete pokračovat?",
-      "deleteTitle": "Smazat model",
-      "filters": {
-        "allLanguages": "Všechny jazyky",
-        "streaming": "Filtrovat modely podporující živý přepis",
-        "translation": "Filtrovat modely podporující překlad do angličtiny"
-      },
-      "noModelsMatch": "Tomuto filtru neodpovídají žádné modely.",
-      "yourModels": "Stažené modely",
-      "availableModels": "Dostupné ke stažení",
-      "searchPlaceholder": "Hledat modely podle názvu…",
-      "rescan": {
-        "label": "Znovu prohledat",
-        "tooltip": "Znovu prohledat modely přidané do složky modelů nebo mezipaměti Hugging Face mimo J’écoute"
-      }
     },
     "general": {
       "title": "Obecné",
@@ -189,16 +170,16 @@
         "pressKeys": "Stiskněte klávesy...",
         "bindings": {
           "transcribe": {
-            "name": "Zkratka přepisu",
-            "description": "Klávesová zkratka pro nahrávání a přepis vašeho hlasu."
+            "name": "Zkratka diktování",
+            "description": "Podržte a mluvte, pusťte a text se napíše."
           },
           "cancel": {
-            "name": "Zkratka zrušení",
-            "description": "Klávesová zkratka pro zrušení aktuálního nahrávání."
+            "name": "Zrušit diktování",
+            "description": "Zastaví a nic nenapíše."
           },
           "transcribe_with_post_process": {
-            "name": "Klávesa pro následné zpracování",
-            "description": "Volitelné: Vyhrazená klávesová zkratka, která vždy použije AI následné zpracování na váš přepis."
+            "name": "Zkratka s opravou AI",
+            "description": "Diktuje a text vždy nechá zkontrolovat AI."
           }
         },
         "errors": {
@@ -208,8 +189,8 @@
         }
       },
       "language": {
-        "title": "Jazyk",
-        "description": "Vyberte jazyk rozpoznávání řeči. Auto jazyk určí automaticky, zatímco výběr konkrétního jazyka může zlepšit přesnost.",
+        "title": "Mluvený jazyk",
+        "description": "Aktivní model rozumí {{count}} jazykům.",
         "searchPlaceholder": "Hledat jazyky...",
         "noResults": "Žádné jazyky nenalezeny",
         "auto": "Automaticky",
@@ -221,41 +202,61 @@
         "options": {
           "holdOrToggle": "Automaticky",
           "pushToTalk": "Podržet",
-          "toggle": "Přepínat"
+          "toggle": "Stiskem spustit"
         },
         "descriptions": {
-          "hold_or_toggle": "Podržte pro nahrávání nebo klepněte pro přepnutí",
-          "push_to_talk": "Nahrává, dokud držíte zkratku",
-          "toggle": "Klepněte na zkratku pro zahájení nahrávání, klepněte znovu pro zastavení"
+          "hold_or_toggle": "Podržte a diktujte, nebo stiskněte jednou pro spuštění a podruhé pro zastavení.",
+          "push_to_talk": "Poslouchám, dokud držíte klávesy.",
+          "toggle": "Jedním stiskem spustíte, dalším zastavíte."
         }
       }
+    },
+    "models": {
+      "title": "Modely přepisu",
+      "description": "Vyberte model přepisu nebo stáhněte další modely. Různé modely nabízejí různé úrovně přesnosti a rychlosti.",
+      "searchPlaceholder": "Hledat modely podle názvu…",
+      "yourModels": "Stažené modely",
+      "availableModels": "Dostupné ke stažení",
+      "deleteConfirm": "Opravdu chcete smazat {{modelName}}? Pro opětovné použití jej budete muset znovu stáhnout.",
+      "deleteActiveConfirm": "{{modelName}} je váš aktivní model. Jeho smazáním se zastaví přepisy, dokud nevyberete nový model. Opravdu chcete pokračovat?",
+      "deleteTitle": "Smazat model",
+      "filters": {
+        "allLanguages": "Všechny jazyky",
+        "streaming": "Filtrovat modely podporující živý přepis",
+        "translation": "Filtrovat modely podporující překlad do angličtiny"
+      },
+      "rescan": {
+        "label": "Znovu prohledat",
+        "tooltip": "Znovu prohledat modely přidané do složky modelů nebo mezipaměti Hugging Face mimo J’écoute"
+      },
+      "noModelsMatch": "Tomuto filtru neodpovídají žádné modely."
     },
     "sound": {
       "title": "Zvuk",
       "microphone": {
         "title": "Mikrofon",
-        "description": "Vyberte preferované zařízení mikrofonu",
+        "description": "Mikrofon, který vás poslouchá.",
         "placeholder": "Vyberte mikrofon...",
         "loading": "Načítání..."
       },
       "channel": {
         "title": "Vstupní kanál",
-        "description": "Vyberte vstupní kanál, ze kterého se má nahrávat. Tuto možnost použijte, pokud má vaše zvukové rozhraní více vstupů.",
+        "description": "Pro zvukové rozhraní s více vstupy.",
         "average": "Průměr všech kanálů",
         "channel": "Kanál {{n}}"
       },
       "audioFeedback": {
-        "label": "Zvuková odezva",
-        "description": "Přehrát zvuk při zahájení a ukončení nahrávání"
+        "label": "Zvukový signál",
+        "description": "Krátký zvuk na začátku a na konci diktování."
       },
       "outputDevice": {
-        "title": "Výstupní zařízení",
-        "description": "Vyberte preferované výstupní zařízení pro zvuky odezvy",
+        "title": "Výstup signálu",
+        "description": "Kde se zvukový signál přehraje.",
         "placeholder": "Vyberte výstupní zařízení...",
         "loading": "Načítání..."
       },
       "volume": {
-        "title": "Hlasitost",
+        "title": "Hlasitost signálu",
         "description": "Upravte hlasitost zvukové odezvy"
       }
     },
@@ -269,20 +270,20 @@
       },
       "experimentalToggle": {
         "label": "Experimentální funkce",
-        "description": "Povolit experimentální funkce, které jsou stále ve vývoji."
+        "description": "Funkce, které jsou stále ve vývoji."
       },
       "lazyStreamClose": {
-        "label": "Ponechat mikrofon zapnutý mezi přepisy",
-        "description": "Ponechá stream mikrofonu otevřený po dobu 30 sekund po zastavení nahrávání, čímž se sníží latence při opakovaném přepisu. Může zhoršit kvalitu zvuku Bluetooth."
+        "label": "Nechat mikrofon otevřený mezi diktováními",
+        "description": "Mikrofon zůstane po diktování 30 sekund otevřený, takže další diktování začne rychleji. Může zhoršit zvuk přes Bluetooth."
       },
       "acceleration": {
         "transcribe": {
-          "title": "Akcelerace Whisper",
-          "description": "Hardwarová akcelerace pro modely Whisper. Automatický režim používá GPU, pokud je k dispozici (Metal na macOS, Vulkan na Windows/Linux)."
+          "title": "Akcelerace",
+          "description": "Grafická karta (Vulkan, Metal) nebo procesor. Automaticky se použije grafická karta, je-li k dispozici."
         },
         "ort": {
           "title": "Akcelerace ONNX",
-          "description": "Hardwarová akcelerace pro modely ONNX (Parakeet, Canary, Moonshine atd.). DirectML na Windows je experimentální. Modely nemusí správně přepisovat."
+          "description": "Pro starší modely ONNX. DirectML (Windows) je experimentální."
         },
         "gpuDevice": {
           "auto": "Automaticky"
@@ -290,30 +291,30 @@
       },
       "startHidden": {
         "label": "Spouštět skrytě",
-        "description": "Spustit do systémové lišty bez otevření okna."
+        "description": "Spustit na hlavním panelu bez otevření okna."
       },
       "autostart": {
         "label": "Spouštět při startu",
-        "description": "Automaticky spustit J’écoute po přihlášení do počítače."
+        "description": "J’écoute se spustí, když se přihlásíte."
       },
       "showTrayIcon": {
-        "label": "Zobrazit ikonu v systémové liště",
-        "description": "Zobrazit ikonu J’écoute v systémové liště."
+        "label": "Ikona na hlavním panelu",
+        "description": "V oznamovací oblasti, vedle hodin."
       },
       "overlay": {
         "style": {
-          "title": "Překryv",
-          "description": "Vyberte překryv při nahrávání: „Žádné“ jej skryje, „Minimální“ zobrazí kompaktní indikátor, „Živě“ zobrazuje přepis v reálném čase, když mluvíte (pouze modely podporující streaming — hledejte odznak „Streaming“ ve výběru modelů). Na Linuxu se doporučuje „Žádné“.",
+          "title": "Během diktování",
+          "description": "Co se zobrazí na obrazovce. Živý text vyžaduje kompatibilní model. Na Linuxu doporučujeme „Žádné“.",
           "options": {
             "none": "Žádné",
             "minimal": "Minimální",
-            "live": "Živě",
+            "live": "Živý text",
             "character": "Postavička"
           }
         },
         "position": {
-          "title": "Pozice překryvu",
-          "description": "Zobrazovat vizuální překryv během nahrávání a přepisu. Na Linuxu je doporučeno 'Žádné'.",
+          "title": "Pozice na obrazovce",
+          "description": "Nahoře nebo dole na obrazovce.",
           "options": {
             "bottom": "Dole",
             "top": "Nahoře"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "Způsob vložení",
-        "description": "Vyberte, jak se text vkládá. Přímé: simuluje psaní přes systémový vstup. Žádné: přeskočí vložení a aktualizuje pouze historii/schránku.",
+        "title": "Zápis textu",
+        "description": "Jak se diktovaný text dostane do vaší aplikace.",
         "options": {
-          "clipboard": "Schránka ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "Schránka (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "Schránka (Shift+Insert)",
-          "direct": "Přímé",
-          "none": "Žádné",
+          "clipboard": "Vložit ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "Vložit (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "Vložit (Shift+Insert)",
+          "direct": "Napsat text",
+          "none": "Nic nepsat",
           "externalScript": "Externí skript"
         },
         "externalScriptPlaceholder": "/cesta/k/vasemu/skriptu.sh"
       },
       "typingTool": {
         "title": "Nástroj pro psaní",
-        "description": "Vyberte, který linuxový nástroj pro psaní použít pro metodu přímého vložení. Auto automaticky zjistí a použije nejlepší dostupný nástroj pro váš systém.",
+        "description": "Linuxový nástroj, který text napíše. Auto vybere nejlepší dostupný.",
         "options": {
           "auto": "Auto (Doporučeno)"
         }
       },
       "clipboardHandling": {
-        "title": "Práce se schránkou",
-        "description": "'Neměnit schránku' zachová po přepisu aktuální obsah schránky. 'Kopírovat do schránky' ponechá po vložení výsledek přepisu ve schránce.",
+        "title": "Schránka",
+        "description": "Po vložení.",
         "options": {
-          "dontModify": "Neměnit schránku",
-          "copyToClipboard": "Kopírovat do schránky"
+          "dontModify": "Obnovit předchozí obsah",
+          "copyToClipboard": "Ponechat přepis"
         }
       },
       "autoSubmit": {
-        "title": "Automatické odeslání",
-        "description": "Automaticky odešle vybranou kombinaci kláves po vložení textu. Cmd+Enter platí pro macOS, zatímco Windows/Linux používají Super+Enter.",
+        "title": "Odeslat po vložení",
+        "description": "Stiskne za vás klávesu, třeba pro odeslání zprávy.",
         "options": {
           "off": "Vypnuto",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "Překládat do angličtiny",
-        "description": "Během přepisu automaticky překládat řeč z jiných jazyků do angličtiny."
+        "description": "Co řeknete v jiném jazyce, se zapíše anglicky."
       },
       "modelUnload": {
-        "title": "Uvolnění modelu",
-        "description": "Automaticky uvolnit paměť GPU/CPU, když model nebyl použit po zadanou dobu",
+        "title": "Uvolnit paměť",
+        "description": "Uvolní model, když přestanete diktovat.",
         "options": {
           "never": "Nikdy",
           "immediately": "Okamžitě",
@@ -378,20 +379,20 @@
         }
       },
       "customWords": {
-        "title": "Vlastní slova",
-        "description": "Pomozte podporovaným modelům rozpoznávat jména a odborné termíny. Přibližné opravy jsou v současnosti omezeny na slova obsahující písmena A–Z a číslice.",
+        "title": "Slova k rozpoznání",
+        "description": "Jména a odborné termíny, které mám psát správně.",
         "placeholder": "Přidat slovo",
         "add": "Přidat",
         "remove": "Odebrat {{word}}",
-        "duplicate": "\"{{word}}\" již existuje"
+        "duplicate": "„{{word}}“ už v seznamu je"
       },
       "voiceActivityDetection": {
-        "title": "Detekce hlasové aktivity",
-        "description": "Odfiltruje ticho z nahrávek. Modely podporující streaming používají delší doběh VAD; vypnutí VAD nahrává surový zvuk."
+        "title": "Detekce hlasu",
+        "description": "Ignoruje ticho před řečí a po ní."
       },
       "vadBackend": {
-        "title": "Backend detekce hlasu",
-        "description": "Vyberte detektor používaný k filtrování ticha. Earshot je experimentální; pokud je řeč ořezávána nebo zůstává šum, přepněte zpět na Silero.",
+        "title": "Detektor hlasu",
+        "description": "Earshot je experimentální: pokud se řeč useká, přepněte zpět na Silero.",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
@@ -399,11 +400,11 @@
       },
       "fillerWordRemoval": {
         "title": "Odstranit výplňová slova",
-        "description": "Odstraňuje běžná slova vyjadřující váhání z přepisů. Vypnutím je zachováte."
+        "description": "„ehm“, „eee“, „jako“…"
       },
       "chineseScript": {
         "title": "Čínské písmo",
-        "description": "Zapisuje přepisy v mandarínštině a kantonštině zjednodušenými nebo tradičními znaky. Ostatní jazyky zůstávají beze změny.",
+        "description": "Zjednodušené nebo tradiční znaky pro mandarínštinu a kantonštinu.",
         "options": {
           "asTranscribed": "Jak bylo přepsáno",
           "simplified": "Zjednodušené",
@@ -416,22 +417,22 @@
         "title": "Klávesová zkratka"
       },
       "api": {
-        "title": "API (kompatibilní s OpenAI)",
+        "title": "Poskytovatel AI",
         "provider": {
           "title": "Poskytovatel",
-          "description": "Vyberte poskytovatele kompatibilního s OpenAI."
+          "description": "Služba kompatibilní s OpenAI."
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence není na tomto zařízení k dispozici. Vyžaduje Mac s Apple Silicon a macOS Tahoe (26.0) nebo novější a povolené Apple Intelligence v Nastavení systému."
         },
         "baseUrl": {
-          "title": "Základní URL",
-          "description": "Základní URL API pro vybraného poskytovatele. Upravitelné je pouze u vlastního poskytovatele.",
+          "title": "Adresa API",
+          "description": "Upravit lze jen u vlastního poskytovatele.",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "API klíč",
-          "description": "API klíč pro vybraného poskytovatele.",
+          "description": "Klíč vašeho účtu u tohoto poskytovatele.",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "Prompt",
+        "title": "Pokyny",
         "selectedPrompt": {
-          "title": "Vybraný prompt",
-          "description": "Vyberte šablonu pro zpřesnění přepisu nebo vytvořte novou. V textu promptu použijte ${output} pro vložení zachyceného přepisu."
+          "title": "Pokyn",
+          "description": "Co AI s textem udělá. ${output} zastupuje váš diktovaný text."
         },
         "noPrompts": "Nejsou k dispozici žádné prompty",
         "selectPrompt": "Vyberte prompt",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "Historie",
-      "openFolder": "Otevřít složku nahrávek",
+      "openFolder": "Složka nahrávek",
       "loading": "Načítám historii...",
       "empty": "Zatím žádné přepisy. Začněte nahrávat a vytvořte si historii!",
-      "copyToClipboard": "Kopírovat přepis do schránky",
+      "copyToClipboard": "Kopírovat",
       "copyError": "Přepis se nepodařilo zkopírovat do schránky.",
-      "save": "Uložit přepis",
-      "unsave": "Odebrat z uložených",
-      "delete": "Smazat záznam",
+      "save": "Přidat do oblíbených",
+      "unsave": "Odebrat z oblíbených",
+      "delete": "Smazat",
       "deleteError": "Nepodařilo se smazat záznam. Zkuste to prosím znovu.",
       "retranscribe": "Přepsat znovu",
       "retranscribeError": "Opětovný přepis se nezdařil. Zkuste to prosím znovu.",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "Ladění",
       "logDirectory": {
-        "title": "Složka protokolů",
-        "description": "Umístění, kde jsou uloženy soubory protokolu"
+        "title": "Protokoly",
+        "description": "Složka se soubory protokolů."
       },
       "logLevel": {
         "title": "Úroveň logování",
@@ -504,25 +505,39 @@
       },
       "updateChecks": {
         "label": "Kontrolovat aktualizace",
-        "description": "Automaticky kontrolovat nové verze J’écoute",
+        "description": "Automaticky hledat nové verze J’écoute.",
         "lockedDescription": "Zakázáno systémovou konfigurací (HANDY_DISABLE_UPDATER)"
       },
+      "whatsNewPreview": {
+        "title": "Náhled novinek",
+        "description": "Otevřít nejnovější přibalené poznámky k vydání bez označení jako zobrazené",
+        "button": "Náhled",
+        "noNotes": "Nebyly nalezeny žádné přibalené poznámky k vydání",
+        "error": "Nepodařilo se zobrazit náhled poznámek k vydání"
+      },
+      "onboardingPreview": {
+        "title": "Náhled úvodního nastavení",
+        "description": "Prohlédněte si obrazovky úvodního nastavení beze změny oprávnění, modelů nebo stavu dokončení",
+        "permissionsButton": "Oprávnění",
+        "modelsButton": "Výběr modelu",
+        "exitButton": "Ukončit náhled"
+      },
       "soundTheme": {
-        "label": "Zvukový motiv",
-        "description": "Vyberte zvukový motiv pro odezvu při startu a ukončení nahrávání"
+        "label": "Zvuk signálu",
+        "description": "Zvuk na začátku a na konci diktování."
       },
       "wordCorrectionThreshold": {
         "title": "Práh korekce slov",
         "description": "Citlivost pro opravy vlastních slov"
       },
       "historyLimit": {
-        "title": "Limit historie",
-        "description": "Maximální počet záznamů historie k uchování",
-        "entries": "záznamů"
+        "title": "Historie",
+        "description": "Starší přepisy se mažou (oblíbené zůstávají).",
+        "entries": "přepisů"
       },
       "recordingRetention": {
-        "title": "Automatické mazání nahrávek",
-        "description": "Automaticky mazat staré nahrávky pro úsporu místa",
+        "title": "Zvukové nahrávky",
+        "description": "Mazat staré nahrávky a šetřit místo.",
         "never": "Nikdy",
         "preserveLimit": "Ponechat posledních {{count}}",
         "days3": "Po 3 dnech",
@@ -532,23 +547,23 @@
       },
       "alwaysOnMicrophone": {
         "label": "Vždy zapnutý mikrofon",
-        "description": "Udržovat mikrofon aktivní pro rychlejší odezvu"
+        "description": "Diktování začne rychleji."
       },
       "clamshellMicrophone": {
         "title": "Mikrofon při zavřeném víku",
         "description": "Mikrofon, který se použije při zavřeném víku notebooku"
       },
       "postProcessingToggle": {
-        "label": "Následné zpracování",
-        "description": "Povolit AI vylepšení textu po přepisu"
+        "label": "Oprava pomocí AI",
+        "description": "Online AI přepis před vložením zkontroluje. Vyžaduje klíč API (OpenRouter, Anthropic, OpenAI…)."
       },
       "muteWhileRecording": {
-        "label": "Ztlumit při nahrávání",
-        "description": "Ztlumit systémový zvuk během nahrávání"
+        "label": "Ztlumit počítač",
+        "description": "Hudba a videa během diktování ztichnou."
       },
       "appendTrailingSpace": {
-        "label": "Přidat koncovou mezeru",
-        "description": "Přidat mezeru po vloženém přepisu"
+        "label": "Mezera za textem",
+        "description": "Za každý přepis přidá mezeru."
       },
       "keyboardImplementation": {
         "title": "Implementace klávesnice",
@@ -599,20 +614,6 @@
         "verdictOk": "Události kláves dorazí do J’écoute normálně.",
         "verdictNoEvents": "Nebyly zachyceny žádné události — stiskli jste během testu nějaké klávesy?",
         "failed": "Diagnostika selhala: {{error}}"
-      },
-      "whatsNewPreview": {
-        "title": "Náhled novinek",
-        "description": "Otevřít nejnovější přibalené poznámky k vydání bez označení jako zobrazené",
-        "button": "Náhled",
-        "noNotes": "Nebyly nalezeny žádné přibalené poznámky k vydání",
-        "error": "Nepodařilo se zobrazit náhled poznámek k vydání"
-      },
-      "onboardingPreview": {
-        "title": "Náhled úvodního nastavení",
-        "description": "Prohlédněte si obrazovky úvodního nastavení beze změny oprávnění, modelů nebo stavu dokončení",
-        "permissionsButton": "Oprávnění",
-        "modelsButton": "Výběr modelu",
-        "exitButton": "Ukončit náhled"
       }
     },
     "about": {
@@ -621,9 +622,13 @@
         "title": "Verze",
         "description": "Aktuální verze J’écoute"
       },
+      "whatsNewUpdates": {
+        "label": "Zobrazovat novinky",
+        "description": "Po aktualizaci J’écoute."
+      },
       "appDataDirectory": {
-        "title": "Adresář dat aplikace",
-        "description": "Umístění, kde J’écoute ukládá data"
+        "title": "Data aplikace",
+        "description": "Modely, nastavení, nahrávky."
       },
       "sourceCode": {
         "title": "Zdrojový kód",
@@ -635,12 +640,8 @@
         "ggml": {
           "title": "ggml",
           "description": "Vysoce výkonné inferenční zpracování modelu automatického rozpoznávání řeči Whisper od OpenAI",
-          "details": "J’écoute používá ggml pro rychlé lokální zpracování řeči na text. Díky skvělé práci Georgiho Gerganova a přispěvatelů."
+          "details": "J’écoute přepisuje lokálně díky ggml. Děkujeme Georgimu Gerganovovi a přispěvatelům za jejich skvělou práci."
         }
-      },
-      "whatsNewUpdates": {
-        "label": "Zobrazovat novinky",
-        "description": "Zobrazovat poznámky k vydání po aktualizacích J’écoute"
       },
       "basedOn": "Based on Handy by CJ Pais"
     }
@@ -660,6 +661,9 @@
     "portableUpdateBrowseMessage": "Přenosné instalace nelze aktualizovat automaticky. Stáhněte nejnovější verzi pro svůj systém z GitHub Releases a nainstalujte ji do stejné složky — vaše složka Data/ (nastavení, modely, nahrávky) zůstane na místě.",
     "portableUpdateBrowseButton": "Otevřít GitHub Releases"
   },
+  "whatsNew": {
+    "title": "Novinky v J’écoute v{{version}}"
+  },
   "common": {
     "loading": "Načítání...",
     "delete": "Smazat",
@@ -667,7 +671,9 @@
     "open": "Otevřít",
     "copy": "Kopírovat",
     "clear": "Vymazat",
-    "noOptionsFound": "Nenalezeny žádné možnosti"
+    "noOptionsFound": "Nenalezeny žádné možnosti",
+    "select": "Vybrat…",
+    "reset": "Obnovit výchozí"
   },
   "accessibility": {
     "permissionsDescription": "J’écoute potřebuje oprávnění usnadnění přístupu, aby mohlo psát přepsaný text.",
@@ -692,11 +698,11 @@
     "transcriptionFailedTitle": "Přepis selhal"
   },
   "appLanguage": {
-    "title": "Jazyk aplikace",
-    "description": "Změňte jazyk rozhraní J’écoute"
+    "title": "Jazyk rozhraní",
+    "description": ""
   },
   "theme": {
-    "title": "Motiv aplikace",
+    "title": "Vzhled",
     "description": "Zvolte, zda má J’écoute sledovat motiv systému, nebo zůstat světlý či tmavý",
     "options": {
       "system": "Systém",
@@ -708,18 +714,299 @@
     "transcribing": "Přepisuji...",
     "processing": "Zpracovávám..."
   },
-  "whatsNew": {
-    "title": "Novinky v J’écoute v{{version}}"
-  },
   "secureInput": {
     "blockedWithCulprit_one": "{{name}} může blokovat 1 zkratku",
     "blockedWithCulprit_other": "{{name}} může blokovat {{count}} zkratek",
+    "blockedWithCulprit_few": "{{name}} může blokovat {{count}} zkratky",
     "blockedNoCulprit_one": "macOS dočasně blokuje 1 zkratku",
     "blockedNoCulprit_other": "macOS dočasně blokuje {{count}} zkratek",
+    "blockedNoCulprit_few": "macOS dočasně blokuje {{count}} zkratky",
     "recorderBlockedWithCulprit": "{{name}} může blokovat změny zkratek",
     "recorderBlockedNoCulprit": "macOS dočasně blokuje změny zkratek",
     "learnMore": "Jak to vyřešit",
     "recorderBlocked": "Zkratky teď nelze nahrát — Secure Input v macOS blokuje události kláves. Nejprve vyřešte upozornění na Secure Input.",
     "dismiss": "Zavřít"
+  },
+  "app": {
+    "home": {
+      "history": "Historie",
+      "update": "Aktualizace",
+      "recent": "Poslední přepisy",
+      "allHistory": "Celá historie",
+      "empty": "Tady se objeví vaše přepisy.",
+      "copyTitle": "Kopírovat",
+      "copied": "Zkopírováno",
+      "copiedToast": "Zkopírováno do schránky",
+      "modelPill": "Model přepisu: {{model}}",
+      "languagePill": "Mluvený jazyk: {{language}}",
+      "allModels": "Všechny modely",
+      "downloadPill": "{{model}}, {{percent}} %"
+    },
+    "status": {
+      "ready": {
+        "title": "Připraveno",
+        "desc": "Podržte <keys/> a mluvte: napíšu to tam, kde máte kurzor.",
+        "descToggle": "Stiskněte <keys/> a mluvte: napíšu to tam, kde máte kurzor."
+      },
+      "loading": {
+        "title": "Načítám {{model}}…",
+        "titleGeneric": "Načítám model…",
+        "desc": "Pár sekund po spuštění, pak už jsem pořád v pohotovosti."
+      },
+      "downloading": {
+        "title": "Stahuji {{model}}…",
+        "desc": "{{percent}} %",
+        "descSpeed": "{{percent}} %, {{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "Nic neslyším",
+        "desc": "Nenašel se žádný mikrofon. Připojte nějaký, nebo vyberte jiný.",
+        "action": "Vybrat mikrofon"
+      },
+      "micDenied": {
+        "title": "Nemám přístup k mikrofonu",
+        "action": "Otevřít nastavení mikrofonu"
+      },
+      "noModel": {
+        "title": "Vyberte model",
+        "desc": "K zápisu toho, co říkáte, potřebuji model přepisu.",
+        "action": "Vybrat model"
+      },
+      "error": {
+        "title": "Model se nenačetl",
+        "desc": "Zkuste jiný model, nebo J’écoute restartujte.",
+        "action": "Změnit model"
+      },
+      "listening": {
+        "title": "Poslouchám…",
+        "desc": "Až domluvíte, pusťte <keys/>.",
+        "descToggle": "Až domluvíte, stiskněte znovu <keys/>."
+      },
+      "writing": {
+        "title": "Píšu…",
+        "desc": "{{model}} přepisuje vaši větu.",
+        "descGeneric": "Přepisuji vaši větu."
+      },
+      "processing": {
+        "title": "Dolaďuji…",
+        "desc": "AI kontroluje váš přepis."
+      },
+      "done": {
+        "title": "Vloženo",
+        "titleNoPaste": "Mám to",
+        "desc": "Najdete ho mezi posledními přepisy."
+      },
+      "short": {
+        "ready": "Připraveno",
+        "loading": "Načítání…",
+        "downloading": "Stahování…",
+        "nomic": "Bez mikrofonu",
+        "micDenied": "Mikrofon zablokován",
+        "nomodel": "Bez modelu",
+        "error": "Chyba",
+        "listening": "Poslouchám…",
+        "writing": "Píšu…",
+        "processing": "Dolaďuji…",
+        "done": "Vloženo"
+      }
+    },
+    "history": {
+      "title": "Historie",
+      "back": "Zpět na úvod",
+      "search": "Hledat",
+      "searchLabel": "Hledat v historii",
+      "filters": {
+        "label": "Zobrazit",
+        "all": "Vše",
+        "favorites": "Oblíbené",
+        "corrected": "Opravené AI"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "Opraveno AI",
+      "correctedWith": "Opraveno AI ({{prompt}})",
+      "versionLabel": "Zobrazená verze",
+      "corrected": "Opravená",
+      "raw": "Původní",
+      "legendAddedSample": "zvýrazněný text",
+      "legendAdded": "přidala AI",
+      "legendRemovedSample": "přeškrtnutý text",
+      "legendRemoved": "odstranila AI",
+      "favorite": "V oblíbených",
+      "more": "Více",
+      "play": "Přehrát",
+      "pause": "Pozastavit",
+      "seek": "Pozice v nahrávce",
+      "count_one": "{{count}} přepis",
+      "count_other": "{{count}} přepisů",
+      "count_few": "{{count}} přepisy",
+      "countKept_one": "{{count}} uchovaný přepis z {{limit}}",
+      "countKept_other": "{{count}} uchovaných přepisů z {{limit}}",
+      "countKept_few": "{{count}} uchované přepisy z {{limit}}",
+      "countMore": "Více než {{count}} přepisů",
+      "empty": "Zatím žádné přepisy. Podržte svou zkratku a mluvte!",
+      "noResults": "Žádný přepis neodpovídá."
+    },
+    "settings": {
+      "title": "Nastavení",
+      "close": "Zavřít nastavení",
+      "hint": "Každá změna platí hned.",
+      "tabs": {
+        "dictation": "Diktování",
+        "sound": "Zvuk",
+        "text": "Text",
+        "app": "Aplikace",
+        "about": "O aplikaci"
+      },
+      "advanced": "Pokročilé možnosti",
+      "editShortcut": "Změnit",
+      "editShortcutNamed": "Změnit: {{name}}",
+      "resetShortcut": "Obnovit výchozí zkratku",
+      "systemDefault": "Výchozí systémové",
+      "playSound": "Přehrát signál",
+      "customSound": "Vlastní",
+      "micLevelHint": "Během diktování se tu zobrazí úroveň.",
+      "micLevelLive": "Slyším vás.",
+      "model": {
+        "title": "Model přepisu",
+        "change": "Změnit",
+        "choose": "Vybrat",
+        "none": "Žádný model",
+        "loading": "Načítání…",
+        "error": "Načtení selhalo"
+      },
+      "debugMode": {
+        "label": "Režim ladění",
+        "description": "Zobrazí nástroje pro ladění. Také Ctrl+Shift+D."
+      }
+    },
+    "models": {
+      "title": "Model přepisu",
+      "back": "Zpět do nastavení",
+      "search": "Hledat",
+      "download": "Stáhnout",
+      "use": "Použít",
+      "live": "Živý text",
+      "accuracy": "Přesnost",
+      "speed": "Rychlost",
+      "sorted": "Seřazeno pro váš jazyk.",
+      "sortedFor": "Seřazeno pro jazyk: {{language}}.",
+      "count_one": "{{count}} model",
+      "count_other": "{{count}} modelů",
+      "count_few": "{{count}} modely",
+      "countFiltered": "{{count}} z {{total}}",
+      "translation": "Překládá do angličtiny"
+    },
+    "onboarding": {
+      "welcome": "Vítejte v J’écoute",
+      "lead": "Vyberte model, který bude přepisovat váš hlas. Běží ve vašem počítači, nic neodchází na internet.",
+      "choose": "Vyberte model",
+      "recommendedFor": "Doporučeno: {{language}}",
+      "light": "Velmi lehký",
+      "onDisk": "Už staženo",
+      "download": "Stáhnout {{model}} ({{size}})",
+      "use": "Použít {{model}}",
+      "showAll": "Zobrazit všech {{count}} modelů",
+      "allModels": "Všechny modely",
+      "downloading": "Stahuji {{model}}",
+      "downloadingSpeed": "Stahuji {{model}}, {{speed}} MB/s",
+      "preparing": "Připravuji {{model}}…",
+      "percent": "{{percent}} %"
+    },
+    "about": {
+      "version": "Verze {{version}}",
+      "versionUpToDate": "Verze {{version}}, aktuální",
+      "versionUpdate": "Verze {{version}}, k dispozici aktualizace",
+      "license": "Licence MIT. Lokální přepis díky ggml.",
+      "handy": "Handy",
+      "character": "Postavička: Copyright (c) 2026 Théo Ponthieu, licence PolyForm Noncommercial 1.0.0.",
+      "updates": {
+        "title": "Aktualizace",
+        "auto": "Kontrolují se automaticky.",
+        "upToDate": "Máte nejnovější verzi.",
+        "failed": "Kontrola se nezdařila. Zkuste to později.",
+        "availableVersion": "Je k dispozici verze {{version}}.",
+        "downloading": "Stahování… {{progress}} %",
+        "check": "Zkontrolovat",
+        "install": "Nainstalovat"
+      }
+    },
+    "dates": {
+      "today": "Dnes",
+      "yesterday": "Včera",
+      "todayAt": "Dnes v {{time}}",
+      "yesterdayAt": "Včera v {{time}}",
+      "dayAt": "{{day}} v {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "Mezerník",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "Levý {{key}}",
+      "rightSide": "Pravý {{key}}"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "Rychlý a přesný živý přepis angličtiny.",
+      "live_multilingual_transcription_across_28_languages": "Živý vícejazyčný přepis, 28 jazyků.",
+      "tiny_and_instant_runs_well_on_any_hardware": "Drobný a okamžitý, dobře běží na jakémkoli hardwaru.",
+      "highest_accuracy_14_languages_slower": "Nejvyšší přesnost, 14 jazyků, pomalejší.",
+      "broadest_language_but_may_run_a_bit_slow": "Nejvíce jazyků, ale může být trochu pomalejší.",
+      "live_multilingual_excellent_on_powerful_machines": "Živý vícejazyčný přepis, skvělý na výkonných počítačích.",
+      "fast_and_accurate_supports_25_european_languages": "Rychlý a přesný. Podporuje 25 evropských jazyků.",
+      "english_only_the_best_model_for_english_speakers": "Pouze angličtina. Nejlepší model pro anglicky mluvící.",
+      "excellent_multilingual_model": "Vynikající vícejazyčný model.",
+      "a_tiny_multilingual_model": "Malinký vícejazyčný model.",
+      "4_language_speech_to_text_with_translation": "Přepis řeči ve 4 jazycích, s překladem.",
+      "25_language_speech_to_text_with_translation": "Přepis řeči ve 25 jazycích, s překladem.",
+      "english_speech_to_text": "Přepis anglické řeči.",
+      "2_language_speech_to_text": "Přepis řeči ve 2 jazycích.",
+      "3_language_speech_to_text": "Přepis řeči ve 3 jazycích.",
+      "russian_speech_to_text_with_token_level_timestamps": "Přepis ruské řeči s časovými značkami po tokenech.",
+      "5_language_speech_to_text": "Přepis řeči v 5 jazycích.",
+      "6_language_speech_to_text_with_translation": "Přepis řeči v 6 jazycích, s překladem.",
+      "5_language_speech_to_text_with_word_level_timestamps": "Přepis řeči v 5 jazycích s časovými značkami po slovech.",
+      "english_speech_to_text_with_token_level_timestamps": "Přepis anglické řeči s časovými značkami po tokenech.",
+      "english_speech_to_text_with_streaming": "Přepis anglické řeči, živý text.",
+      "arabic_speech_to_text": "Přepis arabské řeči.",
+      "japanese_speech_to_text": "Přepis japonské řeči.",
+      "korean_speech_to_text": "Přepis korejské řeči.",
+      "ukrainian_speech_to_text": "Přepis ukrajinské řeči.",
+      "vietnamese_speech_to_text": "Přepis vietnamské řeči.",
+      "chinese_speech_to_text": "Přepis čínské řeči.",
+      "2_language_speech_to_text_with_segment_level_timestamps": "Přepis řeči ve 2 jazycích s časovými značkami po úsecích.",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "Přepis anglické řeči, živý text, časové značky po tokenech.",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "Přepis řeči ve 25 jazycích, automatické rozpoznání jazyka, časové značky po tokenech.",
+      "30_language_speech_to_text_with_auto_language_detection": "Přepis řeči ve 30 jazycích s automatickým rozpoznáním jazyka.",
+      "5_language_speech_to_text_with_auto_language_detection": "Přepis řeči v 5 jazycích s automatickým rozpoznáním jazyka.",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "Přepis řeči v 8 jazycích, překlad, automatické rozpoznání jazyka.",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Přepis řeči v 99 jazycích, překlad, automatické rozpoznání jazyka, časové značky po úsecích.",
+      "english_speech_to_text_with_segment_level_timestamps": "Přepis anglické řeči s časovými značkami po úsecích.",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Přepis řeči ve 100 jazycích, automatické rozpoznání jazyka, časové značky po úsecích.",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "Optimalizováno pro tchajwanskou mandarínštinu. Zvládá přepínání jazyků.",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Přepis řeči ve 100 jazycích, překlad, automatické rozpoznání jazyka, časové značky po úsecích."
+    }
   }
 }

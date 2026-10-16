@@ -117,11 +117,13 @@
       "errors": {
         "checkFailed": "בדיקת ההרשאות נכשלה. נסה שוב.",
         "requestFailed": "בקשת ההרשאה נכשלה. נסה שוב."
-      }
+      },
+      "checking": "בודק הרשאות…"
     }
   },
   "modelSelector": {
     "custom": "מותאם אישית",
+    "legacy": "מדור קודם",
     "streaming": "סטרימינג",
     "active": "פעיל",
     "switching": "מחליף...",
@@ -151,8 +153,7 @@
       "translation": "יכול לתרגם לאנגלית",
       "translate": "תרגם לאנגלית",
       "streaming": "מציג תמלול חי תוך כדי דיבור"
-    },
-    "legacy": "מדור קודם"
+    }
   },
   "settings": {
     "modelSettings": {
@@ -169,16 +170,16 @@
         "pressKeys": "לחץ על המקשים...",
         "bindings": {
           "transcribe": {
-            "name": "קיצור מקשים לתמלול",
-            "description": "קיצור המקלדת להקלטה ולתמלול הקול שלך."
+            "name": "קיצור להכתבה",
+            "description": "החזק כדי לדבר, שחרר כדי לכתוב."
           },
           "cancel": {
-            "name": "קיצור מקשים לביטול",
-            "description": "קיצור המקלדת לביטול ההקלטה הנוכחית."
+            "name": "ביטול הכתבה",
+            "description": "עוצר בלי לכתוב דבר."
           },
           "transcribe_with_post_process": {
-            "name": "קיצור לעיבוד משלים",
-            "description": "אופציונלי: קיצור מקשים ייעודי שתמיד מפעיל עיבוד AI על התמלול."
+            "name": "קיצור עם תיקון AI",
+            "description": "מכתיב, וה-AI תמיד עובר על הטקסט."
           }
         },
         "errors": {
@@ -188,8 +189,8 @@
         }
       },
       "language": {
-        "title": "שפה",
-        "description": "בחר את שפת זיהוי הדיבור. מצב אוטומטי יזהה את השפה לבד, בעוד שבחירת שפה מסוימת יכולה לשפר את הדיוק עבורה.",
+        "title": "שפת הדיבור",
+        "description": "השפות שהמודל הפעיל מבין: {{count}}",
         "searchPlaceholder": "חפש שפות...",
         "noResults": "לא נמצאו שפות",
         "auto": "אוטומטי",
@@ -201,18 +202,19 @@
         "options": {
           "holdOrToggle": "אוטומטי",
           "pushToTalk": "לחיצה ארוכה",
-          "toggle": "החלפת מצב"
+          "toggle": "לחיצה להתחלה"
         },
         "descriptions": {
-          "hold_or_toggle": "לחצו לחיצה ארוכה כדי להקליט או הקישו כדי להחליף מצב",
-          "push_to_talk": "מקליט כל עוד קיצור הדרך לחוץ",
-          "toggle": "הקישו על קיצור הדרך כדי להתחיל להקליט, והקישו שוב כדי לעצור"
+          "hold_or_toggle": "החזק כדי להכתיב, או לחץ פעם אחת כדי להתחיל ופעם נוספת כדי לעצור.",
+          "push_to_talk": "אני מקשיב כל עוד אתה מחזיק את המקשים.",
+          "toggle": "לחיצה אחת להתחלה, ועוד אחת לעצירה."
         }
       }
     },
     "models": {
       "title": "מודלי תמלול",
       "description": "בחר מודל תמלול או הורד מודלים נוספים. מודלים שונים מציעים רמות שונות של דיוק ומהירות.",
+      "searchPlaceholder": "חיפוש מודלים לפי שם…",
       "yourModels": "מודלים שהורדו",
       "availableModels": "זמינים להורדה",
       "deleteConfirm": "האם למחוק את {{modelName}}? יהיה צורך להוריד אותו שוב כדי להשתמש בו.",
@@ -223,39 +225,38 @@
         "streaming": "סינון דגמים התומכים בתמלול חי",
         "translation": "סינון דגמים התומכים בתרגום לאנגלית"
       },
-      "noModelsMatch": "אין מודלים שמתאימים לסינון הזה.",
-      "searchPlaceholder": "חיפוש מודלים לפי שם…",
       "rescan": {
         "label": "סריקה מחדש",
         "tooltip": "סריקה מחדש לאיתור מודלים שנוספו לתיקיית המודלים או למטמון של Hugging Face מחוץ ל-J’écoute"
-      }
+      },
+      "noModelsMatch": "אין מודלים שמתאימים לסינון הזה."
     },
     "sound": {
       "title": "שמע",
       "microphone": {
         "title": "מיקרופון",
-        "description": "בחר את המיקרופון המועדף עליך",
+        "description": "המיקרופון שמקשיב לך.",
         "placeholder": "בחר מיקרופון...",
         "loading": "טוען..."
       },
       "channel": {
         "title": "ערוץ קלט",
-        "description": "בחרו את ערוץ הקלט שממנו תתבצע ההקלטה. השתמשו באפשרות זו אם לממשק השמע שלכם יש מספר כניסות.",
+        "description": "לממשק שמע עם כמה כניסות.",
         "average": "ממוצע של כל הערוצים",
         "channel": "ערוץ {{n}}"
       },
       "audioFeedback": {
-        "label": "משוב קולי",
-        "description": "נגן צליל כשההקלטה מתחילה ומסתיימת"
+        "label": "צליל התראה",
+        "description": "צליל קצר בתחילת ההכתבה ובסופה."
       },
       "outputDevice": {
-        "title": "התקן פלט",
-        "description": "בחר את התקן השמע המועדף עליך עבור צלילי המשוב",
+        "title": "פלט ההתראה",
+        "description": "היכן נשמע צליל ההתראה.",
         "placeholder": "בחר התקן פלט...",
         "loading": "טוען..."
       },
       "volume": {
-        "title": "עוצמת קול",
+        "title": "עוצמת ההתראה",
         "description": "כוונן את עוצמת צלילי המשוב"
       }
     },
@@ -269,51 +270,51 @@
       },
       "experimentalToggle": {
         "label": "תכונות ניסיוניות",
-        "description": "הפעל תכונות ניסיוניות שעדיין נמצאות בפיתוח."
+        "description": "תכונות שעדיין בפיתוח."
       },
       "lazyStreamClose": {
-        "label": "השאר את המיקרופון פתוח בין תמלולים",
-        "description": "משאיר את זרם המיקרופון פתוח למשך 30 שניות אחרי סיום ההקלטה, וכך מפחית השהיה בתמלולים רצופים. עשוי לפגוע באיכות שמע Bluetooth בזמן שהאפשרות פעילה."
+        "label": "השאר את המיקרופון פתוח בין הכתבות",
+        "description": "המיקרופון נשאר פתוח 30 שניות אחרי הכתבה, כך שההכתבה הבאה מתחילה מהר יותר. עלול לפגוע בשמע Bluetooth."
       },
       "acceleration": {
         "transcribe": {
-          "title": "האצת Whisper",
-          "description": "האצת חומרה למודלי Whisper. מצב אוטומטי משתמש ב-GPU אם זמין (Metal ב-macOS, Vulkan ב-Windows/Linux)."
+          "title": "האצה",
+          "description": "כרטיס מסך (Vulkan, Metal) או מעבד. \"אוטומטי\" משתמש בכרטיס המסך כשהוא זמין."
         },
         "ort": {
           "title": "האצת ONNX",
-          "description": "האצת חומרה למודלי ONNX (Parakeet, Canary, Moonshine ועוד). DirectML ב-Windows הוא ניסיוני. ייתכן שמודלים ייכשלו בתמלול."
+          "description": "למודלי ONNX ישנים. DirectML (Windows) ניסיוני."
         },
         "gpuDevice": {
           "auto": "אוטומטי"
         }
       },
       "startHidden": {
-        "label": "התחל מוסתר",
-        "description": "הפעל לתוך מגש המערכת בלי לפתוח את החלון."
+        "label": "הפעלה מוסתרת",
+        "description": "מתחיל בשורת המשימות בלי לפתוח את החלון."
       },
       "autostart": {
-        "label": "הפעל עם עליית המערכת",
-        "description": "הפעל את J’écoute אוטומטית כשאתה מתחבר למחשב."
+        "label": "הפעלה עם עליית המערכת",
+        "description": "J’écoute מופעל כשאתה מתחבר למחשב."
       },
       "showTrayIcon": {
-        "label": "הצג אייקון במגש",
-        "description": "הצג את האייקון של J’écoute במגש המערכת."
+        "label": "סמל בשורת המשימות",
+        "description": "באזור ההודעות, ליד השעון."
       },
       "overlay": {
         "style": {
-          "title": "שכבת-על",
-          "description": "בחר את שכבת-העל בהקלטה: 'ללא' מסתירה אותה, 'מינימלי' מציג סמן קומפקטי, 'בזמן אמת' מציג תמלול בזמן אמת בזמן הדיבור (מודלים התומכים בסטרימינג בלבד — חפש את התווית 'סטרימינג' בבורר המודלים). ב-Linux מומלץ לבחור 'ללא'.",
+          "title": "בזמן הכתבה",
+          "description": "מה מוצג על המסך. \"טקסט חי\" דורש מודל תואם. ב-Linux מומלץ \"ללא\".",
           "options": {
             "none": "ללא",
             "minimal": "מינימלי",
-            "live": "בזמן אמת",
+            "live": "טקסט חי",
             "character": "דמות"
           }
         },
         "position": {
-          "title": "מיקום שכבת המשוב",
-          "description": "הצג שכבת משוב חזותית בזמן הקלטה ותמלול. בלינוקס מומלץ לבחור 'ללא'.",
+          "title": "מיקום על המסך",
+          "description": "בחלק העליון או התחתון של המסך.",
           "options": {
             "bottom": "למטה",
             "top": "למעלה"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "שיטת הדבקה",
-        "description": "בחר איך הטקסט יוכנס. ישיר: מדמה הקלדה דרך קלט המערכת. ללא: מדלג על הדבקה ומעדכן רק היסטוריה/לוח.",
+        "title": "כתיבת הטקסט",
+        "description": "איך ההכתבה מגיעה לאפליקציה שלך.",
         "options": {
-          "clipboard": "לוח ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "לוח (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "לוח (Shift+Insert)",
-          "direct": "ישיר",
-          "none": "ללא",
+          "clipboard": "הדבקה ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "הדבקה (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "הדבקה (Shift+Insert)",
+          "direct": "הקלדת הטקסט",
+          "none": "לא לכתוב",
           "externalScript": "סקריפט חיצוני"
         },
         "externalScriptPlaceholder": "/path/to/your/script.sh"
       },
       "typingTool": {
         "title": "כלי הקלדה",
-        "description": "בחר איזה כלי הקלדה בלינוקס ישמש עבור הדבקה ישירה. מצב אוטומטי יזהה וישתמש בכלי המתאים ביותר למערכת שלך.",
+        "description": "כלי ה-Linux שמקליד את הטקסט. \"אוטומטי\" בוחר את הכלי הטוב ביותר שזמין.",
         "options": {
           "auto": "אוטומטי (מומלץ)"
         }
       },
       "clipboardHandling": {
-        "title": "התנהגות הלוח",
-        "description": "אל תשנה את הלוח ישמור על תוכן הלוח הנוכחי שלך אחרי התמלול. העתק ללוח ישאיר את תוצאת התמלול בלוח אחרי ההדבקה.",
+        "title": "לוח",
+        "description": "אחרי ההדבקה.",
         "options": {
-          "dontModify": "אל תשנה את הלוח",
-          "copyToClipboard": "העתק ללוח"
+          "dontModify": "שחזר את התוכן הקודם",
+          "copyToClipboard": "השאר את ההכתבה"
         }
       },
       "autoSubmit": {
-        "title": "שליחה אוטומטית",
-        "description": "שלח אוטומטית את צירוף המקשים שנבחר אחרי הכנסת הטקסט. ב-macOS יופעל Cmd+Enter, וב-Windows/Linux יופעל Super+Enter.",
+        "title": "שליחה אחרי הטקסט",
+        "description": "לוחץ על מקש במקומך, כדי לשלוח הודעה.",
         "options": {
           "off": "כבוי",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "תרגם לאנגלית",
-        "description": "תרגם אוטומטית דיבור משפות אחרות לאנגלית בזמן התמלול."
+        "description": "מה שאתה אומר בשפה אחרת נכתב באנגלית."
       },
       "modelUnload": {
-        "title": "פרוק מודל",
-        "description": "שחרר אוטומטית זיכרון GPU/CPU כשהמודל לא היה בשימוש במשך הזמן שנבחר",
+        "title": "פינוי זיכרון",
+        "description": "פורק את המודל כשאתה מפסיק להכתיב.",
         "options": {
           "never": "אף פעם",
           "immediately": "מיידית",
@@ -378,20 +379,20 @@
         }
       },
       "customWords": {
-        "title": "מילים מותאמות אישית",
-        "description": "עזרו למודלים נתמכים לזהות שמות ומונחים מקצועיים. תיקון בקירוב מוגבל כרגע למילים המשתמשות באותיות A–Z ובמספרים.",
+        "title": "מילים לזיהוי",
+        "description": "שמות ומונחים טכניים שעליי לכתוב נכון.",
         "placeholder": "הוסף מילה",
         "add": "הוסף",
         "remove": "הסר את {{word}}",
-        "duplicate": "\"{{word}}\" כבר קיימת"
+        "duplicate": "\"{{word}}\" כבר ברשימה"
       },
       "voiceActivityDetection": {
-        "title": "זיהוי פעילות קולית",
-        "description": "סינון שקט מההקלטות. מודלים התומכים בסטרימינג משתמשים בזנב VAD ארוך יותר; ביטול VAD מקליט אודיו גולמי."
+        "title": "זיהוי קול",
+        "description": "מתעלם משקט לפני הדיבור ואחריו."
       },
       "vadBackend": {
-        "title": "מנוע זיהוי פעילות קולית",
-        "description": "בחרו את הגלאי המשמש לסינון שקט. Earshot ניסיוני; חזרו ל-Silero אם הדיבור נחתך או שרעש נשמר.",
+        "title": "גלאי קול",
+        "description": "Earshot ניסיוני: חזור ל-Silero אם הדיבור נקטע.",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
@@ -399,11 +400,11 @@
       },
       "fillerWordRemoval": {
         "title": "הסרת מילות מילוי",
-        "description": "מסיר מילות היסוס נפוצות מתמלולים. השבת כדי להשאיר אותן."
+        "description": "\"אה\", \"אממ\", \"כאילו\"…"
       },
       "chineseScript": {
         "title": "כתב סיני",
-        "description": "כותב תמלולים במנדרינית ובקנטונזית בתווים מפושטים או מסורתיים. שפות אחרות נשארות ללא שינוי.",
+        "description": "תווים מפושטים או מסורתיים למנדרינית ולקנטונזית.",
         "options": {
           "asTranscribed": "כפי שתומלל",
           "simplified": "מפושט",
@@ -416,22 +417,22 @@
         "title": "קיצור מקשים"
       },
       "api": {
-        "title": "API (תואם OpenAI)",
+        "title": "ספק AI",
         "provider": {
           "title": "ספק",
-          "description": "בחר ספק שתואם ל-OpenAI."
+          "description": "שירות תואם OpenAI."
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence לא זמין במכשיר הזה. נדרש Mac עם Apple Silicon שמריץ macOS Tahoe (26.0) ומעלה, עם Apple Intelligence מופעל בהגדרות המערכת."
         },
         "baseUrl": {
-          "title": "כתובת URL בסיסית",
-          "description": "כתובת ה-API הבסיסית עבור הספק הנבחר. רק ספק מותאם אישית ניתן לעריכה.",
+          "title": "כתובת ה-API",
+          "description": "ניתן לעריכה רק בספק מותאם אישית.",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "מפתח API",
-          "description": "מפתח API עבור הספק הנבחר.",
+          "description": "מפתח החשבון שלך אצל הספק הזה.",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "פרומפט",
+        "title": "הנחיות",
         "selectedPrompt": {
-          "title": "פרומפט נבחר",
-          "description": "בחר תבנית לשיפור התמלול או צור חדשה. השתמש ב-${output} בתוך טקסט הפרומפט כדי להפנות לתמלול שנקלט."
+          "title": "הנחיה",
+          "description": "מה ה-AI עושה עם הטקסט. ${output} מייצג את ההכתבה שלך."
         },
         "noPrompts": "אין פרומפטים זמינים",
         "selectPrompt": "בחר פרומפט",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "היסטוריה",
-      "openFolder": "פתח את תיקיית ההקלטות",
+      "openFolder": "תיקיית ההקלטות",
       "loading": "טוען היסטוריה...",
       "empty": "עדיין אין תמלולים. התחל להקליט כדי לבנות את ההיסטוריה שלך!",
-      "copyToClipboard": "העתק תמלול ללוח",
+      "copyToClipboard": "העתק",
       "copyError": "לא ניתן להעתיק את התמלול ללוח.",
-      "save": "שמור תמלול",
-      "unsave": "הסר משמורים",
-      "delete": "מחק רשומה",
+      "save": "הוסף למועדפים",
+      "unsave": "הסר מהמועדפים",
+      "delete": "מחק",
       "deleteError": "מחיקת הרשומה נכשלה. נסה שוב.",
       "retranscribe": "תמלל מחדש",
       "retranscribeError": "תמלול מחדש נכשל. נסה שוב.",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "ניפוי שגיאות",
       "logDirectory": {
-        "title": "תיקיית לוגים",
-        "description": "המיקום שבו נשמרים קבצי הלוג"
+        "title": "לוגים",
+        "description": "התיקייה של קובצי הלוג."
       },
       "logLevel": {
         "title": "רמת לוג",
@@ -504,25 +505,39 @@
       },
       "updateChecks": {
         "label": "בדוק עדכונים",
-        "description": "בדוק אוטומטית אם קיימות גרסאות חדשות של J’écoute",
+        "description": "חפש גרסאות חדשות של J’écoute באופן אוטומטי.",
         "lockedDescription": "מושבת על ידי תצורת המערכת (HANDY_DISABLE_UPDATER)"
       },
+      "whatsNewPreview": {
+        "title": "תצוגה מקדימה של מה חדש",
+        "description": "פתח את הערת הגרסה המצורפת האחרונה בלי לסמן אותה כנצפתה",
+        "button": "תצוגה מקדימה",
+        "noNotes": "לא נמצאו הערות גרסה מצורפות",
+        "error": "הצגת התצוגה המקדימה של הערות הגרסה נכשלה"
+      },
+      "onboardingPreview": {
+        "title": "תצוגה מקדימה של ההגדרה הראשונית",
+        "description": "הצג את מסכי ההגדרה הראשונית בלי לשנות הרשאות, מודלים או את מצב ההשלמה",
+        "permissionsButton": "הרשאות",
+        "modelsButton": "בחירת מודל",
+        "exitButton": "יציאה מהתצוגה המקדימה"
+      },
       "soundTheme": {
-        "label": "ערכת צלילים",
-        "description": "בחר ערכת צלילים להתחלה ולסיום ההקלטה"
+        "label": "צליל ההתראה",
+        "description": "הצליל בתחילת ההכתבה ובסופה."
       },
       "wordCorrectionThreshold": {
         "title": "סף תיקון מילים",
         "description": "רגישות לתיקוני מילים מותאמות אישית"
       },
       "historyLimit": {
-        "title": "מגבלת היסטוריה",
-        "description": "המספר המרבי של רשומות היסטוריה לשמירה",
-        "entries": "רשומות"
+        "title": "היסטוריה",
+        "description": "ההכתבות הישנות נמחקות (המועדפות נשמרות).",
+        "entries": "הכתבות"
       },
       "recordingRetention": {
-        "title": "מחיקה אוטומטית של הקלטות",
-        "description": "מחק הקלטות ישנות אוטומטית כדי לחסוך מקום",
+        "title": "הקלטות שמע",
+        "description": "מחק הקלטות ישנות כדי לפנות מקום.",
         "never": "אף פעם",
         "preserveLimit": "שמור את {{count}} האחרונות",
         "days3": "אחרי 3 ימים",
@@ -531,24 +546,24 @@
         "placeholder": "בחר משך שמירה..."
       },
       "alwaysOnMicrophone": {
-        "label": "מיקרופון תמיד פעיל",
-        "description": "השאר את המיקרופון פעיל לתגובה מהירה יותר"
+        "label": "מיקרופון פתוח תמיד",
+        "description": "ההכתבה מתחילה מהר יותר."
       },
       "clamshellMicrophone": {
         "title": "מיקרופון במצב clamshell",
         "description": "המיקרופון שישמש כשהמחשב הנייד סגור"
       },
       "postProcessingToggle": {
-        "label": "עיבוד משלים",
-        "description": "הפעל שיפור טקסט מבוסס AI אחרי התמלול"
+        "label": "תיקון AI",
+        "description": "AI מקוון עובר על ההכתבה לפני ההדבקה. דורש מפתח API (OpenRouter, Anthropic, OpenAI…)."
       },
       "muteWhileRecording": {
-        "label": "השתק בזמן הקלטה",
-        "description": "השתק את שמע המערכת בזמן הקלטה"
+        "label": "השתק את המחשב",
+        "description": "מוזיקה וסרטונים משתתקים בזמן הכתבה."
       },
       "appendTrailingSpace": {
-        "label": "הוסף רווח בסוף",
-        "description": "הוסף רווח אחרי התמלול המודבק"
+        "label": "רווח אחרי הטקסט",
+        "description": "מוסיף רווח אחרי כל הכתבה."
       },
       "keyboardImplementation": {
         "title": "מימוש מקלדת",
@@ -599,20 +614,6 @@
         "verdictOk": "אירועי מקשים מגיעים ל-J’écoute כרגיל.",
         "verdictNoEvents": "לא נקלטו אירועים — האם הקשת על מקשים במהלך הבדיקה?",
         "failed": "האבחון נכשל: {{error}}"
-      },
-      "whatsNewPreview": {
-        "title": "תצוגה מקדימה של מה חדש",
-        "description": "פתח את הערת הגרסה המצורפת האחרונה בלי לסמן אותה כנצפתה",
-        "button": "תצוגה מקדימה",
-        "noNotes": "לא נמצאו הערות גרסה מצורפות",
-        "error": "הצגת התצוגה המקדימה של הערות הגרסה נכשלה"
-      },
-      "onboardingPreview": {
-        "title": "תצוגה מקדימה של ההגדרה הראשונית",
-        "description": "הצג את מסכי ההגדרה הראשונית בלי לשנות הרשאות, מודלים או את מצב ההשלמה",
-        "permissionsButton": "הרשאות",
-        "modelsButton": "בחירת מודל",
-        "exitButton": "יציאה מהתצוגה המקדימה"
       }
     },
     "about": {
@@ -621,9 +622,13 @@
         "title": "גרסה",
         "description": "הגרסה הנוכחית של J’écoute"
       },
+      "whatsNewUpdates": {
+        "label": "הצג מה חדש",
+        "description": "אחרי עדכון של J’écoute."
+      },
       "appDataDirectory": {
-        "title": "תיקיית נתוני אפליקציה",
-        "description": "המיקום שבו J’écoute שומר את הנתונים שלו"
+        "title": "נתוני האפליקציה",
+        "description": "מודלים, הגדרות, הקלטות."
       },
       "sourceCode": {
         "title": "קוד מקור",
@@ -635,12 +640,8 @@
         "ggml": {
           "title": "ggml",
           "description": "הסקה מהירה לביצועים גבוהים עבור מודל זיהוי הדיבור Whisper של OpenAI",
-          "details": "J’écoute משתמש ב-ggml לתמלול מהיר ומקומי. תודה לעבודה המדהימה של Georgi Gerganov וכל התורמים."
+          "details": "J’écoute מתמלל באופן מקומי בזכות ggml. תודה ל-Georgi Gerganov ולתורמים על עבודתם המרשימה."
         }
-      },
-      "whatsNewUpdates": {
-        "label": "הצג מה חדש",
-        "description": "הצג הערות גרסה לאחר עדכוני J’écoute"
       },
       "basedOn": "מבוסס על Handy מאת CJ Pais"
     }
@@ -660,6 +661,9 @@
     "portableUpdateBrowseMessage": "התקנות ניידות אינן מתעדכנות אוטומטית. הורד את הגרסה האחרונה המתאימה למערכת שלך מ-GitHub Releases והתקן אותה לאותה תיקייה — תיקיית Data/ (הגדרות, מודלים, הקלטות) נשמרת במקומה.",
     "portableUpdateBrowseButton": "פתח את GitHub Releases"
   },
+  "whatsNew": {
+    "title": "חדש ב-J’écoute v{{version}}"
+  },
   "common": {
     "loading": "טוען...",
     "delete": "מחק",
@@ -667,7 +671,9 @@
     "open": "פתח",
     "copy": "העתק",
     "clear": "נקה",
-    "noOptionsFound": "לא נמצאו אפשרויות"
+    "noOptionsFound": "לא נמצאו אפשרויות",
+    "select": "בחר…",
+    "reset": "אפס לברירת המחדל"
   },
   "accessibility": {
     "permissionsDescription": "J’écoute צריך הרשאות נגישות כדי להקליד את הטקסט המתומלל.",
@@ -692,11 +698,11 @@
     "transcriptionFailedTitle": "התמלול נכשל"
   },
   "appLanguage": {
-    "title": "שפת האפליקציה",
-    "description": "שנה את שפת הממשק של J’écoute"
+    "title": "שפת הממשק",
+    "description": ""
   },
   "theme": {
-    "title": "ערכת נושא של האפליקציה",
+    "title": "מראה",
     "description": "בחר אם J’écoute יעקוב אחר ערכת הנושא של המערכת או יישאר בהיר או כהה",
     "options": {
       "system": "מערכת",
@@ -708,18 +714,299 @@
     "transcribing": "מתמלל...",
     "processing": "מעבד..."
   },
-  "whatsNew": {
-    "title": "חדש ב-J’écoute v{{version}}"
-  },
   "secureInput": {
     "blockedWithCulprit_one": "ייתכן ש-{{name}} חוסם קיצור דרך אחד",
     "blockedWithCulprit_other": "ייתכן ש-{{name}} חוסם {{count}} קיצורי דרך",
+    "blockedWithCulprit_two": "ייתכן ש-{{name}} חוסם שני קיצורי דרך",
     "blockedNoCulprit_one": "macOS חוסם זמנית קיצור דרך אחד",
     "blockedNoCulprit_other": "macOS חוסם זמנית {{count}} קיצורי דרך",
+    "blockedNoCulprit_two": "macOS חוסם זמנית שני קיצורי דרך",
     "recorderBlockedWithCulprit": "ייתכן ש-{{name}} חוסם שינויים בקיצורי דרך",
     "recorderBlockedNoCulprit": "macOS חוסם זמנית שינויים בקיצורי דרך",
     "learnMore": "איך לתקן את זה",
     "recorderBlocked": "לא ניתן להקליט קיצורים כרגע — Secure Input של macOS חוסם אירועי מקשים. פתור תחילה את אזהרת Secure Input.",
     "dismiss": "התעלם"
+  },
+  "app": {
+    "home": {
+      "history": "היסטוריה",
+      "update": "עדכון",
+      "recent": "הכתבות אחרונות",
+      "allHistory": "כל ההיסטוריה",
+      "empty": "ההכתבות שלך יופיעו כאן.",
+      "copyTitle": "העתק",
+      "copied": "הועתק",
+      "copiedToast": "הועתק ללוח",
+      "modelPill": "מודל תמלול: {{model}}",
+      "languagePill": "שפת הדיבור: {{language}}",
+      "allModels": "כל המודלים",
+      "downloadPill": "{{model}}, {{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "מוכן",
+        "desc": "החזק את <keys/> ודבר: אני כותב איפה שהסמן נמצא.",
+        "descToggle": "לחץ על <keys/> ודבר: אני כותב איפה שהסמן נמצא."
+      },
+      "loading": {
+        "title": "טוען את {{model}}…",
+        "titleGeneric": "טוען את המודל…",
+        "desc": "כמה שניות אחרי ההפעלה, ואז אני נשאר מוכן."
+      },
+      "downloading": {
+        "title": "מוריד את {{model}}…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%, {{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "אני לא שומע כלום",
+        "desc": "לא נמצא מיקרופון. חבר מיקרופון או בחר אחר.",
+        "action": "בחר מיקרופון"
+      },
+      "micDenied": {
+        "title": "אין לי גישה למיקרופון",
+        "action": "פתח את הגדרות המיקרופון"
+      },
+      "noModel": {
+        "title": "בחר מודל",
+        "desc": "אני צריך מודל תמלול כדי לכתוב את מה שאתה אומר.",
+        "action": "בחר מודל"
+      },
+      "error": {
+        "title": "המודל לא נטען",
+        "desc": "נסה מודל אחר, או הפעל מחדש את J’écoute.",
+        "action": "החלף מודל"
+      },
+      "listening": {
+        "title": "מקשיב…",
+        "desc": "שחרר את <keys/> כשתסיים.",
+        "descToggle": "לחץ שוב על <keys/> כשתסיים."
+      },
+      "writing": {
+        "title": "כותב…",
+        "desc": "{{model}} מתמלל את המשפט שלך.",
+        "descGeneric": "מתמלל את המשפט שלך."
+      },
+      "processing": {
+        "title": "מלטש…",
+        "desc": "ה-AI עובר על ההכתבה שלך."
+      },
+      "done": {
+        "title": "הודבק",
+        "titleNoPaste": "רשמתי",
+        "desc": "תמצא אותה בהכתבות האחרונות."
+      },
+      "short": {
+        "ready": "מוכן",
+        "loading": "טוען…",
+        "downloading": "מוריד…",
+        "nomic": "אין מיקרופון",
+        "micDenied": "המיקרופון חסום",
+        "nomodel": "אין מודל",
+        "error": "שגיאה",
+        "listening": "מקשיב…",
+        "writing": "כותב…",
+        "processing": "מלטש…",
+        "done": "הודבק"
+      }
+    },
+    "history": {
+      "title": "היסטוריה",
+      "back": "חזרה לדף הבית",
+      "search": "חיפוש",
+      "searchLabel": "חיפוש בהיסטוריה",
+      "filters": {
+        "label": "הצג",
+        "all": "הכול",
+        "favorites": "מועדפים",
+        "corrected": "תוקנו ב-AI"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "תוקנה על ידי AI",
+      "correctedWith": "תוקנה על ידי AI ({{prompt}})",
+      "versionLabel": "גרסה מוצגת",
+      "corrected": "מתוקן",
+      "raw": "גולמי",
+      "legendAddedSample": "מודגש",
+      "legendAdded": "נוסף על ידי ה-AI",
+      "legendRemovedSample": "מחוק",
+      "legendRemoved": "הוסר על ידי ה-AI",
+      "favorite": "מועדף",
+      "more": "עוד",
+      "play": "נגן",
+      "pause": "השהה",
+      "seek": "מיקום בהקלטה",
+      "count_one": "הכתבה אחת",
+      "count_other": "{{count}} הכתבות",
+      "count_two": "שתי הכתבות",
+      "countKept_one": "הכתבה אחת שמורה מתוך {{limit}}",
+      "countKept_other": "{{count}} הכתבות שמורות מתוך {{limit}}",
+      "countKept_two": "שתי הכתבות שמורות מתוך {{limit}}",
+      "countMore": "יותר מ-{{count}} הכתבות",
+      "empty": "עדיין אין הכתבות. החזק את קיצור המקשים ודבר!",
+      "noResults": "אין הכתבה תואמת."
+    },
+    "settings": {
+      "title": "הגדרות",
+      "close": "סגור את ההגדרות",
+      "hint": "כל שינוי חל מיד.",
+      "tabs": {
+        "dictation": "הכתבה",
+        "sound": "שמע",
+        "text": "טקסט",
+        "app": "אפליקציה",
+        "about": "אודות"
+      },
+      "advanced": "אפשרויות מתקדמות",
+      "editShortcut": "שנה",
+      "editShortcutNamed": "שנה: {{name}}",
+      "resetShortcut": "שחזר את קיצור ברירת המחדל",
+      "systemDefault": "ברירת המחדל של המערכת",
+      "playSound": "השמע את ההתראה",
+      "customSound": "מותאם אישית",
+      "micLevelHint": "עוצמת הקלט מוצגת כאן בזמן הכתבה.",
+      "micLevelLive": "אני שומע אותך.",
+      "model": {
+        "title": "מודל תמלול",
+        "change": "החלף",
+        "choose": "בחר",
+        "none": "אין מודל",
+        "loading": "טוען…",
+        "error": "הטעינה נכשלה"
+      },
+      "debugMode": {
+        "label": "מצב ניפוי שגיאות",
+        "description": "מציג את כלי ניפוי השגיאות. גם עם Ctrl+Shift+D."
+      }
+    },
+    "models": {
+      "title": "מודל תמלול",
+      "back": "חזרה להגדרות",
+      "search": "חיפוש",
+      "download": "הורד",
+      "use": "השתמש",
+      "live": "טקסט חי",
+      "accuracy": "דיוק",
+      "speed": "מהירות",
+      "sorted": "ממוינים לפי השפה שלך.",
+      "sortedFor": "ממוינים עבור {{language}}.",
+      "count_one": "מודל אחד",
+      "count_other": "{{count}} מודלים",
+      "count_two": "שני מודלים",
+      "countFiltered": "{{count}} מתוך {{total}}",
+      "translation": "מתרגם לאנגלית"
+    },
+    "onboarding": {
+      "welcome": "ברוך הבא ל-J’écoute",
+      "lead": "בחר את המודל שמתמלל את הקול שלך. הוא פועל במחשב שלך, ושום דבר לא נשלח לאינטרנט.",
+      "choose": "בחר מודל",
+      "recommendedFor": "מומלץ עבור {{language}}",
+      "light": "קל מאוד",
+      "onDisk": "כבר הורד",
+      "download": "הורד את {{model}} ({{size}})",
+      "use": "השתמש ב-{{model}}",
+      "showAll": "הצג את כל {{count}} המודלים",
+      "allModels": "כל המודלים",
+      "downloading": "מוריד את {{model}}",
+      "downloadingSpeed": "מוריד את {{model}}, {{speed}} MB/s",
+      "preparing": "מכין את {{model}}…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "גרסה {{version}}",
+      "versionUpToDate": "גרסה {{version}}, מעודכנת",
+      "versionUpdate": "גרסה {{version}}, יש עדכון זמין",
+      "license": "רישיון MIT. תמלול מקומי בזכות ggml.",
+      "handy": "Handy",
+      "character": "הדמות: Copyright (c) 2026 Théo Ponthieu, רישיון PolyForm Noncommercial 1.0.0.",
+      "updates": {
+        "title": "עדכונים",
+        "auto": "נבדקים אוטומטית.",
+        "upToDate": "יש לך את הגרסה האחרונה.",
+        "failed": "הבדיקה נכשלה. נסה שוב מאוחר יותר.",
+        "availableVersion": "גרסה {{version}} זמינה.",
+        "downloading": "מוריד… {{progress}}%",
+        "check": "בדוק",
+        "install": "התקן"
+      }
+    },
+    "dates": {
+      "today": "היום",
+      "yesterday": "אתמול",
+      "todayAt": "היום, {{time}}",
+      "yesterdayAt": "אתמול, {{time}}",
+      "dayAt": "{{day}}, {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "רווח",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "{{key}} שמאלי",
+      "rightSide": "{{key}} ימני"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "תמלול חי באנגלית, מהיר ומדויק",
+      "live_multilingual_transcription_across_28_languages": "תמלול חי רב-לשוני ב-28 שפות",
+      "tiny_and_instant_runs_well_on_any_hardware": "זעיר ומיידי, רץ היטב על כל חומרה",
+      "highest_accuracy_14_languages_slower": "הדיוק הגבוה ביותר, 14 שפות, איטי יותר",
+      "broadest_language_but_may_run_a_bit_slow": "הכי הרבה שפות, אבל עשוי להיות מעט איטי",
+      "live_multilingual_excellent_on_powerful_machines": "חי ורב-לשוני, מצוין במחשבים חזקים",
+      "fast_and_accurate_supports_25_european_languages": "מהיר ומדויק. תומך ב-25 שפות אירופיות",
+      "english_only_the_best_model_for_english_speakers": "אנגלית בלבד. המודל הטוב ביותר לדוברי אנגלית",
+      "excellent_multilingual_model": "מודל רב-לשוני מצוין",
+      "a_tiny_multilingual_model": "מודל רב-לשוני זעיר",
+      "4_language_speech_to_text_with_translation": "דיבור לטקסט ב-4 שפות, עם תרגום.",
+      "25_language_speech_to_text_with_translation": "דיבור לטקסט ב-25 שפות, עם תרגום.",
+      "english_speech_to_text": "דיבור לטקסט באנגלית.",
+      "2_language_speech_to_text": "דיבור לטקסט ב-2 שפות.",
+      "3_language_speech_to_text": "דיבור לטקסט ב-3 שפות.",
+      "russian_speech_to_text_with_token_level_timestamps": "דיבור לטקסט ברוסית, עם חותמות זמן לכל מילה.",
+      "5_language_speech_to_text": "דיבור לטקסט ב-5 שפות.",
+      "6_language_speech_to_text_with_translation": "דיבור לטקסט ב-6 שפות, עם תרגום.",
+      "5_language_speech_to_text_with_word_level_timestamps": "דיבור לטקסט ב-5 שפות, עם חותמות זמן לכל מילה.",
+      "english_speech_to_text_with_token_level_timestamps": "דיבור לטקסט באנגלית, עם חותמות זמן לכל מילה.",
+      "english_speech_to_text_with_streaming": "דיבור לטקסט באנגלית, עם טקסט חי.",
+      "arabic_speech_to_text": "דיבור לטקסט בערבית.",
+      "japanese_speech_to_text": "דיבור לטקסט ביפנית.",
+      "korean_speech_to_text": "דיבור לטקסט בקוריאנית.",
+      "ukrainian_speech_to_text": "דיבור לטקסט באוקראינית.",
+      "vietnamese_speech_to_text": "דיבור לטקסט בווייטנאמית.",
+      "chinese_speech_to_text": "דיבור לטקסט בסינית.",
+      "2_language_speech_to_text_with_segment_level_timestamps": "דיבור לטקסט ב-2 שפות, עם חותמות זמן לכל קטע.",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "דיבור לטקסט באנגלית, עם טקסט חי וחותמות זמן לכל מילה.",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "דיבור לטקסט ב-25 שפות, עם זיהוי שפה אוטומטי וחותמות זמן לכל מילה.",
+      "30_language_speech_to_text_with_auto_language_detection": "דיבור לטקסט ב-30 שפות, עם זיהוי שפה אוטומטי.",
+      "5_language_speech_to_text_with_auto_language_detection": "דיבור לטקסט ב-5 שפות, עם זיהוי שפה אוטומטי.",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "דיבור לטקסט ב-8 שפות, עם תרגום וזיהוי שפה אוטומטי.",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "דיבור לטקסט ב-99 שפות, עם תרגום, זיהוי שפה אוטומטי וחותמות זמן לכל קטע.",
+      "english_speech_to_text_with_segment_level_timestamps": "דיבור לטקסט באנגלית, עם חותמות זמן לכל קטע.",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "דיבור לטקסט ב-100 שפות, עם זיהוי שפה אוטומטי וחותמות זמן לכל קטע.",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "מותאם למנדרינית טאיוואנית. תומך במעבר בין שפות.",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "דיבור לטקסט ב-100 שפות, עם תרגום, זיהוי שפה אוטומטי וחותמות זמן לכל קטע."
+    }
   }
 }

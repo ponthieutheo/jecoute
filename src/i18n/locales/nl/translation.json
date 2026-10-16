@@ -117,7 +117,8 @@
       "errors": {
         "checkFailed": "Machtigingen controleren mislukt. Probeer het opnieuw.",
         "requestFailed": "Machtiging aanvragen mislukt. Probeer het opnieuw."
-      }
+      },
+      "checking": "Machtigingen controleren…"
     }
   },
   "modelSelector": {
@@ -170,15 +171,15 @@
         "bindings": {
           "transcribe": {
             "name": "Sneltoets voor dicteren",
-            "description": "De sneltoets om je stem op te nemen en te transcriberen."
+            "description": "Houd ingedrukt om te praten, laat los om te schrijven."
           },
           "cancel": {
-            "name": "Sneltoets voor annuleren",
-            "description": "De sneltoets om de huidige opname te annuleren."
+            "name": "Dictaat annuleren",
+            "description": "Stopt zonder iets te schrijven."
           },
           "transcribe_with_post_process": {
-            "name": "Sneltoets voor naverwerking",
-            "description": "Optioneel: Een specifieke sneltoets die altijd AI-naverwerking toepast op je transcriptie."
+            "name": "Sneltoets met AI-correctie",
+            "description": "Dicteert en laat de tekst altijd door de AI nakijken."
           }
         },
         "errors": {
@@ -188,8 +189,8 @@
         }
       },
       "language": {
-        "title": "Taal",
-        "description": "Selecteer de taal voor spraakherkenning. 'Automatisch' detecteert de taal vanzelf, terwijl het kiezen van een specifieke taal de nauwkeurigheid voor die taal kan verbeteren.",
+        "title": "Gesproken taal",
+        "description": "Het actieve model begrijpt {{count}} talen.",
         "searchPlaceholder": "Talen zoeken...",
         "noResults": "Geen talen gevonden",
         "auto": "Automatisch",
@@ -201,12 +202,12 @@
         "options": {
           "holdOrToggle": "Automatisch",
           "pushToTalk": "Vasthouden",
-          "toggle": "Schakelen"
+          "toggle": "Aantikken"
         },
         "descriptions": {
-          "hold_or_toggle": "Houd ingedrukt om op te nemen of tik om te schakelen",
-          "push_to_talk": "Neemt op zolang je de sneltoets ingedrukt houdt",
-          "toggle": "Tik op de sneltoets om de opname te starten, tik opnieuw om te stoppen"
+          "hold_or_toggle": "Houd ingedrukt om te dicteren, of druk één keer om te starten en nog een keer om te stoppen.",
+          "push_to_talk": "Ik luister zolang je de toetsen ingedrukt houdt.",
+          "toggle": "Eén keer drukken om te starten, nog een keer om te stoppen."
         }
       }
     },
@@ -234,28 +235,28 @@
       "title": "Geluid",
       "microphone": {
         "title": "Microfoon",
-        "description": "Selecteer de gewenste microfoon",
+        "description": "De microfoon die naar je luistert.",
         "placeholder": "Microfoon selecteren...",
         "loading": "Laden..."
       },
       "channel": {
         "title": "Ingangskanaal",
-        "description": "Selecteer het ingangskanaal waarvan moet worden opgenomen. Gebruik dit als je audio-interface meerdere ingangen heeft.",
+        "description": "Voor een audio-interface met meerdere ingangen.",
         "average": "Gemiddelde van alle kanalen",
         "channel": "Kanaal {{n}}"
       },
       "audioFeedback": {
-        "label": "Geluidsfeedback",
-        "description": "Geluid afspelen wanneer de opname start en stopt"
+        "label": "Geluidssignaal",
+        "description": "Een kort geluidje aan het begin en einde van een dictaat."
       },
       "outputDevice": {
-        "title": "Afspeelapparaat",
-        "description": "Selecteer het gewenste audioapparaat voor feedbackgeluiden",
+        "title": "Signaaluitvoer",
+        "description": "Waar het geluidssignaal te horen is.",
         "placeholder": "Afspeelapparaat selecteren...",
         "loading": "Laden..."
       },
       "volume": {
-        "title": "Volume",
+        "title": "Signaalvolume",
         "description": "Pas het volume van de geluidsfeedback aan"
       }
     },
@@ -269,51 +270,51 @@
       },
       "experimentalToggle": {
         "label": "Experimentele functies",
-        "description": "Schakel experimentele functies in die nog in ontwikkeling zijn."
+        "description": "Functies die nog in ontwikkeling zijn."
       },
       "lazyStreamClose": {
-        "label": "Microfoon openhouden tussen transcripties",
-        "description": "Houdt de microfoonstream tot 30 seconden open nadat een opname stopt. Dit vermindert de vertraging bij opeenvolgende opnames, maar kan de Bluetooth-audiokwaliteit tijdelijk verminderen."
+        "label": "Microfoon openhouden tussen dictaten",
+        "description": "De microfoon blijft na een dictaat 30 seconden open, zodat het volgende sneller start. Kan het bluetoothgeluid verslechteren."
       },
       "acceleration": {
         "transcribe": {
-          "title": "transcribe.cpp-versnelling",
-          "description": "Hardwareversnelling voor transcribe.cpp-modellen (Whisper-familie). 'Automatisch' gebruikt de GPU indien beschikbaar (Metal op macOS, Vulkan op Windows/Linux)."
+          "title": "Versnelling",
+          "description": "Videokaart (Vulkan, Metal) of processor. ‘Automatisch’ gebruikt de videokaart als die beschikbaar is."
         },
         "ort": {
           "title": "ONNX-versnelling",
-          "description": "Hardwareversnelling voor ONNX-modellen (Parakeet, Canary, Moonshine, etc.). DirectML op Windows is experimenteel; modellen kunnen daardoor haperen."
+          "description": "Voor oudere ONNX-modellen. DirectML (Windows) is experimenteel."
         },
         "gpuDevice": {
           "auto": "Automatisch"
         }
       },
       "startHidden": {
-        "label": "Geminimaliseerd opstarten",
-        "description": "Start op de achtergrond in het systeemvak zonder het hoofdvenster te openen."
+        "label": "Verborgen starten",
+        "description": "Start in de taakbalk zonder het venster te openen."
       },
       "autostart": {
         "label": "Starten bij opstarten",
-        "description": "J’écoute automatisch starten zodra je inlogt op je computer."
+        "description": "J’écoute start zodra je inlogt."
       },
       "showTrayIcon": {
-        "label": "Pictogram in systeemvak tonen",
-        "description": "Toon het J’écoute-pictogram in het systeemvak."
+        "label": "Pictogram in de taakbalk",
+        "description": "In het systeemvak, naast de klok."
       },
       "overlay": {
         "style": {
-          "title": "Overlay",
-          "description": "Kies de opname-overlay: 'Geen' verbergt deze, 'Minimaal' toont een compacte balk, 'Live' toont de tekst in realtime tijdens het spreken (alleen voor streaming-modellen). Op Linux wordt 'Geen' aanbevolen.",
+          "title": "Tijdens het dicteren",
+          "description": "Wat er op het scherm verschijnt. Livetekst vereist een compatibel model. Op Linux wordt ‘Geen’ aanbevolen.",
           "options": {
             "none": "Geen",
             "minimal": "Minimaal",
-            "live": "Live",
+            "live": "Livetekst",
             "character": "Personage"
           }
         },
         "position": {
-          "title": "Overlay-positie",
-          "description": "Waar de overlay op het scherm verschijnt tijdens het opnemen en transcriberen.",
+          "title": "Positie op het scherm",
+          "description": "Bovenaan of onderaan het scherm.",
           "options": {
             "bottom": "Onderkant",
             "top": "Bovenkant"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "Plakmethode",
-        "description": "Kies hoe tekst wordt ingevoegd. 'Direct' simuleert typen via het systeem. 'Geen' slaat het plakken over en werkt alleen de geschiedenis en het klembord bij.",
+        "title": "Tekst schrijven",
+        "description": "Hoe het dictaat in je app terechtkomt.",
         "options": {
-          "clipboard": "Klembord ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "Klembord (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "Klembord (Shift+Insert)",
-          "direct": "Direct",
-          "none": "Geen",
+          "clipboard": "Plakken ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "Plakken (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "Plakken (Shift+Insert)",
+          "direct": "Tekst typen",
+          "none": "Niet schrijven",
           "externalScript": "Extern script"
         },
         "externalScriptPlaceholder": "/pad/naar/je/script.sh"
       },
       "typingTool": {
         "title": "Typgereedschap",
-        "description": "Kies welke Linux-typtool gebruikt moet worden voor de 'Directe' plakmethode. 'Automatisch' detecteert zelf de beste optie voor jouw systeem.",
+        "description": "De Linux-tool die de tekst typt. ‘Automatisch’ kiest de beste die beschikbaar is.",
         "options": {
           "auto": "Automatisch (Aanbevolen)"
         }
       },
       "clipboardHandling": {
-        "title": "Klembordbeheer",
-        "description": "'Klembord niet aanpassen' behoudt je huidige klembordinhoud na een transcriptie. 'Kopiëren naar klembord' laat de getranscribeerde tekst achter op je klembord.",
+        "title": "Klembord",
+        "description": "Na het plakken.",
         "options": {
-          "dontModify": "Klembord niet aanpassen",
-          "copyToClipboard": "Kopiëren naar klembord"
+          "dontModify": "Vorige inhoud terugzetten",
+          "copyToClipboard": "Dictaat bewaren"
         }
       },
       "autoSubmit": {
-        "title": "Automatisch verzenden",
-        "description": "Verzend automatisch de geselecteerde toetsencombinatie na het invoegen van de tekst. Cmd+Enter geldt voor macOS, Windows/Linux gebruiken Super+Enter.",
+        "title": "Verzenden na de tekst",
+        "description": "Drukt voor jou op een toets, om een bericht te versturen.",
         "options": {
           "off": "Uit",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "Vertalen naar het Engels",
-        "description": "Vertaal spraak uit andere talen tijdens het transcriberen automatisch naar het Engels."
+        "description": "Wat je in een andere taal zegt, wordt in het Engels geschreven."
       },
       "modelUnload": {
-        "title": "Model ontladen",
-        "description": "Geheugen (GPU/CPU) automatisch vrijmaken wanneer het model voor de opgegeven tijd niet is gebruikt",
+        "title": "Geheugen vrijmaken",
+        "description": "Ontlaadt het model als je niet meer dicteert.",
         "options": {
           "never": "Nooit",
           "immediately": "Direct",
@@ -378,32 +379,32 @@
         }
       },
       "customWords": {
-        "title": "Eigen woordenlijst",
-        "description": "Help ondersteunde modellen namen en vaktermen te herkennen. Fuzzy-correctie is momenteel beperkt tot woorden met de letters A–Z en cijfers.",
+        "title": "Eigen woorden",
+        "description": "Namen en vaktermen die ik goed moet schrijven.",
         "placeholder": "Woord toevoegen",
         "add": "Toevoegen",
         "remove": "{{word}} verwijderen",
-        "duplicate": "\"{{word}}\" bestaat al"
+        "duplicate": "‘{{word}}’ staat al in de lijst"
       },
       "voiceActivityDetection": {
-        "title": "Spraakactiviteitsdetectie (VAD)",
-        "description": "Filter stilte uit opnames. Streaming-modellen gebruiken een langere VAD-uitloop; het uitschakelen van VAD neemt de ruwe audio op."
+        "title": "Spraakdetectie",
+        "description": "Negeert stilte voor en na het spreken."
       },
       "vadBackend": {
-        "title": "VAD-backend",
-        "description": "Kies de detector die stilte filtert. Earshot is experimenteel; schakel terug naar Silero als spraak wordt afgekapt of ruis behouden blijft.",
+        "title": "Spraakdetector",
+        "description": "Earshot is experimenteel: ga terug naar Silero als je woorden worden afgekapt.",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
         }
       },
       "fillerWordRemoval": {
-        "title": "Opvulwoorden verwijderen",
-        "description": "Verwijdert veelvoorkomende aarzelwoorden uit transcripties. Schakel dit uit om ze te behouden."
+        "title": "Stopwoordjes verwijderen",
+        "description": "‘eh’, ‘ehm’, ‘uhm’…"
       },
       "chineseScript": {
         "title": "Chinees schrift",
-        "description": "Schrijft Mandarijn- en Kantonese transcripties in vereenvoudigde of traditionele karakters. Andere talen blijven ongewijzigd.",
+        "description": "Vereenvoudigde of traditionele karakters voor Mandarijn en Kantonees.",
         "options": {
           "asTranscribed": "Zoals getranscribeerd",
           "simplified": "Vereenvoudigd",
@@ -416,22 +417,22 @@
         "title": "Sneltoets"
       },
       "api": {
-        "title": "API (OpenAI-compatibel)",
+        "title": "AI-provider",
         "provider": {
           "title": "Provider",
-          "description": "Selecteer een OpenAI-compatibele provider."
+          "description": "Een OpenAI-compatibele dienst."
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence is niet beschikbaar op dit apparaat. Vereist een Apple Silicon Mac met macOS Tahoe (26.0) of nieuwer waarop Apple Intelligence is ingeschakeld via de Systeeminstellingen."
         },
         "baseUrl": {
-          "title": "Basis-URL",
-          "description": "API-basis-URL voor de geselecteerde provider. Alleen de aangepaste provider kan worden bewerkt.",
+          "title": "API-adres",
+          "description": "Alleen te wijzigen bij een aangepaste provider.",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "API-sleutel",
-          "description": "API-sleutel voor de geselecteerde provider.",
+          "description": "De sleutel van je account bij deze provider.",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "Prompt",
+        "title": "Instructies",
         "selectedPrompt": {
-          "title": "Geselecteerde prompt",
-          "description": "Selecteer een sjabloon voor het verfijnen van transcripties of maak een nieuwe aan. Gebruik ${output} in de prompttekst om naar de gemaakte transcriptie te verwijzen."
+          "title": "Instructie",
+          "description": "Wat de AI met de tekst doet. ${output} staat voor je dictaat."
         },
         "noPrompts": "Geen prompts beschikbaar",
         "selectPrompt": "Selecteer een prompt",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "Geschiedenis",
-      "openFolder": "Opnamemap openen",
+      "openFolder": "Opnamemap",
       "loading": "Geschiedenis laden...",
       "empty": "Nog geen transcripties. Start met opnemen om je geschiedenis op te bouwen!",
-      "copyToClipboard": "Transcriptie naar klembord kopiëren",
+      "copyToClipboard": "Kopiëren",
       "copyError": "Transcriptie naar het klembord kopiëren mislukt.",
-      "save": "Transcriptie opslaan",
-      "unsave": "Verwijderen uit opgeslagen",
-      "delete": "Item verwijderen",
+      "save": "Aan favorieten toevoegen",
+      "unsave": "Uit favorieten verwijderen",
+      "delete": "Verwijderen",
       "deleteError": "Item verwijderen mislukt. Probeer het opnieuw.",
       "retranscribe": "Opnieuw transcriberen",
       "retranscribeError": "Opnieuw transcriberen mislukt. Probeer het opnieuw.",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "Probleemoplossing",
       "logDirectory": {
-        "title": "Logboekmap",
-        "description": "Locatie waar logbestanden worden opgeslagen"
+        "title": "Logboeken",
+        "description": "De map met logbestanden."
       },
       "logLevel": {
         "title": "Logboekniveau",
@@ -504,7 +505,7 @@
       },
       "updateChecks": {
         "label": "Controleren op updates",
-        "description": "Automatisch controleren op nieuwe versies van J’écoute",
+        "description": "Automatisch controleren op nieuwe versies van J’écoute.",
         "lockedDescription": "Uitgeschakeld door systeemconfiguratie (HANDY_DISABLE_UPDATER)"
       },
       "whatsNewPreview": {
@@ -522,21 +523,21 @@
         "exitButton": "Voorbeeld sluiten"
       },
       "soundTheme": {
-        "label": "Geluidsthema",
-        "description": "Kies een geluidsthema voor feedback bij het starten en stoppen van opnames"
+        "label": "Signaalgeluid",
+        "description": "Het geluid aan het begin en einde van een dictaat."
       },
       "wordCorrectionThreshold": {
         "title": "Drempelwaarde woordcorrectie",
         "description": "Gevoeligheid voor eigen woordcorrecties"
       },
       "historyLimit": {
-        "title": "Geschiedenislimiet",
-        "description": "Maximum aantal te bewaren geschiedenisitems",
-        "entries": "items"
+        "title": "Geschiedenis",
+        "description": "Oudere dictaten worden gewist (favorieten blijven bewaard).",
+        "entries": "dictaten"
       },
       "recordingRetention": {
-        "title": "Opnames automatisch verwijderen",
-        "description": "Oude opnames automatisch verwijderen om ruimte te besparen",
+        "title": "Geluidsopnames",
+        "description": "Oude opnames verwijderen om ruimte te besparen.",
         "never": "Nooit",
         "preserveLimit": "Bewaar de nieuwste {{count}}",
         "days3": "Na 3 dagen",
@@ -546,23 +547,23 @@
       },
       "alwaysOnMicrophone": {
         "label": "Microfoon altijd aan",
-        "description": "Houd de microfoon actief voor een snellere reactietijd"
+        "description": "Het dicteren start sneller."
       },
       "clamshellMicrophone": {
         "title": "Clamshell-microfoon",
         "description": "Microfoon die gebruikt moet worden wanneer het laptopscherm gesloten is"
       },
       "postProcessingToggle": {
-        "label": "Naverwerking",
-        "description": "Schakel AI-gestuurde tekstverfijning in na transcriptie"
+        "label": "AI-correctie",
+        "description": "Een online AI leest het dictaat na voordat het wordt geplakt. Vereist een API-sleutel (OpenRouter, Anthropic, OpenAI…)."
       },
       "muteWhileRecording": {
-        "label": "Dempen tijdens opname",
-        "description": "Systeemgeluid dempen tijdens het opnemen"
+        "label": "Computer dempen",
+        "description": "Muziek en video’s vallen stil tijdens een dictaat."
       },
       "appendTrailingSpace": {
-        "label": "Spatie achteraan toevoegen",
-        "description": "Voeg een spatie toe na de geplakte transcriptie"
+        "label": "Spatie na de tekst",
+        "description": "Voegt een spatie toe na elk dictaat."
       },
       "keyboardImplementation": {
         "title": "Toetsenbord-implementatie",
@@ -622,12 +623,12 @@
         "description": "Huidige versie van J’écoute"
       },
       "whatsNewUpdates": {
-        "label": "Toon 'Wat is er nieuw'",
-        "description": "Release-notes tonen nadat J’écoute is bijgewerkt"
+        "label": "Nieuwe functies tonen",
+        "description": "Na een update van J’écoute."
       },
       "appDataDirectory": {
-        "title": "App-datamap",
-        "description": "Locatie waar J’écoute de gegevens opslaat"
+        "title": "App-gegevens",
+        "description": "Modellen, instellingen, opnames."
       },
       "sourceCode": {
         "title": "Broncode",
@@ -639,7 +640,7 @@
         "ggml": {
           "title": "ggml",
           "description": "Krachtige tensorbibliotheek voor lokale AI-verwerking",
-          "details": "De lokale spraak-naar-tekst van J’écoute is gebouwd op transcribe.cpp en ggml. Met dank aan het geweldige werk van Georgi Gerganov en alle bijdragers."
+          "details": "J’écoute transcribeert lokaal dankzij ggml. Dank aan Georgi Gerganov en alle bijdragers voor hun geweldige werk."
         }
       },
       "basedOn": "Gebaseerd op Handy van CJ Pais"
@@ -670,7 +671,9 @@
     "open": "Openen",
     "copy": "Kopiëren",
     "clear": "Wissen",
-    "noOptionsFound": "Geen opties gevonden"
+    "noOptionsFound": "Geen opties gevonden",
+    "select": "Kies…",
+    "reset": "Standaard herstellen"
   },
   "accessibility": {
     "permissionsDescription": "J’écoute heeft toegankelijkheidsmachtigingen nodig om getranscribeerde tekst te kunnen typen.",
@@ -696,10 +699,10 @@
   },
   "appLanguage": {
     "title": "Interfacetaal",
-    "description": "Wijzig de taal van de J’écoute-interface"
+    "description": ""
   },
   "theme": {
-    "title": "App-thema",
+    "title": "Weergave",
     "description": "Kies of J’écoute het systeemthema volgt of licht of donker blijft",
     "options": {
       "system": "Systeem",
@@ -721,5 +724,284 @@
     "learnMore": "Hoe je dit oplost",
     "recorderBlocked": "Sneltoetsen kunnen nu niet worden opgenomen — Secure Input van macOS blokkeert toetsgebeurtenissen. Los eerst de Secure Input-waarschuwing op.",
     "dismiss": "Sluiten"
+  },
+  "app": {
+    "home": {
+      "history": "Geschiedenis",
+      "update": "Update",
+      "recent": "Recente dictaten",
+      "allHistory": "Hele geschiedenis",
+      "empty": "Je dictaten verschijnen hier.",
+      "copyTitle": "Kopiëren",
+      "copied": "Gekopieerd",
+      "copiedToast": "Naar het klembord gekopieerd",
+      "modelPill": "Transcriptiemodel: {{model}}",
+      "languagePill": "Gesproken taal: {{language}}",
+      "allModels": "Alle modellen",
+      "downloadPill": "{{model}}, {{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "Klaar",
+        "desc": "Houd <keys/> ingedrukt en praat: ik schrijf waar je cursor staat.",
+        "descToggle": "Druk op <keys/> en praat: ik schrijf waar je cursor staat."
+      },
+      "loading": {
+        "title": "Ik laad {{model}}…",
+        "titleGeneric": "Ik laad het model…",
+        "desc": "Een paar seconden na het opstarten, daarna sta ik klaar."
+      },
+      "downloading": {
+        "title": "Ik download {{model}}…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%, {{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "Ik hoor niets",
+        "desc": "Geen microfoon gevonden. Sluit er een aan of kies een andere.",
+        "action": "Microfoon kiezen"
+      },
+      "micDenied": {
+        "title": "Ik kan de microfoon niet gebruiken",
+        "action": "Microfooninstellingen openen"
+      },
+      "noModel": {
+        "title": "Kies een model",
+        "desc": "Ik heb een transcriptiemodel nodig om te schrijven wat je zegt.",
+        "action": "Model kiezen"
+      },
+      "error": {
+        "title": "Het model wilde niet laden",
+        "desc": "Probeer een ander model, of start J’écoute opnieuw.",
+        "action": "Ander model kiezen"
+      },
+      "listening": {
+        "title": "Ik luister…",
+        "desc": "Laat <keys/> los als je klaar bent.",
+        "descToggle": "Druk nog een keer op <keys/> als je klaar bent."
+      },
+      "writing": {
+        "title": "Ik schrijf…",
+        "desc": "{{model}} zet je zin om in tekst.",
+        "descGeneric": "Ik zet je zin om in tekst."
+      },
+      "processing": {
+        "title": "Even bijschaven…",
+        "desc": "De AI leest je dictaat na."
+      },
+      "done": {
+        "title": "Geplakt",
+        "titleNoPaste": "Genoteerd",
+        "desc": "Je vindt het terug bij je recente dictaten."
+      },
+      "short": {
+        "ready": "Klaar",
+        "loading": "Laden…",
+        "downloading": "Downloaden…",
+        "nomic": "Geen microfoon",
+        "micDenied": "Microfoon geblokkeerd",
+        "nomodel": "Geen model",
+        "error": "Fout",
+        "listening": "Ik luister…",
+        "writing": "Ik schrijf…",
+        "processing": "Bijschaven…",
+        "done": "Geplakt"
+      }
+    },
+    "history": {
+      "title": "Geschiedenis",
+      "back": "Terug naar start",
+      "search": "Zoeken",
+      "searchLabel": "Geschiedenis doorzoeken",
+      "filters": {
+        "label": "Tonen",
+        "all": "Alle",
+        "favorites": "Favorieten",
+        "corrected": "Door AI verbeterd"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "Verbeterd door AI",
+      "correctedWith": "Verbeterd door AI ({{prompt}})",
+      "versionLabel": "Getoonde versie",
+      "corrected": "Verbeterd",
+      "raw": "Origineel",
+      "legendAddedSample": "gemarkeerd",
+      "legendAdded": "toegevoegd door de AI",
+      "legendRemovedSample": "doorgestreept",
+      "legendRemoved": "verwijderd door de AI",
+      "favorite": "Favoriet",
+      "more": "Meer",
+      "play": "Afspelen",
+      "pause": "Pauzeren",
+      "seek": "Positie in de opname",
+      "count_one": "{{count}} dictaat",
+      "count_other": "{{count}} dictaten",
+      "countKept_one": "{{count}} van {{limit}} dictaten bewaard",
+      "countKept_other": "{{count}} van {{limit}} dictaten bewaard",
+      "countMore": "Meer dan {{count}} dictaten",
+      "empty": "Nog geen dictaten. Houd je sneltoets ingedrukt en praat!",
+      "noResults": "Geen dictaten gevonden."
+    },
+    "settings": {
+      "title": "Instellingen",
+      "close": "Instellingen sluiten",
+      "hint": "Elke wijziging geldt meteen.",
+      "tabs": {
+        "dictation": "Dicteren",
+        "sound": "Geluid",
+        "text": "Tekst",
+        "app": "App",
+        "about": "Over"
+      },
+      "advanced": "Geavanceerde opties",
+      "editShortcut": "Wijzigen",
+      "editShortcutNamed": "Wijzigen: {{name}}",
+      "resetShortcut": "Standaardsneltoets herstellen",
+      "systemDefault": "Systeemstandaard",
+      "playSound": "Signaal afspelen",
+      "customSound": "Aangepast",
+      "micLevelHint": "Tijdens een dictaat zie je hier het niveau.",
+      "micLevelLive": "Ik hoor je.",
+      "model": {
+        "title": "Transcriptiemodel",
+        "change": "Wijzigen",
+        "choose": "Kiezen",
+        "none": "Geen model",
+        "loading": "Laden…",
+        "error": "Laden mislukt"
+      },
+      "debugMode": {
+        "label": "Debugmodus",
+        "description": "Toont de debugtools. Ook met Ctrl+Shift+D."
+      }
+    },
+    "models": {
+      "title": "Transcriptiemodel",
+      "back": "Terug naar instellingen",
+      "search": "Zoeken",
+      "download": "Downloaden",
+      "use": "Gebruiken",
+      "live": "Livetekst",
+      "accuracy": "Nauwkeurigheid",
+      "speed": "Snelheid",
+      "sorted": "Gesorteerd voor jouw taal.",
+      "sortedFor": "Gesorteerd voor het {{language}}.",
+      "count_one": "{{count}} model",
+      "count_other": "{{count}} modellen",
+      "countFiltered": "{{count}} van {{total}}",
+      "translation": "Vertaalt naar het Engels"
+    },
+    "onboarding": {
+      "welcome": "Welkom bij J’écoute",
+      "lead": "Kies het model dat je stem omzet in tekst. Het draait op je computer, er gaat niets naar internet.",
+      "choose": "Kies een model",
+      "recommendedFor": "Aanbevolen voor het {{language}}",
+      "light": "Heel licht",
+      "onDisk": "Al gedownload",
+      "download": "{{model}} downloaden ({{size}})",
+      "use": "{{model}} gebruiken",
+      "showAll": "Alle {{count}} modellen bekijken",
+      "allModels": "Alle modellen",
+      "downloading": "{{model}} wordt gedownload",
+      "downloadingSpeed": "{{model}} wordt gedownload, {{speed}} MB/s",
+      "preparing": "Ik maak {{model}} klaar…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "Versie {{version}}",
+      "versionUpToDate": "Versie {{version}}, up-to-date",
+      "versionUpdate": "Versie {{version}}, update beschikbaar",
+      "license": "MIT-licentie. Lokale transcriptie dankzij ggml.",
+      "handy": "Handy",
+      "character": "Het personage: Copyright (c) 2026 Théo Ponthieu, licentie PolyForm Noncommercial 1.0.0.",
+      "updates": {
+        "title": "Updates",
+        "auto": "Worden automatisch gecontroleerd.",
+        "upToDate": "Je hebt de nieuwste versie.",
+        "failed": "Controleren mislukt. Probeer het later opnieuw.",
+        "availableVersion": "Versie {{version}} is beschikbaar.",
+        "downloading": "Downloaden… {{progress}}%",
+        "check": "Controleren",
+        "install": "Installeren"
+      }
+    },
+    "dates": {
+      "today": "Vandaag",
+      "yesterday": "Gisteren",
+      "todayAt": "Vandaag om {{time}}",
+      "yesterdayAt": "Gisteren om {{time}}",
+      "dayAt": "{{day}} om {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "Spatie",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "{{key}} links",
+      "rightSide": "{{key}} rechts"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "Snelle, nauwkeurige live-transcriptie in het Engels",
+      "live_multilingual_transcription_across_28_languages": "Meertalige live-transcriptie in 28 talen",
+      "tiny_and_instant_runs_well_on_any_hardware": "Piepklein en razendsnel, draait goed op elke computer",
+      "highest_accuracy_14_languages_slower": "Hoogste nauwkeurigheid, 14 talen, trager",
+      "broadest_language_but_may_run_a_bit_slow": "De meeste talen, maar kan wat traag zijn",
+      "live_multilingual_excellent_on_powerful_machines": "Meertalig en live, uitstekend op krachtige computers",
+      "fast_and_accurate_supports_25_european_languages": "Snel en nauwkeurig. Ondersteunt 25 Europese talen",
+      "english_only_the_best_model_for_english_speakers": "Alleen Engels. Het beste model voor Engelstaligen",
+      "excellent_multilingual_model": "Uitstekend meertalig model",
+      "a_tiny_multilingual_model": "Een piepklein meertalig model",
+      "4_language_speech_to_text_with_translation": "Transcriptie in 4 talen, met vertaling.",
+      "25_language_speech_to_text_with_translation": "Transcriptie in 25 talen, met vertaling.",
+      "english_speech_to_text": "Transcriptie in het Engels.",
+      "2_language_speech_to_text": "Transcriptie in 2 talen.",
+      "3_language_speech_to_text": "Transcriptie in 3 talen.",
+      "russian_speech_to_text_with_token_level_timestamps": "Transcriptie in het Russisch, met tijdstempels per token.",
+      "5_language_speech_to_text": "Transcriptie in 5 talen.",
+      "6_language_speech_to_text_with_translation": "Transcriptie in 6 talen, met vertaling.",
+      "5_language_speech_to_text_with_word_level_timestamps": "Transcriptie in 5 talen, met tijdstempels per woord.",
+      "english_speech_to_text_with_token_level_timestamps": "Transcriptie in het Engels, met tijdstempels per token.",
+      "english_speech_to_text_with_streaming": "Transcriptie in het Engels, met livetekst.",
+      "arabic_speech_to_text": "Transcriptie in het Arabisch.",
+      "japanese_speech_to_text": "Transcriptie in het Japans.",
+      "korean_speech_to_text": "Transcriptie in het Koreaans.",
+      "ukrainian_speech_to_text": "Transcriptie in het Oekraïens.",
+      "vietnamese_speech_to_text": "Transcriptie in het Vietnamees.",
+      "chinese_speech_to_text": "Transcriptie in het Chinees.",
+      "2_language_speech_to_text_with_segment_level_timestamps": "Transcriptie in 2 talen, met tijdstempels per segment.",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "Transcriptie in het Engels, met livetekst en tijdstempels per token.",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "Transcriptie in 25 talen, herkent de taal automatisch, tijdstempels per token.",
+      "30_language_speech_to_text_with_auto_language_detection": "Transcriptie in 30 talen, herkent de taal automatisch.",
+      "5_language_speech_to_text_with_auto_language_detection": "Transcriptie in 5 talen, herkent de taal automatisch.",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "Transcriptie in 8 talen, met vertaling, herkent de taal automatisch.",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Transcriptie in 99 talen, met vertaling, herkent de taal automatisch, tijdstempels per segment.",
+      "english_speech_to_text_with_segment_level_timestamps": "Transcriptie in het Engels, met tijdstempels per segment.",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Transcriptie in 100 talen, herkent de taal automatisch, tijdstempels per segment.",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "Geoptimaliseerd voor Taiwanees Mandarijn. Kan wisselen tussen talen.",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Transcriptie in 100 talen, met vertaling, herkent de taal automatisch, tijdstempels per segment."
+    }
   }
 }

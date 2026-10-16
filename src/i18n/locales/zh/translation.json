@@ -117,11 +117,13 @@
       "errors": {
         "checkFailed": "检查权限失败。请重试。",
         "requestFailed": "请求权限失败。请重试。"
-      }
+      },
+      "checking": "正在检查权限…"
     }
   },
   "modelSelector": {
     "custom": "自定义",
+    "legacy": "旧版",
     "streaming": "流式",
     "active": "活跃",
     "switching": "切换中...",
@@ -141,42 +143,21 @@
     "noModelDownloadRequired": "无模型 - 需要下载",
     "deleteModel": "删除 {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
-    "capabilities": {
-      "languageSelection": "支持多种输入语言",
-      "languageCount": "{{total}} 种语言",
-      "translation": "可翻译为英语",
-      "translate": "翻译为英语",
-      "singleLanguage": "仅支持此语言",
-      "languageOnly": "仅 {{language}}",
-      "streaming": "在您说话时实时显示转录"
-    },
     "cancel": "取消",
     "cancelDownload": "取消下载",
-    "legacy": "旧版"
+    "capabilities": {
+      "languageSelection": "支持多种输入语言",
+      "singleLanguage": "仅支持此语言",
+      "languageCount": "{{total}} 种语言",
+      "languageOnly": "仅 {{language}}",
+      "translation": "可翻译为英语",
+      "translate": "翻译为英语",
+      "streaming": "在您说话时实时显示转录"
+    }
   },
   "settings": {
     "modelSettings": {
       "title": "{{model}} 设置"
-    },
-    "models": {
-      "title": "转录模型",
-      "description": "选择转录模型或下载其他模型。不同模型提供不同的准确度和速度。",
-      "deleteConfirm": "确定要删除 {{modelName}} 吗？您需要重新下载才能使用。",
-      "deleteActiveConfirm": "{{modelName}} 是您当前使用的模型。删除后将停止转录，直到您选择新的模型。确定要删除吗？",
-      "deleteTitle": "删除模型",
-      "filters": {
-        "allLanguages": "所有语言",
-        "streaming": "筛选支持实时转录的模型",
-        "translation": "筛选支持翻译为英语的模型"
-      },
-      "noModelsMatch": "没有符合此筛选条件的模型。",
-      "yourModels": "已下载的模型",
-      "availableModels": "可供下载",
-      "searchPlaceholder": "按名称搜索模型…",
-      "rescan": {
-        "label": "重新扫描",
-        "tooltip": "重新扫描在 J’écoute 之外添加到模型文件夹或 Hugging Face 缓存中的模型"
-      }
     },
     "general": {
       "title": "通用",
@@ -189,16 +170,16 @@
         "pressKeys": "请按键...",
         "bindings": {
           "transcribe": {
-            "name": "转录快捷键",
-            "description": "用于录制和转录语音的键盘快捷键。"
+            "name": "听写快捷键",
+            "description": "按住说话，松开即输入。"
           },
           "cancel": {
-            "name": "取消快捷键",
-            "description": "用于取消当前录制的键盘快捷键。"
+            "name": "取消听写",
+            "description": "停止，不输入任何内容。"
           },
           "transcribe_with_post_process": {
-            "name": "后处理快捷键",
-            "description": "可选：一个专用快捷键，始终对您的转录应用 AI 后处理。"
+            "name": "AI 校对快捷键",
+            "description": "听写后始终由 AI 校对文本。"
           }
         },
         "errors": {
@@ -208,8 +189,8 @@
         }
       },
       "language": {
-        "title": "语言",
-        "description": "选择语音识别的语言。自动将自动确定语言，选择特定语言可以提高该语言的准确度。",
+        "title": "语音语言",
+        "description": "当前模型能听懂 {{count}} 种语言。",
         "searchPlaceholder": "搜索语言...",
         "noResults": "未找到语言",
         "auto": "自动",
@@ -221,41 +202,61 @@
         "options": {
           "holdOrToggle": "自动",
           "pushToTalk": "按住",
-          "toggle": "切换"
+          "toggle": "按下开始"
         },
         "descriptions": {
-          "hold_or_toggle": "按住录音，或轻按切换",
-          "push_to_talk": "按住快捷键期间录音",
-          "toggle": "轻按快捷键开始录音，再次轻按停止"
+          "hold_or_toggle": "按住听写，或按一下开始、再按一下停止。",
+          "push_to_talk": "只要按住按键，我就一直在听。",
+          "toggle": "按一下开始，再按一下停止。"
         }
       }
+    },
+    "models": {
+      "title": "转录模型",
+      "description": "选择转录模型或下载其他模型。不同模型提供不同的准确度和速度。",
+      "searchPlaceholder": "按名称搜索模型…",
+      "yourModels": "已下载的模型",
+      "availableModels": "可供下载",
+      "deleteConfirm": "确定要删除 {{modelName}} 吗？您需要重新下载才能使用。",
+      "deleteActiveConfirm": "{{modelName}} 是您当前使用的模型。删除后将停止转录，直到您选择新的模型。确定要删除吗？",
+      "deleteTitle": "删除模型",
+      "filters": {
+        "allLanguages": "所有语言",
+        "streaming": "筛选支持实时转录的模型",
+        "translation": "筛选支持翻译为英语的模型"
+      },
+      "rescan": {
+        "label": "重新扫描",
+        "tooltip": "重新扫描在 J’écoute 之外添加到模型文件夹或 Hugging Face 缓存中的模型"
+      },
+      "noModelsMatch": "没有符合此筛选条件的模型。"
     },
     "sound": {
       "title": "声音",
       "microphone": {
         "title": "麦克风",
-        "description": "选择您偏好的麦克风设备",
+        "description": "用来听您说话的麦克风。",
         "placeholder": "选择麦克风...",
         "loading": "加载中..."
       },
       "channel": {
         "title": "输入通道",
-        "description": "选择要录制的输入通道。如果您的音频接口有多个输入，请使用此选项。",
+        "description": "适用于有多个输入的音频接口。",
         "average": "所有通道的平均值",
         "channel": "通道 {{n}}"
       },
       "audioFeedback": {
-        "label": "音频反馈",
-        "description": "录制开始和停止时播放声音"
+        "label": "提示音",
+        "description": "听写开始和结束时发出短促的提示音。"
       },
       "outputDevice": {
-        "title": "输出设备",
-        "description": "选择用于反馈声音的音频输出设备",
+        "title": "提示音输出",
+        "description": "播放提示音的设备。",
         "placeholder": "选择输出设备...",
         "loading": "加载中..."
       },
       "volume": {
-        "title": "音量",
+        "title": "提示音音量",
         "description": "调整音频反馈的音量"
       }
     },
@@ -269,51 +270,51 @@
       },
       "experimentalToggle": {
         "label": "实验性功能",
-        "description": "启用仍在开发中的实验性功能。"
+        "description": "仍在开发中的功能。"
       },
       "lazyStreamClose": {
-        "label": "在转录之间保持麦克风开启",
-        "description": "录音停止后保持麦克风流开启30秒，减少连续转录时的延迟。激活时可能会降低蓝牙音频质量。"
+        "label": "两次听写之间保持麦克风开启",
+        "description": "听写结束后麦克风保持开启 30 秒，下一次听写启动更快。可能降低蓝牙音质。"
       },
       "acceleration": {
         "transcribe": {
-          "title": "Whisper 加速",
-          "description": "Whisper 模型的硬件加速。自动模式在可用时使用 GPU（macOS 上使用 Metal，Windows/Linux 上使用 Vulkan）。"
+          "title": "加速",
+          "description": "使用显卡（Vulkan、Metal）或处理器。“自动”会在可用时使用显卡。"
         },
         "ort": {
           "title": "ONNX 加速",
-          "description": "ONNX 模型的硬件加速（Parakeet、Canary、Moonshine 等）。Windows 上的 DirectML 为实验性功能。模型可能无法正常转录。"
+          "description": "适用于较旧的 ONNX 模型。DirectML（Windows）为实验性功能。"
         },
         "gpuDevice": {
           "auto": "自动"
         }
       },
       "startHidden": {
-        "label": "隐藏启动",
-        "description": "启动到系统托盘而不打开窗口。"
+        "label": "启动时隐藏",
+        "description": "启动到任务栏，不打开窗口。"
       },
       "autostart": {
         "label": "开机启动",
-        "description": "登录计算机时自动启动 J’écoute。"
+        "description": "登录系统时自动启动 J’écoute。"
       },
       "showTrayIcon": {
-        "label": "显示托盘图标",
-        "description": "在系统托盘中显示 J’écoute 图标。"
+        "label": "任务栏图标",
+        "description": "显示在时钟旁边的通知区域。"
       },
       "overlay": {
         "style": {
-          "title": "悬浮窗",
-          "description": "选择录音悬浮窗的样式：「无」会隐藏悬浮窗，「精简」显示小巧的胶囊状指示，「实时」在您说话时实时显示转录内容（仅限支持流式的模型——请在模型选择器中查找「流式」标签）。在 Linux 上建议选择「无」。",
+          "title": "听写时显示",
+          "description": "屏幕上显示的内容。实时文字需要兼容的模型。在 Linux 上建议选择“无”。",
           "options": {
             "none": "无",
             "minimal": "精简",
-            "live": "实时",
+            "live": "实时文字",
             "character": "角色"
           }
         },
         "position": {
-          "title": "悬浮窗位置",
-          "description": "在录制和转录期间显示可视反馈悬浮窗。在 Linux 上建议选择「无」。",
+          "title": "屏幕位置",
+          "description": "显示在屏幕顶部或底部。",
           "options": {
             "bottom": "底部",
             "top": "顶部"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "粘贴方式",
-        "description": "选择文字插入方式。直接：通过系统输入模拟打字。无：跳过粘贴，仅更新历史记录/剪贴板。",
+        "title": "文字输入方式",
+        "description": "听写内容进入应用的方式。",
         "options": {
-          "clipboard": "剪贴板 ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "剪贴板 (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "剪贴板 (Shift+Insert)",
-          "direct": "直接",
-          "none": "无",
+          "clipboard": "粘贴（{{modifier}}+V）",
+          "clipboardCtrlShiftV": "粘贴（Ctrl+Shift+V）",
+          "clipboardShiftInsert": "粘贴（Shift+Insert）",
+          "direct": "模拟键入",
+          "none": "不输入",
           "externalScript": "外部脚本"
         },
         "externalScriptPlaceholder": "/path/to/your/script.sh"
       },
       "typingTool": {
         "title": "输入工具",
-        "description": "选择在直接粘贴方式下使用的 Linux 输入工具。Auto 会自动检测并使用系统中可用的最佳工具。",
+        "description": "用于键入文字的 Linux 工具。Auto 会选择可用的最佳工具。",
         "options": {
           "auto": "Auto（推荐）"
         }
       },
       "clipboardHandling": {
-        "title": "剪贴板处理",
-        "description": "不修改剪贴板将在转录后保留当前剪贴板内容。复制到剪贴板将在粘贴后将转录结果留在剪贴板中。",
+        "title": "剪贴板",
+        "description": "粘贴完成后的处理方式。",
         "options": {
-          "dontModify": "不修改剪贴板",
-          "copyToClipboard": "复制到剪贴板"
+          "dontModify": "恢复原有内容",
+          "copyToClipboard": "保留听写内容"
         }
       },
       "autoSubmit": {
-        "title": "自动提交",
-        "description": "在文本插入后自动发送所选的按键组合。macOS 上使用 Cmd+Enter，Windows/Linux 上使用 Super+Enter。",
+        "title": "输入后发送",
+        "description": "自动替您按键，把消息发出去。",
         "options": {
           "off": "关闭",
           "enter": "回车",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "翻译为英语",
-        "description": "在转录过程中自动将其他语言的语音翻译为英语。"
+        "description": "用其他语言说的内容会以英语写出。"
       },
       "modelUnload": {
-        "title": "卸载模型",
-        "description": "当模型在指定时间内未使用时自动释放 GPU/CPU 内存",
+        "title": "释放内存",
+        "description": "不再听写时卸载模型。",
         "options": {
           "never": "从不",
           "immediately": "立即",
@@ -378,32 +379,32 @@
         }
       },
       "customWords": {
-        "title": "自定义词汇",
-        "description": "帮助受支持的模型识别名称和专业术语。目前，模糊纠错仅适用于使用 A–Z 字母和数字的词语。",
+        "title": "要识别的词汇",
+        "description": "需要我准确写出的人名和专业术语。",
         "placeholder": "添加词汇",
         "add": "添加",
         "remove": "删除 {{word}}",
-        "duplicate": "\"{{word}}\" 已存在"
+        "duplicate": "“{{word}}”已在列表中"
       },
       "voiceActivityDetection": {
-        "title": "语音活动检测",
-        "description": "过滤录音中的静音。支持流式的模型会使用更长的 VAD 尾段；停用 VAD 则会录制原始音频。"
+        "title": "人声检测",
+        "description": "忽略说话前后的静音。"
       },
       "vadBackend": {
-        "title": "语音活动检测后端",
-        "description": "选择用于过滤静音的检测器。Earshot 为实验性功能；如果语音被截断或噪音被保留，请切换回 Silero。",
+        "title": "人声检测器",
+        "description": "Earshot 为实验性功能：如果语音被截断，请切换回 Silero。",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
         }
       },
       "fillerWordRemoval": {
-        "title": "移除语气词",
-        "description": "从转录中移除常见的语气词。关闭此选项即可保留这些词。"
+        "title": "去除语气词",
+        "description": "“嗯”“呃”“那个”等"
       },
       "chineseScript": {
         "title": "简繁转换",
-        "description": "将普通话和粤语转录输出为简体或繁体中文。其他语言不受影响。",
+        "description": "普通话和粤语以简体或繁体输出。",
         "options": {
           "asTranscribed": "保持原样",
           "simplified": "简体",
@@ -416,22 +417,22 @@
         "title": "快捷键"
       },
       "api": {
-        "title": "API（兼容 OpenAI）",
+        "title": "AI 服务商",
         "provider": {
           "title": "提供商",
-          "description": "选择一个兼容 OpenAI 的提供商。"
+          "description": "兼容 OpenAI 的服务。"
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence 在此设备上不可用。需要运行 macOS Tahoe（26.0）或更高版本的 Apple Silicon Mac，并在系统设置中启用 Apple Intelligence。"
         },
         "baseUrl": {
-          "title": "基础 URL",
-          "description": "所选提供商的 API 基础 URL。仅自定义提供商可编辑。",
+          "title": "API 地址",
+          "description": "仅自定义服务商可修改。",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "API 密钥",
-          "description": "所选提供商的 API 密钥。",
+          "description": "您在该服务商的账户密钥。",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "提示词",
+        "title": "指令",
         "selectedPrompt": {
-          "title": "已选提示词",
-          "description": "选择用于优化转录的模板或创建新模板。在提示词文本中使用 ${output} 来引用捕获的转录。"
+          "title": "指令",
+          "description": "AI 如何处理文本。${output} 代表您的听写内容。"
         },
         "noPrompts": "没有可用的提示词",
         "selectPrompt": "选择提示词",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "历史记录",
-      "openFolder": "打开录音文件夹",
+      "openFolder": "录音文件夹",
       "loading": "加载历史记录中...",
       "empty": "还没有转录记录。开始录制以建立您的历史记录！",
-      "copyToClipboard": "复制转录到剪贴板",
+      "copyToClipboard": "复制",
       "copyError": "无法将转录复制到剪贴板。",
-      "save": "保存转录",
-      "unsave": "从已保存中移除",
-      "delete": "删除条目",
+      "save": "加入收藏",
+      "unsave": "取消收藏",
+      "delete": "删除",
       "deleteError": "删除条目失败，请重试。",
       "retranscribe": "重新转录",
       "retranscribeError": "重新转录失败。请重试。",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "调试",
       "logDirectory": {
-        "title": "日志目录",
-        "description": "日志文件的存储位置"
+        "title": "日志",
+        "description": "日志文件所在的文件夹。"
       },
       "logLevel": {
         "title": "日志级别",
@@ -504,25 +505,39 @@
       },
       "updateChecks": {
         "label": "检查更新",
-        "description": "自动检查 J’écoute 的新版本",
+        "description": "自动检查 J’écoute 的新版本。",
         "lockedDescription": "已被系统配置禁用 (HANDY_DISABLE_UPDATER)"
       },
+      "whatsNewPreview": {
+        "title": "预览新功能",
+        "description": "打开最新内置发行说明，且不标记为已查看",
+        "button": "预览",
+        "noNotes": "未找到内置发行说明",
+        "error": "无法预览发行说明"
+      },
+      "onboardingPreview": {
+        "title": "预览新手引导",
+        "description": "预览新手引导界面，而不更改权限、模型或完成状态",
+        "permissionsButton": "权限",
+        "modelsButton": "模型选择",
+        "exitButton": "退出预览"
+      },
       "soundTheme": {
-        "label": "声音主题",
-        "description": "选择录制开始和停止反馈的声音主题"
+        "label": "提示音样式",
+        "description": "听写开始和结束时的声音。"
       },
       "wordCorrectionThreshold": {
         "title": "词汇修正阈值",
         "description": "自定义词汇修正的灵敏度"
       },
       "historyLimit": {
-        "title": "历史记录上限",
-        "description": "保留的最大历史条目数",
+        "title": "历史记录",
+        "description": "最早的听写会被清除（收藏除外）。",
         "entries": "条"
       },
       "recordingRetention": {
-        "title": "自动删除录音",
-        "description": "自动删除旧录音以节省空间",
+        "title": "录音文件",
+        "description": "删除旧录音以节省空间。",
         "never": "从不",
         "preserveLimit": "保留最新 {{count}} 条",
         "days3": "3 天后",
@@ -532,23 +547,23 @@
       },
       "alwaysOnMicrophone": {
         "label": "麦克风常开",
-        "description": "保持麦克风活跃以获得更快的响应"
+        "description": "听写启动更快。"
       },
       "clamshellMicrophone": {
         "title": "合盖麦克风",
         "description": "笔记本电脑盖子关闭时使用的麦克风"
       },
       "postProcessingToggle": {
-        "label": "后处理",
-        "description": "启用转录后的 AI 文本优化"
+        "label": "AI 校对",
+        "description": "粘贴前由在线 AI 校对听写内容。需要 API 密钥（OpenRouter、Anthropic、OpenAI 等）。"
       },
       "muteWhileRecording": {
-        "label": "录制时静音",
-        "description": "录制期间静音系统音频"
+        "label": "电脑静音",
+        "description": "听写期间，音乐和视频会静音。"
       },
       "appendTrailingSpace": {
-        "label": "追加尾部空格",
-        "description": "在粘贴的转录后添加空格"
+        "label": "文本后加空格",
+        "description": "每次听写后添加一个空格。"
       },
       "keyboardImplementation": {
         "title": "键盘实现",
@@ -599,20 +614,6 @@
         "verdictOk": "按键事件正常到达 J’écoute。",
         "verdictNoEvents": "未捕获到任何事件——测试期间您按过键吗？",
         "failed": "诊断失败：{{error}}"
-      },
-      "whatsNewPreview": {
-        "title": "预览新功能",
-        "description": "打开最新内置发行说明，且不标记为已查看",
-        "button": "预览",
-        "noNotes": "未找到内置发行说明",
-        "error": "无法预览发行说明"
-      },
-      "onboardingPreview": {
-        "title": "预览新手引导",
-        "description": "预览新手引导界面，而不更改权限、模型或完成状态",
-        "permissionsButton": "权限",
-        "modelsButton": "模型选择",
-        "exitButton": "退出预览"
       }
     },
     "about": {
@@ -621,9 +622,13 @@
         "title": "版本",
         "description": "J’écoute 的当前版本"
       },
+      "whatsNewUpdates": {
+        "label": "显示新功能",
+        "description": "J’écoute 更新后显示。"
+      },
       "appDataDirectory": {
-        "title": "应用数据目录",
-        "description": "J’écoute 存储数据的位置"
+        "title": "应用数据",
+        "description": "模型、设置、录音。"
       },
       "sourceCode": {
         "title": "源代码",
@@ -635,12 +640,8 @@
         "ggml": {
           "title": "ggml",
           "description": "OpenAI Whisper 自动语音识别模型的高性能推理",
-          "details": "J’écoute 使用 ggml 进行快速的本地语音转文字处理。感谢 Georgi Gerganov 和贡献者们的出色工作。"
+          "details": "J’écoute 借助 ggml 在本地完成转录。感谢 Georgi Gerganov 和各位贡献者的出色工作。"
         }
-      },
-      "whatsNewUpdates": {
-        "label": "显示新功能",
-        "description": "J’écoute 更新后显示发行说明"
       },
       "basedOn": "基于 CJ Pais 的 Handy"
     }
@@ -660,6 +661,9 @@
     "portableUpdateBrowseMessage": "便携版无法自动更新。请从 GitHub Releases 下载适用于你的系统的最新版本，并安装到同一文件夹，你的 Data/ 文件夹（设置、模型、录音）会保留在原处。",
     "portableUpdateBrowseButton": "打开 GitHub Releases"
   },
+  "whatsNew": {
+    "title": "J’écoute v{{version}} 新功能"
+  },
   "common": {
     "loading": "加载中...",
     "delete": "删除",
@@ -667,7 +671,9 @@
     "open": "打开",
     "copy": "复制",
     "clear": "清除",
-    "noOptionsFound": "未找到选项"
+    "noOptionsFound": "未找到选项",
+    "select": "选择…",
+    "reset": "恢复默认"
   },
   "accessibility": {
     "permissionsDescription": "J’écoute 需要辅助功能权限才能输入转录的文字。",
@@ -692,11 +698,11 @@
     "transcriptionFailedTitle": "转录失败"
   },
   "appLanguage": {
-    "title": "应用语言",
-    "description": "更改 J’écoute 界面的语言"
+    "title": "界面语言",
+    "description": ""
   },
   "theme": {
-    "title": "应用主题",
+    "title": "外观",
     "description": "选择 J’écoute 跟随系统主题，还是保持浅色或深色",
     "options": {
       "system": "跟随系统",
@@ -708,9 +714,6 @@
     "transcribing": "正在转录...",
     "processing": "处理中..."
   },
-  "whatsNew": {
-    "title": "J’écoute v{{version}} 新功能"
-  },
   "secureInput": {
     "blockedWithCulprit_one": "{{name}} 可能正在阻止 1 个快捷键",
     "blockedWithCulprit_other": "{{name}} 可能正在阻止 {{count}} 个快捷键",
@@ -721,5 +724,284 @@
     "learnMore": "如何解决",
     "recorderBlocked": "当前无法录制快捷键——macOS 的 Secure Input 正在阻止按键事件。请先解决 Secure Input 警告。",
     "dismiss": "关闭"
+  },
+  "app": {
+    "home": {
+      "history": "历史记录",
+      "update": "更新",
+      "recent": "最近的听写",
+      "allHistory": "全部历史记录",
+      "empty": "您的听写会显示在这里。",
+      "copyTitle": "复制",
+      "copied": "已复制",
+      "copiedToast": "已复制到剪贴板",
+      "modelPill": "转录模型：{{model}}",
+      "languagePill": "语音语言：{{language}}",
+      "allModels": "全部模型",
+      "downloadPill": "{{model}}，{{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "准备就绪",
+        "desc": "按住 <keys/> 说话：光标在哪儿，我就写在哪儿。",
+        "descToggle": "按下 <keys/> 说话：光标在哪儿，我就写在哪儿。"
+      },
+      "loading": {
+        "title": "正在加载 {{model}}…",
+        "titleGeneric": "正在加载模型…",
+        "desc": "启动后只需几秒，之后我会一直待命。"
+      },
+      "downloading": {
+        "title": "正在下载 {{model}}…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%，{{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "我什么都听不到",
+        "desc": "未找到麦克风。请插入麦克风，或选择其他麦克风。",
+        "action": "选择麦克风"
+      },
+      "micDenied": {
+        "title": "我无法使用麦克风",
+        "action": "打开麦克风设置"
+      },
+      "noModel": {
+        "title": "选择一个模型",
+        "desc": "我需要一个转录模型，才能写下您说的话。",
+        "action": "选择模型"
+      },
+      "error": {
+        "title": "模型未能加载",
+        "desc": "试试其他模型，或重启 J’écoute。",
+        "action": "更换模型"
+      },
+      "listening": {
+        "title": "我在听…",
+        "desc": "说完后松开 <keys/>。",
+        "descToggle": "说完后再按一次 <keys/>。"
+      },
+      "writing": {
+        "title": "我在写…",
+        "desc": "{{model}} 正在转录这句话。",
+        "descGeneric": "正在转录这句话。"
+      },
+      "processing": {
+        "title": "正在润色…",
+        "desc": "AI 正在校对您的听写。"
+      },
+      "done": {
+        "title": "已粘贴",
+        "titleNoPaste": "记下了",
+        "desc": "可在最近的听写中找到。"
+      },
+      "short": {
+        "ready": "就绪",
+        "loading": "加载中…",
+        "downloading": "下载中…",
+        "nomic": "无麦克风",
+        "micDenied": "麦克风被阻止",
+        "nomodel": "无模型",
+        "error": "错误",
+        "listening": "我在听…",
+        "writing": "我在写…",
+        "processing": "正在润色…",
+        "done": "已粘贴"
+      }
+    },
+    "history": {
+      "title": "历史记录",
+      "back": "返回主页",
+      "search": "搜索",
+      "searchLabel": "搜索历史记录",
+      "filters": {
+        "label": "显示",
+        "all": "全部",
+        "favorites": "收藏",
+        "corrected": "AI 校对"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "由 AI 校对",
+      "correctedWith": "由 AI 校对（{{prompt}}）",
+      "versionLabel": "显示的版本",
+      "corrected": "校对后",
+      "raw": "原文",
+      "legendAddedSample": "高亮",
+      "legendAdded": "由 AI 添加",
+      "legendRemovedSample": "删除线",
+      "legendRemoved": "由 AI 删除",
+      "favorite": "收藏",
+      "more": "更多",
+      "play": "播放",
+      "pause": "暂停",
+      "seek": "录音播放位置",
+      "count_one": "{{count}} 条听写",
+      "count_other": "{{count}} 条听写",
+      "countKept_one": "已保留 {{count}} / {{limit}} 条听写",
+      "countKept_other": "已保留 {{count}} / {{limit}} 条听写",
+      "countMore": "超过 {{count}} 条听写",
+      "empty": "还没有听写。按住快捷键说话吧！",
+      "noResults": "没有匹配的听写。"
+    },
+    "settings": {
+      "title": "设置",
+      "close": "关闭设置",
+      "hint": "所有更改即时生效。",
+      "tabs": {
+        "dictation": "听写",
+        "sound": "声音",
+        "text": "文本",
+        "app": "应用",
+        "about": "关于"
+      },
+      "advanced": "高级选项",
+      "editShortcut": "修改",
+      "editShortcutNamed": "修改：{{name}}",
+      "resetShortcut": "恢复默认快捷键",
+      "systemDefault": "系统默认",
+      "playSound": "播放提示音",
+      "customSound": "自定义",
+      "micLevelHint": "听写时，这里会显示音量。",
+      "micLevelLive": "我听得见。",
+      "model": {
+        "title": "转录模型",
+        "change": "更换",
+        "choose": "选择",
+        "none": "无模型",
+        "loading": "加载中…",
+        "error": "加载失败"
+      },
+      "debugMode": {
+        "label": "调试模式",
+        "description": "显示调试工具。也可按 Ctrl+Shift+D。"
+      }
+    },
+    "models": {
+      "title": "转录模型",
+      "back": "返回设置",
+      "search": "搜索",
+      "download": "下载",
+      "use": "使用",
+      "live": "实时文字",
+      "accuracy": "准确度",
+      "speed": "速度",
+      "sorted": "已按您的语言排序。",
+      "sortedFor": "已针对{{language}}排序。",
+      "count_one": "{{count}} 个模型",
+      "count_other": "{{count}} 个模型",
+      "countFiltered": "{{count}} / {{total}}",
+      "translation": "可译为英语"
+    },
+    "onboarding": {
+      "welcome": "欢迎使用 J’écoute",
+      "lead": "选择一个模型来转录您的声音。它在您的电脑上运行，不会上传任何内容。",
+      "choose": "选择一个模型",
+      "recommendedFor": "推荐用于{{language}}",
+      "light": "非常轻量",
+      "onDisk": "已下载",
+      "download": "下载 {{model}}（{{size}}）",
+      "use": "使用 {{model}}",
+      "showAll": "查看全部 {{count}} 个模型",
+      "allModels": "全部模型",
+      "downloading": "正在下载 {{model}}",
+      "downloadingSpeed": "正在下载 {{model}}，{{speed}} MB/s",
+      "preparing": "正在准备 {{model}}…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "版本 {{version}}",
+      "versionUpToDate": "版本 {{version}}，已是最新",
+      "versionUpdate": "版本 {{version}}，有可用更新",
+      "license": "MIT 许可证。借助 ggml 实现本地转录。",
+      "handy": "Handy",
+      "character": "角色：Copyright (c) 2026 Théo Ponthieu，PolyForm Noncommercial 1.0.0 许可证。",
+      "updates": {
+        "title": "更新",
+        "auto": "自动检查。",
+        "upToDate": "已是最新版本。",
+        "failed": "无法检查，请稍后再试。",
+        "availableVersion": "版本 {{version}} 现已推出。",
+        "downloading": "下载中… {{progress}}%",
+        "check": "检查",
+        "install": "安装"
+      }
+    },
+    "dates": {
+      "today": "今天",
+      "yesterday": "昨天",
+      "todayAt": "今天 {{time}}",
+      "yesterdayAt": "昨天 {{time}}",
+      "dayAt": "{{day}} {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "空格",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "左 {{key}}",
+      "rightSide": "右 {{key}}"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "快速准确的英语实时转录",
+      "live_multilingual_transcription_across_28_languages": "实时多语言转录，支持 28 种语言",
+      "tiny_and_instant_runs_well_on_any_hardware": "小巧迅速，任何硬件都能流畅运行",
+      "highest_accuracy_14_languages_slower": "准确度最高，14 种语言，速度较慢",
+      "broadest_language_but_may_run_a_bit_slow": "支持语言最多，但可能稍慢",
+      "live_multilingual_excellent_on_powerful_machines": "实时多语言，在高性能电脑上表现出色",
+      "fast_and_accurate_supports_25_european_languages": "快速准确，支持 25 种欧洲语言",
+      "english_only_the_best_model_for_english_speakers": "仅限英语，英语用户的最佳模型",
+      "excellent_multilingual_model": "出色的多语言模型",
+      "a_tiny_multilingual_model": "小巧的多语言模型",
+      "4_language_speech_to_text_with_translation": "4 种语言语音转文字，支持翻译。",
+      "25_language_speech_to_text_with_translation": "25 种语言语音转文字，支持翻译。",
+      "english_speech_to_text": "英语语音转文字。",
+      "2_language_speech_to_text": "2 种语言语音转文字。",
+      "3_language_speech_to_text": "3 种语言语音转文字。",
+      "russian_speech_to_text_with_token_level_timestamps": "俄语语音转文字，带词元级时间戳。",
+      "5_language_speech_to_text": "5 种语言语音转文字。",
+      "6_language_speech_to_text_with_translation": "6 种语言语音转文字，支持翻译。",
+      "5_language_speech_to_text_with_word_level_timestamps": "5 种语言语音转文字，带词级时间戳。",
+      "english_speech_to_text_with_token_level_timestamps": "英语语音转文字，带词元级时间戳。",
+      "english_speech_to_text_with_streaming": "英语语音转文字，支持实时显示。",
+      "arabic_speech_to_text": "阿拉伯语语音转文字。",
+      "japanese_speech_to_text": "日语语音转文字。",
+      "korean_speech_to_text": "韩语语音转文字。",
+      "ukrainian_speech_to_text": "乌克兰语语音转文字。",
+      "vietnamese_speech_to_text": "越南语语音转文字。",
+      "chinese_speech_to_text": "中文语音转文字。",
+      "2_language_speech_to_text_with_segment_level_timestamps": "2 种语言语音转文字，带句段级时间戳。",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "英语语音转文字，支持实时显示，带词元级时间戳。",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "25 种语言语音转文字，自动识别语言，带词元级时间戳。",
+      "30_language_speech_to_text_with_auto_language_detection": "30 种语言语音转文字，自动识别语言。",
+      "5_language_speech_to_text_with_auto_language_detection": "5 种语言语音转文字，自动识别语言。",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "8 种语言语音转文字，支持翻译，自动识别语言。",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "99 种语言语音转文字，支持翻译，自动识别语言，带句段级时间戳。",
+      "english_speech_to_text_with_segment_level_timestamps": "英语语音转文字，带句段级时间戳。",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 种语言语音转文字，自动识别语言，带句段级时间戳。",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "针对台湾国语优化，支持中英混说。",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 种语言语音转文字，支持翻译，自动识别语言，带句段级时间戳。"
+    }
   }
 }

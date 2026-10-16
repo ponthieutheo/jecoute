@@ -117,7 +117,8 @@
       "errors": {
         "checkFailed": "No s'han pogut comprovar els permisos. Torneu-ho a provar.",
         "requestFailed": "No s'ha pogut sol·licitar el permís. Torneu-ho a provar."
-      }
+      },
+      "checking": "S’estan comprovant els permisos…"
     }
   },
   "modelSelector": {
@@ -169,16 +170,16 @@
         "pressKeys": "Premeu les tecles...",
         "bindings": {
           "transcribe": {
-            "name": "Drecera de transcripció",
-            "description": "La drecera de teclat per enregistrar i transcriure la vostra veu."
+            "name": "Drecera de dictat",
+            "description": "Manteniu-la premuda per parlar i deixeu-la anar per escriure."
           },
           "cancel": {
-            "name": "Drecera de cancel·lació",
-            "description": "La drecera de teclat per cancel·lar l'enregistrament actual."
+            "name": "Cancel·la un dictat",
+            "description": "Atura el dictat sense escriure res."
           },
           "transcribe_with_post_process": {
-            "name": "Drecera de postprocessament",
-            "description": "Opcional: una drecera específica que sempre aplica postprocessament amb IA a la transcripció."
+            "name": "Drecera amb correcció per IA",
+            "description": "Dicta i la IA sempre revisa el text."
           }
         },
         "errors": {
@@ -188,8 +189,8 @@
         }
       },
       "language": {
-        "title": "Llengua",
-        "description": "Seleccioneu la llengua per al reconeixement de la parla. L'opció automàtica detecta la llengua, mentre que seleccionar-ne una d'específica pot millorar-ne la precisió.",
+        "title": "Llengua parlada",
+        "description": "El model actiu entén {{count}} llengües.",
         "searchPlaceholder": "Cerca llengües...",
         "noResults": "No s'ha trobat cap llengua",
         "auto": "Automàtica",
@@ -201,12 +202,12 @@
         "options": {
           "holdOrToggle": "Automàtic",
           "pushToTalk": "Mantén premuda",
-          "toggle": "Commuta"
+          "toggle": "Prem per començar"
         },
         "descriptions": {
-          "hold_or_toggle": "Manteniu-la premuda per enregistrar o feu una pulsació breu per iniciar o aturar l'enregistrament",
-          "push_to_talk": "Enregistreu mentre manteniu premuda la drecera",
-          "toggle": "Premeu la drecera per iniciar l'enregistrament i torneu-la a prémer per aturar-lo"
+          "hold_or_toggle": "Manteniu premut per dictar, o premeu un cop per començar i un altre per aturar.",
+          "push_to_talk": "Escolto mentre manteniu premudes les tecles.",
+          "toggle": "Una pulsació per començar i una altra per aturar."
         }
       }
     },
@@ -234,28 +235,28 @@
       "title": "So",
       "microphone": {
         "title": "Micròfon",
-        "description": "Selecciona el micròfon preferit",
+        "description": "El micròfon que us escolta.",
         "placeholder": "Seleccionaun micròfon...",
         "loading": "S'està carregant..."
       },
       "channel": {
         "title": "Canal d'entrada",
-        "description": "Seleccioneu el canal d'entrada des del qual voleu enregistrar. Feu servir aquesta opció si la interfície d'àudio té diverses entrades.",
+        "description": "Per a una interfície d’àudio amb diverses entrades.",
         "average": "Fes la mitjana de tots els canals",
         "channel": "Canal {{n}}"
       },
       "audioFeedback": {
-        "label": "Avisos sonors",
-        "description": "Reprodueix un so quan s'inicia i s'atura l'enregistrament"
+        "label": "Senyal sonor",
+        "description": "Un so breu a l’inici i al final del dictat."
       },
       "outputDevice": {
-        "title": "Dispositiu de sortida",
-        "description": "Selecciona el dispositiu de sortida d'àudio preferit per als avisos sonors",
+        "title": "Sortida del senyal",
+        "description": "On sona el senyal sonor.",
         "placeholder": "Selecciona un dispositiu de sortida...",
         "loading": "S'està carregant..."
       },
       "volume": {
-        "title": "Volum",
+        "title": "Volum del senyal",
         "description": "Ajusta el volum dels avisos sonors"
       }
     },
@@ -269,20 +270,20 @@
       },
       "experimentalToggle": {
         "label": "Funcions experimentals",
-        "description": "Activa les funcions experimentals que encara estan en desenvolupament."
+        "description": "Funcions encara en desenvolupament."
       },
       "lazyStreamClose": {
-        "label": "Mantén el micròfon obert entre transcripcions",
-        "description": "Manté el flux d'àudio del micròfon obert durant 30 segons després d'aturar l'enregistrament per reduir la latència entre transcripcions consecutives. Mentre és actiu, pot reduir la qualitat de l'àudio Bluetooth."
+        "label": "Mantén el micròfon obert entre dictats",
+        "description": "El micròfon queda obert 30 segons després d’un dictat perquè el següent comenci més de pressa. Pot empitjorar l’àudio Bluetooth."
       },
       "acceleration": {
         "transcribe": {
-          "title": "Acceleració del transcribe.cpp",
-          "description": "Acceleració per maquinari dels models del transcribe.cpp (família Whisper). L'opció automàtica utilitza la GPU si està disponible (Metal al macOS, Vulkan al Windows i al Linux)."
+          "title": "Acceleració",
+          "description": "Targeta gràfica (Vulkan, Metal) o processador. L’opció automàtica fa servir la targeta gràfica si està disponible."
         },
         "ort": {
           "title": "Acceleració ONNX",
-          "description": "Acceleració per maquinari dels models ONNX (Parakeet, Canary, Moonshine, etc.). El DirectML al Windows és experimental. És possible que els models no puguin transcriure."
+          "description": "Per als models ONNX més antics. El DirectML (Windows) és experimental."
         },
         "gpuDevice": {
           "auto": "Automàtica"
@@ -290,30 +291,30 @@
       },
       "startHidden": {
         "label": "Inicia ocult",
-        "description": "Inicia a la safata del sistema sense obrir la finestra."
+        "description": "Inicia a la barra de tasques sense obrir la finestra."
       },
       "autostart": {
-        "label": "Inicia en entrar a la sessió",
-        "description": "Inicia automàticament el J’écoute quan entreu a la sessió de l'ordinador."
+        "label": "Inicia amb el sistema",
+        "description": "El J’écoute s’obre quan entreu a la sessió."
       },
       "showTrayIcon": {
-        "label": "Mostra la icona a la safata",
-        "description": "Mostra la icona del J’écoute a la safata del sistema."
+        "label": "Icona a la barra de tasques",
+        "description": "A l’àrea de notificació, al costat del rellotge."
       },
       "overlay": {
         "style": {
-          "title": "Finestra superposada",
-          "description": "Tria la finestra superposada d'enregistrament: Cap l'amaga, Mínima mostra un indicador compacte i En directe mostra la transcripció en temps real mentre parleu (només amb models compatibles; cerqueu el distintiu En temps real al selector de models). Al Linux es recomana Cap.",
+          "title": "Durant el dictat",
+          "description": "El que es mostra a la pantalla. El text en directe requereix un model compatible. Al Linux es recomana «Cap».",
           "options": {
             "none": "Cap",
             "minimal": "Mínima",
-            "live": "En directe",
+            "live": "Text en directe",
             "character": "Personatge"
           }
         },
         "position": {
-          "title": "Posició de la finestra superposada",
-          "description": "On apareix la finestra superposada a la pantalla durant l'enregistrament i la transcripció.",
+          "title": "Posició a la pantalla",
+          "description": "A dalt o a baix de la pantalla.",
           "options": {
             "bottom": "A baix",
             "top": "A dalt"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "Mètode d'enganxament",
-        "description": "Trieu com s'insereix el text. Directe: simula l'escriptura mitjançant l'entrada del sistema. Cap: no enganxa el text, només actualitza l'historial i el porta-retalls.",
+        "title": "Escriptura del text",
+        "description": "Com arriba el dictat a la vostra aplicació.",
         "options": {
-          "clipboard": "Porta-retalls ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "Porta-retalls (Ctrl+Maj+V)",
-          "clipboardShiftInsert": "Porta-retalls (Maj+Insert)",
-          "direct": "Directe",
-          "none": "Cap",
+          "clipboard": "Enganxa ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "Enganxa (Ctrl+Maj+V)",
+          "clipboardShiftInsert": "Enganxa (Maj+Insert)",
+          "direct": "Tecleja el text",
+          "none": "Sense escriure",
           "externalScript": "Script extern"
         },
         "externalScriptPlaceholder": "/camí/al/vostre/script.sh"
       },
       "typingTool": {
         "title": "Eina d'escriptura",
-        "description": "Trieu l'eina d'escriptura del Linux que s'utilitzarà amb el mètode d'enganxament directe. L'opció automàtica detecta i utilitza la millor eina disponible per al sistema.",
+        "description": "L’eina del Linux que tecleja el text. L’opció automàtica tria la millor disponible.",
         "options": {
           "auto": "Automàtica (recomanada)"
         }
       },
       "clipboardHandling": {
-        "title": "Gestió del porta-retalls",
-        "description": "«No modifiqueu el porta-retalls» conserva el contingut actual del porta-retalls després de la transcripció. «Copieu al porta-retalls» hi deixa el resultat de la transcripció després d'enganxar-lo.",
+        "title": "Porta-retalls",
+        "description": "Després d’enganxar.",
         "options": {
-          "dontModify": "No modifiqueu el porta-retalls",
-          "copyToClipboard": "Copia al porta-retalls"
+          "dontModify": "Restaura el contingut anterior",
+          "copyToClipboard": "Conserva el dictat"
         }
       },
       "autoSubmit": {
-        "title": "Enviament automàtic",
-        "description": "Envia automàticament la combinació de tecles seleccionada després d'inserir el text. S'utilitza Cmd+Enter al macOS i Super+Enter al Windows i al Linux.",
+        "title": "Envia després del text",
+        "description": "Prem una tecla en lloc vostre per enviar un missatge.",
         "options": {
           "off": "Desactivat",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "Traduïu a l'anglès",
-        "description": "Tradueix automàticament la parla d'altres llengües a l'anglès durant la transcripció."
+        "description": "El que digueu en una altra llengua s’escriu en anglès."
       },
       "modelUnload": {
-        "title": "Allibera el model de la memòria",
-        "description": "Allibera automàticament la memòria de la GPU i de la CPU quan el model no s'ha utilitzat durant el temps especificat",
+        "title": "Allibera memòria",
+        "description": "Treu el model de la memòria quan deixeu de dictar.",
         "options": {
           "never": "Mai",
           "immediately": "Immediatament",
@@ -378,20 +379,20 @@
         }
       },
       "customWords": {
-        "title": "Paraules personalitzades",
-        "description": "Ajudeu els models compatibles a reconèixer noms i termes especialitzats. Actualment, la correcció per similitu es limita a paraules amb lletres de la A a la Z i números.",
+        "title": "Paraules que cal reconèixer",
+        "description": "Noms i termes tècnics que he d’escriure bé.",
         "placeholder": "Afegiu una paraula",
         "add": "Afegiu",
         "remove": "Suprimiu {{word}}",
-        "duplicate": "«{{word}}» ja existeix"
+        "duplicate": "«{{word}}» ja és a la llista"
       },
       "voiceActivityDetection": {
-        "title": "Detecció d'activitat de veu",
-        "description": "Filtra els silencis dels enregistraments. Els models compatibles amb la transcripció en temps real utilitzen un marge final de detecció de veu més llarg; si desactiveu la detecció, s'enregistra l'àudio sense filtrar."
+        "title": "Detecció de la veu",
+        "description": "Ignora els silencis abans i després de parlar."
       },
       "vadBackend": {
-        "title": "Motor de detecció d'activitat de veu",
-        "description": "Trieu el detector utilitzat per filtrar els silencis. L'Earshot és experimental; torneu al Silero si es corta la parla o es conserva el soroll.",
+        "title": "Detector de veu",
+        "description": "L’Earshot és experimental: torneu al Silero si es talla la parla.",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
@@ -399,11 +400,11 @@
       },
       "fillerWordRemoval": {
         "title": "Elimina les falques",
-        "description": "Elimina les expressions de vacil·lació habituals de les transcripcions. Desactiveu aquesta opció per conservar-les."
+        "description": "«eh», «ehm», «doncs»…"
       },
       "chineseScript": {
         "title": "Escriptura xinesa",
-        "description": "Escriu les transcripcions en mandarí i cantonès amb caràcters simplificats o tradicionals. Els altres idiomes no es modifiquen.",
+        "description": "Caràcters simplificats o tradicionals per al mandarí i el cantonès.",
         "options": {
           "asTranscribed": "Tal com s'ha transcrit",
           "simplified": "Simplificat",
@@ -416,22 +417,22 @@
         "title": "Drecera de teclat"
       },
       "api": {
-        "title": "API (compatible amb OpenAI)",
+        "title": "Proveïdor d’IA",
         "provider": {
           "title": "Proveïdor",
-          "description": "Seleccioneu un proveïdor compatible amb OpenAI."
+          "description": "Un servei compatible amb OpenAI."
         },
         "appleIntelligence": {
           "unavailable": "L'Apple Intelligence no està disponible en aquest dispositiu. Cal un Mac amb Apple Silicon i macOS Tahoe (26.0) o posterior, amb l'Apple Intelligence activada a la configuració del sistema."
         },
         "baseUrl": {
-          "title": "URL de base",
-          "description": "URL de base de l'API del proveïdor seleccionat. Només es pot editar la del proveïdor personalitzat.",
+          "title": "Adreça de l’API",
+          "description": "Només es pot editar amb un proveïdor personalitzat.",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "Clau de l'API",
-          "description": "Clau de l'API del proveïdor seleccionat.",
+          "description": "La clau del vostre compte en aquest proveïdor.",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "Indicació",
+        "title": "Instruccions",
         "selectedPrompt": {
-          "title": "Indicació seleccionada",
-          "description": "Seleccioneu una plantilla per millorar les transcripcions o creeu-ne una de nova. Utilitzeu ${output} dins del text de la indicació per fer referència a la transcripció enregistrada."
+          "title": "Instrucció",
+          "description": "El que fa la IA amb el text. ${output} hi representa el vostre dictat."
         },
         "noPrompts": "No hi ha indicacions disponibles",
         "selectPrompt": "Seleccioneu una indicació",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "Historial",
-      "openFolder": "Obriu la carpeta d'enregistraments",
+      "openFolder": "Carpeta d’enregistraments",
       "loading": "S'està carregant l'historial...",
       "empty": "Encara no hi ha transcripcions. Comenceu a enregistrar per crear l'historial!",
-      "copyToClipboard": "Copia la transcripció al porta-retalls",
+      "copyToClipboard": "Copia",
       "copyError": "No s'ha pogut copiar la transcripció al porta-retalls.",
-      "save": "Desa la transcripció",
-      "unsave": "Treu de les desades",
-      "delete": "Suprimeix l'entrada",
+      "save": "Afegeix als preferits",
+      "unsave": "Treu dels preferits",
+      "delete": "Suprimeix",
       "deleteError": "No s'ha pogut suprimir l'entrada. Torneu-ho a provar.",
       "retranscribe": "Torneu a transcriure",
       "retranscribeError": "No s'ha pogut tornar a transcriure. Torneu-ho a provar.",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "Depuració",
       "logDirectory": {
-        "title": "Directori de registres",
-        "description": "Ubicació on es desen els fitxers de registre"
+        "title": "Registres",
+        "description": "La carpeta dels fitxers de registre."
       },
       "logLevel": {
         "title": "Nivell de registre",
@@ -503,8 +504,8 @@
         "empty": "S'estan esperant registres… Les entrades apareixeran aquí a mesura que l'aplicació les emeti."
       },
       "updateChecks": {
-        "label": "Comproveu si hi ha actualitzacions",
-        "description": "Comprova automàticament si hi ha versions noves del J’écoute",
+        "label": "Comprova si hi ha actualitzacions",
+        "description": "Cerca automàticament versions noves del J’écoute.",
         "lockedDescription": "Desactivat per la configuració del sistema (HANDY_DISABLE_UPDATER)"
       },
       "whatsNewPreview": {
@@ -522,21 +523,21 @@
         "exitButton": "Sortiu de la previsualització"
       },
       "soundTheme": {
-        "label": "Tema de so",
-        "description": "Trieu un tema de so per als avisos d'inici i d'aturada de l'enregistrament"
+        "label": "So del senyal",
+        "description": "El so de l’inici i del final d’un dictat."
       },
       "wordCorrectionThreshold": {
         "title": "Llindar de correcció de paraules",
         "description": "Sensibilitat de les correccions de paraules personalitzades"
       },
       "historyLimit": {
-        "title": "Límit de l'historial",
-        "description": "Nombre màxim d'entrades de l'historial que es conservaran",
-        "entries": "entrades"
+        "title": "Historial",
+        "description": "Els dictats més antics s’esborren (excepte els preferits).",
+        "entries": "dictats"
       },
       "recordingRetention": {
-        "title": "Supressió automàtica d'enregistraments",
-        "description": "Suprimeix automàticament els enregistraments antics per estalviar espai",
+        "title": "Enregistraments d’àudio",
+        "description": "Suprimeix els enregistraments antics per estalviar espai.",
         "never": "Mai",
         "preserveLimit": "Conserva els últims {{count}}",
         "days3": "Al cap de 3 dies",
@@ -546,23 +547,23 @@
       },
       "alwaysOnMicrophone": {
         "label": "Micròfon sempre actiu",
-        "description": "Mantén el micròfon actiu per respondre més de pressa"
+        "description": "El dictat comença més de pressa."
       },
       "clamshellMicrophone": {
         "title": "Micròfon amb la tapa tancada",
         "description": "Micròfon que s'utilitzarà quan la tapa del portàtil estigui tancada"
       },
       "postProcessingToggle": {
-        "label": "Postprocessament",
-        "description": "Activa la millora del text amb IA després de la transcripció"
+        "label": "Correcció per IA",
+        "description": "Una IA en línia revisa el dictat abans d’enganxar-lo. Cal una clau d’API (OpenRouter, Anthropic, OpenAI…)."
       },
       "muteWhileRecording": {
-        "label": "Silencia durant l'enregistrament",
-        "description": "Silencia l'àudio del sistema durant l'enregistrament"
+        "label": "Silencia l’ordinador",
+        "description": "La música i els vídeos se silencien durant el dictat."
       },
       "appendTrailingSpace": {
-        "label": "Afegiu un espai al final",
-        "description": "Afegeix un espai après de la transcripció enganxada"
+        "label": "Espai després del text",
+        "description": "Afegeix un espai després de cada dictat."
       },
       "keyboardImplementation": {
         "title": "Implementació del teclat",
@@ -623,11 +624,11 @@
       },
       "whatsNewUpdates": {
         "label": "Mostra les novetats",
-        "description": "Mostra les notes de la versió després d'actualitzar el J’écoute"
+        "description": "Després de cada actualització del J’écoute."
       },
       "appDataDirectory": {
-        "title": "Directori de dades de l'aplicació",
-        "description": "Ubicació on el J’écoute desa les dades"
+        "title": "Dades de l’aplicació",
+        "description": "Models, configuració, enregistraments."
       },
       "sourceCode": {
         "title": "Codi font",
@@ -639,7 +640,7 @@
         "ggml": {
           "title": "ggml",
           "description": "Biblioteca de tensors d'alt rendiment per a la inferència d'aprenentatge automàtic al dispositiu",
-          "details": "La transcripció local de veu a text del J’écoute es basa en el transcribe.cpp i el ggml. Gràcies a la gran feina de Georgi Gerganov i dels col·laboradors."
+          "details": "El J’écoute transcriu en local amb el ggml. Gràcies a Georgi Gerganov i als col·laboradors per la seva feina extraordinària."
         }
       },
       "basedOn": "Basat en el Handy de CJ Pais"
@@ -670,7 +671,9 @@
     "open": "Obre",
     "copy": "Copia",
     "clear": "Neteja",
-    "noOptionsFound": "No s'ha trobat cap opció"
+    "noOptionsFound": "No s'ha trobat cap opció",
+    "select": "Trieu…",
+    "reset": "Restableix el valor per defecte"
   },
   "accessibility": {
     "permissionsDescription": "El J’écoute necessita permisos d'accessibilitat per escriure el text transcrit.",
@@ -695,11 +698,11 @@
     "transcriptionFailedTitle": "La transcripció ha fallat"
   },
   "appLanguage": {
-    "title": "Llengua de l'aplicació",
-    "description": "Canvia la llengua de la interfície del J’écoute"
+    "title": "Llengua de la interfície",
+    "description": ""
   },
   "theme": {
-    "title": "Tema de l'aplicació",
+    "title": "Aparença",
     "description": "Tria si el J’écoute segueix el tema del sistema o es manté en mode clar o fosc",
     "options": {
       "system": "Sistema",
@@ -721,5 +724,284 @@
     "learnMore": "Com es resol",
     "recorderBlocked": "Ara no se'n poden enregistrar dreceres: l'entrada segura del macOS bloca els esdeveniments de tecla. Resol primer l'avís d'entrada segura.",
     "dismiss": "Descarta"
+  },
+  "app": {
+    "home": {
+      "history": "Historial",
+      "update": "Actualització",
+      "recent": "Últims dictats",
+      "allHistory": "Tot l’historial",
+      "empty": "Els vostres dictats apareixeran aquí.",
+      "copyTitle": "Copia",
+      "copied": "Copiat",
+      "copiedToast": "S’ha copiat al porta-retalls",
+      "modelPill": "Model de transcripció: {{model}}",
+      "languagePill": "Llengua parlada: {{language}}",
+      "allModels": "Tots els models",
+      "downloadPill": "{{model}}, {{percent}} %"
+    },
+    "status": {
+      "ready": {
+        "title": "A punt",
+        "desc": "Manteniu premut <keys/> i parleu: escric allà on tingueu el cursor.",
+        "descToggle": "Premeu <keys/> i parleu: escric allà on tingueu el cursor."
+      },
+      "loading": {
+        "title": "Estic carregant {{model}}…",
+        "titleGeneric": "Estic carregant el model…",
+        "desc": "Només uns segons en engegar; després ja estic a punt."
+      },
+      "downloading": {
+        "title": "Estic baixant {{model}}…",
+        "desc": "{{percent}} %",
+        "descSpeed": "{{percent}} %, {{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "No sento res",
+        "desc": "No trobo cap micròfon. Connecteu-ne un o trieu-ne un altre.",
+        "action": "Tria un micròfon"
+      },
+      "micDenied": {
+        "title": "No puc fer servir el micròfon",
+        "action": "Obre la configuració del micròfon"
+      },
+      "noModel": {
+        "title": "Trieu un model",
+        "desc": "Necessito un model de transcripció per escriure el que dieu.",
+        "action": "Tria un model"
+      },
+      "error": {
+        "title": "El model no s’ha pogut carregar",
+        "desc": "Proveu un altre model o reinicieu el J’écoute.",
+        "action": "Canvia de model"
+      },
+      "listening": {
+        "title": "Us escolto…",
+        "desc": "Deixeu anar <keys/> quan hàgiu acabat.",
+        "descToggle": "Torneu a prémer <keys/> quan hàgiu acabat."
+      },
+      "writing": {
+        "title": "Estic escrivint…",
+        "desc": "{{model}} està transcrivint la vostra frase.",
+        "descGeneric": "Estic transcrivint la vostra frase."
+      },
+      "processing": {
+        "title": "Estic polint…",
+        "desc": "La IA està revisant el vostre dictat."
+      },
+      "done": {
+        "title": "Enganxat",
+        "titleNoPaste": "Apuntat",
+        "desc": "El trobareu als últims dictats."
+      },
+      "short": {
+        "ready": "A punt",
+        "loading": "Carregant…",
+        "downloading": "Baixant…",
+        "nomic": "Sense micròfon",
+        "micDenied": "Micròfon blocat",
+        "nomodel": "Sense model",
+        "error": "Error",
+        "listening": "Us escolto…",
+        "writing": "Escrivint…",
+        "processing": "Polint…",
+        "done": "Enganxat"
+      }
+    },
+    "history": {
+      "title": "Historial",
+      "back": "Torna a l’inici",
+      "search": "Cerca",
+      "searchLabel": "Cerca a l’historial",
+      "filters": {
+        "label": "Mostra",
+        "all": "Tots",
+        "favorites": "Preferits",
+        "corrected": "Corregits per IA"
+      },
+      "iaBadge": "IA",
+      "correctedBadge": "Corregit per la IA",
+      "correctedWith": "Corregit per la IA ({{prompt}})",
+      "versionLabel": "Text mostrat",
+      "corrected": "Corregit",
+      "raw": "Original",
+      "legendAddedSample": "ressaltat",
+      "legendAdded": "afegit per la IA",
+      "legendRemovedSample": "ratllat",
+      "legendRemoved": "tret per la IA",
+      "favorite": "Preferit",
+      "more": "Més",
+      "play": "Reprodueix",
+      "pause": "Pausa",
+      "seek": "Posició a l’enregistrament",
+      "count_one": "{{count}} dictat",
+      "count_other": "{{count}} dictats",
+      "countKept_one": "{{count}} dictat conservat de {{limit}}",
+      "countKept_other": "{{count}} dictats conservats de {{limit}}",
+      "countMore": "Més de {{count}} dictats",
+      "empty": "Encara no hi ha cap dictat. Manteniu premuda la drecera i parleu!",
+      "noResults": "Cap dictat no hi coincideix."
+    },
+    "settings": {
+      "title": "Configuració",
+      "close": "Tanca la configuració",
+      "hint": "Cada canvi s’aplica de seguida.",
+      "tabs": {
+        "dictation": "Dictat",
+        "sound": "So",
+        "text": "Text",
+        "app": "Aplicació",
+        "about": "Quant a"
+      },
+      "advanced": "Opcions avançades",
+      "editShortcut": "Canvia",
+      "editShortcutNamed": "Canvia: {{name}}",
+      "resetShortcut": "Restableix la drecera per defecte",
+      "systemDefault": "Per defecte del sistema",
+      "playSound": "Escolta el senyal",
+      "customSound": "Personalitzat",
+      "micLevelHint": "El nivell es mostra aquí durant un dictat.",
+      "micLevelLive": "Us sento.",
+      "model": {
+        "title": "Model de transcripció",
+        "change": "Canvia",
+        "choose": "Tria",
+        "none": "Cap model",
+        "loading": "S’està carregant…",
+        "error": "No s’ha pogut carregar"
+      },
+      "debugMode": {
+        "label": "Mode de depuració",
+        "description": "Mostra les eines de depuració. També amb Ctrl+Maj+D."
+      }
+    },
+    "models": {
+      "title": "Model de transcripció",
+      "back": "Torna a la configuració",
+      "search": "Cerca",
+      "download": "Baixa",
+      "use": "Utilitza",
+      "live": "Text en directe",
+      "accuracy": "Precisió",
+      "speed": "Velocitat",
+      "sorted": "Ordenats per a la vostra llengua.",
+      "sortedFor": "Ordenats per a la vostra llengua ({{language}}).",
+      "count_one": "{{count}} model",
+      "count_other": "{{count}} models",
+      "countFiltered": "{{count}} de {{total}}",
+      "translation": "Tradueix a l’anglès"
+    },
+    "onboarding": {
+      "welcome": "Us donem la benvinguda al J’écoute",
+      "lead": "Trieu el model que transcriu la vostra veu. Funciona al vostre ordinador: no s’envia res a Internet.",
+      "choose": "Trieu un model",
+      "recommendedFor": "Recomanat ({{language}})",
+      "light": "Molt lleuger",
+      "onDisk": "Ja baixat",
+      "download": "Baixa {{model}} ({{size}})",
+      "use": "Utilitza {{model}}",
+      "showAll": "Mostra els {{count}} models",
+      "allModels": "Tots els models",
+      "downloading": "S’està baixant {{model}}",
+      "downloadingSpeed": "S’està baixant {{model}}, {{speed}} MB/s",
+      "preparing": "Estic preparant {{model}}…",
+      "percent": "{{percent}} %"
+    },
+    "about": {
+      "version": "Versió {{version}}",
+      "versionUpToDate": "Versió {{version}}, actualitzada",
+      "versionUpdate": "Versió {{version}}, actualització disponible",
+      "license": "Llicència MIT. Transcripció local gràcies al ggml.",
+      "handy": "Handy",
+      "character": "El personatge: Copyright (c) 2026 Théo Ponthieu, llicència PolyForm Noncommercial 1.0.0.",
+      "updates": {
+        "title": "Actualitzacions",
+        "auto": "Es comproven automàticament.",
+        "upToDate": "Teniu la darrera versió.",
+        "failed": "No s’ha pogut comprovar. Torneu-ho a provar més tard.",
+        "availableVersion": "Hi ha disponible la versió {{version}}.",
+        "downloading": "S’està baixant… {{progress}} %",
+        "check": "Comprova",
+        "install": "Instal·la"
+      }
+    },
+    "dates": {
+      "today": "Avui",
+      "yesterday": "Ahir",
+      "todayAt": "Avui, {{time}}",
+      "yesterdayAt": "Ahir, {{time}}",
+      "dayAt": "{{day}}, {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Maj",
+      "alt": "Alt",
+      "option": "Opció",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "Espai",
+      "escape": "Esc",
+      "enter": "Retorn",
+      "tab": "Tab",
+      "backspace": "Retrocés",
+      "delete": "Supr",
+      "capslock": "Bloq Maj",
+      "insert": "Insert",
+      "home": "Inici",
+      "end": "Fi",
+      "pageUp": "Re Pàg",
+      "pageDown": "Av Pàg",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "{{key}} esquerra",
+      "rightSide": "{{key}} dreta"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "Anglès en directe, ràpid i precís.",
+      "live_multilingual_transcription_across_28_languages": "Transcripció multilingüe en directe, 28 llengües.",
+      "tiny_and_instant_runs_well_on_any_hardware": "Minúscul i instantani, funciona bé en qualsevol ordinador.",
+      "highest_accuracy_14_languages_slower": "La màxima precisió, 14 llengües, més lent.",
+      "broadest_language_but_may_run_a_bit_slow": "El que admet més llengües, però pot anar una mica lent.",
+      "live_multilingual_excellent_on_powerful_machines": "Multilingüe en directe, excel·lent en ordinadors potents.",
+      "fast_and_accurate_supports_25_european_languages": "Ràpid i precís. Admet 25 llengües europees.",
+      "english_only_the_best_model_for_english_speakers": "Només anglès. El millor model per a parlants d’anglès.",
+      "excellent_multilingual_model": "Excel·lent model multilingüe.",
+      "a_tiny_multilingual_model": "Un model multilingüe minúscul.",
+      "4_language_speech_to_text_with_translation": "4 llengües, amb traducció.",
+      "25_language_speech_to_text_with_translation": "25 llengües, amb traducció.",
+      "english_speech_to_text": "Anglès.",
+      "2_language_speech_to_text": "2 llengües.",
+      "3_language_speech_to_text": "3 llengües.",
+      "russian_speech_to_text_with_token_level_timestamps": "Rus, amb marques de temps paraula per paraula.",
+      "5_language_speech_to_text": "5 llengües.",
+      "6_language_speech_to_text_with_translation": "6 llengües, amb traducció.",
+      "5_language_speech_to_text_with_word_level_timestamps": "5 llengües, amb marques de temps per paraula.",
+      "english_speech_to_text_with_token_level_timestamps": "Anglès, amb marques de temps paraula per paraula.",
+      "english_speech_to_text_with_streaming": "Anglès, text en directe.",
+      "arabic_speech_to_text": "Àrab.",
+      "japanese_speech_to_text": "Japonès.",
+      "korean_speech_to_text": "Coreà.",
+      "ukrainian_speech_to_text": "Ucraïnès.",
+      "vietnamese_speech_to_text": "Vietnamita.",
+      "chinese_speech_to_text": "Xinès.",
+      "2_language_speech_to_text_with_segment_level_timestamps": "2 llengües, amb marques de temps per fragment.",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "Anglès, text en directe, marques de temps paraula per paraula.",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "25 llengües, detecció automàtica de la llengua, marques de temps paraula per paraula.",
+      "30_language_speech_to_text_with_auto_language_detection": "30 llengües, detecció automàtica de la llengua.",
+      "5_language_speech_to_text_with_auto_language_detection": "5 llengües, detecció automàtica de la llengua.",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "8 llengües, traducció, detecció automàtica de la llengua.",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "99 llengües, traducció, detecció automàtica de la llengua, marques de temps per fragment.",
+      "english_speech_to_text_with_segment_level_timestamps": "Anglès, amb marques de temps per fragment.",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 llengües, detecció automàtica de la llengua, marques de temps per fragment.",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "Optimitzat per al mandarí de Taiwan. Admet l’alternança de llengües.",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 llengües, traducció, detecció automàtica de la llengua, marques de temps per fragment."
+    }
   }
 }

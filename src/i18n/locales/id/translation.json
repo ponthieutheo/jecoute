@@ -117,7 +117,8 @@
       "errors": {
         "checkFailed": "Gagal memeriksa izin. Silakan coba lagi.",
         "requestFailed": "Gagal meminta izin. Silakan coba lagi."
-      }
+      },
+      "checking": "Memeriksa izin…"
     }
   },
   "modelSelector": {
@@ -169,16 +170,16 @@
         "pressKeys": "Tekan tombol...",
         "bindings": {
           "transcribe": {
-            "name": "Pintasan Transkripsi",
-            "description": "Pintasan keyboard untuk merekam dan mentranskripsikan suara Anda."
+            "name": "Pintasan dikte",
+            "description": "Tahan untuk bicara, lepas untuk menulis."
           },
           "cancel": {
-            "name": "Pintasan Batal",
-            "description": "Pintasan keyboard untuk membatalkan perekaman saat ini."
+            "name": "Batalkan dikte",
+            "description": "Berhenti tanpa menulis apa pun."
           },
           "transcribe_with_post_process": {
-            "name": "Pintasan Pascaproses",
-            "description": "Opsional: pintasan khusus yang selalu menerapkan pascaproses AI pada transkripsi Anda."
+            "name": "Pintasan dengan koreksi AI",
+            "description": "Mendikte dan selalu meminta AI memeriksa teksnya."
           }
         },
         "errors": {
@@ -188,8 +189,8 @@
         }
       },
       "language": {
-        "title": "Bahasa",
-        "description": "Pilih bahasa untuk pengenalan ucapan. Opsi Otomatis akan mendeteksi bahasa, sedangkan memilih bahasa tertentu dapat meningkatkan akurasi untuk bahasa tersebut.",
+        "title": "Bahasa ucapan",
+        "description": "Model aktif memahami {{count}} bahasa.",
         "searchPlaceholder": "Cari bahasa...",
         "noResults": "Bahasa tidak ditemukan",
         "auto": "Otomatis",
@@ -201,12 +202,12 @@
         "options": {
           "holdOrToggle": "Otomatis",
           "pushToTalk": "Tahan",
-          "toggle": "Tekan"
+          "toggle": "Tekan untuk mulai"
         },
         "descriptions": {
-          "hold_or_toggle": "Tahan untuk merekam atau tekan untuk mulai/berhenti",
-          "push_to_talk": "Merekam selama Anda menahan pintasan",
-          "toggle": "Ketuk pintasan untuk mulai merekam, lalu ketuk lagi untuk berhenti"
+          "hold_or_toggle": "Tahan untuk mendikte, atau tekan sekali untuk mulai dan sekali lagi untuk berhenti.",
+          "push_to_talk": "Saya mendengarkan selama Anda menahan tombolnya.",
+          "toggle": "Tekan sekali untuk mulai, tekan lagi untuk berhenti."
         }
       }
     },
@@ -234,28 +235,28 @@
       "title": "Suara",
       "microphone": {
         "title": "Mikrofon",
-        "description": "Pilih perangkat mikrofon yang Anda inginkan",
+        "description": "Mikrofon yang mendengarkan Anda.",
         "placeholder": "Pilih mikrofon...",
         "loading": "Memuat..."
       },
       "channel": {
         "title": "Kanal Masukan",
-        "description": "Pilih kanal masukan yang akan direkam. Gunakan ini jika antarmuka audio Anda memiliki beberapa masukan.",
+        "description": "Untuk antarmuka audio dengan beberapa masukan.",
         "average": "Rata-ratakan semua kanal",
         "channel": "Kanal {{n}}"
       },
       "audioFeedback": {
-        "label": "Umpan Balik Audio",
-        "description": "Putar suara saat perekaman dimulai dan dihentikan"
+        "label": "Sinyal suara",
+        "description": "Bunyi singkat saat dikte dimulai dan selesai."
       },
       "outputDevice": {
-        "title": "Perangkat Keluaran",
-        "description": "Pilih perangkat keluaran audio yang Anda inginkan untuk suara umpan balik",
+        "title": "Keluaran sinyal",
+        "description": "Tempat sinyal suara diputar.",
         "placeholder": "Pilih perangkat keluaran...",
         "loading": "Memuat..."
       },
       "volume": {
-        "title": "Volume",
+        "title": "Volume sinyal",
         "description": "Sesuaikan volume suara umpan balik audio"
       }
     },
@@ -268,52 +269,52 @@
         "experimental": "Eksperimental"
       },
       "experimentalToggle": {
-        "label": "Fitur Eksperimental",
-        "description": "Aktifkan fitur eksperimental yang masih dalam pengembangan."
+        "label": "Fitur eksperimental",
+        "description": "Fitur yang masih dalam pengembangan."
       },
       "lazyStreamClose": {
-        "label": "Biarkan Mikrofon Tetap Aktif di Antara Transkripsi",
-        "description": "Membiarkan aliran mikrofon tetap terbuka selama 30 detik setelah perekaman berhenti untuk mengurangi latensi pada transkripsi beruntun. Dapat menurunkan kualitas audio Bluetooth saat aktif."
+        "label": "Biarkan mikrofon terbuka di antara dikte",
+        "description": "Mikrofon tetap terbuka 30 detik setelah dikte agar dikte berikutnya mulai lebih cepat. Dapat menurunkan kualitas audio Bluetooth."
       },
       "acceleration": {
         "transcribe": {
-          "title": "Akselerasi transcribe.cpp",
-          "description": "Akselerasi perangkat keras untuk model transcribe.cpp (keluarga Whisper). Otomatis menggunakan GPU jika tersedia (Metal di macOS, Vulkan di Windows/Linux)."
+          "title": "Akselerasi",
+          "description": "Kartu grafis (Vulkan, Metal) atau prosesor. Otomatis memakai kartu grafis jika tersedia."
         },
         "ort": {
           "title": "Akselerasi ONNX",
-          "description": "Akselerasi perangkat keras untuk model ONNX (Parakeet, Canary, Moonshine, dll.). DirectML di Windows bersifat eksperimental. Model mungkin gagal mentranskripsikan."
+          "description": "Untuk model ONNX lama. DirectML (Windows) masih eksperimental."
         },
         "gpuDevice": {
           "auto": "Otomatis"
         }
       },
       "startHidden": {
-        "label": "Mulai dalam Keadaan Tersembunyi",
-        "description": "Jalankan ke baki sistem tanpa membuka jendela."
+        "label": "Mulai tersembunyi",
+        "description": "Mulai di bilah tugas tanpa membuka jendela."
       },
       "autostart": {
-        "label": "Jalankan saat Komputer Dinyalakan",
-        "description": "Mulai J’écoute secara otomatis saat Anda masuk ke komputer."
+        "label": "Jalankan saat komputer menyala",
+        "description": "J’écoute berjalan saat Anda masuk ke komputer."
       },
       "showTrayIcon": {
-        "label": "Tampilkan Ikon Baki Sistem",
-        "description": "Tampilkan ikon J’écoute di baki sistem."
+        "label": "Ikon di bilah tugas",
+        "description": "Di area notifikasi, dekat jam."
       },
       "overlay": {
         "style": {
-          "title": "Overlay",
-          "description": "Pilih overlay perekaman: Tidak Ada menyembunyikannya, Minimal menampilkan indikator ringkas, dan Langsung menampilkan transkripsi secara waktu nyata saat Anda berbicara (hanya model yang mendukung streaming — cari lencana Streaming di pemilih model). Di Linux, 'Tidak Ada' direkomendasikan.",
+          "title": "Selama dikte",
+          "description": "Yang tampil di layar. Teks langsung memerlukan model yang kompatibel. Di Linux, “Tidak Ada” disarankan.",
           "options": {
             "none": "Tidak Ada",
             "minimal": "Minimal",
-            "live": "Waktu Nyata",
+            "live": "Teks langsung",
             "character": "Karakter"
           }
         },
         "position": {
-          "title": "Posisi Overlay",
-          "description": "Lokasi overlay muncul di layar selama perekaman dan transkripsi.",
+          "title": "Posisi di layar",
+          "description": "Di bagian atas atau bawah layar.",
           "options": {
             "bottom": "Bawah",
             "top": "Atas"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "Metode Tempel",
-        "description": "Pilih cara teks dimasukkan. Langsung: mensimulasikan pengetikan melalui masukan sistem. Tidak Ada: melewati proses tempel dan hanya memperbarui riwayat/papan klip.",
+        "title": "Penulisan teks",
+        "description": "Cara hasil dikte masuk ke aplikasi Anda.",
         "options": {
-          "clipboard": "Papan klip ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "Papan klip (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "Papan klip (Shift+Insert)",
-          "direct": "Langsung",
-          "none": "Tidak Ada",
+          "clipboard": "Tempel ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "Tempel (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "Tempel (Shift+Insert)",
+          "direct": "Ketik teksnya",
+          "none": "Jangan tulis",
           "externalScript": "Skrip Eksternal"
         },
         "externalScriptPlaceholder": "/path/to/your/script.sh"
       },
       "typingTool": {
         "title": "Alat Pengetikan",
-        "description": "Pilih alat pengetikan Linux yang digunakan untuk metode tempel Langsung. Otomatis akan mendeteksi dan menggunakan alat terbaik yang tersedia untuk sistem Anda.",
+        "description": "Alat Linux yang mengetik teks. Otomatis memilih yang terbaik yang tersedia.",
         "options": {
           "auto": "Otomatis (Direkomendasikan)"
         }
       },
       "clipboardHandling": {
-        "title": "Penanganan Papan Klip",
-        "description": "Jangan Ubah Papan Klip akan mempertahankan isi papan klip saat ini setelah transkripsi. Salin ke Papan Klip akan membiarkan hasil transkripsi tetap berada di papan klip setelah ditempel.",
+        "title": "Papan klip",
+        "description": "Setelah menempel.",
         "options": {
-          "dontModify": "Jangan Ubah Papan Klip",
-          "copyToClipboard": "Salin ke Papan Klip"
+          "dontModify": "Kembalikan isi sebelumnya",
+          "copyToClipboard": "Simpan hasil dikte"
         }
       },
       "autoSubmit": {
-        "title": "Kirim Otomatis",
-        "description": "Kirim kombinasi tombol yang dipilih secara otomatis setelah teks dimasukkan. Cmd+Enter berlaku di macOS, sedangkan Windows/Linux menggunakan Super+Enter.",
+        "title": "Kirim setelah teks masuk",
+        "description": "Menekan tombol untuk Anda, misalnya untuk mengirim pesan.",
         "options": {
           "off": "Nonaktif",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "Terjemahkan ke Bahasa Inggris",
-        "description": "Terjemahkan ucapan dari bahasa lain ke bahasa Inggris secara otomatis selama transkripsi."
+        "description": "Yang Anda ucapkan dalam bahasa lain ditulis dalam bahasa Inggris."
       },
       "modelUnload": {
-        "title": "Keluarkan Model dari Memori",
-        "description": "Bebaskan memori GPU/CPU secara otomatis jika model tidak digunakan selama waktu yang ditentukan",
+        "title": "Kosongkan memori",
+        "description": "Mengeluarkan model dari memori saat Anda berhenti mendikte.",
         "options": {
           "never": "Tidak Pernah",
           "immediately": "Segera",
@@ -378,32 +379,32 @@
         }
       },
       "customWords": {
-        "title": "Kata Khusus",
-        "description": "Bantu model yang didukung mengenali nama dan istilah khusus. Koreksi fuzzy saat ini terbatas pada kata yang menggunakan huruf A–Z dan angka.",
+        "title": "Kata yang perlu dikenali",
+        "description": "Nama dan istilah teknis yang harus saya tulis dengan benar.",
         "placeholder": "Tambahkan kata",
         "add": "Tambah",
         "remove": "Hapus {{word}}",
-        "duplicate": "\"{{word}}\" sudah ada"
+        "duplicate": "“{{word}}” sudah ada di daftar"
       },
       "voiceActivityDetection": {
-        "title": "Deteksi Aktivitas Suara",
-        "description": "Saring keheningan dari rekaman. Model yang mendukung streaming menggunakan ekor VAD yang lebih panjang; menonaktifkan VAD akan merekam audio mentah."
+        "title": "Deteksi suara",
+        "description": "Mengabaikan keheningan sebelum dan sesudah ucapan."
       },
       "vadBackend": {
-        "title": "Backend Deteksi Aktivitas Suara",
-        "description": "Pilih detektor yang digunakan untuk menyaring keheningan. Earshot bersifat eksperimental; kembali ke Silero jika ucapan terpotong atau kebisingan tetap terekam.",
+        "title": "Detektor suara",
+        "description": "Earshot masih eksperimental: kembali ke Silero jika ucapan terpotong.",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
         }
       },
       "fillerWordRemoval": {
-        "title": "Hapus Kata Pengisi",
-        "description": "Menghapus kata pengisi umum dari transkripsi. Nonaktifkan untuk mempertahankannya."
+        "title": "Hapus kata pengisi",
+        "description": "“eh”, “em”, “anu”…"
       },
       "chineseScript": {
         "title": "Aksara Tionghoa",
-        "description": "Menulis transkripsi Mandarin dan Kanton dengan aksara Sederhana atau Tradisional. Bahasa lain tidak diubah.",
+        "description": "Aksara Sederhana atau Tradisional untuk Mandarin dan Kanton.",
         "options": {
           "asTranscribed": "Sesuai transkripsi",
           "simplified": "Sederhana",
@@ -416,22 +417,22 @@
         "title": "Pintasan"
       },
       "api": {
-        "title": "API (Kompatibel dengan OpenAI)",
+        "title": "Penyedia AI",
         "provider": {
           "title": "Penyedia",
-          "description": "Pilih penyedia yang kompatibel dengan OpenAI."
+          "description": "Layanan yang kompatibel dengan OpenAI."
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence tidak tersedia di perangkat ini. Memerlukan Mac Apple Silicon yang menjalankan macOS Tahoe (26.0) atau yang lebih baru dengan Apple Intelligence diaktifkan di Pengaturan Sistem."
         },
         "baseUrl": {
-          "title": "URL Dasar",
-          "description": "URL dasar API untuk penyedia yang dipilih. Hanya penyedia kustom yang dapat diedit.",
+          "title": "Alamat API",
+          "description": "Hanya bisa diubah untuk penyedia kustom.",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "Kunci API",
-          "description": "Kunci API untuk penyedia yang dipilih.",
+          "description": "Kunci akun Anda di penyedia ini.",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "Prompt",
+        "title": "Instruksi",
         "selectedPrompt": {
-          "title": "Prompt Terpilih",
-          "description": "Pilih templat untuk menyempurnakan transkripsi atau buat yang baru. Gunakan ${output} dalam teks prompt untuk merujuk ke hasil transkripsi."
+          "title": "Instruksi",
+          "description": "Apa yang dilakukan AI pada teks. ${output} mewakili hasil dikte Anda."
         },
         "noPrompts": "Tidak ada prompt yang tersedia",
         "selectPrompt": "Pilih prompt",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "Riwayat",
-      "openFolder": "Buka Folder Rekaman",
+      "openFolder": "Folder rekaman",
       "loading": "Memuat riwayat...",
       "empty": "Belum ada transkripsi. Mulai merekam untuk mengisi riwayat Anda!",
-      "copyToClipboard": "Salin transkripsi ke papan klip",
+      "copyToClipboard": "Salin",
       "copyError": "Gagal menyalin transkripsi ke papan klip.",
-      "save": "Simpan transkripsi",
-      "unsave": "Hapus dari daftar tersimpan",
-      "delete": "Hapus entri",
+      "save": "Tambahkan ke favorit",
+      "unsave": "Hapus dari favorit",
+      "delete": "Hapus",
       "deleteError": "Gagal menghapus entri. Silakan coba lagi.",
       "retranscribe": "Transkripsikan ulang",
       "retranscribeError": "Gagal mentranskripsikan ulang. Silakan coba lagi.",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "Debug",
       "logDirectory": {
-        "title": "Direktori Log",
-        "description": "Lokasi penyimpanan file log"
+        "title": "Log",
+        "description": "Folder file log."
       },
       "logLevel": {
         "title": "Tingkat Log",
@@ -503,8 +504,8 @@
         "empty": "Menunggu log… Entri akan muncul di sini saat aplikasi menghasilkannya."
       },
       "updateChecks": {
-        "label": "Periksa Pembaruan",
-        "description": "Periksa versi baru J’écoute secara otomatis",
+        "label": "Periksa pembaruan",
+        "description": "Cari versi baru J’écoute secara otomatis.",
         "lockedDescription": "Dinonaktifkan oleh konfigurasi sistem (HANDY_DISABLE_UPDATER)"
       },
       "whatsNewPreview": {
@@ -522,21 +523,21 @@
         "exitButton": "Keluar dari Pratinjau"
       },
       "soundTheme": {
-        "label": "Tema Suara",
-        "description": "Pilih tema suara untuk umpan balik saat perekaman dimulai dan dihentikan"
+        "label": "Bunyi sinyal",
+        "description": "Bunyi di awal dan akhir dikte."
       },
       "wordCorrectionThreshold": {
         "title": "Ambang Koreksi Kata",
         "description": "Sensitivitas untuk koreksi kata khusus"
       },
       "historyLimit": {
-        "title": "Batas Riwayat",
-        "description": "Jumlah maksimum entri riwayat yang disimpan",
-        "entries": "entri"
+        "title": "Riwayat",
+        "description": "Dikte terlama akan dihapus (favorit tetap disimpan).",
+        "entries": "dikte"
       },
       "recordingRetention": {
-        "title": "Hapus Rekaman Secara Otomatis",
-        "description": "Hapus rekaman lama secara otomatis untuk menghemat ruang",
+        "title": "Rekaman audio",
+        "description": "Hapus rekaman lama untuk menghemat ruang.",
         "never": "Tidak Pernah",
         "preserveLimit": "Simpan {{count}} terbaru",
         "days3": "Setelah 3 hari",
@@ -545,24 +546,24 @@
         "placeholder": "Pilih masa penyimpanan..."
       },
       "alwaysOnMicrophone": {
-        "label": "Mikrofon Selalu Aktif",
-        "description": "Biarkan mikrofon aktif agar respons lebih cepat"
+        "label": "Mikrofon selalu aktif",
+        "description": "Dikte mulai lebih cepat."
       },
       "clamshellMicrophone": {
         "title": "Mikrofon Saat Laptop Ditutup",
         "description": "Mikrofon yang digunakan saat laptop ditutup"
       },
       "postProcessingToggle": {
-        "label": "Pascaproses",
-        "description": "Aktifkan penyempurnaan teks berbasis AI setelah transkripsi"
+        "label": "Koreksi AI",
+        "description": "AI daring memeriksa hasil dikte sebelum ditempel. Memerlukan kunci API (OpenRouter, Anthropic, OpenAI…)."
       },
       "muteWhileRecording": {
-        "label": "Bisukan Saat Merekam",
-        "description": "Bisukan audio sistem selama perekaman"
+        "label": "Bisukan komputer",
+        "description": "Musik dan video diam selama dikte."
       },
       "appendTrailingSpace": {
-        "label": "Tambahkan Spasi di Akhir",
-        "description": "Tambahkan spasi setelah transkripsi ditempel"
+        "label": "Spasi setelah teks",
+        "description": "Menambahkan spasi setelah setiap dikte."
       },
       "keyboardImplementation": {
         "title": "Implementasi Keyboard",
@@ -622,12 +623,12 @@
         "description": "Versi J’écoute saat ini"
       },
       "whatsNewUpdates": {
-        "label": "Tampilkan Yang Baru",
-        "description": "Tampilkan catatan rilis setelah J’écoute diperbarui"
+        "label": "Tampilkan yang baru",
+        "description": "Setelah J’écoute diperbarui."
       },
       "appDataDirectory": {
-        "title": "Direktori Data Aplikasi",
-        "description": "Lokasi J’écoute menyimpan datanya"
+        "title": "Data aplikasi",
+        "description": "Model, pengaturan, rekaman."
       },
       "sourceCode": {
         "title": "Kode Sumber",
@@ -639,7 +640,7 @@
         "ggml": {
           "title": "ggml",
           "description": "Pustaka tensor berkinerja tinggi untuk inferensi pembelajaran mesin di perangkat",
-          "details": "Fitur ucapan-ke-teks lokal J’écoute dibangun menggunakan transcribe.cpp dan ggml. Terima kasih kepada Georgi Gerganov dan para kontributor atas karya luar biasa mereka."
+          "details": "J’écoute mentranskripsikan secara lokal berkat ggml. Terima kasih kepada Georgi Gerganov dan para kontributor atas karya luar biasa mereka."
         }
       },
       "basedOn": "Berbasis Handy karya CJ Pais"
@@ -670,7 +671,9 @@
     "open": "Buka",
     "copy": "Salin",
     "clear": "Bersihkan",
-    "noOptionsFound": "Tidak ada opsi yang ditemukan"
+    "noOptionsFound": "Tidak ada opsi yang ditemukan",
+    "select": "Pilih…",
+    "reset": "Kembalikan ke default"
   },
   "accessibility": {
     "permissionsDescription": "J’écoute memerlukan izin aksesibilitas untuk mengetik teks hasil transkripsi.",
@@ -695,11 +698,11 @@
     "transcriptionFailedTitle": "Transkripsi Gagal"
   },
   "appLanguage": {
-    "title": "Bahasa Aplikasi",
-    "description": "Ubah bahasa antarmuka J’écoute"
+    "title": "Bahasa antarmuka",
+    "description": ""
   },
   "theme": {
-    "title": "Tema Aplikasi",
+    "title": "Tampilan",
     "description": "Pilih apakah J’écoute mengikuti tema sistem atau selalu menggunakan tema terang atau gelap",
     "options": {
       "system": "Sistem",
@@ -721,5 +724,284 @@
     "learnMore": "Cara memperbaiki",
     "recorderBlocked": "Pintasan tidak dapat direkam saat ini — macOS Secure Input memblokir peristiwa tombol. Selesaikan peringatan Secure Input terlebih dahulu.",
     "dismiss": "Tutup"
+  },
+  "app": {
+    "home": {
+      "history": "Riwayat",
+      "update": "Pembaruan",
+      "recent": "Dikte terbaru",
+      "allHistory": "Semua riwayat",
+      "empty": "Hasil dikte Anda akan muncul di sini.",
+      "copyTitle": "Salin",
+      "copied": "Disalin",
+      "copiedToast": "Disalin ke papan klip",
+      "modelPill": "Model transkripsi: {{model}}",
+      "languagePill": "Bahasa ucapan: {{language}}",
+      "allModels": "Semua model",
+      "downloadPill": "{{model}}, {{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "Siap",
+        "desc": "Tahan <keys/> dan bicaralah: saya menulis di mana pun kursor Anda berada.",
+        "descToggle": "Tekan <keys/> dan bicaralah: saya menulis di mana pun kursor Anda berada."
+      },
+      "loading": {
+        "title": "Memuat {{model}}…",
+        "titleGeneric": "Memuat model…",
+        "desc": "Beberapa detik setelah aplikasi dibuka, lalu saya selalu siap."
+      },
+      "downloading": {
+        "title": "Mengunduh {{model}}…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%, {{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "Saya tidak mendengar apa pun",
+        "desc": "Mikrofon tidak ditemukan. Colokkan mikrofon atau pilih yang lain.",
+        "action": "Pilih mikrofon"
+      },
+      "micDenied": {
+        "title": "Saya tidak bisa memakai mikrofon",
+        "action": "Buka pengaturan mikrofon"
+      },
+      "noModel": {
+        "title": "Pilih model",
+        "desc": "Saya butuh model transkripsi untuk menulis ucapan Anda.",
+        "action": "Pilih model"
+      },
+      "error": {
+        "title": "Model gagal dimuat",
+        "desc": "Coba model lain, atau mulai ulang J’écoute.",
+        "action": "Ganti model"
+      },
+      "listening": {
+        "title": "Mendengarkan…",
+        "desc": "Lepaskan <keys/> setelah selesai.",
+        "descToggle": "Tekan <keys/> lagi setelah selesai."
+      },
+      "writing": {
+        "title": "Menulis…",
+        "desc": "{{model}} sedang mentranskripsikan kalimat Anda.",
+        "descGeneric": "Mentranskripsikan kalimat Anda."
+      },
+      "processing": {
+        "title": "Merapikan…",
+        "desc": "AI sedang memeriksa hasil dikte Anda."
+      },
+      "done": {
+        "title": "Ditempel",
+        "titleNoPaste": "Tercatat",
+        "desc": "Temukan di daftar dikte terbaru."
+      },
+      "short": {
+        "ready": "Siap",
+        "loading": "Memuat…",
+        "downloading": "Mengunduh…",
+        "nomic": "Tanpa mikrofon",
+        "micDenied": "Mikrofon diblokir",
+        "nomodel": "Tanpa model",
+        "error": "Kesalahan",
+        "listening": "Mendengarkan…",
+        "writing": "Menulis…",
+        "processing": "Merapikan…",
+        "done": "Ditempel"
+      }
+    },
+    "history": {
+      "title": "Riwayat",
+      "back": "Kembali ke beranda",
+      "search": "Cari",
+      "searchLabel": "Cari di riwayat",
+      "filters": {
+        "label": "Tampilkan",
+        "all": "Semua",
+        "favorites": "Favorit",
+        "corrected": "Dikoreksi AI"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "Dikoreksi AI",
+      "correctedWith": "Dikoreksi AI ({{prompt}})",
+      "versionLabel": "Versi yang ditampilkan",
+      "corrected": "Dikoreksi",
+      "raw": "Asli",
+      "legendAddedSample": "teks yang disorot",
+      "legendAdded": "ditambahkan oleh AI",
+      "legendRemovedSample": "teks yang dicoret",
+      "legendRemoved": "dihapus oleh AI",
+      "favorite": "Favorit",
+      "more": "Lainnya",
+      "play": "Putar",
+      "pause": "Jeda",
+      "seek": "Posisi dalam rekaman",
+      "count_one": "{{count}} dikte",
+      "count_other": "{{count}} dikte",
+      "countKept_one": "{{count}} dikte disimpan (maks. {{limit}})",
+      "countKept_other": "{{count}} dikte disimpan (maks. {{limit}})",
+      "countMore": "Lebih dari {{count}} dikte",
+      "empty": "Belum ada dikte. Tahan pintasan Anda dan bicaralah!",
+      "noResults": "Tidak ada dikte yang cocok."
+    },
+    "settings": {
+      "title": "Pengaturan",
+      "close": "Tutup pengaturan",
+      "hint": "Setiap perubahan langsung berlaku.",
+      "tabs": {
+        "dictation": "Dikte",
+        "sound": "Suara",
+        "text": "Teks",
+        "app": "Aplikasi",
+        "about": "Tentang"
+      },
+      "advanced": "Opsi lanjutan",
+      "editShortcut": "Ubah",
+      "editShortcutNamed": "Ubah: {{name}}",
+      "resetShortcut": "Kembalikan pintasan default",
+      "systemDefault": "Default sistem",
+      "playSound": "Putar sinyal",
+      "customSound": "Kustom",
+      "micLevelHint": "Level suara tampil di sini selama dikte.",
+      "micLevelLive": "Saya bisa mendengar Anda.",
+      "model": {
+        "title": "Model transkripsi",
+        "change": "Ganti",
+        "choose": "Pilih",
+        "none": "Tanpa model",
+        "loading": "Memuat…",
+        "error": "Gagal memuat"
+      },
+      "debugMode": {
+        "label": "Mode debug",
+        "description": "Menampilkan alat debug. Juga lewat Ctrl+Shift+D."
+      }
+    },
+    "models": {
+      "title": "Model transkripsi",
+      "back": "Kembali ke pengaturan",
+      "search": "Cari",
+      "download": "Unduh",
+      "use": "Gunakan",
+      "live": "Teks langsung",
+      "accuracy": "Akurasi",
+      "speed": "Kecepatan",
+      "sorted": "Diurutkan untuk bahasa Anda.",
+      "sortedFor": "Diurutkan untuk {{language}}.",
+      "count_one": "{{count}} model",
+      "count_other": "{{count}} model",
+      "countFiltered": "{{count}} dari {{total}}",
+      "translation": "Menerjemahkan ke bahasa Inggris"
+    },
+    "onboarding": {
+      "welcome": "Selamat datang di J’écoute",
+      "lead": "Pilih model yang mentranskripsikan suara Anda. Model berjalan di komputer Anda, tidak ada yang dikirim ke internet.",
+      "choose": "Pilih model",
+      "recommendedFor": "Disarankan untuk {{language}}",
+      "light": "Sangat ringan",
+      "onDisk": "Sudah diunduh",
+      "download": "Unduh {{model}} ({{size}})",
+      "use": "Gunakan {{model}}",
+      "showAll": "Lihat semua {{count}} model",
+      "allModels": "Semua model",
+      "downloading": "Mengunduh {{model}}",
+      "downloadingSpeed": "Mengunduh {{model}}, {{speed}} MB/s",
+      "preparing": "Menyiapkan {{model}}…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "Versi {{version}}",
+      "versionUpToDate": "Versi {{version}}, terbaru",
+      "versionUpdate": "Versi {{version}}, ada pembaruan",
+      "license": "Lisensi MIT. Transkripsi lokal berkat ggml.",
+      "handy": "Handy",
+      "character": "Karakter: Copyright (c) 2026 Théo Ponthieu, lisensi PolyForm Noncommercial 1.0.0.",
+      "updates": {
+        "title": "Pembaruan",
+        "auto": "Diperiksa secara otomatis.",
+        "upToDate": "Anda memakai versi terbaru.",
+        "failed": "Gagal memeriksa. Coba lagi nanti.",
+        "availableVersion": "Versi {{version}} sudah tersedia.",
+        "downloading": "Mengunduh… {{progress}}%",
+        "check": "Periksa",
+        "install": "Instal"
+      }
+    },
+    "dates": {
+      "today": "Hari ini",
+      "yesterday": "Kemarin",
+      "todayAt": "Hari ini, {{time}}",
+      "yesterdayAt": "Kemarin, {{time}}",
+      "dayAt": "{{day}}, {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "Spasi",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "{{key}} kiri",
+      "rightSide": "{{key}} kanan"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "Transkripsi bahasa Inggris langsung, cepat dan akurat.",
+      "live_multilingual_transcription_across_28_languages": "Transkripsi langsung multibahasa untuk 28 bahasa.",
+      "tiny_and_instant_runs_well_on_any_hardware": "Mungil dan instan, lancar di perangkat apa pun.",
+      "highest_accuracy_14_languages_slower": "Akurasi tertinggi, 14 bahasa, lebih lambat.",
+      "broadest_language_but_may_run_a_bit_slow": "Bahasa terbanyak, tetapi mungkin agak lambat.",
+      "live_multilingual_excellent_on_powerful_machines": "Langsung dan multibahasa, sangat baik di komputer bertenaga.",
+      "fast_and_accurate_supports_25_european_languages": "Cepat dan akurat. Mendukung 25 bahasa Eropa.",
+      "english_only_the_best_model_for_english_speakers": "Hanya bahasa Inggris. Model terbaik untuk penutur bahasa Inggris.",
+      "excellent_multilingual_model": "Model multibahasa yang sangat baik.",
+      "a_tiny_multilingual_model": "Model multibahasa yang mungil.",
+      "4_language_speech_to_text_with_translation": "Ucapan-ke-teks 4 bahasa dengan terjemahan.",
+      "25_language_speech_to_text_with_translation": "Ucapan-ke-teks 25 bahasa dengan terjemahan.",
+      "english_speech_to_text": "Ucapan-ke-teks bahasa Inggris.",
+      "2_language_speech_to_text": "Ucapan-ke-teks 2 bahasa.",
+      "3_language_speech_to_text": "Ucapan-ke-teks 3 bahasa.",
+      "russian_speech_to_text_with_token_level_timestamps": "Ucapan-ke-teks bahasa Rusia dengan stempel waktu per token.",
+      "5_language_speech_to_text": "Ucapan-ke-teks 5 bahasa.",
+      "6_language_speech_to_text_with_translation": "Ucapan-ke-teks 6 bahasa dengan terjemahan.",
+      "5_language_speech_to_text_with_word_level_timestamps": "Ucapan-ke-teks 5 bahasa dengan stempel waktu per kata.",
+      "english_speech_to_text_with_token_level_timestamps": "Ucapan-ke-teks bahasa Inggris dengan stempel waktu per token.",
+      "english_speech_to_text_with_streaming": "Ucapan-ke-teks bahasa Inggris secara langsung.",
+      "arabic_speech_to_text": "Ucapan-ke-teks bahasa Arab.",
+      "japanese_speech_to_text": "Ucapan-ke-teks bahasa Jepang.",
+      "korean_speech_to_text": "Ucapan-ke-teks bahasa Korea.",
+      "ukrainian_speech_to_text": "Ucapan-ke-teks bahasa Ukraina.",
+      "vietnamese_speech_to_text": "Ucapan-ke-teks bahasa Vietnam.",
+      "chinese_speech_to_text": "Ucapan-ke-teks bahasa Mandarin.",
+      "2_language_speech_to_text_with_segment_level_timestamps": "Ucapan-ke-teks 2 bahasa dengan stempel waktu per segmen.",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "Ucapan-ke-teks bahasa Inggris secara langsung, stempel waktu per token.",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "Ucapan-ke-teks 25 bahasa, deteksi bahasa otomatis, stempel waktu per token.",
+      "30_language_speech_to_text_with_auto_language_detection": "Ucapan-ke-teks 30 bahasa dengan deteksi bahasa otomatis.",
+      "5_language_speech_to_text_with_auto_language_detection": "Ucapan-ke-teks 5 bahasa dengan deteksi bahasa otomatis.",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "Ucapan-ke-teks 8 bahasa dengan terjemahan, deteksi bahasa otomatis.",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Ucapan-ke-teks 99 bahasa dengan terjemahan, deteksi bahasa otomatis, stempel waktu per segmen.",
+      "english_speech_to_text_with_segment_level_timestamps": "Ucapan-ke-teks bahasa Inggris dengan stempel waktu per segmen.",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Ucapan-ke-teks 100 bahasa, deteksi bahasa otomatis, stempel waktu per segmen.",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "Dioptimalkan untuk Mandarin Taiwan. Mendukung alih kode.",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Ucapan-ke-teks 100 bahasa dengan terjemahan, deteksi bahasa otomatis, stempel waktu per segmen."
+    }
   }
 }

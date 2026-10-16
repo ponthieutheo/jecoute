@@ -117,7 +117,8 @@
       "errors": {
         "checkFailed": "अनुमतिहरू जाँच गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।",
         "requestFailed": "अनुमति अनुरोध गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।"
-      }
+      },
+      "checking": "अनुमतिहरू जाँच गरिँदैछ…"
     }
   },
   "modelSelector": {
@@ -169,16 +170,16 @@
         "pressKeys": "किहरू थिच्नुहोस्...",
         "bindings": {
           "transcribe": {
-            "name": "ट्रान्सक्राइब सर्टकट",
-            "description": "तपाईंको आवाज रेकर्ड गरी ट्रान्सक्राइब गर्ने किबोर्ड सर्टकट।"
+            "name": "डिक्टेसन सर्टकट",
+            "description": "बोल्न थिचिराख्नुहोस्, लेख्न छोड्नुहोस्।"
           },
           "cancel": {
-            "name": "रद्द सर्टकट",
-            "description": "हालको रेकर्डिङ रद्द गर्ने किबोर्ड सर्टकट।"
+            "name": "डिक्टेसन रद्द गर्नुहोस्",
+            "description": "केही नलेखी रोकिन्छ।"
           },
           "transcribe_with_post_process": {
-            "name": "पोस्ट-प्रोसेसिङ हटकी",
-            "description": "वैकल्पिक: तपाईंको ट्रान्सक्रिप्सनमा सधैँ AI पोस्ट-प्रोसेसिङ लागू गर्ने छुट्टै हटकी।"
+            "name": "AI सुधारसहितको सर्टकट",
+            "description": "डिक्टेसनपछि AI ले सधैँ टेक्स्ट जाँच्छ।"
           }
         },
         "errors": {
@@ -188,8 +189,8 @@
         }
       },
       "language": {
-        "title": "भाषा",
-        "description": "वाक् पहिचानका लागि भाषा चयन गर्नुहोस्। Auto ले भाषा स्वतः निर्धारण गर्छ, भने कुनै निश्चित भाषा चयन गर्दा त्यस भाषाको शुद्धता सुधार हुन सक्छ।",
+        "title": "बोलिने भाषा",
+        "description": "सक्रिय मोडेलले {{count}} वटा भाषा बुझ्छ।",
         "searchPlaceholder": "भाषाहरू खोज्नुहोस्...",
         "noResults": "कुनै भाषा भेटिएन",
         "auto": "स्वतः",
@@ -201,12 +202,12 @@
         "options": {
           "holdOrToggle": "स्वचालित",
           "pushToTalk": "थिचिराख्नुहोस्",
-          "toggle": "टगल"
+          "toggle": "थिचेर सुरु गर्नुहोस्"
         },
         "descriptions": {
-          "hold_or_toggle": "रेकर्ड गर्न थिचिराख्नुहोस् वा टगल गर्न ट्याप गर्नुहोस्",
-          "push_to_talk": "सर्टकट थिचिराखेसम्म रेकर्ड गर्छ",
-          "toggle": "रेकर्डिङ सुरु गर्न सर्टकट ट्याप गर्नुहोस्, रोक्न फेरि ट्याप गर्नुहोस्"
+          "hold_or_toggle": "डिक्टेट गर्न थिचिराख्नुहोस्, वा सुरु गर्न एक पटक र रोक्न अर्को पटक थिच्नुहोस्।",
+          "push_to_talk": "तपाईंले किहरू थिचिराखेसम्म म सुन्छु।",
+          "toggle": "एक पटक थिच्दा सुरु, फेरि थिच्दा बन्द।"
         }
       }
     },
@@ -234,28 +235,28 @@
       "title": "साउन्ड",
       "microphone": {
         "title": "माइक्रोफोन",
-        "description": "आफ्नो मनपर्ने माइक्रोफोन डिभाइस चयन गर्नुहोस्",
+        "description": "तपाईंलाई सुन्ने माइक्रोफोन।",
         "placeholder": "माइक्रोफोन चयन गर्नुहोस्...",
         "loading": "लोड गरिँदैछ..."
       },
       "channel": {
         "title": "इनपुट च्यानल",
-        "description": "रेकर्ड गर्ने इनपुट च्यानल चयन गर्नुहोस्। तपाईंको अडियो इन्टरफेसमा धेरै इनपुटहरू छन् भने यो प्रयोग गर्नुहोस्।",
+        "description": "धेरै इनपुट भएको अडियो इन्टरफेसका लागि।",
         "average": "सबै च्यानलको औसत",
         "channel": "च्यानल {{n}}"
       },
       "audioFeedback": {
-        "label": "अडियो फिडब्याक",
-        "description": "रेकर्डिङ सुरु र बन्द हुँदा आवाज बजाउनुहोस्"
+        "label": "ध्वनि सङ्केत",
+        "description": "डिक्टेसन सुरु र अन्त्य हुँदा छोटो आवाज।"
       },
       "outputDevice": {
-        "title": "आउटपुट डिभाइस",
-        "description": "फिडब्याक आवाजका लागि आफ्नो मनपर्ने अडियो आउटपुट डिभाइस चयन गर्नुहोस्",
+        "title": "सङ्केत आउटपुट",
+        "description": "ध्वनि सङ्केत बज्ने ठाउँ।",
         "placeholder": "आउटपुट डिभाइस चयन गर्नुहोस्...",
         "loading": "लोड गरिँदैछ..."
       },
       "volume": {
-        "title": "भोल्युम",
+        "title": "सङ्केतको भोल्युम",
         "description": "अडियो फिडब्याक आवाजको भोल्युम मिलाउनुहोस्"
       }
     },
@@ -269,20 +270,20 @@
       },
       "experimentalToggle": {
         "label": "प्रयोगात्मक सुविधाहरू",
-        "description": "अझै विकासमा रहेका प्रयोगात्मक सुविधाहरू अन गर्नुहोस्।"
+        "description": "अझै विकासमा रहेका सुविधाहरू।"
       },
       "lazyStreamClose": {
-        "label": "ट्रान्सक्रिप्सनहरूबीच माइक खुला राख्नुहोस्",
-        "description": "रेकर्डिङ रोकिएपछि 30 सेकेन्डसम्म माइक्रोफोन स्ट्रिम खुला राख्छ, जसले लगातारका ट्रान्सक्रिप्सनहरूको ढिलाइ घटाउँछ। सक्रिय हुँदा Bluetooth अडियो गुणस्तर घट्न सक्छ।"
+        "label": "डिक्टेसनहरूबीच माइक खुला राख्नुहोस्",
+        "description": "डिक्टेसनपछि माइक 30 सेकेन्ड खुला रहन्छ, जसले गर्दा अर्को डिक्टेसन छिटो सुरु हुन्छ। Bluetooth अडियोको गुणस्तर घट्न सक्छ।"
       },
       "acceleration": {
         "transcribe": {
-          "title": "transcribe.cpp एक्सेलेरेसन",
-          "description": "transcribe.cpp (Whisper परिवार) मोडेलहरूका लागि हार्डवेयर एक्सेलेरेसन। Auto ले उपलब्ध भए GPU प्रयोग गर्छ (macOS मा Metal, Windows/Linux मा Vulkan)।"
+          "title": "एक्सेलेरेसन",
+          "description": "ग्राफिक्स कार्ड (Vulkan, Metal) वा प्रोसेसर। 'स्वतः' ले उपलब्ध भए ग्राफिक्स कार्ड प्रयोग गर्छ।"
         },
         "ort": {
           "title": "ONNX एक्सेलेरेसन",
-          "description": "ONNX मोडेलहरू (Parakeet, Canary, Moonshine, आदि) का लागि हार्डवेयर एक्सेलेरेसन। Windows मा DirectML प्रयोगात्मक छ। मोडेलहरूले ट्रान्सक्राइब गर्न नसक्न सक्छन्।"
+          "description": "पुराना ONNX मोडेलहरूका लागि। DirectML (Windows) प्रयोगात्मक छ।"
         },
         "gpuDevice": {
           "auto": "स्वतः"
@@ -290,30 +291,30 @@
       },
       "startHidden": {
         "label": "लुकेर सुरु गर्नुहोस्",
-        "description": "विन्डो नखोली सिस्टम ट्रेमा सुरु गर्नुहोस्।"
+        "description": "विन्डो नखोली टास्कबारमा सुरु गर्नुहोस्।"
       },
       "autostart": {
         "label": "स्टार्टअपमा सुरु गर्नुहोस्",
-        "description": "कम्प्युटरमा लगइन गर्दा J’écoute स्वतः सुरु गर्नुहोस्।"
+        "description": "तपाईं साइन इन गर्दा J’écoute सुरु हुन्छ।"
       },
       "showTrayIcon": {
-        "label": "ट्रे आइकन देखाउनुहोस्",
-        "description": "सिस्टम ट्रेमा J’écoute आइकन देखाउनुहोस्।"
+        "label": "टास्कबार आइकन",
+        "description": "सूचना क्षेत्रमा, घडीको छेउमा।"
       },
       "overlay": {
         "style": {
-          "title": "ओभरले",
-          "description": "रेकर्डिङ ओभरले छान्नुहोस्: 'कुनै होइन' ले लुकाउँछ, 'मिनिमल' ले सानो पिल देखाउँछ, 'लाइभ' ले बोल्दै गर्दा वास्तविक समयमा ट्रान्सक्रिप्सन देखाउँछ (स्ट्रिमिङ-सक्षम मोडेलहरूमा मात्र — मोडेल पिकरमा स्ट्रिमिङ ब्याज हेर्नुहोस्)। Linux मा 'कुनै होइन' सिफारिस गरिन्छ।",
+          "title": "डिक्टेसनका बेला",
+          "description": "स्क्रिनमा के देखिन्छ। 'लाइभ टेक्स्ट' का लागि मिल्दो मोडेल चाहिन्छ। Linux मा 'कुनै होइन' सिफारिस गरिन्छ।",
           "options": {
             "none": "कुनै होइन",
             "minimal": "मिनिमल",
-            "live": "लाइभ",
+            "live": "लाइभ टेक्स्ट",
             "character": "पात्र"
           }
         },
         "position": {
-          "title": "ओभरले स्थिति",
-          "description": "रेकर्डिङ र ट्रान्सक्रिप्सनका बेला ओभरले स्क्रिनमा कहाँ देखिन्छ।",
+          "title": "स्क्रिनमा स्थान",
+          "description": "स्क्रिनको माथि वा तल।",
           "options": {
             "bottom": "तल",
             "top": "माथि"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "पेस्ट विधि",
-        "description": "टेक्स्ट कसरी घुसाइन्छ छान्नुहोस्। डाइरेक्ट: सिस्टम इनपुटमार्फत टाइपिङ अनुकरण गर्छ। कुनै होइन: पेस्ट नगरी हिस्ट्री/क्लिपबोर्ड मात्र अपडेट गर्छ।",
+        "title": "टेक्स्ट लेख्ने तरिका",
+        "description": "डिक्टेसन तपाईंको एपसम्म कसरी पुग्छ।",
         "options": {
-          "clipboard": "क्लिपबोर्ड ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "क्लिपबोर्ड (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "क्लिपबोर्ड (Shift+Insert)",
-          "direct": "डाइरेक्ट",
-          "none": "कुनै होइन",
+          "clipboard": "पेस्ट ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "पेस्ट (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "पेस्ट (Shift+Insert)",
+          "direct": "टेक्स्ट टाइप गर्नुहोस्",
+          "none": "केही नलेख्नुहोस्",
           "externalScript": "बाह्य स्क्रिप्ट"
         },
         "externalScriptPlaceholder": "/path/to/your/script.sh"
       },
       "typingTool": {
         "title": "टाइपिङ उपकरण",
-        "description": "डाइरेक्ट पेस्ट विधिका लागि कुन Linux टाइपिङ उपकरण प्रयोग गर्ने छान्नुहोस्। Auto ले तपाईंको सिस्टमका लागि उपलब्ध उत्तम उपकरण स्वतः पत्ता लगाएर प्रयोग गर्छ।",
+        "description": "टेक्स्ट टाइप गर्ने Linux उपकरण। 'स्वतः' ले उपलब्धमध्ये उत्तम उपकरण छान्छ।",
         "options": {
           "auto": "स्वतः (सिफारिस गरिएको)"
         }
       },
       "clipboardHandling": {
-        "title": "क्लिपबोर्ड व्यवस्थापन",
-        "description": "'क्लिपबोर्ड परिवर्तन नगर्नुहोस्' ले ट्रान्सक्रिप्सनपछि तपाईंको हालको क्लिपबोर्ड सामग्री जोगाउँछ। 'क्लिपबोर्डमा कपी गर्नुहोस्' ले पेस्ट गरेपछि ट्रान्सक्रिप्सन नतिजा क्लिपबोर्डमा छोड्छ।",
+        "title": "क्लिपबोर्ड",
+        "description": "पेस्ट गरेपछि।",
         "options": {
-          "dontModify": "क्लिपबोर्ड परिवर्तन नगर्नुहोस्",
-          "copyToClipboard": "क्लिपबोर्डमा कपी गर्नुहोस्"
+          "dontModify": "अघिल्लो सामग्री फर्काउनुहोस्",
+          "copyToClipboard": "डिक्टेसन राख्नुहोस्"
         }
       },
       "autoSubmit": {
-        "title": "स्वतः सबमिट",
-        "description": "टेक्स्ट घुसाएपछि चयन गरिएको कि संयोजन स्वतः पठाउनुहोस्। Cmd+Enter macOS मा लागू हुन्छ, भने Windows/Linux ले Super+Enter प्रयोग गर्छ।",
+        "title": "टेक्स्टपछि पठाउनुहोस्",
+        "description": "सन्देश पठाउन तपाईंको सट्टा एउटा कि थिच्छ।",
         "options": {
           "off": "अफ",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "अङ्ग्रेजीमा अनुवाद गर्नुहोस्",
-        "description": "ट्रान्सक्रिप्सनका बेला अन्य भाषाको बोलीलाई स्वतः अङ्ग्रेजीमा अनुवाद गर्नुहोस्।"
+        "description": "तपाईंले अर्को भाषामा बोलेको कुरा अङ्ग्रेजीमा लेखिन्छ।"
       },
       "modelUnload": {
-        "title": "मोडेल अनलोड",
-        "description": "तोकिएको समयसम्म मोडेल प्रयोग नभएमा GPU/CPU मेमोरी स्वतः खाली गर्नुहोस्",
+        "title": "मेमोरी खाली गर्नुहोस्",
+        "description": "तपाईंले डिक्टेट गर्न छाडेपछि मोडेल अनलोड गर्छ।",
         "options": {
           "never": "कहिल्यै होइन",
           "immediately": "तुरुन्तै",
@@ -378,20 +379,20 @@
         }
       },
       "customWords": {
-        "title": "कस्टम शब्दहरू",
-        "description": "समर्थित मोडेलहरूलाई नाम र विशेष शब्दावली चिन्न मद्दत गर्नुहोस्। फजी सुधार हाल A–Z अक्षर र अङ्क प्रयोग भएका शब्दहरूमा मात्र सीमित छ।",
+        "title": "चिन्नुपर्ने शब्दहरू",
+        "description": "मैले सही लेख्नुपर्ने नाम र प्राविधिक शब्दहरू।",
         "placeholder": "शब्द थप्नुहोस्",
         "add": "थप्नुहोस्",
         "remove": "{{word}} हटाउनुहोस्",
-        "duplicate": "\"{{word}}\" पहिले नै छ"
+        "duplicate": "“{{word}}” पहिले नै सूचीमा छ"
       },
       "voiceActivityDetection": {
-        "title": "भ्वाइस एक्टिभिटी डिटेक्सन",
-        "description": "रेकर्डिङबाट मौनता हटाउँछ। स्ट्रिमिङ-सक्षम मोडेलहरूले लामो VAD टेल प्रयोग गर्छन्; VAD अफ गर्दा कच्चा अडियो रेकर्ड हुन्छ।"
+        "title": "आवाज पहिचान",
+        "description": "बोल्नुअघि र पछिको मौनता बेवास्ता गर्छ।"
       },
       "vadBackend": {
-        "title": "भ्वाइस एक्टिभिटी ब्याकएन्ड",
-        "description": "मौनता फिल्टर गर्न प्रयोग हुने डिटेक्टर छान्नुहोस्। Earshot प्रयोगात्मक हो; बोली काटिएमा वा आवाज रहिरहेमा Silero मा फर्कनुहोस्।",
+        "title": "आवाज डिटेक्टर",
+        "description": "Earshot प्रयोगात्मक हो: बोली काटिएमा Silero मा फर्कनुहोस्।",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
@@ -399,11 +400,11 @@
       },
       "fillerWordRemoval": {
         "title": "फिलर शब्दहरू हटाउनुहोस्",
-        "description": "ट्रान्सक्रिप्सनबाट सामान्य हिचकिचाहटका शब्दहरू हटाउँछ। तिनलाई राख्न यो विकल्प बन्द गर्नुहोस्।"
+        "description": "“अँ”, “उम्”, “भनेको”…"
       },
       "chineseScript": {
         "title": "चिनियाँ लिपि",
-        "description": "म्यान्डरिन र क्यान्टोनिज ट्रान्सक्रिप्सनलाई सरलीकृत वा परम्परागत अक्षरमा लेख्छ। अन्य भाषाहरू परिवर्तन हुँदैनन्।",
+        "description": "म्यान्डरिन र क्यान्टोनिजका लागि सरलीकृत वा परम्परागत अक्षर।",
         "options": {
           "asTranscribed": "ट्रान्सक्राइब भए अनुसार",
           "simplified": "सरलीकृत",
@@ -416,22 +417,22 @@
         "title": "हटकी"
       },
       "api": {
-        "title": "API (OpenAI अनुकूल)",
+        "title": "AI प्रदायक",
         "provider": {
           "title": "प्रदायक",
-          "description": "OpenAI-अनुकूल प्रदायक चयन गर्नुहोस्।"
+          "description": "OpenAI-अनुकूल सेवा।"
         },
         "appleIntelligence": {
           "unavailable": "यो डिभाइसमा Apple Intelligence उपलब्ध छैन। macOS Tahoe (26.0) वा पछिको संस्करण चलिरहेको र System Settings मा Apple Intelligence सक्षम गरिएको Apple Silicon Mac आवश्यक छ।"
         },
         "baseUrl": {
-          "title": "आधार URL",
-          "description": "चयन गरिएको प्रदायकका लागि API आधार URL। कस्टम प्रदायक मात्र सम्पादन गर्न सकिन्छ।",
+          "title": "API ठेगाना",
+          "description": "कस्टम प्रदायकमा मात्र सम्पादन गर्न सकिन्छ।",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "API कुञ्जी",
-          "description": "चयन गरिएको प्रदायकका लागि API कुञ्जी।",
+          "description": "यस प्रदायकमा तपाईंको खाताको कुञ्जी।",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "प्रम्प्ट",
+        "title": "निर्देशनहरू",
         "selectedPrompt": {
-          "title": "चयन गरिएको प्रम्प्ट",
-          "description": "ट्रान्सक्रिप्सन परिष्कृत गर्न टेम्प्लेट चयन गर्नुहोस् वा नयाँ बनाउनुहोस्। क्याप्चर गरिएको ट्रान्सक्रिप्ट उल्लेख गर्न प्रम्प्ट टेक्स्टभित्र ${output} प्रयोग गर्नुहोस्।"
+          "title": "निर्देशन",
+          "description": "AI ले टेक्स्टमा के गर्छ। ${output} ले तपाईंको डिक्टेसन जनाउँछ।"
         },
         "noPrompts": "कुनै प्रम्प्ट उपलब्ध छैन",
         "selectPrompt": "प्रम्प्ट चयन गर्नुहोस्",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "हिस्ट्री",
-      "openFolder": "रेकर्डिङ फोल्डर खोल्नुहोस्",
+      "openFolder": "रेकर्डिङ फोल्डर",
       "loading": "हिस्ट्री लोड गरिँदैछ...",
       "empty": "अहिलेसम्म कुनै ट्रान्सक्रिप्सन छैन। हिस्ट्री बनाउन रेकर्डिङ सुरु गर्नुहोस्!",
-      "copyToClipboard": "ट्रान्सक्रिप्सन क्लिपबोर्डमा कपी गर्नुहोस्",
+      "copyToClipboard": "कपी गर्नुहोस्",
       "copyError": "ट्रान्सक्रिप्सन क्लिपबोर्डमा कपी गर्न सकिएन।",
-      "save": "ट्रान्सक्रिप्सन सेभ गर्नुहोस्",
-      "unsave": "सेभ गरिएकाबाट हटाउनुहोस्",
-      "delete": "प्रविष्टि मेटाउनुहोस्",
+      "save": "मनपर्नेमा थप्नुहोस्",
+      "unsave": "मनपर्नेबाट हटाउनुहोस्",
+      "delete": "मेटाउनुहोस्",
       "deleteError": "प्रविष्टि मेटाउन सकिएन। कृपया फेरि प्रयास गर्नुहोस्।",
       "retranscribe": "फेरि ट्रान्सक्राइब गर्नुहोस्",
       "retranscribeError": "फेरि ट्रान्सक्राइब गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "डिबग",
       "logDirectory": {
-        "title": "लग डाइरेक्टरी",
-        "description": "लग फाइलहरू भण्डारण हुने स्थान"
+        "title": "लगहरू",
+        "description": "लग फाइलहरूको फोल्डर।"
       },
       "logLevel": {
         "title": "लग स्तर",
@@ -504,7 +505,7 @@
       },
       "updateChecks": {
         "label": "अपडेटहरू जाँच गर्नुहोस्",
-        "description": "J’écoute को नयाँ संस्करण स्वतः जाँच गर्नुहोस्",
+        "description": "J’écoute का नयाँ संस्करणहरू स्वतः खोज्नुहोस्।",
         "lockedDescription": "प्रणाली कन्फिगरेसनद्वारा असक्षम पारिएको (HANDY_DISABLE_UPDATER)"
       },
       "whatsNewPreview": {
@@ -522,21 +523,21 @@
         "exitButton": "पूर्वावलोकन बन्द गर्नुहोस्"
       },
       "soundTheme": {
-        "label": "साउन्ड थिम",
-        "description": "रेकर्डिङ सुरु र बन्द फिडब्याकका लागि साउन्ड थिम छान्नुहोस्"
+        "label": "सङ्केतको आवाज",
+        "description": "डिक्टेसन सुरु र अन्त्य हुँदाको आवाज।"
       },
       "wordCorrectionThreshold": {
         "title": "शब्द सुधार थ्रेसहोल्ड",
         "description": "कस्टम शब्द सुधारको संवेदनशीलता"
       },
       "historyLimit": {
-        "title": "हिस्ट्री सीमा",
-        "description": "राखिने अधिकतम हिस्ट्री प्रविष्टिहरूको सङ्ख्या",
-        "entries": "प्रविष्टिहरू"
+        "title": "हिस्ट्री",
+        "description": "पुराना डिक्टेसनहरू मेटिन्छन् (मनपर्ने बाहेक)।",
+        "entries": "डिक्टेसन"
       },
       "recordingRetention": {
-        "title": "रेकर्डिङहरू स्वतः मेटाउनुहोस्",
-        "description": "ठाउँ बचाउन पुराना रेकर्डिङहरू स्वतः मेटाउनुहोस्",
+        "title": "अडियो रेकर्डिङहरू",
+        "description": "ठाउँ बचाउन पुराना रेकर्डिङहरू मेटाउनुहोस्।",
         "never": "कहिल्यै होइन",
         "preserveLimit": "पछिल्ला {{count}} राख्नुहोस्",
         "days3": "3 दिनपछि",
@@ -545,24 +546,24 @@
         "placeholder": "राख्ने अवधि चयन गर्नुहोस्..."
       },
       "alwaysOnMicrophone": {
-        "label": "सधैँ-सक्रिय माइक्रोफोन",
-        "description": "छिटो प्रतिक्रियाका लागि माइक्रोफोन सक्रिय राख्नुहोस्"
+        "label": "सधैँ खुला माइक्रोफोन",
+        "description": "डिक्टेसन छिटो सुरु हुन्छ।"
       },
       "clamshellMicrophone": {
         "title": "क्ल्यामशेल माइक्रोफोन",
         "description": "ल्यापटपको ढकनी बन्द हुँदा प्रयोग गर्ने माइक्रोफोन"
       },
       "postProcessingToggle": {
-        "label": "पोस्ट प्रोसेसिङ",
-        "description": "ट्रान्सक्रिप्सनपछि AI-आधारित टेक्स्ट परिष्करण अन गर्नुहोस्"
+        "label": "AI सुधार",
+        "description": "पेस्ट गर्नुअघि अनलाइन AI ले डिक्टेसन जाँच्छ। API कुञ्जी चाहिन्छ (OpenRouter, Anthropic, OpenAI…)।"
       },
       "muteWhileRecording": {
-        "label": "रेकर्डिङ गर्दा म्युट गर्नुहोस्",
-        "description": "रेकर्डिङका बेला सिस्टम अडियो म्युट गर्नुहोस्"
+        "label": "कम्प्युटर म्युट गर्नुहोस्",
+        "description": "डिक्टेसनका बेला सङ्गीत र भिडियो चुप हुन्छन्।"
       },
       "appendTrailingSpace": {
-        "label": "अन्त्यमा खाली ठाउँ थप्नुहोस्",
-        "description": "पेस्ट गरिएको ट्रान्सक्रिप्सनपछि खाली ठाउँ थप्नुहोस्"
+        "label": "टेक्स्टपछि खाली ठाउँ",
+        "description": "हरेक डिक्टेसनपछि एउटा खाली ठाउँ थप्छ।"
       },
       "keyboardImplementation": {
         "title": "किबोर्ड कार्यान्वयन",
@@ -623,11 +624,11 @@
       },
       "whatsNewUpdates": {
         "label": "नयाँ के छ देखाउनुहोस्",
-        "description": "J’écoute अपडेट भएपछि रिलिज नोटहरू देखाउनुहोस्"
+        "description": "J’écoute अपडेट भएपछि।"
       },
       "appDataDirectory": {
-        "title": "एप डेटा डाइरेक्टरी",
-        "description": "J’écoute ले आफ्नो डेटा भण्डारण गर्ने स्थान"
+        "title": "एप डेटा",
+        "description": "मोडेल, सेटिङ, रेकर्डिङ।"
       },
       "sourceCode": {
         "title": "स्रोत कोड",
@@ -639,7 +640,7 @@
         "ggml": {
           "title": "ggml",
           "description": "अन-डिभाइस मेसिन लर्निङ अनुमानका लागि उच्च-प्रदर्शन टेन्सर लाइब्रेरी",
-          "details": "J’écoute को स्थानीय स्पिच-टु-टेक्स्ट transcribe.cpp र ggml मा आधारित छ। Georgi Gerganov र योगदानकर्ताहरूको उत्कृष्ट कामका लागि धन्यवाद।"
+          "details": "J’écoute ले ggml को सहायताले स्थानीय रूपमा ट्रान्सक्राइब गर्छ। Georgi Gerganov र योगदानकर्ताहरूको उत्कृष्ट कामका लागि धन्यवाद।"
         }
       },
       "basedOn": "CJ Pais को Handy मा आधारित"
@@ -670,7 +671,9 @@
     "open": "खोल्नुहोस्",
     "copy": "कपी गर्नुहोस्",
     "clear": "खाली गर्नुहोस्",
-    "noOptionsFound": "कुनै विकल्प भेटिएन"
+    "noOptionsFound": "कुनै विकल्प भेटिएन",
+    "select": "छान्नुहोस्…",
+    "reset": "डिफल्टमा रिसेट गर्नुहोस्"
   },
   "accessibility": {
     "permissionsDescription": "ट्रान्सक्राइब गरिएको टेक्स्ट टाइप गर्न J’écoute लाई एक्सेसिबिलिटी अनुमति चाहिन्छ।",
@@ -695,11 +698,11 @@
     "transcriptionFailedTitle": "ट्रान्सक्रिप्सन गर्न सकिएन"
   },
   "appLanguage": {
-    "title": "एपको भाषा",
-    "description": "J’écoute इन्टरफेसको भाषा परिवर्तन गर्नुहोस्"
+    "title": "इन्टरफेसको भाषा",
+    "description": ""
   },
   "theme": {
-    "title": "अनुप्रयोगको थिम",
+    "title": "स्वरूप",
     "description": "J’écoute ले तपाईंको सिस्टम थिम अनुसरण गर्ने वा उज्यालो वा अँध्यारो रहने छान्नुहोस्",
     "options": {
       "system": "सिस्टम",
@@ -721,5 +724,284 @@
     "learnMore": "यसलाई कसरी ठिक गर्ने",
     "recorderBlocked": "अहिले सर्टकट रेकर्ड गर्न सकिँदैन — macOS Secure Input ले कुञ्जी इभेन्टहरू रोकिरहेको छ। पहिले Secure Input चेतावनी समाधान गर्नुहोस्।",
     "dismiss": "हटाउनुहोस्"
+  },
+  "app": {
+    "home": {
+      "history": "हिस्ट्री",
+      "update": "अपडेट",
+      "recent": "हालका डिक्टेसनहरू",
+      "allHistory": "सबै हिस्ट्री",
+      "empty": "तपाईंका डिक्टेसनहरू यहाँ देखिनेछन्।",
+      "copyTitle": "कपी गर्नुहोस्",
+      "copied": "कपी भयो",
+      "copiedToast": "क्लिपबोर्डमा कपी भयो",
+      "modelPill": "ट्रान्सक्रिप्सन मोडेल: {{model}}",
+      "languagePill": "बोलिने भाषा: {{language}}",
+      "allModels": "सबै मोडेलहरू",
+      "downloadPill": "{{model}}, {{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "तयार",
+        "desc": "<keys/> थिचिराखेर बोल्नुहोस्: तपाईंको कर्सर जहाँ छ, म त्यहीँ लेख्छु।",
+        "descToggle": "<keys/> थिचेर बोल्नुहोस्: तपाईंको कर्सर जहाँ छ, म त्यहीँ लेख्छु।"
+      },
+      "loading": {
+        "title": "{{model}} लोड गर्दैछु…",
+        "titleGeneric": "मोडेल लोड गर्दैछु…",
+        "desc": "सुरु भएपछि केही सेकेन्ड, त्यसपछि म तयार रहन्छु।"
+      },
+      "downloading": {
+        "title": "{{model}} डाउनलोड गर्दैछु…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%, {{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "मलाई केही सुनिँदैन",
+        "desc": "कुनै माइक्रोफोन भेटिएन। माइक जोड्नुहोस् वा अर्को छान्नुहोस्।",
+        "action": "माइक्रोफोन छान्नुहोस्"
+      },
+      "micDenied": {
+        "title": "म माइक्रोफोन प्रयोग गर्न सक्दिनँ",
+        "action": "माइक्रोफोन सेटिङहरू खोल्नुहोस्"
+      },
+      "noModel": {
+        "title": "मोडेल छान्नुहोस्",
+        "desc": "तपाईंले भनेको कुरा लेख्न मलाई ट्रान्सक्रिप्सन मोडेल चाहिन्छ।",
+        "action": "मोडेल छान्नुहोस्"
+      },
+      "error": {
+        "title": "मोडेल लोड भएन",
+        "desc": "अर्को मोडेल प्रयास गर्नुहोस्, वा J’écoute फेरि सुरु गर्नुहोस्।",
+        "action": "मोडेल बदल्नुहोस्"
+      },
+      "listening": {
+        "title": "सुन्दैछु…",
+        "desc": "सकिएपछि <keys/> छोड्नुहोस्।",
+        "descToggle": "सकिएपछि <keys/> फेरि थिच्नुहोस्।"
+      },
+      "writing": {
+        "title": "लेख्दैछु…",
+        "desc": "{{model}} ले तपाईंको वाक्य ट्रान्सक्राइब गर्दैछ।",
+        "descGeneric": "तपाईंको वाक्य ट्रान्सक्राइब गर्दैछु।"
+      },
+      "processing": {
+        "title": "सुधार्दैछु…",
+        "desc": "AI ले तपाईंको डिक्टेसन जाँच्दैछ।"
+      },
+      "done": {
+        "title": "पेस्ट भयो",
+        "titleNoPaste": "टिपेँ",
+        "desc": "हालका डिक्टेसनहरूमा हेर्नुहोस्।"
+      },
+      "short": {
+        "ready": "तयार",
+        "loading": "लोड हुँदैछ…",
+        "downloading": "डाउनलोड हुँदैछ…",
+        "nomic": "माइक छैन",
+        "micDenied": "माइक रोकिएको",
+        "nomodel": "मोडेल छैन",
+        "error": "त्रुटि",
+        "listening": "सुन्दैछु…",
+        "writing": "लेख्दैछु…",
+        "processing": "सुधार्दैछु…",
+        "done": "पेस्ट भयो"
+      }
+    },
+    "history": {
+      "title": "हिस्ट्री",
+      "back": "गृहपृष्ठमा फर्कनुहोस्",
+      "search": "खोज्नुहोस्",
+      "searchLabel": "हिस्ट्रीमा खोज्नुहोस्",
+      "filters": {
+        "label": "देखाउनुहोस्",
+        "all": "सबै",
+        "favorites": "मनपर्ने",
+        "corrected": "AI ले सुधारेका"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "AI ले सुधारेको",
+      "correctedWith": "AI ले सुधारेको ({{prompt}})",
+      "versionLabel": "देखाइएको संस्करण",
+      "corrected": "सुधारिएको",
+      "raw": "मूल",
+      "legendAddedSample": "हाइलाइट गरिएको",
+      "legendAdded": "AI ले थपेको",
+      "legendRemovedSample": "काटिएको",
+      "legendRemoved": "AI ले हटाएको",
+      "favorite": "मनपर्ने",
+      "more": "थप",
+      "play": "बजाउनुहोस्",
+      "pause": "रोक्नुहोस्",
+      "seek": "रेकर्डिङमा स्थान",
+      "count_one": "{{count}} डिक्टेसन",
+      "count_other": "{{count}} वटा डिक्टेसन",
+      "countKept_one": "{{limit}} मध्ये {{count}} डिक्टेसन राखिएको",
+      "countKept_other": "{{limit}} मध्ये {{count}} वटा डिक्टेसन राखिएका",
+      "countMore": "{{count}} भन्दा बढी डिक्टेसन",
+      "empty": "अहिलेसम्म कुनै डिक्टेसन छैन। आफ्नो सर्टकट थिचिराखेर बोल्नुहोस्!",
+      "noResults": "कुनै डिक्टेसन मिलेन।"
+    },
+    "settings": {
+      "title": "सेटिङहरू",
+      "close": "सेटिङहरू बन्द गर्नुहोस्",
+      "hint": "हरेक परिवर्तन तुरुन्तै लागू हुन्छ।",
+      "tabs": {
+        "dictation": "डिक्टेसन",
+        "sound": "साउन्ड",
+        "text": "टेक्स्ट",
+        "app": "एप",
+        "about": "बारेमा"
+      },
+      "advanced": "उन्नत विकल्पहरू",
+      "editShortcut": "बदल्नुहोस्",
+      "editShortcutNamed": "बदल्नुहोस्: {{name}}",
+      "resetShortcut": "डिफल्ट सर्टकट फर्काउनुहोस्",
+      "systemDefault": "सिस्टम डिफल्ट",
+      "playSound": "सङ्केत सुन्नुहोस्",
+      "customSound": "कस्टम",
+      "micLevelHint": "डिक्टेसनका बेला स्तर यहाँ देखिन्छ।",
+      "micLevelLive": "म तपाईंलाई सुनिरहेको छु।",
+      "model": {
+        "title": "ट्रान्सक्रिप्सन मोडेल",
+        "change": "बदल्नुहोस्",
+        "choose": "छान्नुहोस्",
+        "none": "मोडेल छैन",
+        "loading": "लोड हुँदैछ…",
+        "error": "लोड हुन सकेन"
+      },
+      "debugMode": {
+        "label": "डिबग मोड",
+        "description": "डिबग उपकरणहरू देखाउँछ। Ctrl+Shift+D बाट पनि।"
+      }
+    },
+    "models": {
+      "title": "ट्रान्सक्रिप्सन मोडेल",
+      "back": "सेटिङहरूमा फर्कनुहोस्",
+      "search": "खोज्नुहोस्",
+      "download": "डाउनलोड गर्नुहोस्",
+      "use": "प्रयोग गर्नुहोस्",
+      "live": "लाइभ टेक्स्ट",
+      "accuracy": "शुद्धता",
+      "speed": "गति",
+      "sorted": "तपाईंको भाषाअनुसार मिलाइएको।",
+      "sortedFor": "{{language}} अनुसार मिलाइएको।",
+      "count_one": "{{count}} मोडेल",
+      "count_other": "{{count}} वटा मोडेल",
+      "countFiltered": "{{total}} मध्ये {{count}}",
+      "translation": "अङ्ग्रेजीमा अनुवाद गर्छ"
+    },
+    "onboarding": {
+      "welcome": "J’écoute मा स्वागत छ",
+      "lead": "तपाईंको आवाज ट्रान्सक्राइब गर्ने मोडेल छान्नुहोस्। यो तपाईंकै कम्प्युटरमा चल्छ, केही पनि इन्टरनेटमा जाँदैन।",
+      "choose": "मोडेल छान्नुहोस्",
+      "recommendedFor": "{{language}} का लागि सिफारिस गरिएको",
+      "light": "धेरै हल्का",
+      "onDisk": "पहिले नै डाउनलोड भएको",
+      "download": "{{model}} डाउनलोड गर्नुहोस् ({{size}})",
+      "use": "{{model}} प्रयोग गर्नुहोस्",
+      "showAll": "सबै {{count}} मोडेल हेर्नुहोस्",
+      "allModels": "सबै मोडेलहरू",
+      "downloading": "{{model}} डाउनलोड हुँदैछ",
+      "downloadingSpeed": "{{model}} डाउनलोड हुँदैछ, {{speed}} MB/s",
+      "preparing": "{{model}} तयार गर्दैछु…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "संस्करण {{version}}",
+      "versionUpToDate": "संस्करण {{version}}, अद्यावधिक",
+      "versionUpdate": "संस्करण {{version}}, अपडेट उपलब्ध छ",
+      "license": "MIT इजाजतपत्र। ggml को सहायताले स्थानीय ट्रान्सक्रिप्सन।",
+      "handy": "Handy",
+      "character": "पात्र: Copyright (c) 2026 Théo Ponthieu, PolyForm Noncommercial 1.0.0 इजाजतपत्र।",
+      "updates": {
+        "title": "अपडेटहरू",
+        "auto": "स्वतः जाँच गरिन्छ।",
+        "upToDate": "तपाईंसँग पछिल्लो संस्करण छ।",
+        "failed": "जाँच गर्न सकिएन। पछि फेरि प्रयास गर्नुहोस्।",
+        "availableVersion": "संस्करण {{version}} उपलब्ध छ।",
+        "downloading": "डाउनलोड हुँदैछ… {{progress}}%",
+        "check": "जाँच गर्नुहोस्",
+        "install": "इन्स्टल गर्नुहोस्"
+      }
+    },
+    "dates": {
+      "today": "आज",
+      "yesterday": "हिजो",
+      "todayAt": "आज, {{time}}",
+      "yesterdayAt": "हिजो, {{time}}",
+      "dayAt": "{{day}}, {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "स्पेस",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "बायाँ {{key}}",
+      "rightSide": "दायाँ {{key}}"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "छिटो र सटीक लाइभ अङ्ग्रेजी ट्रान्सक्रिप्सन",
+      "live_multilingual_transcription_across_28_languages": "28 भाषामा लाइभ बहुभाषिक ट्रान्सक्रिप्सन",
+      "tiny_and_instant_runs_well_on_any_hardware": "सानो र तुरुन्तै, जुनसुकै हार्डवेयरमा राम्रो चल्छ",
+      "highest_accuracy_14_languages_slower": "सबैभन्दा सटीक, 14 भाषा, अलि ढिलो",
+      "broadest_language_but_may_run_a_bit_slow": "सबैभन्दा धेरै भाषा, तर अलि ढिलो चल्न सक्छ",
+      "live_multilingual_excellent_on_powerful_machines": "लाइभ बहुभाषिक, शक्तिशाली कम्प्युटरमा उत्कृष्ट",
+      "fast_and_accurate_supports_25_european_languages": "छिटो र सटीक। 25 युरोपेली भाषा समर्थन गर्छ",
+      "english_only_the_best_model_for_english_speakers": "अङ्ग्रेजी मात्र। अङ्ग्रेजी वक्ताहरूका लागि उत्कृष्ट मोडेल",
+      "excellent_multilingual_model": "उत्कृष्ट बहुभाषिक मोडेल",
+      "a_tiny_multilingual_model": "एउटा सानो बहुभाषिक मोडेल",
+      "4_language_speech_to_text_with_translation": "4 भाषामा स्पिच-टु-टेक्स्ट, अनुवादसहित।",
+      "25_language_speech_to_text_with_translation": "25 भाषामा स्पिच-टु-टेक्स्ट, अनुवादसहित।",
+      "english_speech_to_text": "अङ्ग्रेजी स्पिच-टु-टेक्स्ट।",
+      "2_language_speech_to_text": "2 भाषामा स्पिच-टु-टेक्स्ट।",
+      "3_language_speech_to_text": "3 भाषामा स्पिच-टु-टेक्स्ट।",
+      "russian_speech_to_text_with_token_level_timestamps": "रुसी स्पिच-टु-टेक्स्ट, प्रत्येक शब्दको टाइमस्ट्याम्पसहित।",
+      "5_language_speech_to_text": "5 भाषामा स्पिच-टु-टेक्स्ट।",
+      "6_language_speech_to_text_with_translation": "6 भाषामा स्पिच-टु-टेक्स्ट, अनुवादसहित।",
+      "5_language_speech_to_text_with_word_level_timestamps": "5 भाषामा स्पिच-टु-टेक्स्ट, प्रत्येक शब्दको टाइमस्ट्याम्पसहित।",
+      "english_speech_to_text_with_token_level_timestamps": "अङ्ग्रेजी स्पिच-टु-टेक्स्ट, प्रत्येक शब्दको टाइमस्ट्याम्पसहित।",
+      "english_speech_to_text_with_streaming": "अङ्ग्रेजी स्पिच-टु-टेक्स्ट, लाइभ टेक्स्टसहित।",
+      "arabic_speech_to_text": "अरबी स्पिच-टु-टेक्स्ट।",
+      "japanese_speech_to_text": "जापानी स्पिच-टु-टेक्स्ट।",
+      "korean_speech_to_text": "कोरियाली स्पिच-टु-टेक्स्ट।",
+      "ukrainian_speech_to_text": "युक्रेनी स्पिच-टु-टेक्स्ट।",
+      "vietnamese_speech_to_text": "भियतनामी स्पिच-टु-टेक्स्ट।",
+      "chinese_speech_to_text": "चिनियाँ स्पिच-टु-टेक्स्ट।",
+      "2_language_speech_to_text_with_segment_level_timestamps": "2 भाषामा स्पिच-टु-टेक्स्ट, प्रत्येक खण्डको टाइमस्ट्याम्पसहित।",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "अङ्ग्रेजी स्पिच-टु-टेक्स्ट, लाइभ टेक्स्ट र प्रत्येक शब्दको टाइमस्ट्याम्पसहित।",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "25 भाषामा स्पिच-टु-टेक्स्ट, स्वतः भाषा पहिचान र प्रत्येक शब्दको टाइमस्ट्याम्पसहित।",
+      "30_language_speech_to_text_with_auto_language_detection": "30 भाषामा स्पिच-टु-टेक्स्ट, स्वतः भाषा पहिचानसहित।",
+      "5_language_speech_to_text_with_auto_language_detection": "5 भाषामा स्पिच-टु-टेक्स्ट, स्वतः भाषा पहिचानसहित।",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "8 भाषामा स्पिच-टु-टेक्स्ट, अनुवाद र स्वतः भाषा पहिचानसहित।",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "99 भाषामा स्पिच-टु-टेक्स्ट, अनुवाद, स्वतः भाषा पहिचान र प्रत्येक खण्डको टाइमस्ट्याम्पसहित।",
+      "english_speech_to_text_with_segment_level_timestamps": "अङ्ग्रेजी स्पिच-टु-टेक्स्ट, प्रत्येक खण्डको टाइमस्ट्याम्पसहित।",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 भाषामा स्पिच-टु-टेक्स्ट, स्वतः भाषा पहिचान र प्रत्येक खण्डको टाइमस्ट्याम्पसहित।",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "ताइवानी मन्डारिनका लागि अनुकूलित। बोल्दाबोल्दै भाषा बदल्न मिल्छ।",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 भाषामा स्पिच-टु-टेक्स्ट, अनुवाद, स्वतः भाषा पहिचान र प्रत्येक खण्डको टाइमस्ट्याम्पसहित।"
+    }
   }
 }

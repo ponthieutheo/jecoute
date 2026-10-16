@@ -117,11 +117,13 @@
       "errors": {
         "checkFailed": "檢查權限失敗，請重試",
         "requestFailed": "請求權限失敗，請重試"
-      }
+      },
+      "checking": "正在檢查權限…"
     }
   },
   "modelSelector": {
     "custom": "自訂",
+    "legacy": "舊版",
     "streaming": "串流",
     "active": "使用中",
     "switching": "切換中...",
@@ -151,8 +153,7 @@
       "translation": "可翻譯為英語",
       "translate": "翻譯為英語",
       "streaming": "在您說話時即時顯示轉錄"
-    },
-    "legacy": "舊版"
+    }
   },
   "settings": {
     "modelSettings": {
@@ -169,16 +170,16 @@
         "pressKeys": "請按鍵...",
         "bindings": {
           "transcribe": {
-            "name": "轉錄快捷鍵",
-            "description": "用於錄製和轉錄語音的鍵盤快捷鍵"
+            "name": "聽寫快捷鍵",
+            "description": "按住說話，放開就輸入。"
           },
           "cancel": {
-            "name": "取消快捷鍵",
-            "description": "用於取消目前錄製的鍵盤快捷鍵"
+            "name": "取消聽寫",
+            "description": "停止，不輸入任何內容。"
           },
           "transcribe_with_post_process": {
-            "name": "後處理快捷鍵",
-            "description": "可選：專用快捷鍵，使用時一律對轉錄結果套用 AI 後處理"
+            "name": "AI 校正快捷鍵",
+            "description": "聽寫後一律由 AI 校正文字。"
           }
         },
         "errors": {
@@ -188,8 +189,8 @@
         }
       },
       "language": {
-        "title": "語言",
-        "description": "選擇語音辨識的語言。選擇自動將自動判定語言，選擇特定語言可以提高該語言的準確度",
+        "title": "語音語言",
+        "description": "目前的模型聽得懂 {{count}} 種語言。",
         "searchPlaceholder": "搜尋語言...",
         "noResults": "未找到語言",
         "auto": "自動",
@@ -201,18 +202,19 @@
         "options": {
           "holdOrToggle": "自動",
           "pushToTalk": "按住",
-          "toggle": "切換"
+          "toggle": "按下開始"
         },
         "descriptions": {
-          "hold_or_toggle": "按住錄音，或輕按切換",
-          "push_to_talk": "按住快捷鍵期間錄音",
-          "toggle": "輕按快捷鍵開始錄音，再次輕按停止"
+          "hold_or_toggle": "按住聽寫，或按一下開始、再按一下停止。",
+          "push_to_talk": "只要按住按鍵，我就一直在聽。",
+          "toggle": "按一下開始，再按一下停止。"
         }
       }
     },
     "models": {
       "title": "轉錄模型",
       "description": "選擇轉錄模型或下載其他模型。不同模型提供不同的準確度和速度",
+      "searchPlaceholder": "依名稱搜尋模型…",
       "yourModels": "已下載的模型",
       "availableModels": "可供下載",
       "deleteConfirm": "確定要刪除 {{modelName}} 嗎？刪除後須重新下載才能使用",
@@ -223,39 +225,38 @@
         "streaming": "篩選支援即時轉錄的模型",
         "translation": "篩選支援翻譯為英語的模型"
       },
-      "noModelsMatch": "沒有符合此篩選條件的模型",
-      "searchPlaceholder": "依名稱搜尋模型…",
       "rescan": {
         "label": "重新掃描",
         "tooltip": "重新掃描在 J’écoute 之外新增到模型資料夾或 Hugging Face 快取中的模型"
-      }
+      },
+      "noModelsMatch": "沒有符合此篩選條件的模型"
     },
     "sound": {
       "title": "聲音",
       "microphone": {
         "title": "麥克風",
-        "description": "選擇您偏好的麥克風裝置",
+        "description": "用來聽您說話的麥克風。",
         "placeholder": "選擇麥克風...",
         "loading": "載入中..."
       },
       "channel": {
         "title": "輸入聲道",
-        "description": "選擇要錄音的輸入聲道。如果您的音訊介面有多個輸入，請使用此選項。",
+        "description": "適用於有多個輸入的音訊介面。",
         "average": "所有聲道的平均值",
         "channel": "聲道 {{n}}"
       },
       "audioFeedback": {
-        "label": "聲音回饋",
-        "description": "錄製開始和停止時播放聲音"
+        "label": "提示音",
+        "description": "聽寫開始和結束時發出短促的提示音。"
       },
       "outputDevice": {
-        "title": "輸出裝置",
-        "description": "選擇用於聲音回饋的音訊輸出裝置",
+        "title": "提示音輸出",
+        "description": "播放提示音的裝置。",
         "placeholder": "選擇輸出裝置...",
         "loading": "載入中..."
       },
       "volume": {
-        "title": "音量",
+        "title": "提示音音量",
         "description": "調整聲音回饋的音量"
       }
     },
@@ -269,51 +270,51 @@
       },
       "experimentalToggle": {
         "label": "實驗性功能",
-        "description": "啟用仍在開發中的實驗性功能"
+        "description": "仍在開發中的功能。"
       },
       "lazyStreamClose": {
-        "label": "在轉錄之間保持麥克風開啟",
-        "description": "錄音停止後保持麥克風串流開啟30秒，減少連續轉錄時的延遲。啟用時可能會降低藍牙音訊品質。"
+        "label": "兩次聽寫之間保持麥克風開啟",
+        "description": "聽寫結束後麥克風保持開啟 30 秒，讓下一次聽寫更快開始。可能降低藍牙音質。"
       },
       "acceleration": {
         "transcribe": {
-          "title": "Whisper 加速",
-          "description": "Whisper 模型的硬體加速。自動模式在可用時使用 GPU（macOS 上使用 Metal，Windows/Linux 上使用 Vulkan）。"
+          "title": "加速",
+          "description": "使用顯示卡（Vulkan、Metal）或處理器。「自動」會在可用時使用顯示卡。"
         },
         "ort": {
           "title": "ONNX 加速",
-          "description": "ONNX 模型的硬體加速（Parakeet、Canary、Moonshine 等）。Windows 上的 DirectML 為實驗性功能。模型可能無法正常轉錄。"
+          "description": "適用於較舊的 ONNX 模型。DirectML（Windows）為實驗性功能。"
         },
         "gpuDevice": {
           "auto": "自動"
         }
       },
       "startHidden": {
-        "label": "隱藏啟動",
-        "description": "啟動至系統匣而不開啟視窗"
+        "label": "啟動時隱藏",
+        "description": "在工作列啟動，不開啟視窗。"
       },
       "autostart": {
-        "label": "開機啟動",
-        "description": "登入電腦時自動啟動 J’écoute"
+        "label": "開機時啟動",
+        "description": "登入電腦時自動啟動 J’écoute。"
       },
       "showTrayIcon": {
-        "label": "顯示系統匣圖示",
-        "description": "在系統匣中顯示 J’écoute 圖示"
+        "label": "工作列圖示",
+        "description": "顯示在時鐘旁的通知區域。"
       },
       "overlay": {
         "style": {
-          "title": "懸浮窗",
-          "description": "選擇錄音懸浮窗的樣式：「無」會隱藏懸浮窗，「精簡」顯示小巧的膠囊狀指示，「即時」在您說話時即時顯示轉錄內容（僅限支援串流的模型——請在模型選擇器中尋找「串流」標籤）。在 Linux 上建議選擇「無」",
+          "title": "聽寫時顯示",
+          "description": "螢幕上顯示的內容。即時文字需要相容的模型。在 Linux 上建議選擇「無」。",
           "options": {
             "none": "無",
             "minimal": "精簡",
-            "live": "即時",
+            "live": "即時文字",
             "character": "角色"
           }
         },
         "position": {
-          "title": "懸浮窗位置",
-          "description": "在錄製和轉錄期間顯示視覺回饋懸浮窗。在 Linux 上建議選擇「無」",
+          "title": "螢幕位置",
+          "description": "顯示在螢幕頂端或底部。",
           "options": {
             "bottom": "底部",
             "top": "頂部"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "貼上方式",
-        "description": "選擇文字插入方式。直接：透過系統輸入模擬打字。無：跳過貼上，僅更新歷史紀錄/剪貼簿",
+        "title": "文字輸入方式",
+        "description": "聽寫內容進入應用程式的方式。",
         "options": {
-          "clipboard": "剪貼簿 ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "剪貼簿 (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "剪貼簿 (Shift+Insert)",
-          "direct": "直接",
-          "none": "無",
+          "clipboard": "貼上（{{modifier}}+V）",
+          "clipboardCtrlShiftV": "貼上（Ctrl+Shift+V）",
+          "clipboardShiftInsert": "貼上（Shift+Insert）",
+          "direct": "模擬打字",
+          "none": "不輸入",
           "externalScript": "外部腳本"
         },
         "externalScriptPlaceholder": "/path/to/your/script.sh"
       },
       "typingTool": {
         "title": "輸入工具",
-        "description": "選擇在直接貼上方式下使用的 Linux 輸入工具。選擇自動會自動偵測並使用系統中可用的最佳工具",
+        "description": "用來輸入文字的 Linux 工具。「自動」會選擇可用的最佳工具。",
         "options": {
           "auto": "自動（推薦）"
         }
       },
       "clipboardHandling": {
-        "title": "剪貼簿處理",
-        "description": "不修改剪貼簿將在轉錄後保留目前剪貼簿內容。複製到剪貼簿會在貼上後將轉錄結果留在剪貼簿中",
+        "title": "剪貼簿",
+        "description": "貼上之後的處理方式。",
         "options": {
-          "dontModify": "不修改剪貼簿",
-          "copyToClipboard": "複製到剪貼簿"
+          "dontModify": "還原原本的內容",
+          "copyToClipboard": "保留聽寫內容"
         }
       },
       "autoSubmit": {
-        "title": "自動送出",
-        "description": "插入文字後自動發送指定的按鍵組合。macOS 為 Cmd+Enter，Windows/Linux 為 Super+Enter",
+        "title": "輸入後送出",
+        "description": "自動替您按鍵，把訊息送出去。",
         "options": {
           "off": "關閉",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "翻譯為英語",
-        "description": "在轉錄過程中自動將其他語言的語音翻譯為英語"
+        "description": "用其他語言說的內容會以英文寫出。"
       },
       "modelUnload": {
-        "title": "卸載模型",
-        "description": "當模型在指定時間內未使用時自動釋放 GPU/CPU 記憶體",
+        "title": "釋放記憶體",
+        "description": "不再聽寫時卸載模型。",
         "options": {
           "never": "從不",
           "immediately": "立即",
@@ -378,32 +379,32 @@
         }
       },
       "customWords": {
-        "title": "自訂詞彙",
-        "description": "協助支援的模型辨識名稱和專業術語。目前，模糊修正僅適用於使用 A–Z 字母和數字的詞語。",
+        "title": "要辨識的詞彙",
+        "description": "需要我正確寫出的人名和專業術語。",
         "placeholder": "新增詞彙",
         "add": "新增",
         "remove": "刪除 {{word}}",
-        "duplicate": "「{{word}}」已存在"
+        "duplicate": "「{{word}}」已在清單中"
       },
       "voiceActivityDetection": {
-        "title": "語音活動偵測",
-        "description": "過濾錄音中的靜音。支援串流的模型會使用較長的 VAD 尾段；停用 VAD 則會錄製原始音訊"
+        "title": "人聲偵測",
+        "description": "忽略說話前後的靜音。"
       },
       "vadBackend": {
-        "title": "語音活動偵測後端",
-        "description": "選擇用於過濾靜音的偵測器。Earshot 為實驗性功能；若語音被截斷或雜訊被保留，請切換回 Silero。",
+        "title": "人聲偵測器",
+        "description": "Earshot 為實驗性功能：如果語音被截斷，請切換回 Silero。",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
         }
       },
       "fillerWordRemoval": {
-        "title": "移除語助詞",
-        "description": "從轉錄中移除常見的語助詞。關閉此選項即可保留這些詞。"
+        "title": "移除贅詞",
+        "description": "「嗯」「呃」「那個」等"
       },
       "chineseScript": {
         "title": "繁簡轉換",
-        "description": "將國語和粵語轉錄輸出為簡體或繁體中文。其他語言不受影響。",
+        "description": "國語和粵語以簡體或繁體輸出。",
         "options": {
           "asTranscribed": "保持原樣",
           "simplified": "簡體",
@@ -416,22 +417,22 @@
         "title": "快捷鍵"
       },
       "api": {
-        "title": "API（相容 OpenAI）",
+        "title": "AI 供應商",
         "provider": {
           "title": "供應商",
-          "description": "選擇一個相容 OpenAI 的供應商"
+          "description": "相容 OpenAI 的服務。"
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence 在此裝置上不可用。需要執行 macOS Tahoe（26.0）或更高版本的 Apple Silicon Mac，並在系統設定中啟用 Apple Intelligence"
         },
         "baseUrl": {
-          "title": "基礎網址",
-          "description": "所選供應商的 API 基礎網址，僅自訂供應商可編輯",
+          "title": "API 網址",
+          "description": "僅自訂供應商可修改。",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "API 金鑰",
-          "description": "所選供應商的 API 金鑰",
+          "description": "您在此供應商的帳戶金鑰。",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "提示詞",
+        "title": "指示",
         "selectedPrompt": {
-          "title": "已選提示詞",
-          "description": "選擇用於最佳化轉錄的範本或建立新範本。在提示詞文字中使用 ${output} 來引用轉錄結果"
+          "title": "指示",
+          "description": "AI 如何處理文字。${output} 代表您的聽寫內容。"
         },
         "noPrompts": "沒有可用的提示詞",
         "selectPrompt": "選擇提示詞",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "歷史紀錄",
-      "openFolder": "開啟錄音資料夾",
+      "openFolder": "錄音資料夾",
       "loading": "載入歷史紀錄中...",
       "empty": "還沒有轉錄紀錄。開始錄製以建立您的歷史紀錄！",
-      "copyToClipboard": "複製轉錄到剪貼簿",
+      "copyToClipboard": "複製",
       "copyError": "無法將轉錄複製到剪貼簿。",
-      "save": "儲存轉錄",
-      "unsave": "從已儲存中移除",
-      "delete": "刪除條目",
+      "save": "加入最愛",
+      "unsave": "從最愛移除",
+      "delete": "刪除",
       "deleteError": "刪除條目失敗，請重試",
       "retranscribe": "重新轉錄",
       "retranscribeError": "重新轉錄失敗，請重試。",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "偵錯",
       "logDirectory": {
-        "title": "日誌目錄",
-        "description": "日誌檔案的儲存位置"
+        "title": "日誌",
+        "description": "日誌檔案所在的資料夾。"
       },
       "logLevel": {
         "title": "日誌等級",
@@ -504,25 +505,39 @@
       },
       "updateChecks": {
         "label": "檢查更新",
-        "description": "自動檢查 J’écoute 的新版本",
+        "description": "自動檢查 J’écoute 的新版本。",
         "lockedDescription": "已被系統設定停用 (HANDY_DISABLE_UPDATER)"
       },
+      "whatsNewPreview": {
+        "title": "預覽新功能",
+        "description": "開啟最新內建版本資訊，且不標記為已看過",
+        "button": "預覽",
+        "noNotes": "找不到內建版本資訊",
+        "error": "無法預覽版本資訊"
+      },
+      "onboardingPreview": {
+        "title": "預覽新手引導",
+        "description": "預覽新手引導畫面，而不變更權限、模型或完成狀態",
+        "permissionsButton": "權限",
+        "modelsButton": "模型選擇",
+        "exitButton": "結束預覽"
+      },
       "soundTheme": {
-        "label": "聲音主題",
-        "description": "選擇錄製開始和停止回饋的聲音主題"
+        "label": "提示音樣式",
+        "description": "聽寫開始和結束時的聲音。"
       },
       "wordCorrectionThreshold": {
         "title": "詞彙修正閾值",
         "description": "自訂詞彙修正的靈敏度"
       },
       "historyLimit": {
-        "title": "歷史紀錄上限",
-        "description": "歷史紀錄的最大保留筆數",
+        "title": "歷史紀錄",
+        "description": "最舊的聽寫會被清除（最愛除外）。",
         "entries": "筆"
       },
       "recordingRetention": {
-        "title": "自動刪除錄音",
-        "description": "自動刪除舊錄音以節省空間",
+        "title": "錄音檔",
+        "description": "刪除舊錄音以節省空間。",
         "never": "從不",
         "preserveLimit": "保留最新 {{count}} 筆",
         "days3": "3 天後",
@@ -532,23 +547,23 @@
       },
       "alwaysOnMicrophone": {
         "label": "麥克風常開",
-        "description": "保持麥克風啟用以獲得更快的回應"
+        "description": "聽寫啟動更快。"
       },
       "clamshellMicrophone": {
         "title": "闔蓋麥克風",
         "description": "筆記型電腦闔蓋時使用的麥克風"
       },
       "postProcessingToggle": {
-        "label": "後處理",
-        "description": "啟用轉錄後的 AI 文字最佳化"
+        "label": "AI 校正",
+        "description": "貼上前由線上 AI 校正聽寫內容。需要 API 金鑰（OpenRouter、Anthropic、OpenAI 等）。"
       },
       "muteWhileRecording": {
-        "label": "錄製時靜音",
-        "description": "錄製期間靜音系統音訊"
+        "label": "電腦靜音",
+        "description": "聽寫期間，音樂和影片會靜音。"
       },
       "appendTrailingSpace": {
-        "label": "附加尾部空格",
-        "description": "在貼上的轉錄後新增空格"
+        "label": "文字後加空格",
+        "description": "每次聽寫後加上一個空格。"
       },
       "keyboardImplementation": {
         "title": "鍵盤實作",
@@ -599,20 +614,6 @@
         "verdictOk": "按鍵事件正常送達 J’écoute。",
         "verdictNoEvents": "未擷取到任何事件——測試期間您有按鍵嗎？",
         "failed": "診斷失敗：{{error}}"
-      },
-      "whatsNewPreview": {
-        "title": "預覽新功能",
-        "description": "開啟最新內建版本資訊，且不標記為已看過",
-        "button": "預覽",
-        "noNotes": "找不到內建版本資訊",
-        "error": "無法預覽版本資訊"
-      },
-      "onboardingPreview": {
-        "title": "預覽新手引導",
-        "description": "預覽新手引導畫面，而不變更權限、模型或完成狀態",
-        "permissionsButton": "權限",
-        "modelsButton": "模型選擇",
-        "exitButton": "結束預覽"
       }
     },
     "about": {
@@ -621,9 +622,13 @@
         "title": "版本",
         "description": "J’écoute 的目前版本"
       },
+      "whatsNewUpdates": {
+        "label": "顯示新功能",
+        "description": "J’écoute 更新後顯示。"
+      },
       "appDataDirectory": {
-        "title": "應用程式資料目錄",
-        "description": "J’écoute 儲存資料的位置"
+        "title": "應用程式資料",
+        "description": "模型、設定、錄音。"
       },
       "sourceCode": {
         "title": "原始碼",
@@ -635,12 +640,8 @@
         "ggml": {
           "title": "ggml",
           "description": "針對 OpenAI Whisper 自動語音辨識模型的高效能推理引擎",
-          "details": "J’écoute 使用 ggml 進行快速的本機語音轉文字處理。感謝 Georgi Gerganov 和貢獻者們的傑出工作"
+          "details": "J’écoute 藉由 ggml 在本機完成轉錄。感謝 Georgi Gerganov 和各位貢獻者的傑出成果。"
         }
-      },
-      "whatsNewUpdates": {
-        "label": "顯示新功能",
-        "description": "J’écoute 更新後顯示版本資訊"
       },
       "basedOn": "基於 CJ Pais 的 Handy"
     }
@@ -660,6 +661,9 @@
     "portableUpdateBrowseMessage": "可攜式安裝無法自動更新。請從 GitHub Releases 下載適用於你的系統的最新版本，並安裝到相同資料夾，你的 Data/ 資料夾（設定、模型、錄音）會保留在原處。",
     "portableUpdateBrowseButton": "開啟 GitHub Releases"
   },
+  "whatsNew": {
+    "title": "J’écoute v{{version}} 新功能"
+  },
   "common": {
     "loading": "載入中...",
     "delete": "刪除",
@@ -667,7 +671,9 @@
     "open": "開啟",
     "copy": "複製",
     "clear": "清除",
-    "noOptionsFound": "未找到選項"
+    "noOptionsFound": "未找到選項",
+    "select": "選擇…",
+    "reset": "恢復預設值"
   },
   "accessibility": {
     "permissionsDescription": "J’écoute 需要輔助使用權限才能輸入轉錄的文字",
@@ -692,11 +698,11 @@
     "transcriptionFailedTitle": "轉錄失敗"
   },
   "appLanguage": {
-    "title": "應用程式語言",
-    "description": "變更 J’écoute 介面的語言"
+    "title": "介面語言",
+    "description": ""
   },
   "theme": {
-    "title": "應用程式主題",
+    "title": "外觀",
     "description": "選擇 J’écoute 跟隨系統主題，或維持淺色或深色",
     "options": {
       "system": "跟隨系統",
@@ -708,9 +714,6 @@
     "transcribing": "正在轉錄...",
     "processing": "處理中..."
   },
-  "whatsNew": {
-    "title": "J’écoute v{{version}} 新功能"
-  },
   "secureInput": {
     "blockedWithCulprit_one": "{{name}} 可能正在阻擋 1 個快捷鍵",
     "blockedWithCulprit_other": "{{name}} 可能正在阻擋 {{count}} 個快捷鍵",
@@ -721,5 +724,284 @@
     "learnMore": "如何解決",
     "recorderBlocked": "目前無法錄製快捷鍵——macOS 的 Secure Input 正在阻擋按鍵事件。請先解決 Secure Input 警告。",
     "dismiss": "關閉"
+  },
+  "app": {
+    "home": {
+      "history": "歷史紀錄",
+      "update": "更新",
+      "recent": "最近的聽寫",
+      "allHistory": "所有歷史紀錄",
+      "empty": "您的聽寫會顯示在這裡。",
+      "copyTitle": "複製",
+      "copied": "已複製",
+      "copiedToast": "已複製到剪貼簿",
+      "modelPill": "轉錄模型：{{model}}",
+      "languagePill": "語音語言：{{language}}",
+      "allModels": "所有模型",
+      "downloadPill": "{{model}}，{{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "準備就緒",
+        "desc": "按住 <keys/> 說話：游標在哪裡，我就寫在哪裡。",
+        "descToggle": "按下 <keys/> 說話：游標在哪裡，我就寫在哪裡。"
+      },
+      "loading": {
+        "title": "正在載入 {{model}}…",
+        "titleGeneric": "正在載入模型…",
+        "desc": "啟動後只要幾秒，之後我會一直待命。"
+      },
+      "downloading": {
+        "title": "正在下載 {{model}}…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%，{{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "我什麼都聽不到",
+        "desc": "找不到麥克風。請接上麥克風，或選擇其他麥克風。",
+        "action": "選擇麥克風"
+      },
+      "micDenied": {
+        "title": "我無法使用麥克風",
+        "action": "開啟麥克風設定"
+      },
+      "noModel": {
+        "title": "選擇一個模型",
+        "desc": "我需要轉錄模型，才能寫下您說的話。",
+        "action": "選擇模型"
+      },
+      "error": {
+        "title": "模型無法載入",
+        "desc": "試試其他模型，或重新啟動 J’écoute。",
+        "action": "更換模型"
+      },
+      "listening": {
+        "title": "我在聽…",
+        "desc": "說完後放開 <keys/>。",
+        "descToggle": "說完後再按一次 <keys/>。"
+      },
+      "writing": {
+        "title": "我在寫…",
+        "desc": "{{model}} 正在轉錄這句話。",
+        "descGeneric": "正在轉錄這句話。"
+      },
+      "processing": {
+        "title": "正在潤飾…",
+        "desc": "AI 正在校正您的聽寫。"
+      },
+      "done": {
+        "title": "已貼上",
+        "titleNoPaste": "記下來了",
+        "desc": "可以在最近的聽寫中找到。"
+      },
+      "short": {
+        "ready": "就緒",
+        "loading": "載入中…",
+        "downloading": "下載中…",
+        "nomic": "沒有麥克風",
+        "micDenied": "麥克風被封鎖",
+        "nomodel": "沒有模型",
+        "error": "錯誤",
+        "listening": "我在聽…",
+        "writing": "我在寫…",
+        "processing": "正在潤飾…",
+        "done": "已貼上"
+      }
+    },
+    "history": {
+      "title": "歷史紀錄",
+      "back": "返回首頁",
+      "search": "搜尋",
+      "searchLabel": "搜尋歷史紀錄",
+      "filters": {
+        "label": "顯示",
+        "all": "全部",
+        "favorites": "最愛",
+        "corrected": "AI 校正"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "由 AI 校正",
+      "correctedWith": "由 AI 校正（{{prompt}}）",
+      "versionLabel": "顯示的版本",
+      "corrected": "校正後",
+      "raw": "原文",
+      "legendAddedSample": "螢光標示",
+      "legendAdded": "由 AI 新增",
+      "legendRemovedSample": "刪除線",
+      "legendRemoved": "由 AI 刪除",
+      "favorite": "最愛",
+      "more": "更多",
+      "play": "播放",
+      "pause": "暫停",
+      "seek": "錄音播放位置",
+      "count_one": "{{count}} 筆聽寫",
+      "count_other": "{{count}} 筆聽寫",
+      "countKept_one": "已保留 {{count}} / {{limit}} 筆聽寫",
+      "countKept_other": "已保留 {{count}} / {{limit}} 筆聽寫",
+      "countMore": "超過 {{count}} 筆聽寫",
+      "empty": "還沒有聽寫。按住快捷鍵說話吧！",
+      "noResults": "沒有符合的聽寫。"
+    },
+    "settings": {
+      "title": "設定",
+      "close": "關閉設定",
+      "hint": "所有變更立即生效。",
+      "tabs": {
+        "dictation": "聽寫",
+        "sound": "聲音",
+        "text": "文字",
+        "app": "應用程式",
+        "about": "關於"
+      },
+      "advanced": "進階選項",
+      "editShortcut": "變更",
+      "editShortcutNamed": "變更：{{name}}",
+      "resetShortcut": "恢復預設快捷鍵",
+      "systemDefault": "系統預設",
+      "playSound": "播放提示音",
+      "customSound": "自訂",
+      "micLevelHint": "聽寫時，這裡會顯示音量。",
+      "micLevelLive": "我聽得到。",
+      "model": {
+        "title": "轉錄模型",
+        "change": "更換",
+        "choose": "選擇",
+        "none": "沒有模型",
+        "loading": "載入中…",
+        "error": "載入失敗"
+      },
+      "debugMode": {
+        "label": "偵錯模式",
+        "description": "顯示偵錯工具。也可以按 Ctrl+Shift+D。"
+      }
+    },
+    "models": {
+      "title": "轉錄模型",
+      "back": "返回設定",
+      "search": "搜尋",
+      "download": "下載",
+      "use": "使用",
+      "live": "即時文字",
+      "accuracy": "準確度",
+      "speed": "速度",
+      "sorted": "已依您的語言排序。",
+      "sortedFor": "已針對{{language}}排序。",
+      "count_one": "{{count}} 個模型",
+      "count_other": "{{count}} 個模型",
+      "countFiltered": "{{count}} / {{total}}",
+      "translation": "可翻譯成英文"
+    },
+    "onboarding": {
+      "welcome": "歡迎使用 J’écoute",
+      "lead": "選擇一個模型來轉錄您的聲音。模型在您的電腦上執行，不會上傳任何內容。",
+      "choose": "選擇一個模型",
+      "recommendedFor": "推薦用於{{language}}",
+      "light": "非常輕巧",
+      "onDisk": "已下載",
+      "download": "下載 {{model}}（{{size}}）",
+      "use": "使用 {{model}}",
+      "showAll": "查看全部 {{count}} 個模型",
+      "allModels": "所有模型",
+      "downloading": "正在下載 {{model}}",
+      "downloadingSpeed": "正在下載 {{model}}，{{speed}} MB/s",
+      "preparing": "正在準備 {{model}}…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "版本 {{version}}",
+      "versionUpToDate": "版本 {{version}}，已是最新",
+      "versionUpdate": "版本 {{version}}，有可用的更新",
+      "license": "MIT 授權。藉由 ggml 在本機轉錄。",
+      "handy": "Handy",
+      "character": "角色：Copyright (c) 2026 Théo Ponthieu，PolyForm Noncommercial 1.0.0 授權。",
+      "updates": {
+        "title": "更新",
+        "auto": "自動檢查。",
+        "upToDate": "您使用的是最新版本。",
+        "failed": "無法檢查，請稍後再試。",
+        "availableVersion": "版本 {{version}} 已推出。",
+        "downloading": "下載中… {{progress}}%",
+        "check": "檢查",
+        "install": "安裝"
+      }
+    },
+    "dates": {
+      "today": "今天",
+      "yesterday": "昨天",
+      "todayAt": "今天 {{time}}",
+      "yesterdayAt": "昨天 {{time}}",
+      "dayAt": "{{day}} {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "空白鍵",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "左 {{key}}",
+      "rightSide": "右 {{key}}"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "快速準確的英文即時轉錄",
+      "live_multilingual_transcription_across_28_languages": "即時多語言轉錄，支援 28 種語言",
+      "tiny_and_instant_runs_well_on_any_hardware": "輕巧迅速，任何硬體都能順暢執行",
+      "highest_accuracy_14_languages_slower": "準確度最高，14 種語言，速度較慢",
+      "broadest_language_but_may_run_a_bit_slow": "支援語言最多，但可能稍慢",
+      "live_multilingual_excellent_on_powerful_machines": "即時多語言，在高效能電腦上表現出色",
+      "fast_and_accurate_supports_25_european_languages": "快速準確，支援 25 種歐洲語言",
+      "english_only_the_best_model_for_english_speakers": "僅支援英文，英文使用者的最佳模型",
+      "excellent_multilingual_model": "出色的多語言模型",
+      "a_tiny_multilingual_model": "輕巧的多語言模型",
+      "4_language_speech_to_text_with_translation": "4 種語言語音轉文字，支援翻譯。",
+      "25_language_speech_to_text_with_translation": "25 種語言語音轉文字，支援翻譯。",
+      "english_speech_to_text": "英文語音轉文字。",
+      "2_language_speech_to_text": "2 種語言語音轉文字。",
+      "3_language_speech_to_text": "3 種語言語音轉文字。",
+      "russian_speech_to_text_with_token_level_timestamps": "俄文語音轉文字，附詞元級時間戳記。",
+      "5_language_speech_to_text": "5 種語言語音轉文字。",
+      "6_language_speech_to_text_with_translation": "6 種語言語音轉文字，支援翻譯。",
+      "5_language_speech_to_text_with_word_level_timestamps": "5 種語言語音轉文字，附字詞級時間戳記。",
+      "english_speech_to_text_with_token_level_timestamps": "英文語音轉文字，附詞元級時間戳記。",
+      "english_speech_to_text_with_streaming": "英文語音轉文字，支援即時顯示。",
+      "arabic_speech_to_text": "阿拉伯文語音轉文字。",
+      "japanese_speech_to_text": "日文語音轉文字。",
+      "korean_speech_to_text": "韓文語音轉文字。",
+      "ukrainian_speech_to_text": "烏克蘭文語音轉文字。",
+      "vietnamese_speech_to_text": "越南文語音轉文字。",
+      "chinese_speech_to_text": "中文語音轉文字。",
+      "2_language_speech_to_text_with_segment_level_timestamps": "2 種語言語音轉文字，附片段級時間戳記。",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "英文語音轉文字，支援即時顯示，附詞元級時間戳記。",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "25 種語言語音轉文字，自動辨識語言，附詞元級時間戳記。",
+      "30_language_speech_to_text_with_auto_language_detection": "30 種語言語音轉文字，自動辨識語言。",
+      "5_language_speech_to_text_with_auto_language_detection": "5 種語言語音轉文字，自動辨識語言。",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "8 種語言語音轉文字，支援翻譯，自動辨識語言。",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "99 種語言語音轉文字，支援翻譯，自動辨識語言，附片段級時間戳記。",
+      "english_speech_to_text_with_segment_level_timestamps": "英文語音轉文字，附片段級時間戳記。",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 種語言語音轉文字，自動辨識語言，附片段級時間戳記。",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "針對臺灣華語最佳化，支援中英夾雜。",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 種語言語音轉文字，支援翻譯，自動辨識語言，附片段級時間戳記。"
+    }
   }
 }

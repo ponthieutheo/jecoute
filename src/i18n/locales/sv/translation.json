@@ -117,11 +117,13 @@
       "errors": {
         "checkFailed": "Misslyckades med att kontrollera behörigheter. Försök igen.",
         "requestFailed": "Misslyckades med att begära behörighet. Försök igen."
-      }
+      },
+      "checking": "Kontrollerar behörigheter…"
     }
   },
   "modelSelector": {
     "custom": "Anpassad",
+    "legacy": "Äldre",
     "streaming": "Streaming",
     "active": "Aktiv",
     "switching": "Byter...",
@@ -151,8 +153,7 @@
       "translation": "Kan översätta till engelska",
       "translate": "Översätt till engelska",
       "streaming": "Visar transkription i realtid medan du talar"
-    },
-    "legacy": "Äldre"
+    }
   },
   "settings": {
     "modelSettings": {
@@ -169,16 +170,16 @@
         "pressKeys": "Tryck på tangenter...",
         "bindings": {
           "transcribe": {
-            "name": "Kortkommando för transkribering",
-            "description": "Kortkommandot för att spela in och transkribera din röst."
+            "name": "Kortkommando för diktering",
+            "description": "Håll ned för att prata, släpp för att skriva."
           },
           "cancel": {
-            "name": "Kortkommando för att avbryta",
-            "description": "Kortkommandot för att avbryta den aktuella inspelningen."
+            "name": "Avbryt en diktering",
+            "description": "Stoppar utan att skriva något."
           },
           "transcribe_with_post_process": {
-            "name": "Snabbkommando för efterbearbetning",
-            "description": "Valfritt: En dedikerad snabbknapp som alltid tillämpar AI-efterbearbetning på din transkription."
+            "name": "Kortkommando med AI-korrigering",
+            "description": "Dikterar och låter alltid AI:n granska texten."
           }
         },
         "errors": {
@@ -188,8 +189,8 @@
         }
       },
       "language": {
-        "title": "Språk",
-        "description": "Välj språk för taligenkänning. Auto kommer automatiskt att bestämma språket, medan val av ett specifikt språk kan förbättra noggrannheten för det språket.",
+        "title": "Talat språk",
+        "description": "Den aktiva modellen förstår {{count}} språk.",
         "searchPlaceholder": "Sök språk...",
         "noResults": "Inga språk hittades",
         "auto": "Automatiskt",
@@ -201,18 +202,19 @@
         "options": {
           "holdOrToggle": "Automatiskt",
           "pushToTalk": "Håll",
-          "toggle": "Växla"
+          "toggle": "Tryck"
         },
         "descriptions": {
-          "hold_or_toggle": "Håll nere för att spela in eller tryck kort för att växla",
-          "push_to_talk": "Spelar in så länge du håller genvägen nedtryckt",
-          "toggle": "Tryck på genvägen för att starta inspelningen, tryck igen för att stoppa"
+          "hold_or_toggle": "Håll ned för att diktera, eller tryck en gång för att starta och en gång till för att stoppa.",
+          "push_to_talk": "Jag lyssnar så länge du håller ned tangenterna.",
+          "toggle": "Ett tryck för att starta, ett till för att stoppa."
         }
       }
     },
     "models": {
       "title": "Transkriptionsmodeller",
       "description": "Välj en transkriptionsmodell eller ladda ner ytterligare modeller. Olika modeller erbjuder varierande nivåer av noggrannhet och hastighet.",
+      "searchPlaceholder": "Sök modeller efter namn…",
       "yourModels": "Nedladdade modeller",
       "availableModels": "Tillgängliga att ladda ner",
       "deleteConfirm": "Är du säker på att du vill ta bort {{modelName}}? Du måste ladda ner den igen för att använda den.",
@@ -223,39 +225,38 @@
         "streaming": "Filtrera modeller som stöder transkription i realtid",
         "translation": "Filtrera modeller som stöder översättning till engelska"
       },
-      "noModelsMatch": "Inga modeller matchar detta filter.",
-      "searchPlaceholder": "Sök modeller efter namn…",
       "rescan": {
         "label": "Skanna om",
         "tooltip": "Skanna om efter modeller som lagts till i modellmappen eller Hugging Face-cachen utanför J’écoute"
-      }
+      },
+      "noModelsMatch": "Inga modeller matchar detta filter."
     },
     "sound": {
       "title": "Ljud",
       "microphone": {
         "title": "Mikrofon",
-        "description": "Välj din föredragna mikrofonenhet",
+        "description": "Mikrofonen som lyssnar på dig.",
         "placeholder": "Välj mikrofon...",
         "loading": "Laddar..."
       },
       "channel": {
         "title": "Ingångskanal",
-        "description": "Välj vilken ingångskanal du vill spela in från. Använd detta om ditt ljudgränssnitt har flera ingångar.",
+        "description": "För ett ljudgränssnitt med flera ingångar.",
         "average": "Medelvärde av alla kanaler",
         "channel": "Kanal {{n}}"
       },
       "audioFeedback": {
-        "label": "Ljudåterkoppling",
-        "description": "Spela upp ljud när inspelningen startar och stoppar"
+        "label": "Ljudsignal",
+        "description": "Ett kort ljud när en diktering börjar och slutar."
       },
       "outputDevice": {
-        "title": "Utmatningsenhet",
-        "description": "Välj din föredragna ljudutmatningsenhet för återkopplingsljud",
+        "title": "Signalutgång",
+        "description": "Var ljudsignalen spelas upp.",
         "placeholder": "Välj utmatningsenhet...",
         "loading": "Laddar..."
       },
       "volume": {
-        "title": "Volym",
+        "title": "Signalvolym",
         "description": "Justera volymen för ljudåterkopplingsljud"
       }
     },
@@ -269,20 +270,20 @@
       },
       "experimentalToggle": {
         "label": "Experimentella funktioner",
-        "description": "Aktivera experimentella funktioner som fortfarande är under utveckling."
+        "description": "Funktioner som fortfarande är under utveckling."
       },
       "lazyStreamClose": {
-        "label": "Håll mikrofonen öppen mellan transkriptioner",
-        "description": "Håller mikrofonströmmen öppen i 30 sekunder efter att inspelningen avslutats, vilket minskar latensen för transkriptioner efter varandra. Kan försämra Bluetooth-ljudkvaliteten medan den är aktiv."
+        "label": "Håll mikrofonen öppen mellan dikteringar",
+        "description": "Mikrofonen hålls öppen i 30 sekunder efter en diktering så att nästa startar snabbare. Kan försämra Bluetooth-ljudet."
       },
       "acceleration": {
         "transcribe": {
-          "title": "Whisper-acceleration",
-          "description": "Hårdvaruacceleration för Whisper-modeller. Auto använder GPU om tillgängligt (Metal på macOS, Vulkan på Windows/Linux)."
+          "title": "Acceleration",
+          "description": "Grafikkort (Vulkan, Metal) eller processor. ”Automatiskt” använder grafikkortet när det finns."
         },
         "ort": {
           "title": "ONNX-acceleration",
-          "description": "Hårdvaruacceleration för ONNX-modeller (Parakeet, Canary, Moonshine, etc.). DirectML på Windows är experimentellt. Modeller kan misslyckas med att transkribera."
+          "description": "För äldre ONNX-modeller. DirectML (Windows) är experimentellt."
         },
         "gpuDevice": {
           "auto": "Automatiskt"
@@ -290,30 +291,30 @@
       },
       "startHidden": {
         "label": "Starta dold",
-        "description": "Starta i systemfältet utan att öppna fönstret."
+        "description": "Starta i aktivitetsfältet utan att öppna fönstret."
       },
       "autostart": {
-        "label": "Starta vid uppstart",
-        "description": "Starta J’écoute automatiskt när du loggar in på din dator."
+        "label": "Starta vid systemstart",
+        "description": "J’écoute startar när du loggar in."
       },
       "showTrayIcon": {
-        "label": "Visa ikon i systemfältet",
-        "description": "Visa J’écoute-ikonen i systemfältet."
+        "label": "Ikon i aktivitetsfältet",
+        "description": "I meddelandefältet, bredvid klockan."
       },
       "overlay": {
         "style": {
-          "title": "Overlay",
-          "description": "Välj inspelningsöverlägget: ”Ingen” döljer det, ”Minimal” visar en kompakt indikator, ”Live” visar transkriberingen i realtid medan du talar (endast modeller med streamingstöd — leta efter Streaming-märket i modellväljaren). På Linux rekommenderas ”Ingen”.",
+          "title": "Under en diktering",
+          "description": "Det som visas på skärmen. Livetext kräver en kompatibel modell. På Linux rekommenderas ”Ingen”.",
           "options": {
             "none": "Ingen",
             "minimal": "Minimal",
-            "live": "Live",
+            "live": "Livetext",
             "character": "Figur"
           }
         },
         "position": {
-          "title": "Överlagringsposition",
-          "description": "Visa visuell återkoppling under inspelning och transkription. På Linux rekommenderas 'Ingen'.",
+          "title": "Position på skärmen",
+          "description": "Längst upp eller längst ned på skärmen.",
           "options": {
             "bottom": "Nederst",
             "top": "Överst"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "Klistra-in-metod",
-        "description": "Välj hur text infogas. Direkt: simulerar skrivande via systeminmatning. Ingen: hoppar över klistra in, uppdaterar endast historik/urklipp.",
+        "title": "Textinmatning",
+        "description": "Hur dikteringen hamnar i din app.",
         "options": {
-          "clipboard": "Urklipp ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "Urklipp (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "Urklipp (Shift+Insert)",
-          "direct": "Direkt",
-          "none": "Ingen",
+          "clipboard": "Klistra in ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "Klistra in (Ctrl+Skift+V)",
+          "clipboardShiftInsert": "Klistra in (Skift+Insert)",
+          "direct": "Skriv in texten",
+          "none": "Skriv inte",
           "externalScript": "Externt skript"
         },
         "externalScriptPlaceholder": "/sökväg/till/ditt/skript.sh"
       },
       "typingTool": {
         "title": "Skrivverktyg",
-        "description": "Välj vilket Linux-skrivverktyg som ska användas för metoden Direkt klistra in. Auto kommer automatiskt att upptäcka och använda det bästa tillgängliga verktyget för ditt system.",
+        "description": "Linux-verktyget som skriver texten. ”Auto” väljer det bästa som finns.",
         "options": {
           "auto": "Auto (Rekommenderas)"
         }
       },
       "clipboardHandling": {
-        "title": "Hantering av urklipp",
-        "description": "Ändra inte urklipp bevarar ditt nuvarande urklippsinnehåll efter transkription. Kopiera till urklipp lämnar transkriptionsresultatet i ditt urklipp efter att ha klistrat in.",
+        "title": "Urklipp",
+        "description": "Efter inklistringen.",
         "options": {
-          "dontModify": "Ändra inte urklipp",
-          "copyToClipboard": "Kopiera till urklipp"
+          "dontModify": "Återställ tidigare innehåll",
+          "copyToClipboard": "Behåll dikteringen"
         }
       },
       "autoSubmit": {
-        "title": "Skicka automatiskt",
-        "description": "Skicka automatiskt den valda tangentkombinationen efter textinsättning. Cmd+Enter gäller på macOS, medan Windows/Linux använder Super+Enter.",
+        "title": "Skicka efter texten",
+        "description": "Trycker på en tangent åt dig, för att skicka ett meddelande.",
         "options": {
           "off": "Av",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "Översätt till engelska",
-        "description": "Översätt automatiskt tal från andra språk till engelska under transkription."
+        "description": "Det du säger på ett annat språk skrivs på engelska."
       },
       "modelUnload": {
-        "title": "Avlasta modell",
-        "description": "Frigör automatiskt GPU/CPU-minne när modellen inte har använts under den angivna tiden",
+        "title": "Frigör minne",
+        "description": "Laddar ur modellen när du slutar diktera.",
         "options": {
           "never": "Aldrig",
           "immediately": "Omedelbart",
@@ -378,20 +379,20 @@
         }
       },
       "customWords": {
-        "title": "Anpassade ord",
-        "description": "Hjälp modeller som stöds att känna igen namn och specialtermer. Ungefärlig korrigering är för närvarande begränsad till ord med bokstäverna A–Z och siffror.",
+        "title": "Egna ord",
+        "description": "Namn och facktermer som jag ska stava rätt.",
         "placeholder": "Lägg till ett ord",
         "add": "Lägg till",
         "remove": "Ta bort {{word}}",
-        "duplicate": "\"{{word}}\" finns redan"
+        "duplicate": "”{{word}}” finns redan i listan"
       },
       "voiceActivityDetection": {
-        "title": "Röstaktivitetsdetektering",
-        "description": "Filtrerar bort tystnad från inspelningar. Modeller med streamingstöd använder en längre VAD-svans; om VAD inaktiveras spelas rått ljud in."
+        "title": "Röstdetektering",
+        "description": "Ignorerar tystnad före och efter tal."
       },
       "vadBackend": {
-        "title": "Backend för röstdetektering",
-        "description": "Välj detektorn som används för att filtrera bort tystnad. Earshot är experimentell; byt tillbaka till Silero om tal klipps eller brus behålls.",
+        "title": "Röstdetektor",
+        "description": "Earshot är experimentell: byt tillbaka till Silero om talet klipps av.",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
@@ -399,11 +400,11 @@
       },
       "fillerWordRemoval": {
         "title": "Ta bort utfyllnadsord",
-        "description": "Tar bort vanliga tvekljud från transkriberingar. Stäng av för att behålla dem."
+        "description": "”eh”, ”öh”, ”ehm”…"
       },
       "chineseScript": {
         "title": "Kinesisk skrift",
-        "description": "Skriver mandarin- och kantonesiska transkriptioner med förenklade eller traditionella tecken. Andra språk lämnas oförändrade.",
+        "description": "Förenklade eller traditionella tecken för mandarin och kantonesiska.",
         "options": {
           "asTranscribed": "Som transkriberat",
           "simplified": "Förenklad",
@@ -416,22 +417,22 @@
         "title": "Snabbkommando"
       },
       "api": {
-        "title": "API (OpenAI-kompatibelt)",
+        "title": "AI-leverantör",
         "provider": {
           "title": "Leverantör",
-          "description": "Välj en OpenAI-kompatibel leverantör."
+          "description": "En OpenAI-kompatibel tjänst."
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence är inte tillgängligt på den här enheten. Kräver en Apple Silicon Mac som kör macOS Tahoe (26.0) eller senare med Apple Intelligence aktiverat i systeminställningarna."
         },
         "baseUrl": {
-          "title": "Bas-URL",
-          "description": "API-bas-URL för den valda leverantören. Endast den anpassade leverantören kan redigeras.",
+          "title": "API-adress",
+          "description": "Kan bara ändras för en anpassad leverantör.",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "API-nyckel",
-          "description": "API-nyckel för den valda leverantören.",
+          "description": "Nyckeln till ditt konto hos den här leverantören.",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "Prompt",
+        "title": "Instruktioner",
         "selectedPrompt": {
-          "title": "Vald prompt",
-          "description": "Välj en mall för att förfina transkriptioner eller skapa en ny. Använd ${output} inuti prompttexten för att referera till den fångade transkriptionen."
+          "title": "Instruktion",
+          "description": "Vad AI:n gör med texten. ${output} står för din diktering."
         },
         "noPrompts": "Inga prompter tillgängliga",
         "selectPrompt": "Välj en prompt",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "Historik",
-      "openFolder": "Öppna mapp för inspelningar",
+      "openFolder": "Mapp för inspelningar",
       "loading": "Laddar historik...",
       "empty": "Inga transkriptioner ännu. Börja spela in för att bygga upp din historik!",
-      "copyToClipboard": "Kopiera transkription till urklipp",
+      "copyToClipboard": "Kopiera",
       "copyError": "Det gick inte att kopiera transkriptionen till urklipp.",
-      "save": "Spara transkription",
-      "unsave": "Ta bort från sparade",
-      "delete": "Ta bort post",
+      "save": "Lägg till i favoriter",
+      "unsave": "Ta bort från favoriter",
+      "delete": "Ta bort",
       "deleteError": "Misslyckades med att ta bort post. Försök igen.",
       "retranscribe": "Transkribera igen",
       "retranscribeError": "Misslyckades med att transkribera igen. Försök igen.",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "Felsökning",
       "logDirectory": {
-        "title": "Loggmapp",
-        "description": "Plats där loggfiler lagras"
+        "title": "Loggar",
+        "description": "Mappen med loggfilerna."
       },
       "logLevel": {
         "title": "Loggnivå",
@@ -504,25 +505,39 @@
       },
       "updateChecks": {
         "label": "Sök efter uppdateringar",
-        "description": "Sök automatiskt efter nya versioner av J’écoute",
+        "description": "Sök automatiskt efter nya versioner av J’écoute.",
         "lockedDescription": "Inaktiverad av systemkonfiguration (HANDY_DISABLE_UPDATER)"
       },
+      "whatsNewPreview": {
+        "title": "Förhandsvisa nyheter",
+        "description": "Öppna den senaste medföljande versionsinformationen utan att markera den som visad",
+        "button": "Förhandsvisa",
+        "noNotes": "Ingen medföljande versionsinformation hittades",
+        "error": "Det gick inte att förhandsvisa versionsinformationen"
+      },
+      "onboardingPreview": {
+        "title": "Förhandsvisa introduktionen",
+        "description": "Förhandsvisa introduktionsskärmarna utan att ändra behörigheter, modeller eller slutförandestatus",
+        "permissionsButton": "Behörigheter",
+        "modelsButton": "Modellval",
+        "exitButton": "Avsluta förhandsvisning"
+      },
       "soundTheme": {
-        "label": "Ljudtema",
-        "description": "Välj ett ljudtema för återkoppling vid start och stopp av inspelning"
+        "label": "Signalljud",
+        "description": "Ljudet i början och slutet av en diktering."
       },
       "wordCorrectionThreshold": {
         "title": "Tröskelvärde för ordkorrigering",
         "description": "Känslighet för anpassade ordkorrigeringar"
       },
       "historyLimit": {
-        "title": "Historikgräns",
-        "description": "Maximalt antal historikposter som ska sparas",
-        "entries": "poster"
+        "title": "Historik",
+        "description": "Äldre dikteringar raderas (favoriter behålls).",
+        "entries": "dikteringar"
       },
       "recordingRetention": {
-        "title": "Radera inspelningar automatiskt",
-        "description": "Radera gamla inspelningar automatiskt för att spara utrymme",
+        "title": "Ljudinspelningar",
+        "description": "Radera gamla inspelningar för att spara utrymme.",
         "never": "Aldrig",
         "preserveLimit": "Behåll de senaste {{count}}",
         "days3": "Efter 3 dagar",
@@ -531,24 +546,24 @@
         "placeholder": "Välj lagringsperiod..."
       },
       "alwaysOnMicrophone": {
-        "label": "Alltid påslagen mikrofon",
-        "description": "Håll mikrofonen aktiv för snabbare svar"
+        "label": "Mikrofonen alltid på",
+        "description": "Dikteringen startar snabbare."
       },
       "clamshellMicrophone": {
         "title": "Clamshell-mikrofon",
         "description": "Mikrofon som ska användas när bärbara datorns lock är stängt"
       },
       "postProcessingToggle": {
-        "label": "Efterbearbetning",
-        "description": "Aktivera AI-driven textförfining efter transkription"
+        "label": "AI-korrigering",
+        "description": "En AI på nätet granskar dikteringen innan den klistras in. Kräver en API-nyckel (OpenRouter, Anthropic, OpenAI…)."
       },
       "muteWhileRecording": {
-        "label": "Ljudlös under inspelning",
-        "description": "Stäng av systemljudet under inspelning"
+        "label": "Stäng av datorns ljud",
+        "description": "Musik och videor tystnar under en diktering."
       },
       "appendTrailingSpace": {
-        "label": "Lägg till avslutande mellanslag",
-        "description": "Lägg till ett mellanslag efter klistrad transkription"
+        "label": "Mellanslag efter texten",
+        "description": "Lägger till ett mellanslag efter varje diktering."
       },
       "keyboardImplementation": {
         "title": "Tangentbordsimplementering",
@@ -599,20 +614,6 @@
         "verdictOk": "Tangenthändelser når J’écoute som vanligt.",
         "verdictNoEvents": "Inga händelser fångades — tryckte du på några tangenter under testet?",
         "failed": "Diagnostiken misslyckades: {{error}}"
-      },
-      "whatsNewPreview": {
-        "title": "Förhandsvisa nyheter",
-        "description": "Öppna den senaste medföljande versionsinformationen utan att markera den som visad",
-        "button": "Förhandsvisa",
-        "noNotes": "Ingen medföljande versionsinformation hittades",
-        "error": "Det gick inte att förhandsvisa versionsinformationen"
-      },
-      "onboardingPreview": {
-        "title": "Förhandsvisa introduktionen",
-        "description": "Förhandsvisa introduktionsskärmarna utan att ändra behörigheter, modeller eller slutförandestatus",
-        "permissionsButton": "Behörigheter",
-        "modelsButton": "Modellval",
-        "exitButton": "Avsluta förhandsvisning"
       }
     },
     "about": {
@@ -621,9 +622,13 @@
         "title": "Version",
         "description": "Nuvarande version av J’écoute"
       },
+      "whatsNewUpdates": {
+        "label": "Visa nyheter",
+        "description": "Efter en uppdatering av J’écoute."
+      },
       "appDataDirectory": {
-        "title": "Mapp för appdata",
-        "description": "Plats där J’écoute lagrar sina data"
+        "title": "Appdata",
+        "description": "Modeller, inställningar, inspelningar."
       },
       "sourceCode": {
         "title": "Källkod",
@@ -635,12 +640,8 @@
         "ggml": {
           "title": "ggml",
           "description": "Högpresterande inferens av OpenAI:s Whisper-modell för automatisk taligenkänning",
-          "details": "J’écoute använder ggml för snabb, lokal tal-till-text-behandling. Tack till det fantastiska arbete som utförts av Georgi Gerganov med medarbetare."
+          "details": "J’écoute transkriberar lokalt tack vare ggml. Tack till Georgi Gerganov och alla bidragsgivare för deras fantastiska arbete."
         }
-      },
-      "whatsNewUpdates": {
-        "label": "Visa nyheter",
-        "description": "Visa versionsinformation efter J’écoute-uppdateringar"
       },
       "basedOn": "Bygger på Handy av CJ Pais"
     }
@@ -660,6 +661,9 @@
     "portableUpdateBrowseMessage": "Portabla installationer kan inte uppdateras automatiskt. Ladda ner den senaste versionen för ditt system från GitHub Releases och installera den i samma mapp — din Data/-mapp (inställningar, modeller, inspelningar) behålls.",
     "portableUpdateBrowseButton": "Öppna GitHub Releases"
   },
+  "whatsNew": {
+    "title": "Nytt i J’écoute v{{version}}"
+  },
   "common": {
     "loading": "Laddar...",
     "delete": "Ta bort",
@@ -667,7 +671,9 @@
     "open": "Öppna",
     "copy": "Kopiera",
     "clear": "Rensa",
-    "noOptionsFound": "Inga alternativ hittades"
+    "noOptionsFound": "Inga alternativ hittades",
+    "select": "Välj…",
+    "reset": "Återställ standard"
   },
   "accessibility": {
     "permissionsDescription": "J’écoute behöver behörighet för hjälpmedel för att kunna skriva transkriberad text.",
@@ -682,21 +688,21 @@
       "macos": "Bevilja mikrofonåtkomst i Systeminställningar → Integritet och säkerhet → Mikrofon.",
       "linux": "Bevilja mikrofonåtkomst i systemets ljud- eller integritetsinställningar."
     },
+    "noInputDeviceTitle": "Ingen mikrofon hittades",
+    "noInputDevice": "Ingen ljudenhet hittades. Anslut en mikrofon eller ett headset och försök igen.",
     "recordingFailed": "Misslyckades med att starta inspelning: {{error}}",
     "modelLoadFailed": "Misslyckades med att ladda modell: {{model}}",
     "modelLoadFailedUnknown": "okänd modell",
-    "noInputDeviceTitle": "Ingen mikrofon hittades",
-    "noInputDevice": "Ingen ljudenhet hittades. Anslut en mikrofon eller ett headset och försök igen.",
     "pasteFailedTitle": "Det gick inte att klistra in texten",
     "pasteFailed": "Texten kunde inte klistras in i det aktiva programmet.",
     "transcriptionFailedTitle": "Transkriptionen misslyckades"
   },
   "appLanguage": {
-    "title": "Applikationsspråk",
-    "description": "Ändra språket i J’écoute-gränssnittet"
+    "title": "Gränssnittsspråk",
+    "description": ""
   },
   "theme": {
-    "title": "Apptema",
+    "title": "Utseende",
     "description": "Välj om J’écoute ska följa systemets tema eller förbli ljust eller mörkt",
     "options": {
       "system": "System",
@@ -708,9 +714,6 @@
     "transcribing": "Transkriberar...",
     "processing": "Bearbetar..."
   },
-  "whatsNew": {
-    "title": "Nytt i J’écoute v{{version}}"
-  },
   "secureInput": {
     "blockedWithCulprit_one": "{{name}} kanske blockerar 1 kortkommando",
     "blockedWithCulprit_other": "{{name}} kanske blockerar {{count}} kortkommandon",
@@ -721,5 +724,284 @@
     "learnMore": "Så här löser du det",
     "recorderBlocked": "Det går inte att spela in kortkommandon just nu — macOS Secure Input blockerar tangenthändelser. Lös varningen om Secure Input först.",
     "dismiss": "Avfärda"
+  },
+  "app": {
+    "home": {
+      "history": "Historik",
+      "update": "Uppdatering",
+      "recent": "Senaste dikteringar",
+      "allHistory": "Hela historiken",
+      "empty": "Dina dikteringar visas här.",
+      "copyTitle": "Kopiera",
+      "copied": "Kopierat",
+      "copiedToast": "Kopierat till urklipp",
+      "modelPill": "Transkriptionsmodell: {{model}}",
+      "languagePill": "Talat språk: {{language}}",
+      "allModels": "Alla modeller",
+      "downloadPill": "{{model}}, {{percent}} %"
+    },
+    "status": {
+      "ready": {
+        "title": "Redo",
+        "desc": "Håll ned <keys/> och prata: jag skriver där markören står.",
+        "descToggle": "Tryck på <keys/> och prata: jag skriver där markören står."
+      },
+      "loading": {
+        "title": "Jag laddar {{model}}…",
+        "titleGeneric": "Jag laddar modellen…",
+        "desc": "Några sekunder efter start, sedan står jag redo."
+      },
+      "downloading": {
+        "title": "Jag laddar ner {{model}}…",
+        "desc": "{{percent}} %",
+        "descSpeed": "{{percent}} %, {{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "Jag hör ingenting",
+        "desc": "Ingen mikrofon hittades. Anslut en eller välj en annan.",
+        "action": "Välj en mikrofon"
+      },
+      "micDenied": {
+        "title": "Jag kommer inte åt mikrofonen",
+        "action": "Öppna mikrofoninställningarna"
+      },
+      "noModel": {
+        "title": "Välj en modell",
+        "desc": "Jag behöver en transkriptionsmodell för att skriva det du säger.",
+        "action": "Välj en modell"
+      },
+      "error": {
+        "title": "Modellen kunde inte laddas",
+        "desc": "Prova en annan modell, eller starta om J’écoute.",
+        "action": "Byt modell"
+      },
+      "listening": {
+        "title": "Jag lyssnar…",
+        "desc": "Släpp <keys/> när du är klar.",
+        "descToggle": "Tryck på <keys/> igen när du är klar."
+      },
+      "writing": {
+        "title": "Jag skriver…",
+        "desc": "{{model}} transkriberar din mening.",
+        "descGeneric": "Jag transkriberar din mening."
+      },
+      "processing": {
+        "title": "Jag finslipar…",
+        "desc": "AI:n granskar din diktering."
+      },
+      "done": {
+        "title": "Inklistrat",
+        "titleNoPaste": "Uppfattat",
+        "desc": "Du hittar den bland dina senaste dikteringar."
+      },
+      "short": {
+        "ready": "Redo",
+        "loading": "Laddar…",
+        "downloading": "Laddar ner…",
+        "nomic": "Ingen mikrofon",
+        "micDenied": "Mikrofon blockerad",
+        "nomodel": "Ingen modell",
+        "error": "Fel",
+        "listening": "Jag lyssnar…",
+        "writing": "Jag skriver…",
+        "processing": "Finslipar…",
+        "done": "Inklistrat"
+      }
+    },
+    "history": {
+      "title": "Historik",
+      "back": "Tillbaka till start",
+      "search": "Sök",
+      "searchLabel": "Sök i historiken",
+      "filters": {
+        "label": "Visa",
+        "all": "Alla",
+        "favorites": "Favoriter",
+        "corrected": "AI-korrigerade"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "Korrigerad av AI",
+      "correctedWith": "Korrigerad av AI ({{prompt}})",
+      "versionLabel": "Visad version",
+      "corrected": "Korrigerad",
+      "raw": "Original",
+      "legendAddedSample": "markerat",
+      "legendAdded": "tillagt av AI:n",
+      "legendRemovedSample": "överstruket",
+      "legendRemoved": "borttaget av AI:n",
+      "favorite": "Favorit",
+      "more": "Mer",
+      "play": "Spela upp",
+      "pause": "Pausa",
+      "seek": "Position i inspelningen",
+      "count_one": "{{count}} diktering",
+      "count_other": "{{count}} dikteringar",
+      "countKept_one": "{{count}} av {{limit}} dikteringar sparas",
+      "countKept_other": "{{count}} av {{limit}} dikteringar sparas",
+      "countMore": "Fler än {{count}} dikteringar",
+      "empty": "Inga dikteringar än. Håll ned ditt kortkommando och prata!",
+      "noResults": "Inga dikteringar matchar."
+    },
+    "settings": {
+      "title": "Inställningar",
+      "close": "Stäng inställningarna",
+      "hint": "Alla ändringar gäller direkt.",
+      "tabs": {
+        "dictation": "Diktering",
+        "sound": "Ljud",
+        "text": "Text",
+        "app": "App",
+        "about": "Om"
+      },
+      "advanced": "Avancerade alternativ",
+      "editShortcut": "Ändra",
+      "editShortcutNamed": "Ändra: {{name}}",
+      "resetShortcut": "Återställ standardkortkommandot",
+      "systemDefault": "Systemstandard",
+      "playSound": "Spela upp signalen",
+      "customSound": "Anpassat",
+      "micLevelHint": "Nivån visas här under en diktering.",
+      "micLevelLive": "Jag hör dig.",
+      "model": {
+        "title": "Transkriptionsmodell",
+        "change": "Byt",
+        "choose": "Välj",
+        "none": "Ingen modell",
+        "loading": "Laddar…",
+        "error": "Kunde inte laddas"
+      },
+      "debugMode": {
+        "label": "Felsökningsläge",
+        "description": "Visar felsökningsverktygen. Även med Ctrl+Skift+D."
+      }
+    },
+    "models": {
+      "title": "Transkriptionsmodell",
+      "back": "Tillbaka till inställningarna",
+      "search": "Sök",
+      "download": "Ladda ner",
+      "use": "Använd",
+      "live": "Livetext",
+      "accuracy": "Noggrannhet",
+      "speed": "Hastighet",
+      "sorted": "Sorterade för ditt språk.",
+      "sortedFor": "Sorterade för {{language}}.",
+      "count_one": "{{count}} modell",
+      "count_other": "{{count}} modeller",
+      "countFiltered": "{{count}} av {{total}}",
+      "translation": "Översätter till engelska"
+    },
+    "onboarding": {
+      "welcome": "Välkommen till J’écoute",
+      "lead": "Välj modellen som transkriberar din röst. Den körs på din dator, inget skickas ut på nätet.",
+      "choose": "Välj en modell",
+      "recommendedFor": "Rekommenderas för {{language}}",
+      "light": "Mycket lätt",
+      "onDisk": "Redan nedladdad",
+      "download": "Ladda ner {{model}} ({{size}})",
+      "use": "Använd {{model}}",
+      "showAll": "Visa alla {{count}} modeller",
+      "allModels": "Alla modeller",
+      "downloading": "Laddar ner {{model}}",
+      "downloadingSpeed": "Laddar ner {{model}}, {{speed}} MB/s",
+      "preparing": "Jag förbereder {{model}}…",
+      "percent": "{{percent}} %"
+    },
+    "about": {
+      "version": "Version {{version}}",
+      "versionUpToDate": "Version {{version}}, den senaste",
+      "versionUpdate": "Version {{version}}, uppdatering tillgänglig",
+      "license": "MIT-licens. Lokal transkription tack vare ggml.",
+      "handy": "Handy",
+      "character": "Figuren: Copyright (c) 2026 Théo Ponthieu, licens PolyForm Noncommercial 1.0.0.",
+      "updates": {
+        "title": "Uppdateringar",
+        "auto": "Kontrolleras automatiskt.",
+        "upToDate": "Du har den senaste versionen.",
+        "failed": "Kunde inte kontrollera. Försök igen senare.",
+        "availableVersion": "Version {{version}} finns tillgänglig.",
+        "downloading": "Laddar ner… {{progress}} %",
+        "check": "Kontrollera",
+        "install": "Installera"
+      }
+    },
+    "dates": {
+      "today": "I dag",
+      "yesterday": "I går",
+      "todayAt": "I dag kl. {{time}}",
+      "yesterdayAt": "I går kl. {{time}}",
+      "dayAt": "{{day}} kl. {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Skift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "Blanksteg",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tabb",
+      "backspace": "Backsteg",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "Vänster {{key}}",
+      "rightSide": "Höger {{key}}"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "Snabb och noggrann livetranskription på engelska",
+      "live_multilingual_transcription_across_28_languages": "Flerspråkig livetranskription på 28 språk",
+      "tiny_and_instant_runs_well_on_any_hardware": "Pytteliten och blixtsnabb, fungerar bra på alla datorer",
+      "highest_accuracy_14_languages_slower": "Högsta noggrannhet, 14 språk, långsammare",
+      "broadest_language_but_may_run_a_bit_slow": "Flest språk, men kan vara lite långsam",
+      "live_multilingual_excellent_on_powerful_machines": "Flerspråkig och live, utmärkt på kraftfulla datorer",
+      "fast_and_accurate_supports_25_european_languages": "Snabb och noggrann. Stöder 25 europeiska språk",
+      "english_only_the_best_model_for_english_speakers": "Endast engelska. Den bästa modellen för engelsktalande",
+      "excellent_multilingual_model": "Utmärkt flerspråkig modell",
+      "a_tiny_multilingual_model": "En pytteliten flerspråkig modell",
+      "4_language_speech_to_text_with_translation": "Transkription på 4 språk, med översättning.",
+      "25_language_speech_to_text_with_translation": "Transkription på 25 språk, med översättning.",
+      "english_speech_to_text": "Transkription på engelska.",
+      "2_language_speech_to_text": "Transkription på 2 språk.",
+      "3_language_speech_to_text": "Transkription på 3 språk.",
+      "russian_speech_to_text_with_token_level_timestamps": "Transkription på ryska, med tidsstämplar per token.",
+      "5_language_speech_to_text": "Transkription på 5 språk.",
+      "6_language_speech_to_text_with_translation": "Transkription på 6 språk, med översättning.",
+      "5_language_speech_to_text_with_word_level_timestamps": "Transkription på 5 språk, med tidsstämplar per ord.",
+      "english_speech_to_text_with_token_level_timestamps": "Transkription på engelska, med tidsstämplar per token.",
+      "english_speech_to_text_with_streaming": "Transkription på engelska, med livetext.",
+      "arabic_speech_to_text": "Transkription på arabiska.",
+      "japanese_speech_to_text": "Transkription på japanska.",
+      "korean_speech_to_text": "Transkription på koreanska.",
+      "ukrainian_speech_to_text": "Transkription på ukrainska.",
+      "vietnamese_speech_to_text": "Transkription på vietnamesiska.",
+      "chinese_speech_to_text": "Transkription på kinesiska.",
+      "2_language_speech_to_text_with_segment_level_timestamps": "Transkription på 2 språk, med tidsstämplar per segment.",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "Transkription på engelska, med livetext och tidsstämplar per token.",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "Transkription på 25 språk, känner igen språket automatiskt, tidsstämplar per token.",
+      "30_language_speech_to_text_with_auto_language_detection": "Transkription på 30 språk, känner igen språket automatiskt.",
+      "5_language_speech_to_text_with_auto_language_detection": "Transkription på 5 språk, känner igen språket automatiskt.",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "Transkription på 8 språk, med översättning, känner igen språket automatiskt.",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Transkription på 99 språk, med översättning, känner igen språket automatiskt, tidsstämplar per segment.",
+      "english_speech_to_text_with_segment_level_timestamps": "Transkription på engelska, med tidsstämplar per segment.",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Transkription på 100 språk, känner igen språket automatiskt, tidsstämplar per segment.",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "Optimerad för taiwanesisk mandarin. Klarar byten mellan språk.",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Transkription på 100 språk, med översättning, känner igen språket automatiskt, tidsstämplar per segment."
+    }
   }
 }
