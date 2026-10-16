@@ -748,6 +748,11 @@ pub fn update_overlay_position(app_handle: &AppHandle) {
 
 fn update_overlay_position_on_main(app_handle: &AppHandle) {
     if let Some(overlay_window) = app_handle.get_webview_window("recording_overlay") {
+        // Called when the style or position setting changes: let the overlay page
+        // prepare the character's scene now, not on the next dictation.
+        let style = settings::get_settings(app_handle).overlay_style;
+        let _ = overlay_window.emit("overlay-style", style);
+
         #[cfg(target_os = "linux")]
         if LAYER_SHELL_ACTIVE.load(Ordering::SeqCst) {
             let position = settings::get_settings(app_handle).overlay_position;

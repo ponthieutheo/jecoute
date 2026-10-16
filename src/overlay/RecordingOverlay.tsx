@@ -100,6 +100,13 @@ const RecordingOverlay: React.FC = () => {
         }
       })
       .catch(() => {});
+    // Picked in the settings while the app runs: prepare the scene right away.
+    const unlisten = listen<string>("overlay-style", (event) => {
+      if (event.payload === "character") setCharacterOn(true);
+    });
+    return () => {
+      unlisten.then((fn) => fn()).catch(() => {});
+    };
   }, []);
 
   useEffect(() => {

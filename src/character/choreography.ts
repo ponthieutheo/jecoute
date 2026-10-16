@@ -116,7 +116,8 @@ export class Choreography {
   private lastNod = -10;
 
   // voix
-  private floor = 0.5;
+  private floor = 0;
+  private floorSeeded = false; // le plancher part du premier échantillon de la séance
   private peak = 0.15;
   private env = 0;
   private level = 0;
@@ -201,7 +202,8 @@ export class Choreography {
     if (state === "recording") {
       this.worked = false;
       this.failed = false;
-      this.floor = 0.5;
+      this.floorSeeded = false;
+      this.level = 0;
       this.peak = 0.15;
       this.env = 0;
       this.setPhase("arming", t);
@@ -222,6 +224,11 @@ export class Choreography {
     const n = Math.min(12, l.length);
     for (let i = 0; i < n; i++) sum += l[i] || 0;
     this.level = n ? sum / n : 0;
+    if (!this.floorSeeded) {
+      // bruit de fond de la pièce : c'est le niveau du micro avant qu'on parle
+      this.floor = this.level;
+      this.floorSeeded = true;
+    }
   }
 
   /** Une erreur (transcription ou collage) : la sortie sera un « oups ». */
@@ -297,10 +304,11 @@ export class Choreography {
 
     // ---------- voix : plancher de bruit adaptatif, enveloppe, attaques ----------
     const L = this.level;
-    this.floor =
-      L < this.floor
-        ? approach(this.floor, L, 6, dt)
-        : approach(this.floor, L, 0.12, dt);
+    if (this.floorSeeded)
+      this.floor =
+        L < this.floor
+          ? approach(this.floor, L, 6, dt)
+          : approach(this.floor, L, 0.3, dt);
     const dev = Math.max(0, L - this.floor);
     this.peak = Math.max(dev, this.peak * Math.exp(-dt / 2.5));
     const act =
@@ -573,7 +581,7 @@ export class Choreography {
       } else {
         // devant le coin de la bouche, creux tourné vers la bouche
         handR.pos = _v
-          .set(0.62, -0.37, 0.8)
+          .set(0.64, -0.27, 0.8)
           .setLength(HS + HAND_R + 0.06)
           .applyQuaternion(headQ)
           .add(center)
@@ -613,7 +621,7 @@ export class Choreography {
         return;
       }
       const u = a.age / a.life;
-      am.radius[i] = 1.02 - 0.64 * u * u;
+      am.radius[i] = 0.92 - 0.56 * u * u;
       am.width[i] = 0.075 + 0.045 * this.env;
       am.alpha[i] =
         smooth(0, 0.18, u) *

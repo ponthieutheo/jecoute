@@ -41,6 +41,7 @@ export interface FrameStats {
   /** Intervalle entre deux images rendues, en ms. */
   intervalAvg: number;
   intervalP95: number;
+  intervalMax: number;
   /** Temps GPU par image (si mesurable), en ms. */
   gpuAvg: number | null;
   gpuP95: number | null;
@@ -382,6 +383,7 @@ export function createOverlayCharacter(
         cpuMax: pct(cpu, nCpu, 1),
         intervalAvg: avg(gap, nGap),
         intervalP95: pct(gap, nGap, 0.95),
+        intervalMax: pct(gap, nGap, 1),
         gpuAvg: timer ? avg(gpu, nGpu) : null,
         gpuP95: timer ? pct(gpu, nGpu, 0.95) : null,
         gpuMax: timer ? pct(gpu, nGpu, 1) : null,
