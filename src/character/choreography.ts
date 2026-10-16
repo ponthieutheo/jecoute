@@ -4,19 +4,25 @@
 
 /* Les moments du personnage dans la fenêtre d'enregistrement :
    apparition (pop élastique) → armement (il se redresse, yeux grands ouverts) → écoute (il tend l'oreille, main en
-   cornet, arcs sonores qui réagissent à la voix, hochements) → transcription (il siffle, notes) → post-traitement
-   (il chuchote derrière sa main) → fin (sourire, hochement, pop inverse) ou annulation (haussement, goutte, pop
-   inverse). Une relance pendant la sortie le fait revenir depuis sa taille du moment, sans saut.
+   cornet, arcs sonores qui réagissent à la voix, hochements de temps en temps quand on parle) → transcription (un
+   petit clavier noir surgit sous lui, il tape, concentré, les touches s'enfoncent sous ses mains) →
+   post-traitement (il chuchote derrière sa main) → fin (sourire, hochement, pop inverse) ou annulation (haussement,
+   goutte, pop inverse). Une relance pendant la sortie le fait revenir depuis sa taille du moment, sans saut.
+
+   La frappe dure au moins MIN_TYPING : une transcription plus rapide (elle l'est souvent) laisse la frappe se
+   finir avant le chuchotement ou le sourire. Seule l'animation attend : le texte est déjà collé (le collage ne
+   dépend pas de l'overlay) et la fenêtre native n'est cachée qu'après la dernière image.
 
    Tout est calculé à partir du temps (dt, t), sans état caché dans le rendu : la même suite d'événements donne
    toujours les mêmes images. */
 
 import * as THREE from "three";
 import type { Decor } from "./decor";
-import { MAX_ARCS, MAX_NOTES } from "./decor";
+import { MAX_ARCS } from "./decor";
 import type { FaceState } from "./face";
 import { HAND_R, HS } from "./head";
 import type { Head } from "./head";
+import type { Keyboard } from "./keyboard";
 
 export type CharacterState = "recording" | "transcribing" | "processing";
 export type ExitReason = "done" | "cancel";
@@ -32,8 +38,27 @@ type Phase =
 export const EXIT_REACTION = { done: 0.42, cancel: 0.42 } as const;
 export const EXIT_POP = 0.2;
 
+/** Durée minimale de la frappe au clavier (s), même si la transcription est plus rapide. */
+export const MIN_TYPING = 1.0;
+
 /** Le pivot du pop : le bas de la tête (il surgit depuis le bas de l'écran). */
 export const HEAD_Y = HS + 0.02;
+
+/* Clavier (repère du groupe racine, dont l'origine est au bas de la tête) : devant et sous la tête, incliné vers
+   la caméra pour qu'on voie ses touches ; la tête monte de TYPING_LIFT pour le laisser passer dessous. Plus près
+   de la caméra, il serait coupé par le bas de la fenêtre (la caméra regarde un peu vers le bas). */
+const KB_POS = new THREE.Vector3(0, HEAD_Y - 0.57, 0.75);
+const KB_TILT = 0.75;
+const KB_SCALE = 1;
+const TYPING_LIFT = 0.5;
+/** Hauteur (repère du clavier, en unités de la scène) sous laquelle une main qui redescend frappe une touche. */
+const HIT_Y = 0.325;
+const KB_REST = new THREE.Matrix4().compose(
+  KB_POS,
+  new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), KB_TILT),
+  new THREE.Vector3(1, 1, 1),
+);
+const KB_REST_INV = KB_REST.clone().invert();
 
 const clamp = (v: number, a = 0, b = 1) => (v < a ? a : v > b ? b : v);
 const approach = (cur: number, target: number, rate: number, dt: number) =>
@@ -43,6 +68,8 @@ const smooth = (a: number, b: number, x: number) => {
   return u * u * (3 - 2 * u);
 };
 const easeInBack = (x: number) => 2.70158 * x * x * x - 1.70158 * x * x;
+// arrivée douce avec un léger dépassement (~4 %)
+const easeOutSoft = (x: number) => 1 + 1.9 * (x - 1) ** 3 + 0.9 * (x - 1) ** 2;
 
 // pop élastique : 0 → 1 en 60 ms, dépasse à ~1,19 vers 120 ms, se pose avant 300 ms
 const POP_A = 14;
@@ -66,19 +93,19 @@ interface HandAnim {
   cup: number;
 }
 
+interface HandWant {
+  on: boolean;
+  pos?: THREE.Vector3;
+  dir?: THREE.Vector3;
+  cup?: number;
+  /** Vitesse de suivi (1/s) : plus haute quand il tape. */
+  rate?: number;
+}
+
 interface Arc {
   age: number;
   life: number;
   live: boolean;
-}
-
-interface Note {
-  age: number;
-  life: number;
-  live: boolean;
-  start: THREE.Vector3;
-  phase: number;
-  drift: number;
 }
 
 export interface Rig {
@@ -86,6 +113,7 @@ export interface Rig {
   head: Head;
   hands: [THREE.Mesh, THREE.Mesh];
   decor: Decor;
+  keyboard: Keyboard;
 }
 
 const X_AXIS = new THREE.Vector3(1, 0, 0);
@@ -111,9 +139,13 @@ export class Choreography {
   private roll = 0;
   private yaw = 0;
   private pitch = 0;
-  private nod = 0;
-  private nodV = 0;
-  private lastNod = -10;
+
+  // hochements « je t'entends » (voix soutenue)
+  private speakT = 0;
+  private quietT = 0;
+  private nextNod = -1;
+  private nodT = -1;
+  private nodDips = 1;
 
   // voix
   private floor = 0;
@@ -121,7 +153,6 @@ export class Choreography {
   private peak = 0.15;
   private env = 0;
   private level = 0;
-  private prevAct = 0;
 
   // visage
   private nextBlink = 1.5;
@@ -143,20 +174,20 @@ export class Choreography {
   }));
   private lastArc = -10;
   private arcsK = 0;
-  private notes: Note[] = Array.from({ length: MAX_NOTES }, () => ({
-    age: 0,
-    life: 1.7,
-    live: false,
-    start: new THREE.Vector3(),
-    phase: 0,
-    drift: 0,
-  }));
-  private lastNote = -10;
-  private noteCount = 0;
-  private notesK = 0;
   private bubbleK = 0;
   private bubbleT = -1;
   private dropT = -1;
+
+  // clavier
+  private kbOn = false;
+  private kbTs = -10;
+  private kbFrom = 0;
+  private kbScale = 0;
+  private hitY = [1, 1];
+
+  // transitions qui attendent la fin de la frappe minimale
+  private pendingProcessing = false;
+  private pendingExit: ExitReason | null = null;
 
   private hands: [HandAnim, HandAnim];
 
@@ -164,7 +195,7 @@ export class Choreography {
     private rig: Rig,
     seed = 7,
   ) {
-    // aléatoire reproductible (clignements, saccades) : mêmes images pour la même suite d'événements
+    // aléatoire reproductible (clignements, saccades, hochements, touches) : mêmes images pour les mêmes événements
     let s = seed >>> 0 || 1;
     this.rand = () => {
       s ^= s << 13;
@@ -192,6 +223,17 @@ export class Choreography {
 
   /** L'overlay s'affiche (ou change d'état). */
   show(state: CharacterState, t: number) {
+    this.pendingExit = null;
+    if (
+      state === "processing" &&
+      this.phase === "transcribing" &&
+      this.phaseT < MIN_TYPING
+    ) {
+      // il finit de taper avant de chuchoter
+      this.pendingProcessing = true;
+      return;
+    }
+    this.pendingProcessing = false;
     const wasAway = this.phase === "hidden" || this.phase === "exiting";
     if (wasAway) {
       // repart de sa taille du moment (0 s'il était caché) : aucun saut
@@ -240,6 +282,13 @@ export class Choreography {
   hide(reason: ExitReason, t: number) {
     if (this.phase === "hidden" || this.phase === "exiting") return;
     const cancel = reason === "cancel" || this.failed || !this.worked;
+    if (!cancel && this.phase === "transcribing" && this.phaseT < MIN_TYPING) {
+      // la transcription a été plus rapide que la frappe minimale : il finit de taper, puis sourit
+      this.pendingExit = reason;
+      return;
+    }
+    this.pendingExit = null;
+    this.pendingProcessing = false;
     this.exitKind = cancel ? "cancel" : "done";
     this.exitFrom = this.phase;
     this.setPhase("exiting", t);
@@ -256,11 +305,6 @@ export class Choreography {
     this.applyHidden();
   }
 
-  /** Durée totale de la sortie en cours (s). */
-  exitDuration() {
-    return EXIT_REACTION[this.exitKind] + EXIT_POP;
-  }
-
   private setPhase(p: Phase, _t: number) {
     if (p !== this.phase) {
       this.phase = p;
@@ -271,14 +315,20 @@ export class Choreography {
 
   private resetPose() {
     this.hx = this.hy = this.roll = this.yaw = this.pitch = 0;
-    this.nod = this.nodV = 0;
+    this.speakT = this.quietT = 0;
+    this.nextNod = this.nodT = -1;
     this.ex = this.ey = 0;
-    this.arcsK = this.notesK = this.bubbleK = 0;
+    this.arcsK = this.bubbleK = 0;
     this.arcs.forEach((a) => (a.live = false));
-    this.notes.forEach((n) => (n.live = false));
     this.bubbleT = -1;
     this.dropT = -1;
-    this.noteCount = 0;
+    this.kbOn = false;
+    this.kbScale = this.kbFrom = 0;
+    this.kbTs = -10;
+    this.hitY = [1, 1];
+    this.pendingProcessing = false;
+    this.pendingExit = null;
+    this.rig.keyboard.reset();
     for (const h of this.hands) {
       h.on = false;
       h.scale = 0;
@@ -291,6 +341,7 @@ export class Choreography {
   private applyHidden() {
     this.rig.root.visible = false;
     this.rig.root.scale.setScalar(0.0001);
+    this.rig.keyboard.group.visible = false;
   }
 
   /** Avance l'animation. Renvoie vrai quand la sortie vient de se terminer. */
@@ -299,10 +350,21 @@ export class Choreography {
     const dt = Math.min(Math.max(dtRaw, 0), 1 / 20);
     this.phaseT += dt;
     if (this.enterT >= 0) this.enterT += dt;
-    const { root, head, decor } = this.rig;
+    if (this.phase === "transcribing" && this.phaseT >= MIN_TYPING) {
+      if (this.pendingExit) {
+        const reason = this.pendingExit;
+        this.pendingExit = null;
+        this.pendingProcessing = false;
+        this.hide(reason, t);
+      } else if (this.pendingProcessing) {
+        this.pendingProcessing = false;
+        this.setPhase("processing", t);
+      }
+    }
+    const { root, head, decor, keyboard } = this.rig;
     root.visible = true;
 
-    // ---------- voix : plancher de bruit adaptatif, enveloppe, attaques ----------
+    // ---------- voix : plancher de bruit adaptatif, enveloppe ----------
     const L = this.level;
     if (this.floorSeeded)
       this.floor =
@@ -316,16 +378,37 @@ export class Choreography {
         ? clamp((dev - 0.025) / Math.max(0.16, this.peak))
         : 0;
     this.env = approach(this.env, act, act > this.env ? 22 : 6, dt);
-    if (
-      this.phase === "listening" &&
-      act > 0.42 &&
-      this.prevAct <= 0.42 &&
-      t - this.lastNod > 0.3
-    ) {
-      this.nodV += 2.6 + 2.2 * act; // petit hochement à chaque attaque de syllabe
-      this.lastNod = t;
+
+    // « je t'entends » : quand la voix dure, un hochement (une ou deux petites inclinaisons vers l'avant) toutes
+    // les 1,5 à 3 s, à intervalles irréguliers ; rien pendant les silences
+    if (this.env > 0.3) {
+      this.speakT += dt;
+      this.quietT = 0;
+    } else {
+      this.quietT += dt;
+      if (this.quietT > 0.4) {
+        this.speakT = 0;
+        this.nextNod = -1;
+      }
     }
-    this.prevAct = act;
+    if (this.phase === "listening" && this.speakT > 0.3) {
+      if (this.nextNod < 0) this.nextNod = t + 0.45 + 0.6 * this.rand();
+      if (t >= this.nextNod && this.nodT < 0) {
+        this.nodT = 0;
+        this.nodDips = this.rand() < 0.45 ? 2 : 1;
+        this.nextNod = t + 1.5 + 1.5 * this.rand();
+      }
+    }
+    let nodPitch = 0;
+    if (this.nodT >= 0) {
+      this.nodT += dt;
+      const DIP = 0.3;
+      const k = Math.floor(this.nodT / DIP);
+      if (k >= this.nodDips || this.phase !== "listening") this.nodT = -1;
+      else
+        nodPitch =
+          (k ? 0.13 : 0.2) * Math.sin((Math.PI * (this.nodT - k * DIP)) / DIP);
+    }
 
     // ---------- échelle : apparition × sortie, écrasement/étirement ----------
     let enter = 1;
@@ -364,16 +447,16 @@ export class Choreography {
     root.scale.set(sx, sy, sx);
 
     // ---------- pose de la tête ----------
-    const ph = this.phase === "exiting" ? this.exitFrom : this.phase;
+    const exiting = this.phase === "exiting";
+    const ph = exiting ? this.exitFrom : this.phase;
     const pt = this.phaseT;
+    const ex = this.exitT;
     let tx = 0;
     let ty = 0;
     let tRoll = 0;
     let tYaw = 0;
     let tPitch = 0;
     let rate = 9;
-    const exiting = this.phase === "exiting";
-    const ex = this.exitT;
     const face: FaceState = {
       eyes: "open",
       blink: 1,
@@ -384,6 +467,7 @@ export class Choreography {
       brows: 0,
       lift: 0,
       sly: false,
+      focus: false,
       mouth: "grin",
       open: 0.04,
       mx: 0,
@@ -391,35 +475,30 @@ export class Choreography {
     let eyeTX = 0;
     let eyeTY = 0;
     let saccades = false;
-    let handR: {
-      on: boolean;
-      pos?: THREE.Vector3;
-      dir?: THREE.Vector3;
-      cup?: number;
-    } = { on: false };
-    let handL: {
-      on: boolean;
-      pos?: THREE.Vector3;
-      dir?: THREE.Vector3;
-      cup?: number;
-    } = { on: false };
+    let handR: HandWant = { on: false };
+    let handL: HandWant = { on: false };
     let wantArcs = false;
-    let wantNotes = false;
     let wantBubble = false;
+    // le clavier reste sous lui jusqu'au bout s'il tapait (fin ou annulation) ; il repart s'il chuchote ensuite
+    const typing = ph === "transcribing";
+    const lift = typing ? TYPING_LIFT : 0;
 
     if (exiting && this.exitKind === "done") {
-      // fin : sourire, petit hochement satisfait
+      // fin : sourire, petit hochement satisfait (mains posées sur le clavier s'il tapait)
       const u = clamp(ex / 0.34);
       tPitch = 0.17 * Math.sin(Math.PI * u);
-      ty = -0.02 * Math.sin(Math.PI * u);
+      ty = lift - 0.02 * Math.sin(Math.PI * u);
       rate = 16;
       face.eyes = "happy";
       face.mouth = "grin";
       face.open = 0.72 * smooth(0, 0.08, ex);
+      if (typing) {
+        handL = this.typingHand(0, t, false);
+        handR = this.typingHand(1, t, false);
+      }
     } else if (exiting) {
       // annulation : haussement d'épaules, regard en l'air, goutte de sueur
-      tx = 0;
-      ty = -0.08;
+      ty = lift - 0.08;
       tRoll = 0.12;
       tPitch = -0.06;
       rate = 14;
@@ -428,16 +507,16 @@ export class Choreography {
       eyeTY = -36;
       face.brows = 0.9;
       face.mouth = "zig";
-      const lift = 0.1 * popCurve(ex);
+      const hy = HEAD_Y + lift - 0.18 + 0.1 * popCurve(ex);
       handL = {
         on: true,
-        pos: _v.set(-1.3, HEAD_Y - 0.18 + lift, 0.3).clone(),
+        pos: new THREE.Vector3(-1.3, hy, 0.3),
         dir: new THREE.Vector3(-0.15, 1, 0.35).normalize(),
         cup: 0.75,
       };
       handR = {
         on: true,
-        pos: _v.set(1.3, HEAD_Y - 0.18 + lift, 0.3).clone(),
+        pos: new THREE.Vector3(1.3, hy, 0.3),
         dir: new THREE.Vector3(0.15, 1, 0.35).normalize(),
         cup: 0.75,
       };
@@ -468,21 +547,17 @@ export class Choreography {
       wantArcs = true;
       handR = { on: true, cup: 1 };
     } else if (ph === "transcribing") {
-      // il siffle : yeux mi-clos, notes, léger balancement
-      const beat = Math.sin(2 * Math.PI * 0.82 * pt);
-      tRoll = 0.1 * beat;
-      tYaw = -0.1 + 0.06 * Math.sin(Math.PI * 0.82 * pt);
-      tPitch = -0.04;
-      ty = 0.025 * Math.abs(beat);
-      rate = 8;
-      face.eyes = "half";
-      face.lid = 0.42;
-      eyeTX = -14;
-      eyeTY = 6;
-      face.mouth = "whistle";
-      face.mx = -44;
-      face.open = 0.3 + 0.25 * Math.abs(Math.sin(2 * Math.PI * 1.64 * pt));
-      wantNotes = true;
+      // il tape : tête montée au-dessus du clavier, yeux baissés vers les touches, sourcils froncés
+      tRoll = 0.035 * Math.sin(2 * Math.PI * 1.4 * pt);
+      tPitch = 0.13;
+      ty = lift + 0.012 * Math.abs(Math.sin(9 * pt));
+      rate = 11;
+      face.eyes = "open";
+      face.focus = true;
+      eyeTY = 30;
+      eyeTX = 6 * Math.sin(2 * Math.PI * 0.7 * pt);
+      handL = this.typingHand(0, t, true);
+      handR = this.typingHand(1, t, true);
     } else if (ph === "processing") {
       // il chuchote : main à côté de la bouche, regard complice, petite bulle pointillée
       tRoll = -0.08;
@@ -502,13 +577,9 @@ export class Choreography {
       face.open = 0.2 + 0.45 * clamp(m);
       handR = { on: true, cup: 1 };
       wantBubble = true;
+      // la tête redescend à mesure que le clavier repart (jamais à travers lui)
+      ty = TYPING_LIFT * this.kbScale;
     }
-
-    // hochement (ressort amorti)
-    const k = 160;
-    const c = 2 * Math.sqrt(k) * 0.55;
-    this.nodV += (-k * this.nod - c * this.nodV) * dt;
-    this.nod += this.nodV * dt;
 
     this.hx = approach(this.hx, tx, rate, dt);
     this.hy = approach(this.hy, ty, rate, dt);
@@ -517,12 +588,7 @@ export class Choreography {
     this.pitch = approach(this.pitch, tPitch, rate, dt);
     const breath = Math.sin(t * 2.1);
     head.group.position.set(this.hx, HEAD_Y + this.hy, 0);
-    head.group.rotation.set(
-      this.pitch + this.nod * 0.12,
-      this.yaw,
-      this.roll,
-      "YXZ",
-    );
+    head.group.rotation.set(this.pitch + nodPitch, this.yaw, this.roll, "YXZ");
     head.group.scale.set(
       HS * (1 - 0.005 * breath),
       HS * (1 + 0.011 * breath),
@@ -559,14 +625,14 @@ export class Choreography {
     face.ey = Math.round(this.ey / 3) * 3;
     face.open = Math.round(face.open * 24) / 24;
     face.lift = Math.round(face.lift * 10) / 10;
-    const mode = `${face.eyes}|${face.mouth}|${face.sly}`;
+    const mode = `${face.eyes}|${face.mouth}|${face.sly}|${face.focus}`;
     if (mode !== this.faceMode || t - this.faceAt >= 1 / 30) {
       this.faceMode = mode;
       this.faceAt = t;
       head.face.draw(face);
     }
 
-    // ---------- mains ----------
+    // ---------- clavier et mains ----------
     const center = head.group.position;
     const headQ = head.group.quaternion;
     if (handR.on && !handR.pos) {
@@ -589,8 +655,19 @@ export class Choreography {
         handR.dir = new THREE.Vector3(-1, 0.1, 0.55).normalize();
       }
     }
+    this.stepKeyboard(typing, t);
     this.stepHand(this.hands[1], handR, t, dt);
     this.stepHand(this.hands[0], handL, t, dt);
+    // une main qui redescend sur le clavier enfonce la touche sous le bout de ses doigts
+    if (typing && this.kbScale > 0.6) {
+      this.hands.forEach((h, i) => {
+        _v.copy(h.pos).applyMatrix4(KB_REST_INV);
+        if (h.scale > 0.6 && this.hitY[i] >= HIT_Y && _v.y < HIT_Y)
+          keyboard.pressNear(_v.x / KB_SCALE, _v.z / KB_SCALE, this.rand);
+        this.hitY[i] = _v.y;
+      });
+    }
+    if (keyboard.group.visible) keyboard.update(dt);
 
     // ---------- arcs sonores ----------
     this.arcsK = approach(this.arcsK, wantArcs ? 1 : 0, wantArcs ? 8 : 16, dt);
@@ -636,62 +713,6 @@ export class Choreography {
       am.mesh.position.z += 0.02;
       am.mesh.rotation.set(0, 0, 0.2);
     }
-
-    // ---------- notes ----------
-    this.notesK = approach(
-      this.notesK,
-      wantNotes ? 1 : 0,
-      wantNotes ? 10 : 18,
-      dt,
-    );
-    if (wantNotes && this.phaseT > 0.25 && t - this.lastNote > 0.6) {
-      const n = this.notes.find((x) => !x.live);
-      if (n) {
-        n.live = true;
-        n.age = 0;
-        n.life = 1.7;
-        n.phase = this.rand() * Math.PI * 2;
-        n.drift = 0.8 + this.rand() * 0.4;
-        // juste à gauche de la tête, à hauteur de la bouche qui siffle (jamais sur le visage)
-        n.start
-          .set(-1.3, -0.16, 0.25)
-          .applyQuaternion(headQ)
-          .multiplyScalar(HS)
-          .add(center);
-        this.lastNote = t;
-        this.noteCount++;
-      }
-    }
-    this.notes.forEach((n, i) => {
-      const m = decor.notes[i];
-      if (n.live) {
-        n.age += dt;
-        if (n.age >= n.life) n.live = false;
-      }
-      if (!n.live || this.notesK < 0.01) {
-        m.visible = false;
-        return;
-      }
-      const u = n.age / n.life;
-      m.visible = true;
-      m.position.set(
-        n.start.x -
-          0.42 * u * n.drift -
-          0.14 * u * u +
-          0.08 * Math.sin(2 * Math.PI * 1.1 * n.age + n.phase),
-        n.start.y + 1.5 * u,
-        n.start.z + 0.15,
-      );
-      const s = 0.44 * popCurve(n.age * 0.9);
-      m.scale.set(s, s, 1);
-      m.rotation.set(
-        0,
-        0,
-        -0.18 + 0.22 * Math.sin(2 * Math.PI * 0.9 * n.age + n.phase),
-      );
-      m.material.opacity =
-        smooth(0, 0.08, u) * (1 - smooth(0.55, 1, u)) * this.notesK;
-    });
 
     // ---------- bulle du chuchotement ----------
     if (wantBubble && this.bubbleT < 0 && this.phaseT > 0.16) this.bubbleT = 0;
@@ -748,17 +769,54 @@ export class Choreography {
     return false;
   }
 
-  private stepHand(
-    h: HandAnim,
-    want: {
-      on: boolean;
-      pos?: THREE.Vector3;
-      dir?: THREE.Vector3;
-      cup?: number;
-    },
-    t: number,
-    dt: number,
-  ) {
+  /** Main qui tape (ou posée sur le clavier), dans le repère du groupe racine. Les deux mains alternent. */
+  private typingHand(i: number, t: number, typingNow: boolean): HandWant {
+    const side = i ? 1 : -1;
+    const bounce = typingNow
+      ? Math.max(0, Math.sin(17 * t + i * Math.PI)) * 0.1
+      : 0;
+    _v.set(
+      side * 0.52 + Math.sin(1.3 * t + i * 2) * 0.06,
+      0.3 + bounce,
+      -0.06,
+    ).applyMatrix4(KB_REST);
+    return {
+      on: true,
+      pos: _v.clone(),
+      dir: new THREE.Vector3(side * 0.2, -1, 0.3).normalize(),
+      cup: 0,
+      rate: 40,
+    };
+  }
+
+  /** Le clavier surgit (entrée douce) au début de la frappe et repart s'il passe au chuchotement. */
+  private stepKeyboard(want: boolean, t: number) {
+    const kb = this.rig.keyboard;
+    if (want !== this.kbOn) {
+      this.kbOn = want;
+      this.kbTs = t;
+      this.kbFrom = this.kbScale;
+    }
+    const age = t - this.kbTs;
+    if (this.kbOn)
+      this.kbScale =
+        this.kbFrom +
+        (1 - this.kbFrom) * easeOutSoft(clamp((age - 0.06) / 0.3));
+    else this.kbScale = this.kbFrom * (1 - clamp(age / 0.16) ** 2);
+    const g = kb.group;
+    const was = g.visible;
+    g.visible = this.kbScale > 0.002;
+    if (!g.visible) {
+      if (was) kb.reset();
+      return;
+    }
+    g.position.copy(KB_POS);
+    g.position.y -= 0.12 * (1 - Math.min(1, this.kbScale));
+    g.rotation.set(KB_TILT, 0, 0);
+    g.scale.setScalar(Math.max(0.0001, KB_SCALE * this.kbScale));
+  }
+
+  private stepHand(h: HandAnim, want: HandWant, t: number, dt: number) {
     const on = want.on && !!want.pos;
     if (on !== h.on) {
       h.on = on;
@@ -774,7 +832,7 @@ export class Choreography {
     const age = t - h.ts;
     if (h.on) h.scale = h.from + (1 - h.from) * popCurve(age);
     else h.scale = h.from * (1 - clamp(age / 0.14) ** 2);
-    if (want.pos) h.pos.lerp(want.pos, 1 - Math.exp(-18 * dt));
+    if (want.pos) h.pos.lerp(want.pos, 1 - Math.exp(-(want.rate ?? 18) * dt));
     if (want.dir) {
       _q.setFromUnitVectors(X_AXIS, want.dir);
       h.quat.slerp(_q, 1 - Math.exp(-14 * dt));

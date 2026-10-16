@@ -19,6 +19,7 @@ import { Choreography, HEAD_Y } from "./choreography";
 import type { CharacterState, ExitReason } from "./choreography";
 import { createDecor } from "./decor";
 import { createHandGeometry, createHead, HS } from "./head";
+import { createKeyboard } from "./keyboard";
 import type { FaceState } from "./face";
 
 /** Taille de la scène, en pixels CSS. La fenêtre native (overlay.rs) a exactement cette taille. */
@@ -137,7 +138,11 @@ export function createOverlayCharacter(
   root.add(decor.group);
   head.group.position.set(0, HEAD_Y, 0);
 
-  const choreo = new Choreography({ root, head, hands, decor });
+  const keyboard = createKeyboard();
+  keyboard.group.visible = false;
+  root.add(keyboard.group);
+
+  const choreo = new Choreography({ root, head, hands, decor, keyboard });
 
   // ---------- mesures ----------
   const N = 1200;
@@ -243,7 +248,7 @@ export function createOverlayCharacter(
   const warmFaces: Partial<FaceState>[] = [
     { eyes: "wide", lift: 1, mouth: "o", open: 0.3 },
     { eyes: "open", lift: 0.5, mouth: "grin", open: 0.04, ex: 54 },
-    { eyes: "half", lid: 0.5, mouth: "whistle", open: 0.4, mx: -44 },
+    { eyes: "open", focus: true, ey: 30, mouth: "grin", open: 0.04 },
     {
       eyes: "half",
       lid: 0.34,
@@ -268,6 +273,7 @@ export function createOverlayCharacter(
     brows: 0,
     lift: 0,
     sly: false,
+    focus: false,
     mouth: "grin",
     open: 0.04,
     mx: 0,
@@ -282,11 +288,8 @@ export function createOverlayCharacter(
     });
     decor.arcs.mesh.visible = on;
     decor.arcs.alpha.fill(on ? 0.5 : 0);
-    decor.notes.forEach((m) => {
-      m.visible = on;
-      m.material.opacity = on ? 0.5 : 0;
-    });
     decor.bubble.visible = on;
+    keyboard.group.visible = on;
     decor.drop.visible = on;
   };
   const warm = async () => {
@@ -312,7 +315,7 @@ export function createOverlayCharacter(
   // chemins de rendu et de mise à jour du visage servent une fois avant la première vraie dictée. Une vraie
   // dictée qui arrive entre-temps l'interrompt.
   const rehearse = async () => {
-    const sim = new Choreography({ root, head, hands, decor }, 11);
+    const sim = new Choreography({ root, head, hands, decor, keyboard }, 11);
     const voice = (i: number) =>
       Array.from({ length: 16 }, () => 0.3 + (i % 6 < 3 ? 0.45 : 0));
     const steps: [number, (i: number, t: number) => void][] = [
@@ -321,11 +324,15 @@ export function createOverlayCharacter(
       [1, (_, t) => sim.ready(t)],
       [24, (i) => sim.levels(voice(i))],
       [1, (_, t) => sim.show("transcribing", t)],
-      [24, () => {}],
+      [34, () => {}],
       [1, (_, t) => sim.show("processing", t)],
       [24, () => {}],
       [1, (_, t) => sim.hide("done", t)],
       [22, () => {}],
+      [1, (_, t) => sim.show("transcribing", t)],
+      [4, () => {}],
+      [1, (_, t) => sim.hide("done", t)],
+      [50, () => {}],
       [1, (_, t) => sim.show("recording", t)],
       [8, () => {}],
       [1, (_, t) => sim.hide("cancel", t)],
@@ -448,6 +455,7 @@ export function createOverlayCharacter(
       handGeo.dispose();
       handMat.dispose();
       decor.dispose();
+      keyboard.dispose();
       renderer.dispose();
       renderer.forceContextLoss();
     },
