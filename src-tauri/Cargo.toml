@@ -1,11 +1,11 @@
 [package]
-name = "handy"
-version = "0.9.8"
-description = "Handy"
-authors = ["cjpais"]
+name = "jecoute"
+version = "0.1.0"
+description = "J'écoute"
+authors = ["Théo Ponthieu", "cjpais"]
 edition = "2021"
 license = "MIT"
-default-run = "handy"
+default-run = "jecoute"
 
 [profile.dev]
 incremental = true # Compile your binary in smaller steps.
