@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { SettingContainer } from "../ui/SettingContainer";
 import { ResetButton } from "../ui/ResetButton";
 import { useSettings } from "../../hooks/useSettings";
+import { useSystemLanguage } from "../../hooks/useSystemLanguage";
 import {
   getLanguageLabel,
   LANGUAGES,
@@ -14,8 +15,8 @@ interface LanguageSelectorProps {
   descriptionMode?: "inline" | "tooltip";
   grouped?: boolean;
   supportedLanguages?: string[];
-  // Whether the model can auto-detect language. Gates the "Auto" option:
-  // must-pick models (no detection) omit it and force a concrete choice.
+  // Whether the model can auto-detect language. Without detection, "Auto"
+  // means the system language (or English) and its label names it.
   supportsLanguageDetection?: boolean;
 }
 
@@ -24,17 +25,39 @@ interface LanguageSelectorProps {
 // *concrete* code the engine receives (e.g. `nb`); this resolves the canonical
 // picker intent (e.g. `no`) so model switches preserve the user's language.
 // Model codes such as `en-US` and `nb` resolve to their `en` / `no` entry.
+// A model that can't detect the language falls back to the system language,
+// then English, then its first language.
 const effectiveLanguage = (
   intent: string,
   supported: string[],
   supportsDetection: boolean,
+  systemLanguage: string | null,
 ): string => {
   if (supported.length === 0) return recognitionLanguage(intent);
   if (intent !== "auto" && supportsLanguageCode(supported, intent))
     return recognitionLanguage(intent);
   if (supportsDetection) return "auto";
-  if (supportsLanguageCode(supported, "en")) return "en";
+  for (const fallback of [systemLanguage, "en"]) {
+    if (fallback && supportsLanguageCode(supported, fallback))
+      return recognitionLanguage(fallback);
+  }
   return recognitionLanguage(supported[0]);
+};
+
+// A language's name in the interface language ("fr" → "Français" in French),
+// falling back to the English label when the runtime doesn't know the code.
+const localizedLanguageName = (code: string, uiLanguage: string): string => {
+  const base = recognitionLanguage(code);
+  const fallback = getLanguageLabel(code) ?? code;
+  try {
+    const name = new Intl.DisplayNames([uiLanguage], { type: "language" }).of(
+      base,
+    );
+    if (!name || name.toLowerCase() === base) return fallback;
+    return name.charAt(0).toLocaleUpperCase(uiLanguage) + name.slice(1);
+  } catch {
+    return fallback;
+  }
 };
 
 export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
@@ -43,8 +66,9 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   supportedLanguages,
   supportsLanguageDetection = true,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { getSetting, updateSetting, resetSetting, isUpdating } = useSettings();
+  const systemLanguage = useSystemLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -57,7 +81,28 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
     intent,
     supportedLanguages ?? [],
     supportsLanguageDetection,
+    systemLanguage,
   );
+
+  // What "Auto" means for this model: real detection, or the concrete
+  // fallback for a model that can't detect, shown as "Auto (French)".
+  const autoLanguage = effectiveLanguage(
+    "auto",
+    supportedLanguages ?? [],
+    supportsLanguageDetection,
+    systemLanguage,
+  );
+  const autoLabel =
+    autoLanguage === "auto"
+      ? t("settings.general.language.auto")
+      : t("settings.general.language.autoWithLanguage", {
+          language: localizedLanguageName(autoLanguage, i18n.language),
+        });
+  const languageLabel = (language: { value: string; label: string }) =>
+    language.value === "auto" ? autoLabel : language.label;
+  // "Auto" stays highlighted while it is the user's choice, even when it
+  // resolves to a concrete language.
+  const highlightedLanguage = intent === "auto" ? "auto" : selectedLanguage;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -85,23 +130,21 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   const availableLanguages = useMemo(() => {
     if (!supportedLanguages || supportedLanguages.length === 0)
       return LANGUAGES;
-    return LANGUAGES.filter((lang) =>
-      lang.value === "auto"
-        ? supportsLanguageDetection
-        : supportsLanguageCode(supportedLanguages, lang.value),
+    return LANGUAGES.filter(
+      (lang) =>
+        lang.value === "auto" ||
+        supportsLanguageCode(supportedLanguages, lang.value),
     );
-  }, [supportedLanguages, supportsLanguageDetection]);
+  }, [supportedLanguages]);
 
-  const filteredLanguages = useMemo(
-    () =>
-      availableLanguages.filter((language) =>
-        language.label.toLowerCase().includes(searchQuery.toLowerCase()),
-      ),
-    [searchQuery, availableLanguages],
+  const filteredLanguages = availableLanguages.filter((language) =>
+    languageLabel(language).toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const selectedLanguageName =
-    getLanguageLabel(selectedLanguage) || t("settings.general.language.auto");
+    highlightedLanguage === "auto"
+      ? autoLabel
+      : getLanguageLabel(selectedLanguage) || autoLabel;
 
   const handleLanguageSelect = async (languageCode: string) => {
     await updateSetting("selected_language", languageCode);
@@ -195,14 +238,16 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                       key={language.value}
                       type="button"
                       className={`w-full px-2 py-1 text-sm text-start hover:bg-logo-primary/10 transition-colors duration-150 ${
-                        selectedLanguage === language.value
+                        highlightedLanguage === language.value
                           ? "bg-logo-primary/20 text-logo-primary font-semibold"
                           : ""
                       }`}
                       onClick={() => handleLanguageSelect(language.value)}
                     >
                       <div className="flex items-center justify-between">
-                        <span className="truncate">{language.label}</span>
+                        <span className="truncate">
+                          {languageLabel(language)}
+                        </span>
                       </div>
                     </button>
                   ))
