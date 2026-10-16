@@ -327,13 +327,13 @@ export const HandyKeysShortcutInput: React.FC<HandyKeysShortcutInputProps> = ({
         {isRecording ? (
           <div
             ref={shortcutRef}
-            className="px-2 py-1 text-sm font-semibold border border-logo-primary bg-logo-primary/30 rounded-md"
+            className="px-2 py-1 text-sm font-semibold border border-accent bg-surface ring-1 ring-accent rounded-md"
           >
             {formatCurrentKeys()}
           </div>
         ) : (
           <div
-            className="px-2 py-1 text-sm font-semibold bg-mid-gray/10 border border-mid-gray/80 hover:bg-logo-primary/10 rounded-md cursor-pointer hover:border-logo-primary"
+            className="px-2 py-1 text-sm font-semibold bg-mid-gray/10 border border-mid-gray/80 hover:bg-mid-gray/15 hover:border-accent rounded-md cursor-pointer transition-colors duration-150"
             onClick={startRecording}
           >
             {formatKeyCombination(binding.current_binding, osType)}
