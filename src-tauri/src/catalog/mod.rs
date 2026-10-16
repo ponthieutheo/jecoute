@@ -28,6 +28,8 @@ struct CatalogRoot {
     /// Base URLs tried in order when the Hugging Face download fails. The full
     /// file URL is `{mirror}/{repo_id}/{revision}/{filename}` — the same three
     /// values that form the HF resolve URL, so a mirror is a plain static host.
+    /// Empty in J'écoute: models come from Hugging Face only (the upstream
+    /// catalog pointed at its author's server, which J'écoute does not use).
     #[serde(default)]
     mirrors: Vec<String>,
     models: Vec<CatalogModel>,
@@ -141,7 +143,15 @@ pub struct MirrorFile {
 /// (The mirror may only host default quants; a miss there just 404s and the
 /// caller reports it, so listing every quant here costs nothing.)
 pub fn mirror_fallbacks(model_id: &str) -> Vec<MirrorFile> {
-    let Some((m, file)) = ROOT.models.iter().find_map(|m| {
+    mirror_fallbacks_from(&ROOT.mirrors, &ROOT.models, model_id)
+}
+
+fn mirror_fallbacks_from(
+    mirrors: &[String],
+    models: &[CatalogModel],
+    model_id: &str,
+) -> Vec<MirrorFile> {
+    let Some((m, file)) = models.iter().find_map(|m| {
         m.files
             .iter()
             .find(|f| format!("{}/{}", m.id, f.filename) == model_id)
@@ -157,7 +167,7 @@ pub fn mirror_fallbacks(model_id: &str) -> Vec<MirrorFile> {
     let Some(sha256) = file.sha256.as_deref() else {
         return Vec::new();
     };
-    ROOT.mirrors
+    mirrors
         .iter()
         .map(|base| MirrorFile {
             url: format!(
@@ -250,22 +260,41 @@ mod tests {
     }
 
     #[test]
-    fn every_catalog_model_has_mirror_fallbacks_with_hashes() {
-        // The mirror fallback is the safety net for HF outages and blocked
-        // networks; a catalog entry without one (missing revision, missing
-        // sha256, empty mirrors) silently loses that net.
+    fn downloads_come_from_hugging_face_only() {
+        // J'écoute never falls back to the upstream author's server: no mirror
+        // is configured, so a failed Hugging Face download is reported as is.
+        assert!(ROOT.mirrors.is_empty(), "mirrors: {:?}", ROOT.mirrors);
         for d in CATALOG.iter() {
-            let mirrors = mirror_fallbacks(&d.id);
-            assert!(!mirrors.is_empty(), "{}: no mirror fallbacks", d.id);
-            for m in &mirrors {
-                assert!(
-                    m.sha256.len() == 64,
-                    "{}: mirror entry lacks a sha256",
-                    d.id
-                );
-                assert!(m.size_bytes > 0, "{}: mirror entry lacks a size", d.id);
-                assert!(m.url.starts_with("https://"), "{}: bad url {}", d.id, m.url);
-            }
+            assert!(mirror_fallbacks(&d.id).is_empty(), "{}: has a mirror", d.id);
+            assert!(
+                matches!(&d.source, ModelSource::HuggingFace { repo_id, .. } if repo_id.starts_with("handy-computer/")),
+                "{}: not from the public Hugging Face repos",
+                d.id
+            );
+        }
+    }
+
+    #[test]
+    fn every_catalog_model_could_use_a_mirror_with_hashes() {
+        // Should a mirror be configured again, every catalog file must carry
+        // the pinned revision and sha256 that make an untrusted host safe.
+        let mirrors = vec!["https://mirror.example/".to_string()];
+        for d in CATALOG.iter() {
+            let files = mirror_fallbacks_from(&mirrors, &ROOT.models, &d.id);
+            assert_eq!(files.len(), 1, "{}: no mirror entry", d.id);
+            let m = &files[0];
+            assert!(
+                m.sha256.len() == 64,
+                "{}: mirror entry lacks a sha256",
+                d.id
+            );
+            assert!(m.size_bytes > 0, "{}: mirror entry lacks a size", d.id);
+            assert!(
+                m.url.starts_with("https://mirror.example/handy-computer/"),
+                "{}: bad url {}",
+                d.id,
+                m.url
+            );
         }
     }
 

@@ -42,7 +42,9 @@ pub enum EngineType {
 /// for downloading and on-disk resolution.
 #[derive(Debug, Clone, Serialize, Deserialize, Type)]
 pub enum ModelSource {
-    /// Direct HTTP download from a URL (current blob.handy.computer hosting).
+    /// Direct HTTP download from a URL. No bundled model uses it: the legacy
+    /// models were only hosted on the upstream author's server, which J'écoute
+    /// does not use.
     Url {
         url: String,
         /// Expected SHA-256 for integrity verification; `None` skips it.
@@ -550,6 +552,13 @@ impl ModelManager {
 
         let mut available_models = HashMap::new();
 
+        // Legacy (.bin / ONNX) models. Their only download source was the
+        // upstream author's server (blob.handy.computer), which J'écoute does
+        // not use, so they are `Local`: listed and runnable only when their
+        // files are already in the models directory (copied over by hand), and
+        // hidden otherwise (see `is_listed`). The catalog's Hugging Face GGUFs
+        // supersede every one of them.
+
         // Whisper supported languages (99 languages from tokenizer)
         let whisper_languages: Vec<String> = vec![
             "en", "zh", "de", "es", "ru", "ko", "fr", "ja", "pt", "tr", "pl", "ca", "nl", "ar",
@@ -572,13 +581,7 @@ impl ModelManager {
                 name: "Whisper Small".to_string(),
                 description: "Fast and fairly accurate.".to_string(),
                 filename: "ggml-small.bin".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/ggml-small.bin".to_string(),
-                    sha256: Some(
-                        "1be3a9b2063867b937e64e2ec7483364a79917e157fa98c5d94b5c1fffea987b"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 465,
                 is_downloaded: false,
                 is_downloading: false,
@@ -605,13 +608,7 @@ impl ModelManager {
                 name: "Whisper Medium".to_string(),
                 description: "Good accuracy, medium speed".to_string(),
                 filename: "whisper-medium-q4_1.bin".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/whisper-medium-q4_1.bin".to_string(),
-                    sha256: Some(
-                        "79283fc1f9fe12ca3248543fbd54b73292164d8df5a16e095e2bceeaaabddf57"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 469,
                 is_downloaded: false,
                 is_downloading: false,
@@ -637,13 +634,7 @@ impl ModelManager {
                 name: "Whisper Turbo".to_string(),
                 description: "Balanced accuracy and speed.".to_string(),
                 filename: "ggml-large-v3-turbo.bin".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/ggml-large-v3-turbo.bin".to_string(),
-                    sha256: Some(
-                        "1fc70f774d38eb169993ac391eea357ef47c88757ef72ee5943879b7e8e2bc69"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 1549,
                 is_downloaded: false,
                 is_downloading: false,
@@ -669,13 +660,7 @@ impl ModelManager {
                 name: "Whisper Large".to_string(),
                 description: "Good accuracy, but slow.".to_string(),
                 filename: "ggml-large-v3-q5_0.bin".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/ggml-large-v3-q5_0.bin".to_string(),
-                    sha256: Some(
-                        "d75795ecff3f83b5faa89d1900604ad8c780abd5739fae406de19f23ecd98ad1"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 1031,
                 is_downloaded: false,
                 is_downloading: false,
@@ -702,13 +687,7 @@ impl ModelManager {
                 description: "Optimized for Taiwanese Mandarin. Code-switching support."
                     .to_string(),
                 filename: "breeze-asr-q5_k.bin".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/breeze-asr-q5_k.bin".to_string(),
-                    sha256: Some(
-                        "8efbf0ce8a3f50fe332b7617da787fb81354b358c288b008d3bdef8359df64c6"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 1030,
                 is_downloaded: false,
                 is_downloading: false,
@@ -735,13 +714,7 @@ impl ModelManager {
                 name: "Parakeet V2".to_string(),
                 description: "English only. The best model for English speakers.".to_string(),
                 filename: "parakeet-tdt-0.6b-v2-int8".to_string(), // Directory name
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/parakeet-v2-int8.tar.gz".to_string(),
-                    sha256: Some(
-                        "ac9b9429984dd565b25097337a887bb7f0f8ac393573661c651f0e7d31563991"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 451,
                 is_downloaded: false,
                 is_downloading: false,
@@ -777,13 +750,7 @@ impl ModelManager {
                 name: "Parakeet V3".to_string(),
                 description: "Fast and accurate. Supports 25 European languages.".to_string(),
                 filename: "parakeet-tdt-0.6b-v3-int8".to_string(), // Directory name
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/parakeet-v3-int8.tar.gz".to_string(),
-                    sha256: Some(
-                        "43d37191602727524a7d8c6da0eef11c4ba24320f5b4730f1a2497befc2efa77"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 456,
                 is_downloaded: false,
                 is_downloading: false,
@@ -793,7 +760,7 @@ impl ModelManager {
                 accuracy_score: 0.80,
                 speed_score: 0.85,
                 supports_translation: false,
-                is_recommended: true,
+                is_recommended: false,
                 supported_languages: parakeet_v3_languages,
                 supports_language_selection: false,
                 is_custom: false,
@@ -809,13 +776,7 @@ impl ModelManager {
                 name: "Moonshine Base".to_string(),
                 description: "Very fast, English only. Handles accents well.".to_string(),
                 filename: "moonshine-base".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/moonshine-base.tar.gz".to_string(),
-                    sha256: Some(
-                        "04bf6ab012cfceebd4ac7cf88c1b31d027bbdd3cd704649b692e2e935236b7e8"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 55,
                 is_downloaded: false,
                 is_downloading: false,
@@ -841,14 +802,7 @@ impl ModelManager {
                 name: "Moonshine V2 Tiny".to_string(),
                 description: "Ultra-fast, English only".to_string(),
                 filename: "moonshine-tiny-streaming-en".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/moonshine-tiny-streaming-en.tar.gz"
-                        .to_string(),
-                    sha256: Some(
-                        "465addcfca9e86117415677dfdc98b21edc53537210333a3ecdb58509a80abaf"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 31,
                 is_downloaded: false,
                 is_downloading: false,
@@ -874,14 +828,7 @@ impl ModelManager {
                 name: "Moonshine V2 Small".to_string(),
                 description: "Fast, English only. Good balance of speed and accuracy.".to_string(),
                 filename: "moonshine-small-streaming-en".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/moonshine-small-streaming-en.tar.gz"
-                        .to_string(),
-                    sha256: Some(
-                        "dbb3e1c1832bd88a4ac712f7449a136cc2c9a18c5fe33a12ed1b7cb1cfe9cdd5"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 99,
                 is_downloaded: false,
                 is_downloading: false,
@@ -907,14 +854,7 @@ impl ModelManager {
                 name: "Moonshine V2 Medium".to_string(),
                 description: "English only. High quality.".to_string(),
                 filename: "moonshine-medium-streaming-en".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/moonshine-medium-streaming-en.tar.gz"
-                        .to_string(),
-                    sha256: Some(
-                        "07a66f3bff1c77e75a2f637e5a263928a08baae3c29c4c053fc968a9a9373d13"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 192,
                 is_downloaded: false,
                 is_downloading: false,
@@ -947,13 +887,7 @@ impl ModelManager {
                 description: "Very fast. Chinese, English, Japanese, Korean, Cantonese."
                     .to_string(),
                 filename: "sense-voice-int8".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/sense-voice-int8.tar.gz".to_string(),
-                    sha256: Some(
-                        "171d611fe5d353a50bbb741b6f3ef42559b1565685684e9aa888ef563ba3e8a4"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 152,
                 is_downloaded: false,
                 is_downloading: false,
@@ -982,13 +916,7 @@ impl ModelManager {
                 name: "GigaAM v3".to_string(),
                 description: "Russian speech recognition. Fast and accurate.".to_string(),
                 filename: "giga-am-v3-int8".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/giga-am-v3-int8.tar.gz".to_string(),
-                    sha256: Some(
-                        "d872462268430db140b69b72e0fc4b787b194c1dbe51b58de39444d55b6da45b"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 151,
                 is_downloaded: false,
                 is_downloading: false,
@@ -1021,13 +949,7 @@ impl ModelManager {
                 description: "Very fast. English, German, Spanish, French. Supports translation."
                     .to_string(),
                 filename: "canary-180m-flash".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/canary-180m-flash.tar.gz".to_string(),
-                    sha256: Some(
-                        "6d9cfca6118b296e196eaedc1c8fa9788305a7b0f1feafdb6dc91932ab6e53f7"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 146,
                 is_downloaded: false,
                 is_downloading: false,
@@ -1064,13 +986,7 @@ impl ModelManager {
                 description: "Accurate multilingual. 25 European languages. Supports translation."
                     .to_string(),
                 filename: "canary-1b-v2".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/canary-1b-v2.tar.gz".to_string(),
-                    sha256: Some(
-                        "02305b2a25f9cf3e7deaffa7f94df00efa44f442cd55c101c2cb9c000f904666"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 691,
                 is_downloaded: false,
                 is_downloading: false,
@@ -1104,13 +1020,7 @@ impl ModelManager {
                 name: "Cohere".to_string(),
                 description: "A large, slower, but very accurate multilingual model.".to_string(),
                 filename: "cohere-int8".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/cohere-int8.tar.gz".to_string(),
-                    sha256: Some(
-                        "ea2257d52434f3644574f187dcdcf666e302cd11b92866116ab8e14cd9c887f0"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 1708,
                 is_downloaded: false,
                 is_downloading: false,
@@ -1171,7 +1081,7 @@ impl ModelManager {
     pub fn get_available_models(&self) -> Vec<ModelInfo> {
         let mut list: Vec<ModelInfo> = {
             let models = self.available_models.lock().unwrap();
-            models.values().cloned().collect()
+            models.values().filter(|m| Self::is_listed(m)).cloned().collect()
         };
         // Stable, reasonable order: catalog editorial rank first (lower = higher
         // priority), then any other recommended model, then by accuracy, speed,
@@ -1188,14 +1098,22 @@ impl ModelManager {
         list
     }
 
+    /// Whether a registry entry is shown at all. A `Local` entry has no
+    /// download source, so it only makes sense once its files are on disk —
+    /// this hides the legacy models nobody copied over.
+    fn is_listed(model: &ModelInfo) -> bool {
+        model.is_downloaded || !matches!(model.source, ModelSource::Local)
+    }
+
     /// Seed the bundled catalog ([`crate::catalog::CATALOG`]) into the registry,
     /// inserting each model whose id isn't already present (additive).
     ///
-    /// Catalog (`.gguf`, `HuggingFace`) and legacy (`.bin`/ONNX, `Url`) entries
-    /// stay SEPARATE — different files, ids, and runtimes. Nothing is merged or
-    /// removed; the UI just hides not-on-disk `Url` entries to deprecate legacy
-    /// downloads, while already-downloaded ones stay runnable. Runs before the
-    /// on-disk scans so a cached model dedups onto its catalog entry.
+    /// Catalog (`.gguf`, `HuggingFace`) and legacy (`.bin`/ONNX, `Local`)
+    /// entries stay SEPARATE — different files, ids, and runtimes. Nothing is
+    /// merged or removed; legacy entries are simply not listed until their
+    /// files are on disk (see [`Self::is_listed`]), and then stay runnable.
+    /// Runs before the on-disk scans so a cached model dedups onto its catalog
+    /// entry.
     fn seed_catalog_models(available_models: &mut HashMap<String, ModelInfo>) {
         use std::collections::hash_map::Entry;
         let mut added = 0usize;
@@ -2811,6 +2729,44 @@ mod tests {
             effective_language("auto", &langs(&["de", "fr"]), false, None),
             "de"
         );
+    }
+
+    #[test]
+    fn test_local_entries_are_listed_only_when_on_disk() {
+        // Legacy models lost their download URL: they show up only once their
+        // files are on disk, while catalog models stay offered for download.
+        let mut model = ModelInfo {
+            id: "parakeet-tdt-0.6b-v3".to_string(),
+            name: "Parakeet V3".to_string(),
+            description: String::new(),
+            filename: "parakeet-tdt-0.6b-v3-int8".to_string(),
+            source: ModelSource::Local,
+            size_mb: 456,
+            is_downloaded: false,
+            is_downloading: false,
+            partial_size: 0,
+            is_directory: true,
+            engine_type: EngineType::Parakeet,
+            accuracy_score: 0.8,
+            speed_score: 0.85,
+            supports_translation: false,
+            is_recommended: false,
+            supported_languages: langs(&["en", "fr"]),
+            supports_language_selection: false,
+            is_custom: false,
+            supports_streaming: false,
+            supports_language_detection: true,
+        };
+        assert!(!ModelManager::is_listed(&model));
+        model.is_downloaded = true;
+        assert!(ModelManager::is_listed(&model));
+
+        model.is_downloaded = false;
+        model.source = ModelSource::HuggingFace {
+            repo_id: "handy-computer/parakeet-tdt-0.6b-v3-gguf".to_string(),
+            revision: "main".to_string(),
+        };
+        assert!(ModelManager::is_listed(&model));
     }
 
     #[test]
