@@ -36,7 +36,7 @@ AI post-processing is optional and off by default. Once enabled in **Settings > 
 ## Which model for French
 
 - **Cohere Transcribe**: the most accurate. It is heavier and shines with a graphics card.
-- **Parakeet V3**: lighter and very fast, even on a modest machine. It detects the spoken language on its own, handy if you switch between French and English.
+- **Parakeet V3**: lighter and very fast, even on a modest machine. It detects the spoken language on its own, useful if you switch between French and English.
 
 You can download several and switch between them in **Settings > Models**.
 
