@@ -16,7 +16,7 @@ Pendant ce temps, un petit perso rouge à cornes surgit en bas de l'écran. Il t
 
 ## Installation
 
-1. Ouvre la page des [Releases](https://github.com/ponthieutheo/jecoute/releases/latest) et télécharge l'installeur de la dernière version. Sous Windows, c'est `Jecoute_<version>_x64-setup.exe` (`Jecoute_<version>_arm64-setup.exe` sur un PC ARM).
+1. Ouvre la page des [Releases](https://github.com/ponthieutheo/jecoute/releases/latest) et télécharge l'installeur de la dernière version. Sous Windows, c'est `Jecoute_<version>_x64-setup.exe`.
 2. Lance-le. L'installeur n'est pas signé, donc Windows SmartScreen peut afficher « Windows a protégé votre ordinateur » : clique sur « Informations complémentaires », puis sur « Exécuter quand même ».
 3. Choisis une installation normale, ou portable (un dossier autonome qui garde ses réglages et ses modèles à côté de l'app).
 4. Au premier lancement, choisis un modèle de transcription (voir plus bas). Il est téléchargé une seule fois ; ensuite, tout fonctionne hors ligne.

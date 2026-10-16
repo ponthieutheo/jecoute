@@ -16,7 +16,7 @@ Meanwhile, a small red horned character pops up at the bottom of the screen. It 
 
 ## Install
 
-1. Open the [Releases](https://github.com/ponthieutheo/jecoute/releases/latest) page and download the installer for the latest version. On Windows, that is `Jecoute_<version>_x64-setup.exe` (`Jecoute_<version>_arm64-setup.exe` on an ARM PC).
+1. Open the [Releases](https://github.com/ponthieutheo/jecoute/releases/latest) page and download the installer for the latest version. On Windows, that is `Jecoute_<version>_x64-setup.exe`.
 2. Run it. The installer is not signed, so Windows SmartScreen may say "Windows protected your PC": click "More info", then "Run anyway".
 3. Pick a normal install, or a portable one (a self-contained folder that keeps its settings and models next to the app).
 4. On first launch, pick a transcription model (see below). It is downloaded once; after that, everything works offline.
