@@ -20,6 +20,8 @@
   --color-warning: var(--color-warning);
   --color-error: var(--color-error);
   --color-success: var(--color-success);
+  --color-scrim: var(--color-scrim);
+  --shadow-popover: var(--elevation-popover);
 }
 
 /* Polices : Barlow pour le texte, Chakra Petch pour les titres et le wordmark

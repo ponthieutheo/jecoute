@@ -22,6 +22,9 @@
   --light-color-warning: #9a5300;
   --light-color-error: #c10b15;
   --light-color-success: #1d7a46;
+  --light-color-scrim: rgb(15 10 10 / 0.45);
+  --light-elevation-popover:
+    0 10px 28px rgb(27 20 21 / 0.14), 0 2px 6px rgb(27 20 21 / 0.08);
 
   --dark-color-text: #f6ebe6;
   --dark-color-background: #0f0b0b;
@@ -31,6 +34,9 @@
   --dark-color-warning: #f5a623;
   --dark-color-error: #ff5a5f;
   --dark-color-success: #3fcb7a;
+  --dark-color-scrim: rgb(0 0 0 / 0.62);
+  --dark-elevation-popover:
+    0 12px 32px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.35);
 
   /* Jetons identiques en clair et en sombre */
   /* Rouge vif : traits, voyants, anneaux de focus, détails du logo. */
@@ -52,6 +58,8 @@
   --color-warning: var(--light-color-warning);
   --color-error: var(--light-color-error);
   --color-success: var(--light-color-success);
+  --color-scrim: var(--light-color-scrim);
+  --elevation-popover: var(--light-elevation-popover);
 
   /* Rouge lisible en texte (alias explicite de logo-primary). */
   --color-accent-text: var(--color-logo-primary);
@@ -70,6 +78,8 @@
     --color-warning: var(--dark-color-warning);
     --color-error: var(--dark-color-error);
     --color-success: var(--dark-color-success);
+    --color-scrim: var(--dark-color-scrim);
+    --elevation-popover: var(--dark-elevation-popover);
   }
 }
 
@@ -92,6 +102,8 @@
   --color-warning: var(--light-color-warning);
   --color-error: var(--light-color-error);
   --color-success: var(--light-color-success);
+  --color-scrim: var(--light-color-scrim);
+  --elevation-popover: var(--light-elevation-popover);
 }
 
 :root[data-theme="dark"] {
@@ -103,4 +115,6 @@
   --color-warning: var(--dark-color-warning);
   --color-error: var(--dark-color-error);
   --color-success: var(--dark-color-success);
+  --color-scrim: var(--dark-color-scrim);
+  --elevation-popover: var(--dark-elevation-popover);
 }
