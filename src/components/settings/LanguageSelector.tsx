@@ -189,7 +189,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
             className={`px-2 py-1 text-sm font-semibold bg-mid-gray/10 border border-mid-gray/80 rounded min-w-[200px] text-start flex items-center justify-between transition-all duration-150 ${
               isUpdating("selected_language")
                 ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-logo-primary/10 cursor-pointer hover:border-logo-primary"
+                : "hover:bg-mid-gray/10 cursor-pointer hover:border-accent"
             }`}
             onClick={handleToggle}
             disabled={isUpdating("selected_language")}
@@ -237,9 +237,9 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                     <button
                       key={language.value}
                       type="button"
-                      className={`w-full px-2 py-1 text-sm text-start hover:bg-logo-primary/10 transition-colors duration-150 ${
+                      className={`w-full px-2 py-1 text-sm text-start hover:bg-mid-gray/10 transition-colors duration-150 ${
                         highlightedLanguage === language.value
-                          ? "bg-logo-primary/20 text-logo-primary font-semibold"
+                          ? "bg-mid-gray/15 text-accent-text font-semibold"
                           : ""
                       }`}
                       onClick={() => handleLanguageSelect(language.value)}
