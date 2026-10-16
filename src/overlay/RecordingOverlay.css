@@ -470,8 +470,7 @@
 /* ============================================================
    3D character (overlay style "character"). The native window is exactly the
    stage size (overlay.rs), so the canvas simply sits centered; its drawing
-   buffer is transparent (premultiplied alpha), never a background. It never
-   takes clicks: the window itself is click-through in this style.
+   buffer is transparent (premultiplied alpha), never a background.
    ============================================================ */
 .ov-character {
   position: fixed;

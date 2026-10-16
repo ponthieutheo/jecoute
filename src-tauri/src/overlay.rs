@@ -615,16 +615,6 @@ fn show_overlay_state_on_main(app_handle: &AppHandle, state: &str, style: Overla
             }
         }
 
-        // The character's window is click-through: it has no button, and its
-        // transparent stage must not swallow clicks meant for the app below.
-        // The pill and the Live card keep their cancel button clickable.
-        let ignore_cursor = kind == OverlayKind::Character;
-        if IGNORE_CURSOR_EVENTS.swap(ignore_cursor, Ordering::SeqCst) != ignore_cursor {
-            if let Err(error) = overlay_window.set_ignore_cursor_events(ignore_cursor) {
-                log::warn!("Failed to set overlay click-through ({ignore_cursor}): {error}");
-            }
-        }
-
         #[cfg(target_os = "linux")]
         let shown_with_layer_shell = if LAYER_SHELL_ACTIVE.load(Ordering::SeqCst) {
             let position = settings::get_settings(app_handle).overlay_position;
@@ -877,9 +867,6 @@ fn cancel_generation(app_handle: &AppHandle) -> Option<u64> {
 
 /// Cancel generation when the current session started (see `hide_recording_overlay`).
 static SESSION_CANCEL_GENERATION: AtomicU64 = AtomicU64::new(0);
-
-/// Whether the overlay window currently lets clicks through.
-static IGNORE_CURSOR_EVENTS: AtomicBool = AtomicBool::new(false);
 
 /// Whether the `overlay-exit-done` listener is registered.
 static EXIT_ACK_LISTENING: AtomicBool = AtomicBool::new(false);
