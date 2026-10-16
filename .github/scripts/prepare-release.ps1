@@ -40,6 +40,31 @@ $productName = "J" + [char]0x2019 + [char]0x00E9 + "coute"  # J’écoute, sans 
 $baseUrl = "https://github.com/$Repository/releases/download/v$Version"
 $utf8NoBom = New-Object System.Text.UTF8Encoding $false
 
+# JSON écrit à la main : sortie identique sous PowerShell 5.1 et 7 (ConvertTo-Json n'indente pas pareil).
+function ConvertTo-JsonText($Value, [int] $Indent = 0) {
+  if ($Value -is [System.Collections.IDictionary]) {
+    $pad = "  " * ($Indent + 1)
+    $items = foreach ($key in $Value.Keys) {
+      $pad + (ConvertTo-JsonText ([string] $key)) + ": " + (ConvertTo-JsonText $Value[$key] ($Indent + 1))
+    }
+    return "{`n" + ($items -join ",`n") + "`n" + ("  " * $Indent) + "}"
+  }
+  $sb = New-Object System.Text.StringBuilder
+  [void] $sb.Append('"')
+  foreach ($c in ([string] $Value).ToCharArray()) {
+    $code = [int] $c
+    if ($code -eq 0x22) { [void] $sb.Append('\"') }
+    elseif ($code -eq 0x5C) { [void] $sb.Append('\\') }
+    elseif ($code -eq 0x0A) { [void] $sb.Append('\n') }
+    elseif ($code -eq 0x0D) { [void] $sb.Append('\r') }
+    elseif ($code -eq 0x09) { [void] $sb.Append('\t') }
+    elseif ($code -lt 0x20) { [void] $sb.Append(('\u{0:x4}' -f $code)) }
+    else { [void] $sb.Append($c) }
+  }
+  [void] $sb.Append('"')
+  return $sb.ToString()
+}
+
 function Find-One([string] $Dir, [string] $Filter) {
   if (-not (Test-Path -LiteralPath $Dir)) { throw "Dossier introuvable : $Dir" }
   $found = @(Get-ChildItem -LiteralPath $Dir -File | Where-Object { $_.Name -like $Filter })
@@ -101,7 +126,7 @@ $manifest = [ordered]@{
   platforms = $platforms
 }
 # UTF-8 sans BOM : le plugin lit la réponse avec serde_json, qui refuse un BOM.
-$json = ($manifest | ConvertTo-Json -Depth 5) -replace "`r`n", "`n"
+$json = ConvertTo-JsonText $manifest
 [System.IO.File]::WriteAllText((Join-Path $OutDir "latest.json"), $json + "`n", $utf8NoBom)
 [System.IO.File]::WriteAllText((Join-Path $OutDir "SHA256SUMS.txt"), (($sums -join "`n") + "`n"), $utf8NoBom)
 Write-Host ("{0,-40} (manifeste de mise à jour)" -f "latest.json")
