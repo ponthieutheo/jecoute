@@ -30,7 +30,6 @@ const Hero: React.FC<{ mood: ReturnType<typeof useHomeState>["mood"] }> = ({
           mood={mood}
           micLevels={levels}
           lookAt={settingsOpen ? "droite" : "souris"}
-          compact={settingsOpen}
           paused={!visible || historyOpen}
         />
       </div>
