@@ -628,11 +628,6 @@
         "description": "ソースコードを見て貢献する",
         "button": "GitHub で見る"
       },
-      "supportDevelopment": {
-        "title": "開発を支援",
-        "description": "J'écoute の開発を支援してください",
-        "button": "寄付する"
-      },
       "acknowledgments": {
         "title": "謝辞",
         "ggml": {
@@ -644,7 +639,8 @@
       "whatsNewUpdates": {
         "label": "新機能を表示",
         "description": "J'écoute のアップデート後にリリースノートを表示"
-      }
+      },
+      "basedOn": "CJ Pais 氏の Handy をベースにしています"
     }
   },
   "footer": {

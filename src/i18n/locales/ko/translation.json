@@ -628,11 +628,6 @@
         "description": "소스 코드 보기 및 기여",
         "button": "GitHub에서 보기"
       },
-      "supportDevelopment": {
-        "title": "개발 지원",
-        "description": "J'écoute 개발을 계속할 수 있도록 도와주세요",
-        "button": "후원하기"
-      },
       "acknowledgments": {
         "title": "감사의 말",
         "ggml": {
@@ -644,7 +639,8 @@
       "whatsNewUpdates": {
         "label": "새 소식 표시",
         "description": "J'écoute 업데이트 후 릴리스 노트를 표시합니다"
-      }
+      },
+      "basedOn": "CJ Pais의 Handy를 기반으로 합니다"
     }
   },
   "footer": {

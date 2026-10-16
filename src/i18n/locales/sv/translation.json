@@ -628,11 +628,6 @@
         "description": "Visa källkod och bidra",
         "button": "Visa på GitHub"
       },
-      "supportDevelopment": {
-        "title": "Stöd utvecklingen",
-        "description": "Hjälp oss att fortsätta bygga J'écoute",
-        "button": "Donera"
-      },
       "acknowledgments": {
         "title": "Tack till",
         "ggml": {
@@ -644,7 +639,8 @@
       "whatsNewUpdates": {
         "label": "Visa nyheter",
         "description": "Visa versionsinformation efter J'écoute-uppdateringar"
-      }
+      },
+      "basedOn": "Bygger på Handy av CJ Pais"
     }
   },
   "footer": {

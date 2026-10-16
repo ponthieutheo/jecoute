@@ -632,11 +632,6 @@
         "description": "Lihat kode sumber dan berkontribusi",
         "button": "Lihat di GitHub"
       },
-      "supportDevelopment": {
-        "title": "Dukung Pengembangan",
-        "description": "Bantu kami terus mengembangkan J'écoute",
-        "button": "Donasi"
-      },
       "acknowledgments": {
         "title": "Ucapan Terima Kasih",
         "ggml": {
@@ -644,7 +639,8 @@
           "description": "Pustaka tensor berkinerja tinggi untuk inferensi pembelajaran mesin di perangkat",
           "details": "Fitur ucapan-ke-teks lokal J'écoute dibangun menggunakan transcribe.cpp dan ggml. Terima kasih kepada Georgi Gerganov dan para kontributor atas karya luar biasa mereka."
         }
-      }
+      },
+      "basedOn": "Berbasis Handy karya CJ Pais"
     }
   },
   "footer": {

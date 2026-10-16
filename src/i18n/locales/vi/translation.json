@@ -628,11 +628,6 @@
         "description": "Xem mã nguồn và đóng góp",
         "button": "Xem trên GitHub"
       },
-      "supportDevelopment": {
-        "title": "Hỗ trợ phát triển",
-        "description": "Giúp chúng tôi tiếp tục xây dựng J'écoute",
-        "button": "Quyên góp"
-      },
       "acknowledgments": {
         "title": "Lời cảm ơn",
         "ggml": {
@@ -644,7 +639,8 @@
       "whatsNewUpdates": {
         "label": "Hiển thị điểm mới",
         "description": "Hiển thị ghi chú phát hành sau khi J'écoute cập nhật"
-      }
+      },
+      "basedOn": "Dựa trên Handy của CJ Pais"
     }
   },
   "footer": {

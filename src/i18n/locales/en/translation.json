@@ -632,11 +632,6 @@
         "description": "View source code and contribute",
         "button": "View on GitHub"
       },
-      "supportDevelopment": {
-        "title": "Support Development",
-        "description": "Help us continue building J'écoute",
-        "button": "Donate"
-      },
       "acknowledgments": {
         "title": "Acknowledgments",
         "ggml": {
@@ -644,7 +639,8 @@
           "description": "High-performance tensor library for on-device machine learning inference",
           "details": "Local speech-to-text in J'écoute is built on transcribe.cpp and ggml. Thanks to the amazing work by Georgi Gerganov and contributors."
         }
-      }
+      },
+      "basedOn": "Based on Handy by CJ Pais"
     }
   },
   "footer": {

@@ -632,11 +632,6 @@
         "description": "Consulta el codi font i col·laboreu-hi",
         "button": "Mostra al GitHub"
       },
-      "supportDevelopment": {
-        "title": "Dona suport al desenvolupament",
-        "description": "Ajudeu-nos a continuar desenvolupant el J'écoute",
-        "button": "Feu una donació"
-      },
       "acknowledgments": {
         "title": "Agraïments",
         "ggml": {
@@ -644,7 +639,8 @@
           "description": "Biblioteca de tensors d'alt rendiment per a la inferència d'aprenentatge automàtic al dispositiu",
           "details": "La transcripció local de veu a text del J'écoute es basa en el transcribe.cpp i el ggml. Gràcies a la gran feina de Georgi Gerganov i dels col·laboradors."
         }
-      }
+      },
+      "basedOn": "Basat en el Handy de CJ Pais"
     }
   },
   "footer": {

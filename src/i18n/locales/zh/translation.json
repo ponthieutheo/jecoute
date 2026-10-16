@@ -628,11 +628,6 @@
         "description": "查看源代码并贡献",
         "button": "在 GitHub 上查看"
       },
-      "supportDevelopment": {
-        "title": "支持开发",
-        "description": "帮助我们继续开发 J'écoute",
-        "button": "捐赠"
-      },
       "acknowledgments": {
         "title": "致谢",
         "ggml": {
@@ -644,7 +639,8 @@
       "whatsNewUpdates": {
         "label": "显示新功能",
         "description": "J'écoute 更新后显示发行说明"
-      }
+      },
+      "basedOn": "基于 CJ Pais 的 Handy"
     }
   },
   "footer": {

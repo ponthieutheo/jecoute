@@ -605,11 +605,6 @@
         "description": "عرض كود المصدر والمساهمة",
         "button": "عرض على GitHub"
       },
-      "supportDevelopment": {
-        "title": "دعم التطوير",
-        "description": "ساعدنا في مواصلة بناء J'écoute",
-        "button": "تبرع"
-      },
       "acknowledgments": {
         "title": "شكر وتقدير",
         "ggml": {
@@ -621,7 +616,8 @@
       "whatsNewUpdates": {
         "label": "إظهار الجديد",
         "description": "إظهار ملاحظات الإصدار بعد تحديثات J'écoute"
-      }
+      },
+      "basedOn": "مبني على Handy من تطوير CJ Pais"
     },
     "modelSettings": {
       "title": "إعدادات {{model}}"

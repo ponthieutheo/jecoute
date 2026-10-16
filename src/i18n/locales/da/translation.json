@@ -632,11 +632,6 @@
         "description": "Se kildekode og bidrag",
         "button": "Vis på GitHub"
       },
-      "supportDevelopment": {
-        "title": "Støt udviklingen",
-        "description": "Hjælp os med at fortsætte udviklingen af J'écoute",
-        "button": "Donér"
-      },
       "acknowledgments": {
         "title": "Anerkendelser",
         "ggml": {
@@ -644,7 +639,8 @@
           "description": "Højtydende tensor-bibliotek til maskinlæringsinferens på enheden",
           "details": "Den lokale tale-til-tekst-funktionalitet i J'écoute er bygget på transcribe.cpp og ggml. Tak for det fantastiske arbejde af Georgi Gerganov og bidragyderne."
         }
-      }
+      },
+      "basedOn": "Bygger på Handy af CJ Pais"
     }
   },
   "footer": {

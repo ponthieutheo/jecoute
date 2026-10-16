@@ -628,11 +628,6 @@
         "description": "Visualizar código fonte e contribuir",
         "button": "Ver no GitHub"
       },
-      "supportDevelopment": {
-        "title": "Apoiar o Desenvolvimento",
-        "description": "Ajude-nos a continuar construindo o J'écoute",
-        "button": "Doar"
-      },
       "acknowledgments": {
         "title": "Agradecimentos",
         "ggml": {
@@ -644,7 +639,8 @@
       "whatsNewUpdates": {
         "label": "Mostrar novidades",
         "description": "Mostrar notas de versão após atualizações do J'écoute"
-      }
+      },
+      "basedOn": "Baseado no Handy de CJ Pais"
     }
   },
   "footer": {

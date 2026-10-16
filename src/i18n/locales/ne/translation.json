@@ -632,11 +632,6 @@
         "description": "स्रोत कोड हेर्नुहोस् र योगदान गर्नुहोस्",
         "button": "GitHub मा हेर्नुहोस्"
       },
-      "supportDevelopment": {
-        "title": "विकासलाई सहयोग गर्नुहोस्",
-        "description": "J'écoute निर्माण जारी राख्न हामीलाई सहयोग गर्नुहोस्",
-        "button": "दान गर्नुहोस्"
-      },
       "acknowledgments": {
         "title": "आभार",
         "ggml": {
@@ -644,7 +639,8 @@
           "description": "अन-डिभाइस मेसिन लर्निङ अनुमानका लागि उच्च-प्रदर्शन टेन्सर लाइब्रेरी",
           "details": "J'écoute को स्थानीय स्पिच-टु-टेक्स्ट transcribe.cpp र ggml मा आधारित छ। Georgi Gerganov र योगदानकर्ताहरूको उत्कृष्ट कामका लागि धन्यवाद।"
         }
-      }
+      },
+      "basedOn": "CJ Pais को Handy मा आधारित"
     }
   },
   "footer": {

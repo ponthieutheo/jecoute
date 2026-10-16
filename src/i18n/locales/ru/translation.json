@@ -628,11 +628,6 @@
         "description": "Просмотреть исходный код и внести свой вклад",
         "button": "Посмотреть на GitHub"
       },
-      "supportDevelopment": {
-        "title": "Поддержка развития",
-        "description": "Помогите нам продолжать развитие J'écoute",
-        "button": "Поддержать"
-      },
       "acknowledgments": {
         "title": "Благодарности",
         "ggml": {
@@ -644,7 +639,8 @@
       "whatsNewUpdates": {
         "label": "Показывать новинки",
         "description": "Показывать примечания к выпуску после обновлений J'écoute"
-      }
+      },
+      "basedOn": "На основе Handy от CJ Pais"
     }
   },
   "footer": {

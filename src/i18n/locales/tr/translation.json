@@ -628,11 +628,6 @@
         "description": "Kaynak kodunu görüntüle ve katkıda bulun",
         "button": "GitHub'da Görüntüle"
       },
-      "supportDevelopment": {
-        "title": "Geliştirmeyi Destekle",
-        "description": "J'écoute uygulamasını geliştirmeye devam etmemize yardımcı olun",
-        "button": "Bağış Yap"
-      },
       "acknowledgments": {
         "title": "Teşekkürler",
         "ggml": {
@@ -644,7 +639,8 @@
       "whatsNewUpdates": {
         "label": "Yenilikleri Göster",
         "description": "J'écoute güncellemelerinden sonra sürüm notlarını göster"
-      }
+      },
+      "basedOn": "CJ Pais tarafından geliştirilen Handy'ye dayanır"
     }
   },
   "footer": {

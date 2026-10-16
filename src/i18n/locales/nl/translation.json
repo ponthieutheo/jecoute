@@ -632,11 +632,6 @@
         "description": "Bekijk de broncode en draag bij",
         "button": "Bekijk op GitHub"
       },
-      "supportDevelopment": {
-        "title": "Ontwikkeling ondersteunen",
-        "description": "Help ons om te blijven bouwen aan J'écoute",
-        "button": "Doneren"
-      },
       "acknowledgments": {
         "title": "Dankbetuigingen",
         "ggml": {
@@ -644,7 +639,8 @@
           "description": "Krachtige tensorbibliotheek voor lokale AI-verwerking",
           "details": "De lokale spraak-naar-tekst van J'écoute is gebouwd op transcribe.cpp en ggml. Met dank aan het geweldige werk van Georgi Gerganov en alle bijdragers."
         }
-      }
+      },
+      "basedOn": "Gebaseerd op Handy van CJ Pais"
     }
   },
   "footer": {
