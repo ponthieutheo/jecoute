@@ -2,26 +2,29 @@
 //   bun src/components/update-checker/portableInstaller.test.ts
 import assert from "node:assert";
 import {
+  isWindowsInstallerUrl,
   resolvePortableInstallerUrl,
   PORTABLE_RELEASES_URL,
 } from "./portableInstaller";
 
-const X64_SETUP =
-  "https://github.com/cjpais/Handy/releases/download/v0.9.5/Handy_0.9.5_x64-setup.exe";
-const ARM64_SETUP =
-  "https://github.com/cjpais/Handy/releases/download/v0.9.5/Handy_0.9.5_arm64-setup.exe";
+const RELEASE = "https://github.com/ponthieutheo/jecoute/releases/download/v0.1.0";
 
-// Trimmed copy of the real latest.json served from the updater endpoint.
+// GitHub turns the apostrophe and the accent of "J'écoute" into "." on upload,
+// so this is what the manifest's browser download URLs look like.
+const X64_SETUP = `${RELEASE}/J.coute_0.1.0_x64-setup.exe`;
+const ARM64_SETUP = `${RELEASE}/J.coute_0.1.0_arm64-setup.exe`;
+const X64_MSI = `${RELEASE}/J.coute_0.1.0_x64_en-US.msi`;
+
+// Trimmed copy of a latest.json as served from the updater endpoint.
 const manifest = {
-  version: "0.9.5",
+  version: "0.1.0",
   platforms: {
+    "windows-x86_64": { url: X64_MSI, signature: "…" },
     "windows-x86_64-nsis": { url: X64_SETUP, signature: "…" },
-    "windows-x86_64-msi": {
-      url: "https://github.com/cjpais/Handy/releases/download/v0.9.5/Handy_0.9.5_x64_en-US.msi",
-    },
+    "windows-x86_64-msi": { url: X64_MSI, signature: "…" },
     "windows-aarch64-nsis": { url: ARM64_SETUP, signature: "…" },
     "darwin-aarch64": {
-      url: "https://github.com/cjpais/Handy/releases/download/v0.9.5/Handy_aarch64.app.tar.gz",
+      url: `${RELEASE}/J.coute_aarch64.app.tar.gz`,
     },
   },
 };
@@ -61,5 +64,66 @@ assert.equal(
   resolvePortableInstallerUrl({ platforms: "nope" }, "windows", "x86_64"),
   PORTABLE_RELEASES_URL,
 );
+
+// the fallback is the fork's own releases page
+assert.equal(
+  PORTABLE_RELEASES_URL,
+  "https://github.com/ponthieutheo/jecoute/releases/latest",
+);
+
+// asset name kept verbatim by GitHub (percent-encoded apostrophe and accent)
+const ENCODED_SETUP = `${RELEASE}/J%27%C3%A9coute_0.1.0_x64-setup.exe`;
+assert.equal(
+  resolvePortableInstallerUrl(
+    { platforms: { "windows-x86_64-nsis": { url: ENCODED_SETUP } } },
+    "windows",
+    "x86_64",
+  ),
+  ENCODED_SETUP,
+);
+
+// broken percent-encoding still counts: only the ".exe" tail matters
+assert.ok(isWindowsInstallerUrl(`${RELEASE}/J%E9coute_0.1.0_x64-setup.exe`));
+
+// no bundle-specific entry, generic entry points at the NSIS setup -> used
+assert.equal(
+  resolvePortableInstallerUrl(
+    { platforms: { "windows-x86_64": { url: X64_SETUP } } },
+    "windows",
+    "x86_64",
+  ),
+  X64_SETUP,
+);
+
+// generic entry points at the .msi and there is no NSIS entry -> releases page
+assert.equal(
+  resolvePortableInstallerUrl(
+    { platforms: { "windows-x86_64": { url: X64_MSI } } },
+    "windows",
+    "x86_64",
+  ),
+  PORTABLE_RELEASES_URL,
+);
+
+// API asset URL (no file name, serves JSON in a browser) -> releases page
+assert.equal(
+  resolvePortableInstallerUrl(
+    {
+      platforms: {
+        "windows-x86_64-nsis": {
+          url: "https://api.github.com/repos/ponthieutheo/jecoute/releases/assets/123",
+        },
+      },
+    },
+    "windows",
+    "x86_64",
+  ),
+  PORTABLE_RELEASES_URL,
+);
+
+// non-https or unparsable URLs are never opened
+assert.equal(isWindowsInstallerUrl(X64_SETUP.replace("https:", "http:")), false);
+assert.equal(isWindowsInstallerUrl("J'écoute_0.1.0_x64-setup.exe"), false);
+assert.equal(isWindowsInstallerUrl(42), false);
 
 console.log("portableInstaller: all assertions passed");
