@@ -35,11 +35,13 @@ export const useModelStatusStore = create<ModelStatusStore>()((set, get) => ({
       set({ status: "none" });
       return;
     }
-    // Pas de commande fiable pour « chargement en cours » (is_model_loading
-    // répond vrai dès qu'aucun modèle n'est en mémoire) : un modèle absent de
-    // la mémoire est « déchargé », les événements disent le reste.
+    // Un chargement lancé avant l'ouverture de la fenêtre (préchargement au
+    // démarrage) n'a pas été vu par les événements : on le demande.
     try {
-      const result = await commands.getTranscriptionModelStatus();
+      const [result, loading] = await Promise.all([
+        commands.getTranscriptionModelStatus(),
+        commands.isModelLoading(),
+      ]);
       if (result.status === "ok") {
         set((s) => ({
           // Une erreur de chargement reste affichée jusqu'au prochain essai.
@@ -48,7 +50,9 @@ export const useModelStatusStore = create<ModelStatusStore>()((set, get) => ({
               ? "error"
               : result.data === currentModel
                 ? "ready"
-                : "unloaded",
+                : loading.status === "ok" && loading.data
+                  ? "loading"
+                  : "unloaded",
         }));
       }
     } catch {

@@ -823,6 +823,12 @@ impl TranscriptionManager {
         true
     }
 
+    /// Whether a model load is in flight: the startup preload, the load a
+    /// dictation triggered, or an explicit model switch.
+    pub fn is_model_loading(&self) -> bool {
+        self.is_loading.lock().map(|g| *g).unwrap_or(false)
+    }
+
     /// Wait for any in-flight model load to finish, then mark one as starting.
     /// Returns a [`LoadingGuard`] whose [`Drop`] impl clears the flag and wakes
     /// waiters. Used by explicit model switches, which must not fail just
