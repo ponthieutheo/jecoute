@@ -469,7 +469,7 @@
       "id": "handy-computer/cohere-transcribe-arabic-07-2026-gguf",
       "revision": "715cbe09ca9b60fc1e497db1e4478fa9fcf4ac21",
       "slug": "cohere-transcribe-arabic-07-2026",
-      "name": "Cohere Transcribe",
+      "name": "Cohere Transcribe Arabic",
       "architecture": "cohere_asr",
       "family": "cohere",
       "parameters": "2.0B",

@@ -37,7 +37,7 @@ def acc_from_wer(wer):
     return None if wer is None else round(100 * math.exp(-wer / ACC_SCALE))
 
 # ───────────────────────── curation (CJ owns; editorial, not derivable) ──────
-# slug -> {rank?, rec?, desc?, use_case?, default_quant?, hidden?}.  All optional.
+# slug -> {rank?, rec?, name?, desc?, use_case?, default_quant?, hidden?}.  All optional.
 # desc is hand-written UI copy; models without one use factual generated summaries.
 # rank = editorial sort position (broad ordering). rec = the small "Recommended"
 # badge / onboarding subset — independent of rank, so a model can rank high
@@ -56,6 +56,8 @@ CURATION = {
     "Fun-ASR-MLT-Nano-2512":           {"rank": 10, "desc": "A tiny multilingual model"},
     # description-only (unranked, not recommended) — carried over from the legacy .bin entry
     "Breeze-ASR-25":                   {"desc": "Optimized for Taiwanese Mandarin. Code-switching support."},
+    # name-only: its GGUF calls it plain "Cohere Transcribe", like the 14-language model
+    "cohere-transcribe-arabic-07-2026": {"name": "Cohere Transcribe Arabic"},
     # Sortformer emits speaker segments only; Handy's catalog is for models
     # that produce transcription text.
     "diar_streaming_sortformer_4spk-v2.1": {"hidden": True},
@@ -241,7 +243,7 @@ def build(repo):
         # stays repo+filename; the pin only scopes acquisition.
         "revision": info.sha,
         "slug": s,
-        "name": gg.get("general.name") or pretty(s),         # friendly name (from GGUF)
+        "name": cur.get("name") or gg.get("general.name") or pretty(s),  # friendly name (from GGUF)
         "architecture": gg.get("general.architecture"),
         "family": family(s, info.tags),
         "parameters": gg.get("general.size_label"),          # "0.6B" / "1.7B" / "62M"
