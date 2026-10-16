@@ -797,6 +797,11 @@ static OVERLAY_SHOW_GENERATION: AtomicU64 = AtomicU64::new(0);
 /// hide only applies to the generation it was scheduled for, so a dictation
 /// restarted during the exit brings the character straight back.
 pub fn hide_recording_overlay(app_handle: &AppHandle) {
+    // Every end of a dictation comes through here (pasted, empty, cancelled,
+    // failed, or a recording that could not start): the main window's
+    // character goes back to rest whatever the overlay style.
+    set_dictation_state(app_handle, DictationState::Idle);
+
     // Always hide the overlay regardless of settings - if setting was changed while recording,
     // we still want to hide it properly
     if let Some(overlay_window) = app_handle.get_webview_window("recording_overlay") {
@@ -902,7 +907,11 @@ pub fn emit_levels(app_handle: &AppHandle, levels: &[f32]) {
     // directly characterized; see issue #1279 for the investigation).
     // For users with `overlay_style: none` (the Linux default) this skip
     // eliminates the upstream driver of that accumulation.
-    if !OVERLAY_ENABLED.load(Ordering::Relaxed) {
+    // The main window gets the same levels, but only while a dictation is
+    // recording and the window is on screen (see `main_window_wants_levels`).
+    let to_overlay = OVERLAY_ENABLED.load(Ordering::Relaxed);
+    let to_main = main_window_wants_levels(app_handle);
+    if !to_overlay && !to_main {
         return;
     }
 
@@ -910,10 +919,7 @@ pub fn emit_levels(app_handle: &AppHandle, levels: &[f32]) {
     // callback fires far faster than the UI needs; capping emission rate
     // cuts the per-frame `eval_script`/IPC volume that drives the wry
     // memory growth in issue #1279 (upstream tauri-apps/wry#1489).
-    let now = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .unwrap_or_default()
-        .as_millis() as u64;
+    let now = now_ms();
     let last = LAST_MIC_LEVEL_EMIT.load(Ordering::Relaxed);
     if now.saturating_sub(last) < EMIT_THROTTLE_MS {
         return;
@@ -929,7 +935,108 @@ pub fn emit_levels(app_handle: &AppHandle, levels: &[f32]) {
     // `emit_to` with the overlay's window label produces a single
     // eval_script call per callback, cutting the per-callback WebKit
     // dispatch work in half.
-    let _ = app_handle.emit_to("recording_overlay", "mic-level", levels);
+    if to_overlay {
+        let _ = app_handle.emit_to("recording_overlay", "mic-level", levels);
+    }
+    if to_main {
+        let _ = app_handle.emit_to(MAIN_WINDOW, "main-mic-level", levels);
+    }
+}
+
+fn now_ms() -> u64 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_millis() as u64
+}
+
+// ---------- Main window: dictation phase and microphone levels ----------
+//
+// The main window's character mirrors the dictation: `dictation-state` on
+// every change, `main-mic-level` (the overlay's 16 bands) while recording.
+// Both are independent of the overlay style: the main window follows the
+// dictation even when the recording overlay is turned off.
+
+const MAIN_WINDOW: &str = "main";
+
+/// Dictation phase sent to the main window (`dictation-state`).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[repr(u8)]
+pub enum DictationState {
+    Idle = 0,
+    Recording = 1,
+    Transcribing = 2,
+    Processing = 3,
+}
+
+impl DictationState {
+    /// The event payload, as the main window expects it.
+    pub fn as_str(self) -> &'static str {
+        match self {
+            DictationState::Idle => "idle",
+            DictationState::Recording => "recording",
+            DictationState::Transcribing => "transcribing",
+            DictationState::Processing => "processing",
+        }
+    }
+}
+
+/// Last phase sent to the main window.
+static DICTATION_STATE: AtomicU8 = AtomicU8::new(DictationState::Idle as u8);
+/// Whether the main window is on screen (visible, not minimized), re-read on
+/// the main thread while recording.
+static MAIN_WINDOW_SHOWN: AtomicBool = AtomicBool::new(false);
+static LAST_MAIN_WINDOW_CHECK: AtomicU64 = AtomicU64::new(0);
+const MAIN_WINDOW_CHECK_MS: u64 = 500;
+
+/// Records `state` as the current phase; true when it differs from the
+/// previous one (an event must go out).
+fn record_dictation_state(current: &AtomicU8, state: DictationState) -> bool {
+    current.swap(state as u8, Ordering::SeqCst) != state as u8
+}
+
+/// Tells the main window the dictation reached `state` (only if it changed).
+///
+/// Queued on the main thread, like the overlay's show and hide, so the phases
+/// go out in the order the pipeline reached them: the "idle" of a paste
+/// (which runs on the main thread) always precedes the "recording" of a press
+/// remembered meanwhile and started as soon as the pipeline drained.
+pub fn set_dictation_state(app_handle: &AppHandle, state: DictationState) {
+    let handle = app_handle.clone();
+    let _ = app_handle.run_on_main_thread(move || {
+        if !record_dictation_state(&DICTATION_STATE, state) {
+            return;
+        }
+        if state == DictationState::Recording {
+            refresh_main_window_shown(&handle);
+        }
+        let _ = handle.emit_to(MAIN_WINDOW, "dictation-state", state.as_str());
+    });
+}
+
+/// Main thread only (window getters are answered inline there).
+fn refresh_main_window_shown(app_handle: &AppHandle) {
+    let shown = app_handle
+        .get_webview_window(MAIN_WINDOW)
+        .map(|w| w.is_visible().unwrap_or(false) && !w.is_minimized().unwrap_or(false))
+        .unwrap_or(false);
+    MAIN_WINDOW_SHOWN.store(shown, Ordering::Relaxed);
+}
+
+/// True while recording with the main window on screen. Called from the audio
+/// thread, which never waits: the window's visibility is re-read on the main
+/// thread at most every MAIN_WINDOW_CHECK_MS, and the last known answer is used.
+fn main_window_wants_levels(app_handle: &AppHandle) -> bool {
+    if DICTATION_STATE.load(Ordering::Relaxed) != DictationState::Recording as u8 {
+        return false;
+    }
+    let now = now_ms();
+    if now.saturating_sub(LAST_MAIN_WINDOW_CHECK.load(Ordering::Relaxed)) >= MAIN_WINDOW_CHECK_MS {
+        LAST_MAIN_WINDOW_CHECK.store(now, Ordering::Relaxed);
+        let handle = app_handle.clone();
+        let _ = app_handle.run_on_main_thread(move || refresh_main_window_shown(&handle));
+    }
+    MAIN_WINDOW_SHOWN.load(Ordering::Relaxed)
 }
 
 #[cfg(test)]
@@ -1117,5 +1224,38 @@ mod tests {
         );
         // Top offset rides the DPI scale alone, so the top edge doesn't move.
         assert_eq!(top_y, -195);
+    }
+
+    #[test]
+    fn dictation_state_payloads_match_the_main_window_contract() {
+        assert_eq!(DictationState::Idle.as_str(), "idle");
+        assert_eq!(DictationState::Recording.as_str(), "recording");
+        assert_eq!(DictationState::Transcribing.as_str(), "transcribing");
+        assert_eq!(DictationState::Processing.as_str(), "processing");
+    }
+
+    #[test]
+    fn dictation_state_goes_out_only_when_it_changes() {
+        let current = AtomicU8::new(DictationState::Idle as u8);
+        // A full dictation with post-processing, then its several end paths
+        // (hide_recording_overlay, FinishGuard) all reporting idle.
+        let sent: Vec<bool> = [
+            DictationState::Idle,
+            DictationState::Recording,
+            DictationState::Recording,
+            DictationState::Transcribing,
+            DictationState::Processing,
+            DictationState::Idle,
+            DictationState::Idle,
+            DictationState::Idle,
+        ]
+        .into_iter()
+        .map(|state| record_dictation_state(&current, state))
+        .collect();
+        assert_eq!(sent, [false, true, false, true, true, true, false, false]);
+        // A cancelled recording goes straight back to idle.
+        assert!(record_dictation_state(&current, DictationState::Recording));
+        assert!(record_dictation_state(&current, DictationState::Idle));
+        assert_eq!(current.load(Ordering::SeqCst), DictationState::Idle as u8);
     }
 }

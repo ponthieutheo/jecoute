@@ -11,7 +11,8 @@ use crate::settings::{get_settings, AppSettings, OverlayStyle, APPLE_INTELLIGENC
 use crate::shortcut;
 use crate::tray::{set_tray_state, TrayIconState};
 use crate::utils::{
-    self, show_processing_overlay, show_recording_overlay, show_transcribing_overlay,
+    self, set_dictation_state, show_processing_overlay, show_recording_overlay,
+    show_transcribing_overlay, DictationState,
 };
 use crate::TranscriptionCoordinator;
 use log::{debug, error, warn};
@@ -36,6 +37,10 @@ struct RecordingErrorEvent {
 struct FinishGuard(AppHandle, Arc<TranscriptionManager>);
 impl Drop for FinishGuard {
     fn drop(&mut self) {
+        // Every normal end already told the main window (hide_recording_overlay);
+        // this covers an unexpected exit of the task. A no-op when already idle,
+        // and queued before the coordinator can start the next session.
+        set_dictation_state(&self.0, DictationState::Idle);
         self.1.maybe_unload_immediately("transcription session");
         if let Some(c) = self.0.try_state::<TranscriptionCoordinator>() {
             c.notify_processing_finished();
@@ -421,6 +426,7 @@ impl ShortcutAction for TranscribeAction {
         let binding_id = binding_id.to_string();
         let tray_started = Instant::now();
         set_tray_state(app, TrayIconState::Recording);
+        set_dictation_state(app, DictationState::Recording);
         let tray_elapsed = tray_started.elapsed();
 
         // Get the microphone mode to determine audio feedback timing
@@ -584,6 +590,7 @@ impl ShortcutAction for TranscribeAction {
         let hm = Arc::clone(&app.state::<Arc<HistoryManager>>());
 
         set_tray_state(app, TrayIconState::Transcribing);
+        set_dictation_state(app, DictationState::Transcribing);
         // Stop should give immediate visual feedback. Live streaming can keep
         // the larger panel, but it still switches from listening to a working
         // spinner while the stream finalizes. Non-streaming paths use the
@@ -705,6 +712,7 @@ impl ShortcutAction for TranscribeAction {
                             );
 
                             if post_process {
+                                set_dictation_state(&ah, DictationState::Processing);
                                 if use_streaming_overlay {
                                     tm.emit_stream_working(StreamWorkKind::Polishing);
                                 } else {
