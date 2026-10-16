@@ -466,3 +466,18 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ============================================================
+   3D character (overlay style "character"). The native window is exactly the
+   stage size (overlay.rs), so the canvas simply sits centered; its drawing
+   buffer is transparent (premultiplied alpha), never a background.
+   ============================================================ */
+.ov-character {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  background: transparent;
+  pointer-events: none;
+}
