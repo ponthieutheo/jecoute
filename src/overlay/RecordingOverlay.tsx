@@ -1,5 +1,11 @@
-import { listen } from "@tauri-apps/api/event";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { emit, listen } from "@tauri-apps/api/event";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import "./RecordingOverlay.css";
 import { commands, events } from "@/bindings";
@@ -11,8 +17,27 @@ import type {
 } from "@/bindings";
 import i18n, { syncLanguageFromSettings } from "@/i18n";
 import { getLanguageDirection } from "@/lib/utils/rtl";
+import { CharacterBridge, CharacterOverlay } from "./CharacterOverlay";
 
 type OverlayState = "recording" | "streaming" | "transcribing" | "processing";
+
+// `show-overlay` carries the state and the overlay style (overlay.rs); a bare
+// state string is still accepted. `hide-overlay` carries why the overlay goes
+// away and the show generation, echoed back once the exit animation is over.
+type ShowPayload = OverlayState | { state: OverlayState; style?: string };
+type HidePayload = { reason?: "done" | "cancel"; id?: number } | null;
+
+const parseShow = (payload: ShowPayload) =>
+  typeof payload === "string"
+    ? { state: payload, style: undefined }
+    : { state: payload.state, style: payload.style };
+
+// Tells overlay.rs the character's exit animation has fully played (last,
+// empty frame on screen) so the native window can be hidden right away.
+const ackExit = (token: unknown) => {
+  if (typeof token === "number")
+    emit("overlay-exit-done", token).catch(() => {});
+};
 
 // Number of reactive bars in the waveform (the simple, smoothed style shared by
 // every overlay form). Mic levels arrive as 16 FFT buckets; we take the first N.
@@ -44,6 +69,15 @@ const RecordingOverlay: React.FC = () => {
   // while overflowing, so the resting first line stays crisp flush under the pill.
   const [overflowing, setOverflowing] = useState(false);
 
+  // 3D character (overlay style "character"): the canvas is mounted as soon as
+  // the style is known and kept alive, so shaders and textures are ready before
+  // the first dictation. `characterActive` = the current session uses it.
+  const [characterOn, setCharacterOn] = useState(false);
+  const [characterActive, setCharacterActive] = useState(false);
+  const characterActiveRef = useRef(false);
+  const [bridge] = useState(() => new CharacterBridge(ackExit));
+  const onCharacterFail = useCallback(() => setCharacterOn(false), []);
+
   const smoothedLevelsRef = useRef<number[]>(Array(16).fill(0));
   // Live-text scroll-back: the text region "sticks" to the newest line while the
   // user is at the bottom; if they scroll up to read history, auto-follow pauses
@@ -52,55 +86,128 @@ const RecordingOverlay: React.FC = () => {
   const pinnedRef = useRef(true);
   const direction = getLanguageDirection(i18n.language);
 
+  // The overlay page is created hidden at app start: if the character is the
+  // chosen style, build its scene now (warm-up) rather than on first show.
+  useEffect(() => {
+    commands
+      .getAppSettings()
+      .then((settings) => {
+        if (
+          settings.status === "ok" &&
+          (settings.data.overlay_style as string | undefined) === "character"
+        ) {
+          setCharacterOn(true);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   useEffect(() => {
     const setupEventListeners = async () => {
-      const unlistenShow = await listen("show-overlay", async (event) => {
-        const overlayState = event.payload as OverlayState;
-        // Reset synchronously before settings I/O. A fast microphone can emit
-        // recording-ready while the awaits below are in flight; resetting after
-        // them would overwrite that event and leave the overlay stuck arming.
-        if (overlayState === "recording" || overlayState === "streaming") {
-          setCaptureReady(false);
-          smoothedLevelsRef.current = Array(16).fill(0);
-          setLevels(Array(WAVE_BARS).fill(0));
-          setStreamText({ committed: "", tentative: "" });
-        }
+      const unlistenShow = await listen<ShowPayload>(
+        "show-overlay",
+        async (event) => {
+          const { state: overlayState, style } = parseShow(event.payload);
 
-        await syncLanguageFromSettings();
-        // The Live panel flows downward from a top overlay and upward from a
-        // bottom one; read the placement so the layout can flip to match.
-        try {
-          const settings = await commands.getAppSettings();
-          if (settings.status === "ok") {
-            setPosition(
-              settings.data.overlay_position === "top" ? "top" : "bottom",
+          // Character style: everything happens in the 3D scene, immediately (no
+          // settings round-trip before the pop). Streaming models keep the Live
+          // card, and a failed WebGL start falls back to the pill.
+          const useCharacter =
+            style === "character" &&
+            overlayState !== "streaming" &&
+            !bridge.failed;
+          characterActiveRef.current = useCharacter;
+          setCharacterActive(useCharacter);
+          if (useCharacter) {
+            setCharacterOn(true);
+            setIsVisible(false);
+            bridge.show(
+              overlayState as "recording" | "transcribing" | "processing",
             );
+            return;
           }
-        } catch {
-          // Keep the previous/default placement if settings can't be read.
-        }
-        setState(overlayState);
-        if (overlayState === "streaming") {
-          setPhase("listening");
-          setWorkKind("transcribing");
-          setElapsed(0);
-          setSession((s) => s + 1); // remount the card fresh for this session
-        }
-        setIsVisible(true);
-      });
+          bridge.abort();
 
-      const unlistenHide = await listen("hide-overlay", () => {
-        setIsVisible(false);
-        setCaptureReady(false);
-      });
+          // Reset synchronously before settings I/O. A fast microphone can emit
+          // recording-ready while the awaits below are in flight; resetting after
+          // them would overwrite that event and leave the overlay stuck arming.
+          if (overlayState === "recording" || overlayState === "streaming") {
+            setCaptureReady(false);
+            smoothedLevelsRef.current = Array(16).fill(0);
+            setLevels(Array(WAVE_BARS).fill(0));
+            setStreamText({ committed: "", tentative: "" });
+          }
+
+          await syncLanguageFromSettings();
+          // The Live panel flows downward from a top overlay and upward from a
+          // bottom one; read the placement so the layout can flip to match.
+          try {
+            const settings = await commands.getAppSettings();
+            if (settings.status === "ok") {
+              setPosition(
+                settings.data.overlay_position === "top" ? "top" : "bottom",
+              );
+            }
+          } catch {
+            // Keep the previous/default placement if settings can't be read.
+          }
+          setState(overlayState);
+          if (overlayState === "streaming") {
+            setPhase("listening");
+            setWorkKind("transcribing");
+            setElapsed(0);
+            setSession((s) => s + 1); // remount the card fresh for this session
+          }
+          setIsVisible(true);
+        },
+      );
+
+      const unlistenHide = await listen<HidePayload>(
+        "hide-overlay",
+        (event) => {
+          const payload = event.payload;
+          if (characterActiveRef.current) {
+            bridge.hide(
+              payload?.reason === "cancel" ? "cancel" : "done",
+              payload?.id,
+            );
+            return;
+          }
+          setIsVisible(false);
+          setCaptureReady(false);
+          // Character style without WebGL: the pill stood in; let its fade play.
+          if (bridge.failed && typeof payload?.id === "number") {
+            const id = payload.id;
+            setTimeout(() => ackExit(id), 320);
+          }
+        },
+      );
 
       const unlistenReady = await listen("recording-ready", () => {
+        if (characterActiveRef.current) {
+          bridge.micReady();
+          return;
+        }
         setElapsed(0);
         setCaptureReady(true);
       });
 
+      // An error ends the session: the character shrugs instead of smiling.
+      const unlistenErrors = await Promise.all(
+        ["transcription-error", "paste-error"].map((name) =>
+          listen(name, () => {
+            if (characterActiveRef.current) bridge.error();
+          }),
+        ),
+      );
+
       const unlistenLevel = await listen<number[]>("mic-level", (event) => {
         const newLevels = event.payload as number[];
+        if (characterActiveRef.current) {
+          // Straight to the 3D scene: no React re-render at 30 Hz.
+          bridge.levels(newLevels);
+          return;
+        }
         // Exponential smoothing across the 16 buckets, then take the first N
         // bars for the shared waveform.
         const smoothed = smoothedLevelsRef.current.map((prev, i) => {
@@ -125,6 +232,7 @@ const RecordingOverlay: React.FC = () => {
         unlistenShow();
         unlistenHide();
         unlistenReady();
+        unlistenErrors.forEach((unlisten) => unlisten());
         unlistenLevel();
         unlistenStream();
         unlistenPhase();
@@ -157,7 +265,11 @@ const RecordingOverlay: React.FC = () => {
     setOverflowing(false);
   }, [session]);
 
-  if (!isVisible) return null;
+  // The character canvas stays mounted (and transparent) between sessions.
+  const character = characterOn ? (
+    <CharacterOverlay bridge={bridge} onFail={onCharacterFail} />
+  ) : null;
+  if (!isVisible || characterActive) return character;
 
   // Re-pin when the user is within ~a line of the bottom; unpin otherwise.
   const handleStreamScroll = () => {
@@ -240,42 +352,45 @@ const RecordingOverlay: React.FC = () => {
     const collapsed = working && !hasText;
 
     return (
-      <div dir={direction} className={`ov-stage ${position}`}>
-        <div
-          key={session}
-          className={`scard ${open ? "open" : ""} ${collapsed ? "working" : ""} ${
-            isVisible ? "" : "leaving"
-          }`}
-        >
-          <div className="stext">
-            <div className="stext-clip">
-              <div
-                className={`stext-cap ${overflowing ? "overflowing" : ""}`}
-                ref={capRef}
-                onScroll={handleStreamScroll}
-              >
-                <p>
-                  <span className="committed">
-                    {streamText.committed ? streamText.committed + " " : ""}
-                  </span>
-                  <span className="tentative">{streamText.tentative}</span>
-                  {/* Drop the blinking caret once finalizing — it's no longer
+      <>
+        {character}
+        <div dir={direction} className={`ov-stage ${position}`}>
+          <div
+            key={session}
+            className={`scard ${open ? "open" : ""} ${collapsed ? "working" : ""} ${
+              isVisible ? "" : "leaving"
+            }`}
+          >
+            <div className="stext">
+              <div className="stext-clip">
+                <div
+                  className={`stext-cap ${overflowing ? "overflowing" : ""}`}
+                  ref={capRef}
+                  onScroll={handleStreamScroll}
+                >
+                  <p>
+                    <span className="committed">
+                      {streamText.committed ? streamText.committed + " " : ""}
+                    </span>
+                    <span className="tentative">{streamText.tentative}</span>
+                    {/* Drop the blinking caret once finalizing — it's no longer
                       capturing, and a static spinner conveys the work. */}
-                  {!working && <span className="scaret" />}
-                </p>
+                    {!working && <span className="scaret" />}
+                  </p>
+                </div>
               </div>
             </div>
+            {working
+              ? workingRow(
+                  workKind === "polishing"
+                    ? t("overlay.processing")
+                    : t("overlay.transcribing"),
+                  true,
+                )
+              : listeningRow(open, true)}
           </div>
-          {working
-            ? workingRow(
-                workKind === "polishing"
-                  ? t("overlay.processing")
-                  : t("overlay.transcribing"),
-                true,
-              )
-            : listeningRow(open, true)}
         </div>
-      </div>
+      </>
     );
   }
 
@@ -289,16 +404,19 @@ const RecordingOverlay: React.FC = () => {
       : t("overlay.transcribing");
 
   return (
-    <div
-      dir={direction}
-      className={`ov-stage ${position} ov-fade ${isVisible ? "show" : ""}`}
-    >
+    <>
+      {character}
       <div
-        className={`scard compact ${working && isVisible ? "cworking" : ""}`}
+        dir={direction}
+        className={`ov-stage ${position} ov-fade ${isVisible ? "show" : ""}`}
       >
-        {working ? workingRow(workLabel, true) : listeningRow(false, true)}
+        <div
+          className={`scard compact ${working && isVisible ? "cworking" : ""}`}
+        >
+          {working ? workingRow(workLabel, true) : listeningRow(false, true)}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
