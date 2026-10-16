@@ -26,8 +26,13 @@ export const HOME_PIXEL_RATIO_CAP = 2;
 /** Ce que le cadrage montre toujours (unités de la scène, centre de la tête à l'origine, rayon 0,88). */
 const SAFE = { left: -2.2, right: 2.2, bottom: -1.08, top: 1.56 };
 const FOV = 24;
-/** Taille du perso rangé sur le côté (réglages ouverts). */
+/** Taille du perso rangé sur le côté (réglages ouverts), et durée de la transition (s). */
 const COMPACT_SCALE = 0.74;
+const COMPACT_TIME = 0.5;
+/** Cadence calme (30 i/s) : tête plus lente que ces seuils (rad/s, unités/s) depuis au moins CALM_HOLD s. */
+const CALM_ROT = 0.5;
+const CALM_POS = 0.25;
+const CALM_HOLD = 0.3;
 /** Après une absence de la fenêtre au moins aussi longue (s), il salue à son retour. */
 const GREET_AFTER = 20;
 
@@ -62,11 +67,10 @@ export interface HomeCharacter {
   sleep(): void;
   /** Mesures ; `calm` : part des images rendues au rythme calme (30 i/s). */
   stats(reset?: boolean): FrameStats & { calm: number };
+  /** Banc d'essai : pose de la dernière image (échelle, tête, mains), pour détecter les sauts. */
+  probe(): number[];
   dispose(): void;
 }
-
-const approach = (cur: number, target: number, rate: number, dt: number) =>
-  cur + (target - cur) * (1 - Math.exp(-rate * dt));
 
 export function createHomeCharacter(
   canvas: HTMLCanvasElement,
@@ -93,6 +97,11 @@ export function createHomeCharacter(
   scene.add(world);
   const rig = createRig(renderer);
   world.add(rig.root);
+  // filtrage anisotrope maximal : près du pôle (haut de la fente entre les cornes), la texture est très comprimée
+  // et le test alpha sur des niveaux de mipmap moyennés dessinait un fin pointillé rouge en travers de la fente
+  const aniso = renderer.capabilities.getMaxAnisotropy();
+  rig.head.face.headTex.anisotropy = aniso;
+  rig.head.face.alphaTex.anisotropy = aniso;
 
   const choreo = new Choreography(rig, opts.seed ?? 5);
   choreo.idleMode = true;
@@ -107,6 +116,8 @@ export function createHomeCharacter(
   let mood: PersoMood = "pret";
   let compact = false;
   let compactK = 0;
+  let compactFrom = 0;
+  let compactAt = -1;
   let paused = false;
   let hidden = document.visibilityState === "hidden";
   let hiddenAt = hidden ? performance.now() : 0;
@@ -141,19 +152,38 @@ export function createHomeCharacter(
     return v;
   };
 
-  const calmNow = () =>
-    isReady &&
-    choreo.resting &&
-    !choreo.busy &&
-    rest.calm &&
-    choreo.motion < 0.012 &&
-    Math.abs(compactK - (compact ? 1 : 0)) < 0.002;
+  // calme : au repos, sans saynète, rien qui apparaît, tête lente (mesurée sur les dernières images)
+  let calmFor = 0;
+  const prevRot = new THREE.Vector3();
+  const prevPos = new THREE.Vector3();
+  const measureCalm = (dt: number) => {
+    const g = rig.head.group;
+    const rot =
+      Math.abs(g.rotation.x - prevRot.x) +
+      Math.abs(g.rotation.y - prevRot.y) +
+      Math.abs(g.rotation.z - prevRot.z);
+    const pos = g.position.distanceTo(prevPos);
+    prevRot.set(g.rotation.x, g.rotation.y, g.rotation.z);
+    prevPos.copy(g.position);
+    const quiet =
+      choreo.resting &&
+      !choreo.busy &&
+      rest.calm &&
+      compactAt < 0 &&
+      rot < CALM_ROT * dt &&
+      pos < CALM_POS * dt;
+    calmFor = quiet ? calmFor + dt : 0;
+  };
 
   const step = (dt: number) => {
-    compactK = approach(compactK, compact ? 1 : 0, 9, dt);
-    if (Math.abs(compactK - (compact ? 1 : 0)) < 0.0005)
-      compactK = compact ? 1 : 0;
-    world.scale.setScalar(1 - (1 - COMPACT_SCALE) * compactK);
+    if (compactAt >= 0) {
+      // transition douce (départ et arrivée en douceur)
+      const u = Math.min(1, (clock - compactAt) / COMPACT_TIME);
+      const e = u * u * u * (u * (u * 6 - 15) + 10);
+      compactK = compactFrom + ((compact ? 1 : 0) - compactFrom) * e;
+      if (u >= 1) compactAt = -1;
+      world.scale.setScalar(1 - (1 - COMPACT_SCALE) * compactK);
+    }
     if (cursor) {
       const r = canvas.getBoundingClientRect();
       const c = toClient(_p.set(0, 0, 0), r);
@@ -174,7 +204,7 @@ export function createHomeCharacter(
   const frame = (now: number) => {
     if (disposed) return;
     raf = requestAnimationFrame(frame);
-    const calm = calmNow();
+    const calm = calmFor >= CALM_HOLD;
     if (lastRender && now - lastRender < (calm ? 30 : 12.5)) return;
     const dt = Math.min(lastNow ? (now - lastNow) / 1000 : 1 / 60, 0.1);
     if (lastRender) meter.gap(now - lastRender);
@@ -186,6 +216,7 @@ export function createHomeCharacter(
     const t0 = performance.now();
     step(dt);
     render();
+    measureCalm(dt);
     meter.cpu(performance.now() - t0);
     meter.poll();
   };
@@ -318,12 +349,19 @@ export function createHomeCharacter(
       rest.activity(clock);
     },
     setCompact(c, instant = false) {
+      if (c === compact && !instant) return;
       compact = c;
       rest.compact = c;
       if (instant) {
         compactK = c ? 1 : 0;
+        compactAt = -1;
         world.scale.setScalar(1 - (1 - COMPACT_SCALE) * compactK);
-      } else rest.activity(clock);
+      } else {
+        compactFrom = compactK;
+        compactAt = clock;
+        rest.activity(clock);
+        start();
+      }
     },
     setPaused(p) {
       paused = p;
@@ -355,6 +393,29 @@ export function createHomeCharacter(
     },
     sleep() {
       rest.sleepNow(clock);
+    },
+    probe() {
+      const g = rig.head.group;
+      const out = [
+        world.scale.x,
+        rig.root.scale.x,
+        rig.root.scale.y,
+        g.position.x,
+        g.position.y,
+        g.rotation.x,
+        g.rotation.y,
+        g.rotation.z,
+        g.scale.x,
+        g.scale.y,
+      ];
+      for (const h of rig.hands)
+        out.push(
+          h.visible ? h.scale.x : 0,
+          h.position.x,
+          h.position.y,
+          h.position.z,
+        );
+      return out;
     },
     stats(reset = false) {
       const s = {

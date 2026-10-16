@@ -269,8 +269,6 @@ export class Choreography {
   idleMode = false;
   rest: RestDriver | null = null;
   private restPose = {} as RestPose;
-  /** Écart de la dernière image entre la pose et ses cibles (la scène baisse la cadence quand il est faible). */
-  motion = 0;
 
   constructor(
     private rig: Rig,
@@ -809,15 +807,6 @@ export class Choreography {
     }
     this.ex = approach(this.ex, eyeTX + this.sacX, 26, dt);
     this.ey = approach(this.ey, eyeTY + this.sacY, 26, dt);
-    this.motion =
-      Math.abs(this.hx - tx) +
-      Math.abs(this.hy - ty) +
-      Math.abs(this.roll - tRoll) +
-      Math.abs(this.yaw - tYaw) +
-      Math.abs(this.pitch - tPitch) +
-      (Math.abs(this.ex - eyeTX - this.sacX) +
-        Math.abs(this.ey - eyeTY - this.sacY)) /
-        60;
     face.blink =
       face.eyes === "happy" || face.eyes === "squint"
         ? 1

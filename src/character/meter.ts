@@ -22,8 +22,9 @@ export interface FrameStats {
   gpuAvg: number | null;
   gpuP95: number | null;
   gpuMax: number | null;
-  /** Repeints du visage. */
+  /** Repeints du visage, et leur temps moyen (ms). */
   faceDraws: number;
+  faceMs: number;
 }
 
 interface TimerExt {
@@ -45,10 +46,15 @@ export function createFrameMeter(
   let nGap = 0;
   let nGpu = 0;
   let faceDraws = 0;
+  let faceTime = 0;
   const drawFace = face.draw;
   face.draw = (s: FaceState) => {
+    const t0 = performance.now();
     const r = drawFace(s);
-    if (r) faceDraws++;
+    if (r) {
+      faceDraws++;
+      faceTime += performance.now() - t0;
+    }
     return r;
   };
   const gl = renderer.getContext() as WebGL2RenderingContext;
@@ -117,10 +123,12 @@ export function createFrameMeter(
         gpuP95: timer ? pct(gpu, nGpu, 0.95) : null,
         gpuMax: timer ? pct(gpu, nGpu, 1) : null,
         faceDraws,
+        faceMs: faceDraws ? faceTime / faceDraws : 0,
       };
       if (reset) {
         nCpu = nGap = nGpu = 0;
         faceDraws = 0;
+        faceTime = 0;
       }
       return s;
     },

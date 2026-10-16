@@ -846,6 +846,8 @@ export class Rest implements RestDriver {
   // sommeil
   private sleep: "awake" | "drowsy" | "asleep" = "awake";
   private sleepT = 0;
+  private sleepK = 0;
+  private nod = 0;
   private q = { face: {} as FaceState } as RestPose;
 
   constructor(seed = 3) {
@@ -858,16 +860,9 @@ export class Rest implements RestDriver {
     };
   }
 
-  /** Calme : rien ne bouge beaucoup (la scène peut passer à 30 images par seconde). */
+  /** Pas de saynète ni d'endormissement en cours (la scène juge ensuite la vitesse de la tête). */
   get calm() {
-    return (
-      !this.cur &&
-      !this.prev &&
-      this.sleep !== "drowsy" &&
-      this.moveAcc < 2 &&
-      Math.abs(this.gx - this.tgx) < 0.02 &&
-      Math.abs(this.gy - this.tgy) < 0.02
-    );
+    return !this.cur && !this.prev && this.sleep !== "drowsy";
   }
 
   get asleep() {
@@ -914,7 +909,10 @@ export class Rest implements RestDriver {
       name = "agace";
       this.pokes = [];
     } else {
-      const pool = POKES.filter((n) => n !== this.lastPoke);
+      // jamais la même réaction deux fois de suite, ni celle qu'il est en train de jouer
+      const pool = POKES.filter(
+        (n) => n !== this.lastPoke && n !== this.cur?.name,
+      );
       name = pool[Math.floor(this.rand() * pool.length) % pool.length];
       this.lastPoke = name;
     }
@@ -974,6 +972,7 @@ export class Rest implements RestDriver {
     if (this.mood === "pret") this.sleepy(p, t, dt);
     this.scheduleActs(t);
     this.applyActs(p, t);
+    this.sleepBreath(p, t, dt);
   }
 
   // ---------- regard ----------
@@ -1130,7 +1129,7 @@ export class Rest implements RestDriver {
       p.eyeTY = 10;
       p.pitch = mix(p.pitch, 0.12, smooth(0, 6, s));
       p.roll = mix(p.roll, 0.14, smooth(2, 6, s));
-      p.dPitch =
+      this.nod =
         0.22 *
         track(s, [
           [2.6, 0],
@@ -1146,8 +1145,7 @@ export class Rest implements RestDriver {
       if (s >= 6) this.sleep = "asleep";
       return;
     }
-    // il dort : yeux fermés, respiration lente et profonde, bouche entrouverte
-    const br = Math.sin(2 * Math.PI * 0.2 * t);
+    // il dort : yeux fermés, bouche entrouverte (respiration : sleepBreath)
     p.face.eyes = "open";
     p.blinkCap = 0;
     p.eyeTX = 0;
@@ -1159,11 +1157,25 @@ export class Rest implements RestDriver {
     p.pitch = 0.12;
     p.roll = 0.14;
     p.yaw = 0;
-    p.ty = -0.04 + 0.012 * br;
-    p.breath = 0;
-    p.sy = 1 + 0.022 * br;
-    p.sx = 1 - 0.008 * br;
+    p.ty = -0.04;
     p.rate = 2.5;
+  }
+
+  /** Respiration du sommeil, lente et profonde, fondue avec la respiration normale à l'endormissement comme au
+      réveil (appliquée en dernier, par-dessus les saynètes : aucun saut d'échelle). */
+  private sleepBreath(p: RestPose, t: number, dt: number) {
+    // il pique du nez : réveillé en plein mouvement, la tête se redresse vite mais sans saut
+    if (this.sleep !== "drowsy") this.nod = approach(this.nod, 0, 14, dt);
+    p.dPitch += this.nod;
+    const deep = this.sleep === "asleep";
+    this.sleepK = approach(this.sleepK, deep ? 1 : 0, deep ? 0.7 : 5, dt);
+    if (this.sleepK < 0.001) return;
+    const k = this.sleepK;
+    const br = Math.sin(2 * Math.PI * 0.2 * t);
+    p.breath *= 1 - k;
+    p.sy *= 1 + 0.022 * br * k;
+    p.sx *= 1 - 0.008 * br * k;
+    p.dy += 0.012 * br * k;
   }
 
   // ---------- saynètes ----------
