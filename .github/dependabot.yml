@@ -1,0 +1,90 @@
+# Mises à jour des dépendances par Dependabot : une passe par semaine, le lundi matin.
+#
+# - Mises à jour mineures et correctives regroupées : une seule pull request par écosystème. Les mises à jour
+#   majeures arrivent une par une, pour être relues séparément.
+# - cooldown : une nouvelle version n'est proposée qu'au bout de 7 jours, le temps qu'une version piégée (paquet
+#   compromis) soit repérée et retirée. Ne concerne pas les alertes de sécurité.
+# - Tauri : la CLI refuse de construire si la crate `tauri` (ou un plugin) et son paquet npm `@tauri-apps/...`
+#   n'ont pas la même version majeure.mineure. Dependabot ne propose donc que les correctifs de Tauri, regroupés ;
+#   les montées de version mineure arrivent avec les synchronisations de Handy (ou à la main, Rust et npm ensemble).
+#
+# Le front utilise bun : l'écosystème « bun » lit bun.lock et le met à jour (l'écosystème « npm » ne connaît que
+# package-lock.json et laisserait bun.lock désynchronisé). Dependabot ne fait pas de mises à jour de sécurité pour
+# bun : seules ces mises à jour hebdomadaires s'appliquent.
+
+version: 2
+
+updates:
+  - package-ecosystem: "cargo"
+    directories:
+      - "/src-tauri"
+      - "/.github/tools/verify-updater-sig"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Paris"
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "tauri"
+        update-types:
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+      - dependency-name: "tauri-build"
+        update-types:
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+      - dependency-name: "tauri-plugin-*"
+        update-types:
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+    groups:
+      tauri:
+        patterns: ["tauri", "tauri-build", "tauri-plugin-*"]
+      # specta et tauri-specta sont épinglés à des versions exactes qui doivent aller ensemble.
+      specta:
+        patterns: ["specta", "specta-*", "tauri-specta"]
+      mineures:
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Paris"
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "@tauri-apps/*"
+        update-types:
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+      - dependency-name: "tauri-plugin-*"
+        update-types:
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+    groups:
+      tauri:
+        patterns: ["@tauri-apps/*", "tauri-plugin-*"]
+      mineures:
+        update-types: ["minor", "patch"]
+
+  # Les actions sont épinglées par commit : Dependabot met à jour le SHA et le commentaire de version.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Paris"
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns: ["*"]
