@@ -6,26 +6,15 @@ interface SettingsGroupProps {
   children: React.ReactNode;
 }
 
+/** Un groupe de lignes de réglage, sous un intertitre discret. */
 export const SettingsGroup: React.FC<SettingsGroupProps> = ({
   title,
   description,
   children,
-}) => {
-  return (
-    <div className="space-y-2">
-      {title && (
-        <div className="px-4">
-          <h2 className="font-display text-xs font-semibold text-mid-gray uppercase tracking-[0.08em]">
-            {title}
-          </h2>
-          {description && (
-            <p className="text-xs text-mid-gray mt-1">{description}</p>
-          )}
-        </div>
-      )}
-      <div className="bg-surface border border-border rounded-lg overflow-visible">
-        <div className="divide-y divide-border">{children}</div>
-      </div>
-    </div>
-  );
-};
+}) => (
+  <section>
+    {title && <h3 className="j-grp">{title}</h3>}
+    {description && <p className="j-grp-desc">{description}</p>}
+    <div>{children}</div>
+  </section>
+);

@@ -17,7 +17,46 @@ interface SliderProps {
   formatValue?: (value: number) => string;
   onReset?: () => void;
   isResetting?: boolean;
+  /** Commande ajoutée après la valeur (ex. écouter le signal). */
+  extra?: React.ReactNode;
 }
+
+/** Curseur seul, piste remplie en rouge jusqu'à la valeur. */
+export const Range: React.FC<{
+  value: number;
+  min: number;
+  max: number;
+  step?: number;
+  disabled?: boolean;
+  label: string;
+  onChange: (value: number) => void;
+  className?: string;
+}> = ({
+  value,
+  min,
+  max,
+  step = 0.01,
+  disabled,
+  label,
+  onChange,
+  className = "",
+}) => {
+  const fill = max > min ? ((value - min) / (max - min)) * 100 : 0;
+  return (
+    <input
+      type="range"
+      className={`j-range ${className}`}
+      min={min}
+      max={max}
+      step={step}
+      value={value}
+      disabled={disabled}
+      aria-label={label}
+      onChange={(e) => onChange(parseFloat(e.target.value))}
+      style={{ "--j-fill": `${fill}%` } as React.CSSProperties}
+    />
+  );
+};
 
 export const Slider: React.FC<SliderProps> = ({
   value,
@@ -28,57 +67,35 @@ export const Slider: React.FC<SliderProps> = ({
   disabled = false,
   label,
   description,
-  descriptionMode = "tooltip",
-  grouped = false,
   showValue = true,
   formatValue = (v) => v.toFixed(2),
   onReset,
   isResetting = false,
-}) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(parseFloat(e.target.value));
-  };
-
-  return (
-    <SettingContainer
-      title={label}
-      description={description}
-      descriptionMode={descriptionMode}
-      grouped={grouped}
-      layout="horizontal"
-      disabled={disabled}
-    >
-      <div className="w-full">
-        <div className="flex items-center space-x-1 h-6">
-          <input
-            type="range"
-            min={min}
-            max={max}
-            step={step}
-            value={value}
-            onChange={handleChange}
-            disabled={disabled}
-            className="flex-grow h-1.5 rounded-full appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{
-              // Piste en deux aplats (partie remplie rouge, reste gris), sans
-              // dégradé : les deux arrêts sont à la même position.
-              background: `linear-gradient(to right, var(--color-accent-fill) ${
-                ((value - min) / (max - min)) * 100
-              }%, color-mix(in srgb, var(--color-mid-gray) 30%, transparent) ${
-                ((value - min) / (max - min)) * 100
-              }%)`,
-            }}
-          />
-          {showValue && (
-            <span className="text-sm font-medium text-text/90 w-12 text-end tabular-nums">
-              {formatValue(value)}
-            </span>
-          )}
-          {onReset && (
-            <ResetButton onClick={onReset} disabled={disabled || isResetting} />
-          )}
-        </div>
-      </div>
-    </SettingContainer>
-  );
-};
+  extra,
+}) => (
+  <SettingContainer title={label} description={description} disabled={disabled}>
+    <div className="flex items-center gap-2" style={{ width: 214 }}>
+      <Range
+        value={value}
+        min={min}
+        max={max}
+        step={step}
+        disabled={disabled}
+        label={label}
+        onChange={onChange}
+      />
+      {showValue && (
+        <span
+          className="j-num j-muted shrink-0 text-end"
+          style={{ minWidth: 46, fontSize: 13.5 }}
+        >
+          {formatValue(value)}
+        </span>
+      )}
+      {onReset && (
+        <ResetButton onClick={onReset} disabled={disabled || isResetting} />
+      )}
+      {extra}
+    </div>
+  </SettingContainer>
+);

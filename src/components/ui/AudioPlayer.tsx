@@ -7,7 +7,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Play, Pause } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Loader2, Pause, Play } from "lucide-react";
 
 interface AudioPlayerProps {
   /** Audio source URL. If not provided, onLoadRequest must be provided. */
@@ -16,6 +17,10 @@ interface AudioPlayerProps {
   onLoadRequest?: () => Promise<string | null>;
   className?: string;
   autoPlay?: boolean;
+  /** Lance la lecture dès l'affichage (charge le fichier si besoin). */
+  autoStart?: boolean;
+  /** Actions affichées après le temps (retranscrire, supprimer…). */
+  children?: React.ReactNode;
 }
 
 interface AudioPlayerGroupContextValue {
@@ -55,7 +60,10 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   onLoadRequest,
   className = "",
   autoPlay = false,
+  autoStart = false,
+  children,
 }) => {
+  const { t } = useTranslation();
   const group = useContext(AudioPlayerGroupContext);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
@@ -276,48 +284,60 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
   const progressPercent = getProgressPercent();
 
+  // Lecture demandée depuis la liste (bouton ▶ de la ligne).
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (!autoStart || autoStarted.current) return;
+    autoStarted.current = true;
+    void togglePlay();
+  }, [autoStart]);
+
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div className={`j-player ${className}`}>
       <audio ref={audioRef} src={src ?? undefined} preload="metadata" />
 
       <button
+        type="button"
         onClick={togglePlay}
         disabled={isLoading}
-        className="transition-colors cursor-pointer text-text hover:text-accent-text disabled:opacity-50"
-        aria-label={isPlaying ? "Pause" : "Play"}
+        className="j-play"
+        aria-label={isPlaying ? t("app.history.pause") : t("app.history.play")}
+        title={isPlaying ? t("app.history.pause") : t("app.history.play")}
       >
-        {isPlaying ? (
-          <Pause width={20} height={20} fill="currentColor" />
+        {isLoading ? (
+          <Loader2 size={14} className="j-spin" aria-hidden="true" />
+        ) : isPlaying ? (
+          <Pause size={14} fill="currentColor" aria-hidden="true" />
         ) : (
-          <Play width={20} height={20} fill="currentColor" />
+          <Play
+            size={14}
+            fill="currentColor"
+            aria-hidden="true"
+            style={{ marginInlineStart: 2 }}
+          />
         )}
       </button>
 
-      <div className="flex-1 flex items-center gap-2">
-        <span className="text-xs text-mid-gray min-w-[30px] tabular-nums">
-          {formatTime(currentTime)}
-        </span>
+      <input
+        type="range"
+        min="0"
+        max={duration || 0}
+        step="0.01"
+        value={currentTime}
+        onChange={handleSeek}
+        onMouseDown={handleSliderMouseDown}
+        onTouchStart={handleSliderTouchStart}
+        className="j-range"
+        aria-label={t("app.history.seek")}
+        disabled={!src}
+        style={{ "--j-fill": `${progressPercent}%` } as React.CSSProperties}
+      />
 
-        <input
-          type="range"
-          min="0"
-          max={duration || 0}
-          step="0.01"
-          value={currentTime}
-          onChange={handleSeek}
-          onMouseDown={handleSliderMouseDown}
-          onTouchStart={handleSliderTouchStart}
-          className={`flex-1 h-1 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:border-2 ${progressPercent >= 99.5 ? "[&::-webkit-slider-thumb]:translate-x-0.5 [&::-moz-range-thumb]:translate-x-0.5" : ""}`}
-          style={{
-            // Deux aplats (lu en rouge, reste en gris), sans dégradé.
-            background: `linear-gradient(to right, var(--color-accent-fill) ${progressPercent}%, color-mix(in srgb, var(--color-mid-gray) 30%, transparent) ${progressPercent}%)`,
-          }}
-        />
-
-        <span className="text-xs text-mid-gray min-w-[30px] tabular-nums">
-          {formatTime(duration)}
-        </span>
-      </div>
+      <span className="t j-num">
+        {formatTime(currentTime)} / {formatTime(duration)}
+      </span>
+      <span className="grow" />
+      {children}
     </div>
   );
 };

@@ -39,31 +39,29 @@ type NonCreatableProps = {
 
 export type SelectProps = BaseProps & (CreatableProps | NonCreatableProps);
 
-const baseBackground =
-  "color-mix(in srgb, var(--color-mid-gray) 10%, transparent)";
-const hoverBackground =
-  "color-mix(in srgb, var(--color-mid-gray) 15%, transparent)";
-const selectedBackground =
-  "color-mix(in srgb, var(--color-mid-gray) 16%, transparent)";
+const baseBackground = "var(--color-surface)";
+const hoverBackground = "var(--color-surface-2)";
+const selectedBackground = "var(--color-surface-2)";
 // Bordure des champs : contraste ≥ 3:1 avec la surface (WCAG 1.4.11).
 const neutralBorder = "var(--color-border-strong)";
 
 const selectStyles: StylesConfig<SelectOption, false> = {
   control: (base, state) => ({
     ...base,
-    minHeight: 36,
+    minHeight: 34,
     borderRadius: 6,
-    borderColor: state.isFocused ? "var(--color-focus)" : neutralBorder,
-    boxShadow: state.isFocused ? "0 0 0 1px var(--color-focus)" : "none",
-    backgroundColor: state.isFocused ? hoverBackground : baseBackground,
-    fontSize: "0.875rem",
-    fontWeight: 600,
+    borderColor: state.isFocused ? "var(--color-accent)" : neutralBorder,
+    boxShadow: "none",
+    backgroundColor: baseBackground,
+    fontSize: 14,
+    fontWeight: 500,
     color: "var(--color-text)",
     transition:
       "border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease",
     ":hover": {
-      borderColor: "var(--color-accent)",
-      backgroundColor: hoverBackground,
+      borderColor: state.isFocused
+        ? "var(--color-accent)"
+        : "var(--color-text)",
     },
   }),
   valueContainer: (base) => ({
@@ -98,10 +96,11 @@ const selectStyles: StylesConfig<SelectOption, false> = {
     backgroundColor:
       "color-mix(in srgb, var(--color-mid-gray) 35%, transparent)",
   }),
+  menuPortal: (provided) => ({ ...provided, zIndex: 80 }),
   menu: (provided) => ({
     ...provided,
-    zIndex: 30,
-    borderRadius: 6,
+    zIndex: 80,
+    borderRadius: 8,
     overflow: "hidden",
     backgroundColor: "var(--color-surface)",
     color: "var(--color-text)",
@@ -111,14 +110,14 @@ const selectStyles: StylesConfig<SelectOption, false> = {
   }),
   option: (base, state) => ({
     ...base,
-    fontSize: "0.875rem",
+    fontSize: 14,
+    borderRadius: 5,
     backgroundColor: state.isSelected
       ? selectedBackground
       : state.isFocused
         ? hoverBackground
         : "transparent",
     // L'option retenue porte un trait rouge à gauche, sans teinte rose.
-    boxShadow: state.isSelected ? "inset 3px 0 0 var(--color-accent)" : "none",
     fontWeight: state.isSelected ? 600 : 400,
     color: "var(--color-text)",
     ":active": {
@@ -174,6 +173,10 @@ export const Select: React.FC<SelectProps> = React.memo(
       onBlur,
       isClearable,
       styles: selectStyles,
+      // Rendu dans <body> : jamais rogné par le panneau des réglages.
+      menuPortalTarget: typeof document !== "undefined" ? document.body : null,
+      menuPosition: "fixed",
+      menuPlacement: "auto",
     };
 
     if (isCreatable) {
