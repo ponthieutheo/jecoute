@@ -1,0 +1,9 @@
+# Fins de ligne LF dans le dépôt, quel que soit le système (Windows inclus).
+* text=auto eol=lf
+*.sh text eol=lf
+*.bmp binary
+*.ico binary
+*.icns binary
+*.png binary
+*.wav binary
+*.woff2 binary

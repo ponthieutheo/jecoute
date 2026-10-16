@@ -26,7 +26,6 @@ dist-ssr
 *.sln
 *.sw?
 
-.claude/
 
 /target/
 recording_*
