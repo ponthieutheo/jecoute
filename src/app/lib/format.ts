@@ -96,30 +96,34 @@ export const formatWhen = (
   return t("app.dates.dayAt", { day, time });
 };
 
-/** Nom d'une langue dans la langue de l'interface (« fr » → « Français »). */
-export const languageName = (code: string, uiLanguage: string): string => {
+/** Nom d'une langue avec la casse d'usage dans une phrase (« svenska », « Deutsch »). */
+const languageNameInSentence = (code: string, uiLanguage: string): string => {
   const base = recognitionLanguage(code);
   const fallback = getLanguageLabel(code) ?? code;
   try {
     const name = new Intl.DisplayNames([uiLanguage], { type: "language" }).of(
       base,
     );
-    if (!name || name.toLowerCase() === base) return fallback;
-    return capitalize(name, uiLanguage);
+    return !name || name.toLowerCase() === base ? fallback : name;
   } catch {
     return fallback;
   }
 };
 
+/** Nom d'une langue dans la langue de l'interface (« fr » → « Français »). */
+export const languageName = (code: string, uiLanguage: string): string =>
+  capitalize(languageNameInSentence(code, uiLanguage), uiLanguage);
+
 /**
  * Nom de langue précédé de son article, pour « pour le français »,
- * « pour l’anglais » ; dans les autres langues, le nom seul.
+ * « pour l’anglais » ; dans les autres langues, le nom seul, avec la casse
+ * d'une phrase (« för svenska », mais « für Deutsch »).
  */
 export const languageWithArticle = (
   code: string,
   uiLanguage: string,
 ): string => {
-  const name = languageName(code, uiLanguage);
+  const name = languageNameInSentence(code, uiLanguage);
   if (!uiLanguage.startsWith("fr")) return name;
   const lower = name.toLocaleLowerCase("fr");
   // h aspiré (« le hongrois ») sauf « l’hébreu ».
