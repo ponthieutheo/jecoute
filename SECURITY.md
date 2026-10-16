@@ -54,8 +54,9 @@ Hors périmètre :
 
 ## Vérifier un fichier téléchargé
 
-Chaque release contient `SHA256SUMS.txt`, et les installeurs ainsi que `latest.json` portent une attestation de
-provenance GitHub, qui prouve qu'ils ont été construits par le workflow de release de ce dépôt :
+Chaque release contient `SHA256SUMS.txt`. Quand elle est construite par GitHub Actions, ses installeurs et
+`latest.json` portent aussi une attestation de provenance, qui prouve qu'ils sortent du workflow de release de
+ce dépôt (le texte de la release le signale) :
 
 ```
 gh attestation verify Jecoute_<version>_x64-setup.exe --repo ponthieutheo/jecoute
