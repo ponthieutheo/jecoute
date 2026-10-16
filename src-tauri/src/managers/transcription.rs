@@ -191,6 +191,61 @@ enum LoadedEngine {
     Cohere(CohereModel),
 }
 
+/// Delay between launch and the startup preload, so the window, tray and
+/// shortcuts come up before the disk and GPU get busy.
+const STARTUP_PRELOAD_DELAY: Duration = Duration::from_secs(3);
+
+/// Scheduling priority of a model-loading thread.
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+enum LoadPriority {
+    /// The user is waiting (dictation, retry).
+    Normal,
+    /// Nobody is waiting yet (startup preload): yield the CPU to everything else.
+    Background,
+}
+
+/// Whether to warm `selected_model` at launch: a model must be selected and on
+/// disk, and the user must not have asked to unload it "Immediately" (keeping
+/// it resident would contradict that choice).
+fn should_preload_at_startup(
+    selected_model: &str,
+    unload_timeout: ModelUnloadTimeout,
+    model_downloaded: bool,
+) -> bool {
+    !selected_model.is_empty()
+        && model_downloaded
+        && unload_timeout != ModelUnloadTimeout::Immediately
+}
+
+/// Lower the calling thread's CPU priority for background work. Best effort:
+/// failures are ignored, and macOS keeps the default priority.
+fn lower_current_thread_priority() {
+    #[cfg(windows)]
+    {
+        use windows::Win32::System::Threading::{
+            GetCurrentThread, SetThreadPriority, THREAD_PRIORITY_BELOW_NORMAL,
+        };
+        // SAFETY: GetCurrentThread returns a pseudo-handle valid for the
+        // calling thread; SetThreadPriority only adjusts its scheduling.
+        if let Err(e) =
+            unsafe { SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL) }
+        {
+            debug!("Could not lower the model-loading thread priority: {}", e);
+        }
+    }
+    #[cfg(target_os = "linux")]
+    {
+        // On Linux the nice value is per thread: renice only this one.
+        // SAFETY: plain syscalls on the calling thread's own id.
+        unsafe {
+            let tid = libc::syscall(libc::SYS_gettid) as libc::id_t;
+            if libc::setpriority(libc::PRIO_PROCESS, tid, 10) != 0 {
+                debug!("Could not lower the model-loading thread priority");
+            }
+        }
+    }
+}
+
 /// RAII guard that clears the `is_loading` flag and notifies waiters on drop.
 /// Ensures the loading flag is always reset, even on early returns or panics.
 pub struct LoadingGuard {
@@ -393,22 +448,6 @@ impl TranscriptionManager {
     /// latest settings.
     pub fn reload_model_on_next_use(&self) {
         self.reload_model_on_next_use.store(true, Ordering::Release);
-    }
-
-    /// Atomically check whether a model load is in progress and, if not, mark
-    /// one as starting. Returns a [`LoadingGuard`] whose [`Drop`] impl will
-    /// clear the flag and wake waiters. Returns `None` if a load is already in
-    /// progress.
-    pub fn try_start_loading(&self) -> Option<LoadingGuard> {
-        let mut is_loading = self.is_loading.lock().unwrap();
-        if *is_loading {
-            return None;
-        }
-        *is_loading = true;
-        Some(LoadingGuard {
-            is_loading: self.is_loading.clone(),
-            loading_condvar: self.loading_condvar.clone(),
-        })
     }
 
     pub fn unload_model(&self) -> Result<()> {
@@ -743,19 +782,31 @@ impl TranscriptionManager {
 
     /// Kicks off the model loading in a background thread if it's not already loaded
     pub fn initiate_model_load(&self) {
+        self.initiate_model_load_with(LoadPriority::Normal);
+    }
+
+    /// [`Self::initiate_model_load`] with a scheduling priority for the loading
+    /// thread. Returns whether a load was started: `false` when the model is
+    /// already loaded or a load is in flight (whoever needs the model then
+    /// waits on `loading_condvar`, so a dictation that starts during the
+    /// startup preload reuses it instead of loading twice).
+    fn initiate_model_load_with(&self, priority: LoadPriority) -> bool {
         let mut is_loading = self.is_loading.lock().unwrap();
         if *is_loading {
-            return;
+            return false;
         }
 
         let reload_pending = self.reload_model_on_next_use.load(Ordering::Acquire);
         if !reload_pending && self.is_model_loaded() {
-            return;
+            return false;
         }
 
         *is_loading = true;
         let self_clone = self.clone();
         thread::spawn(move || {
+            if priority == LoadPriority::Background {
+                lower_current_thread_priority();
+            }
             if reload_pending {
                 self_clone
                     .reload_model_on_next_use
@@ -769,6 +820,72 @@ impl TranscriptionManager {
             *is_loading = false;
             self_clone.loading_condvar.notify_all();
         });
+        true
+    }
+
+    /// Wait for any in-flight model load to finish, then mark one as starting.
+    /// Returns a [`LoadingGuard`] whose [`Drop`] impl clears the flag and wakes
+    /// waiters. Used by explicit model switches, which must not fail just
+    /// because the startup preload (or a dictation) is loading a model.
+    pub fn wait_for_loading_slot(&self) -> LoadingGuard {
+        let mut is_loading = self.is_loading.lock().unwrap();
+        while *is_loading {
+            is_loading = self.loading_condvar.wait(is_loading).unwrap();
+        }
+        *is_loading = true;
+        LoadingGuard {
+            is_loading: self.is_loading.clone(),
+            loading_condvar: self.loading_condvar.clone(),
+        }
+    }
+
+    /// Warm the selected model shortly after launch, off the startup path and
+    /// at low priority, so the first dictation doesn't pay for a cold load
+    /// (measured 17-27 s for a 1.8 GB model on a cold disk, 13.7 s after an
+    /// idle unload). Skipped when the user chose to unload "Immediately". A
+    /// dictation started meanwhile waits for this load instead of starting a
+    /// second one (see [`Self::initiate_model_load_with`]).
+    pub fn schedule_startup_preload(&self) {
+        let manager = self.clone();
+        let spawned = thread::Builder::new()
+            .name("model-preload".to_string())
+            .spawn(move || {
+                thread::sleep(STARTUP_PRELOAD_DELAY);
+                // The model list assumed a GPU until device enumeration
+                // finished; refresh it if there turned out to be none.
+                if transcribe_gpu_known_absent() {
+                    let _ = manager.app_handle.emit("models-updated", ());
+                }
+                manager.preload_selected_model();
+            });
+        if let Err(e) = spawned {
+            warn!("Failed to spawn the startup model preload thread: {}", e);
+        }
+    }
+
+    fn preload_selected_model(&self) {
+        let settings = get_settings(&self.app_handle);
+        let model_downloaded = self
+            .model_manager
+            .get_model_info(&settings.selected_model)
+            .is_some_and(|model| model.is_downloaded);
+        if !should_preload_at_startup(
+            &settings.selected_model,
+            settings.model_unload_timeout,
+            model_downloaded,
+        ) {
+            debug!(
+                "No startup preload (model '{}', downloaded={}, unload={:?})",
+                settings.selected_model, model_downloaded, settings.model_unload_timeout
+            );
+            return;
+        }
+        if self.initiate_model_load_with(LoadPriority::Background) {
+            info!(
+                "Preloading model '{}' in the background",
+                settings.selected_model
+            );
+        }
     }
 
     pub fn get_current_model(&self) -> Option<String> {
@@ -1657,7 +1774,8 @@ fn real_time_factor(audio_secs: f64, compute_secs: f64) -> f64 {
 }
 
 /// Resolve the persisted language intent into the language a specific model can
-/// use without writing the coerced value back to settings.
+/// use without writing the coerced value back to settings. A model that cannot
+/// detect the language gets the system language for an "auto" intent.
 fn effective_language_for_model(
     settings: &AppSettings,
     model_manager: &ModelManager,
@@ -1668,6 +1786,7 @@ fn effective_language_for_model(
             &settings.selected_language,
             &info.supported_languages,
             info.supports_language_detection,
+            crate::managers::system_language::system_language(),
         ),
         None => settings.selected_language.clone(),
     }
@@ -1980,6 +2099,9 @@ pub fn init_transcribe_backend() {
 /// path. A model load that comes first waits on the same one-time compile.
 pub fn report_compute_devices() {
     let devices = transcribe_compute_devices();
+    // Fill the GPU cache from this same enumeration, so the model list can tell
+    // whether a GPU is usable without ever enumerating on its own.
+    let _ = GPU_DEVICES.set(gpu_device_options(&devices));
     info!(
         "transcribe-cpp initialized with {} compute device(s): [{}]",
         devices.len(),
@@ -2190,21 +2312,40 @@ fn available_transcribe_accelerators(gpu_disabled: bool) -> Vec<String> {
 }
 
 fn cached_gpu_devices() -> &'static [GpuDeviceOption] {
-    // GPU compute devices transcribe-cpp registered at startup. `id` is a
-    // persistent identity key, never the process-local registry index. It uses
-    // the backend's device_id where available and its name otherwise (Metal).
-    // `total_vram_mb` is 0 when the backend does not report capacity.
-    GPU_DEVICES.get_or_init(|| {
-        transcribe_compute_devices()
-            .into_iter()
-            .filter(is_transcribe_gpu_device)
-            .map(|d| GpuDeviceOption {
-                id: transcribe_device_key(&d),
-                name: transcribe_device_label(&d),
-                total_vram_mb: (d.memory_total / (1024 * 1024)) as usize,
-            })
-            .collect()
-    })
+    GPU_DEVICES.get_or_init(|| gpu_device_options(&transcribe_compute_devices()))
+}
+
+/// GPU compute devices among `devices`. `id` is a persistent identity key,
+/// never the process-local registry index. It uses the backend's device_id
+/// where available and its name otherwise (Metal). `total_vram_mb` is 0 when
+/// the backend does not report capacity.
+fn gpu_device_options(devices: &[transcribe_cpp::Device]) -> Vec<GpuDeviceOption> {
+    devices
+        .iter()
+        .filter(|d| is_transcribe_gpu_device(d))
+        .map(|d| GpuDeviceOption {
+            id: transcribe_device_key(d),
+            name: transcribe_device_label(d),
+            total_vram_mb: (d.memory_total / (1024 * 1024)) as usize,
+        })
+        .collect()
+}
+
+/// Whether transcribe-cpp models will likely run on a GPU with this accelerator
+/// setting — used to recommend heavier, more accurate models. Never blocks:
+/// until the startup device enumeration has finished (see
+/// [`report_compute_devices`]) a GPU is assumed, as on most desktops.
+pub fn transcribe_gpu_usable_hint(setting: TranscribeAcceleratorSetting) -> bool {
+    if transcribe_gpu_disabled_for_host() || setting == TranscribeAcceleratorSetting::Cpu {
+        return false;
+    }
+    GPU_DEVICES.get().is_none_or(|devices| !devices.is_empty())
+}
+
+/// Whether the GPU enumeration has finished and found no GPU — the one case
+/// where [`transcribe_gpu_usable_hint`]'s startup assumption was wrong.
+pub fn transcribe_gpu_known_absent() -> bool {
+    GPU_DEVICES.get().is_some_and(|devices| devices.is_empty())
 }
 
 #[derive(Serialize, Clone, Debug, Type)]
@@ -2238,6 +2379,43 @@ mod tests {
 
     fn languages(codes: &[&str]) -> Vec<String> {
         codes.iter().map(|code| (*code).to_string()).collect()
+    }
+
+    #[test]
+    fn startup_preload_needs_a_downloaded_selected_model() {
+        let never = ModelUnloadTimeout::Never;
+        assert!(should_preload_at_startup("cohere", never, true));
+        assert!(!should_preload_at_startup("", never, true));
+        assert!(!should_preload_at_startup("cohere", never, false));
+    }
+
+    #[test]
+    fn startup_preload_respects_every_timeout_but_immediately() {
+        for timeout in [
+            ModelUnloadTimeout::Never,
+            ModelUnloadTimeout::Min2,
+            ModelUnloadTimeout::Min5,
+            ModelUnloadTimeout::Min10,
+            ModelUnloadTimeout::Min15,
+            ModelUnloadTimeout::Hour1,
+            ModelUnloadTimeout::Sec15,
+        ] {
+            assert!(should_preload_at_startup("m", timeout, true), "{timeout:?}");
+        }
+        assert!(!should_preload_at_startup(
+            "m",
+            ModelUnloadTimeout::Immediately,
+            true
+        ));
+    }
+
+    #[test]
+    fn model_stays_loaded_by_default() {
+        assert_eq!(ModelUnloadTimeout::default(), ModelUnloadTimeout::Never);
+        assert_eq!(
+            crate::settings::get_default_settings().model_unload_timeout,
+            ModelUnloadTimeout::Never
+        );
     }
 
     #[test]

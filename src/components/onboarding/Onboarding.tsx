@@ -37,17 +37,18 @@ const Onboarding: React.FC<OnboardingProps> = ({
 
   // Curate the download list: legacy (.bin/ONNX) downloads are deprecated and
   // never shown here (they still appear in the compatible section if already on
-  // disk). The catalog arrives rank-sorted, so the first two recommended models
-  // are the featured picks — currently Parakeet Unified (English) and Nemotron
-  // Streaming (multilingual). Everything else hides behind "Show all".
+  // disk). The backend sorts and flags the list for the system language, so the
+  // first two recommended models are the featured picks — for a French system
+  // with a GPU, Cohere Transcribe (most accurate) then Parakeet TDT v3 (light,
+  // detects the language). Everything else hides behind "Show all".
   const { downloadable, topPicks, otherRecommended, rest } = useMemo(() => {
     const downloadable = models.filter(
       (m: ModelInfo) => !m.is_downloaded && !isLegacySource(m),
     );
     const recommended = downloadable.filter((m: ModelInfo) => m.is_recommended);
-    // `models` arrives in editorial rank order (the backend sorts by rank_of,
-    // then accuracy), so keep that order here: ranked-but-not-recommended models
-    // surface first, then the unranked tail by accuracy.
+    // `models` arrives in the backend's order (system language first, then
+    // editorial rank, then accuracy), so keep it here: models that handle the
+    // system language surface first, those that can't come last.
     const rest = downloadable.filter((m: ModelInfo) => !m.is_recommended);
     return {
       downloadable,

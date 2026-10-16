@@ -134,10 +134,12 @@ pub enum OverlayStyle {
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type, Default)]
 #[serde(rename_all = "snake_case")]
 pub enum ModelUnloadTimeout {
+    /// Default: keep the model resident so every dictation starts instantly.
+    /// Reloading a large model after an idle unload can take many seconds.
+    #[default]
     Never,
     Immediately,
     Min2,
-    #[default]
     Min5,
     Min10,
     Min15,

@@ -42,7 +42,9 @@ pub enum EngineType {
 /// for downloading and on-disk resolution.
 #[derive(Debug, Clone, Serialize, Deserialize, Type)]
 pub enum ModelSource {
-    /// Direct HTTP download from a URL (current blob.handy.computer hosting).
+    /// Direct HTTP download from a URL. No bundled model uses it: the legacy
+    /// models were only hosted on the upstream author's server, which J'écoute
+    /// does not use.
     Url {
         url: String,
         /// Expected SHA-256 for integrity verification; `None` skips it.
@@ -269,29 +271,26 @@ impl ModelDescriptor {
 /// *concrete* code, so a bare intent (`en`) resolves to the exact string the
 /// engine's prompt table expects (`en-US`) for models that advertise full
 /// BCP-47 locales.
+///
+/// When the model cannot detect the language and the intent is not usable
+/// ("auto", or a language the model lacks), the concrete fallback is the
+/// `system_language` (the OS locale, see
+/// [`super::system_language::system_language`]) when the model supports it,
+/// then English, then the model's first language — the engine never receives
+/// "auto" it cannot honour. Mirrored by `effectiveLanguage` in the settings
+/// language selector.
 pub fn effective_language(
     intent: &str,
     supported_languages: &[String],
     supports_language_detection: bool,
+    system_language: Option<&str>,
 ) -> String {
     if supported_languages.is_empty() {
         return intent.to_string();
     }
 
     if intent != "auto" {
-        // Prefer the same base code before considering an equivalence alias. If
-        // a future model advertises both `no` and `nb`, an explicit `nb` intent
-        // must select `nb`, regardless of capability-list order.
-        let exact_base_match = supported_languages
-            .iter()
-            .find(|language| base_language(language) == base_language(intent));
-        let equivalent_match = || {
-            supported_languages.iter().find(|language| {
-                canonical_language_code(language) == canonical_language_code(intent)
-            })
-        };
-
-        if let Some(code) = exact_base_match.or_else(equivalent_match) {
+        if let Some(code) = find_supported_language(supported_languages, intent) {
             return code.clone();
         }
     }
@@ -301,14 +300,32 @@ pub fn effective_language(
     }
 
     // Model can't auto-detect and the intent isn't usable: fall back to a
-    // concrete language (prefer English) so we never hand the engine "auto".
-    if let Some(en) = supported_languages
-        .iter()
-        .find(|language| base_language(language) == "en")
-    {
-        return en.clone();
+    // concrete language so we never hand the engine "auto". The speaker most
+    // likely uses the system's language; English is the last resort.
+    for fallback in system_language.into_iter().chain(std::iter::once("en")) {
+        if let Some(code) = find_supported_language(supported_languages, fallback) {
+            return code.clone();
+        }
     }
     recognition_language(&supported_languages[0]).to_string()
+}
+
+/// The model's own code for `language`, if it supports it. Prefers the same
+/// base code before considering an equivalence alias: if a model advertises
+/// both `no` and `nb`, an explicit `nb` must select `nb`, regardless of
+/// capability-list order.
+pub(crate) fn find_supported_language<'a>(
+    supported_languages: &'a [String],
+    language: &str,
+) -> Option<&'a String> {
+    supported_languages
+        .iter()
+        .find(|code| base_language(code) == base_language(language))
+        .or_else(|| {
+            supported_languages
+                .iter()
+                .find(|code| canonical_language_code(code) == canonical_language_code(language))
+        })
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Type)]
@@ -535,6 +552,13 @@ impl ModelManager {
 
         let mut available_models = HashMap::new();
 
+        // Legacy (.bin / ONNX) models. Their only download source was the
+        // upstream author's server (blob.handy.computer), which J'écoute does
+        // not use, so they are `Local`: listed and runnable only when their
+        // files are already in the models directory (copied over by hand), and
+        // hidden otherwise (see `is_listed`). The catalog's Hugging Face GGUFs
+        // supersede every one of them.
+
         // Whisper supported languages (99 languages from tokenizer)
         let whisper_languages: Vec<String> = vec![
             "en", "zh", "de", "es", "ru", "ko", "fr", "ja", "pt", "tr", "pl", "ca", "nl", "ar",
@@ -557,13 +581,7 @@ impl ModelManager {
                 name: "Whisper Small".to_string(),
                 description: "Fast and fairly accurate.".to_string(),
                 filename: "ggml-small.bin".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/ggml-small.bin".to_string(),
-                    sha256: Some(
-                        "1be3a9b2063867b937e64e2ec7483364a79917e157fa98c5d94b5c1fffea987b"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 465,
                 is_downloaded: false,
                 is_downloading: false,
@@ -590,13 +608,7 @@ impl ModelManager {
                 name: "Whisper Medium".to_string(),
                 description: "Good accuracy, medium speed".to_string(),
                 filename: "whisper-medium-q4_1.bin".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/whisper-medium-q4_1.bin".to_string(),
-                    sha256: Some(
-                        "79283fc1f9fe12ca3248543fbd54b73292164d8df5a16e095e2bceeaaabddf57"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 469,
                 is_downloaded: false,
                 is_downloading: false,
@@ -622,13 +634,7 @@ impl ModelManager {
                 name: "Whisper Turbo".to_string(),
                 description: "Balanced accuracy and speed.".to_string(),
                 filename: "ggml-large-v3-turbo.bin".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/ggml-large-v3-turbo.bin".to_string(),
-                    sha256: Some(
-                        "1fc70f774d38eb169993ac391eea357ef47c88757ef72ee5943879b7e8e2bc69"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 1549,
                 is_downloaded: false,
                 is_downloading: false,
@@ -654,13 +660,7 @@ impl ModelManager {
                 name: "Whisper Large".to_string(),
                 description: "Good accuracy, but slow.".to_string(),
                 filename: "ggml-large-v3-q5_0.bin".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/ggml-large-v3-q5_0.bin".to_string(),
-                    sha256: Some(
-                        "d75795ecff3f83b5faa89d1900604ad8c780abd5739fae406de19f23ecd98ad1"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 1031,
                 is_downloaded: false,
                 is_downloading: false,
@@ -687,13 +687,7 @@ impl ModelManager {
                 description: "Optimized for Taiwanese Mandarin. Code-switching support."
                     .to_string(),
                 filename: "breeze-asr-q5_k.bin".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/breeze-asr-q5_k.bin".to_string(),
-                    sha256: Some(
-                        "8efbf0ce8a3f50fe332b7617da787fb81354b358c288b008d3bdef8359df64c6"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 1030,
                 is_downloaded: false,
                 is_downloading: false,
@@ -720,13 +714,7 @@ impl ModelManager {
                 name: "Parakeet V2".to_string(),
                 description: "English only. The best model for English speakers.".to_string(),
                 filename: "parakeet-tdt-0.6b-v2-int8".to_string(), // Directory name
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/parakeet-v2-int8.tar.gz".to_string(),
-                    sha256: Some(
-                        "ac9b9429984dd565b25097337a887bb7f0f8ac393573661c651f0e7d31563991"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 451,
                 is_downloaded: false,
                 is_downloading: false,
@@ -762,13 +750,7 @@ impl ModelManager {
                 name: "Parakeet V3".to_string(),
                 description: "Fast and accurate. Supports 25 European languages.".to_string(),
                 filename: "parakeet-tdt-0.6b-v3-int8".to_string(), // Directory name
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/parakeet-v3-int8.tar.gz".to_string(),
-                    sha256: Some(
-                        "43d37191602727524a7d8c6da0eef11c4ba24320f5b4730f1a2497befc2efa77"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 456,
                 is_downloaded: false,
                 is_downloading: false,
@@ -778,7 +760,7 @@ impl ModelManager {
                 accuracy_score: 0.80,
                 speed_score: 0.85,
                 supports_translation: false,
-                is_recommended: true,
+                is_recommended: false,
                 supported_languages: parakeet_v3_languages,
                 supports_language_selection: false,
                 is_custom: false,
@@ -794,13 +776,7 @@ impl ModelManager {
                 name: "Moonshine Base".to_string(),
                 description: "Very fast, English only. Handles accents well.".to_string(),
                 filename: "moonshine-base".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/moonshine-base.tar.gz".to_string(),
-                    sha256: Some(
-                        "04bf6ab012cfceebd4ac7cf88c1b31d027bbdd3cd704649b692e2e935236b7e8"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 55,
                 is_downloaded: false,
                 is_downloading: false,
@@ -826,14 +802,7 @@ impl ModelManager {
                 name: "Moonshine V2 Tiny".to_string(),
                 description: "Ultra-fast, English only".to_string(),
                 filename: "moonshine-tiny-streaming-en".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/moonshine-tiny-streaming-en.tar.gz"
-                        .to_string(),
-                    sha256: Some(
-                        "465addcfca9e86117415677dfdc98b21edc53537210333a3ecdb58509a80abaf"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 31,
                 is_downloaded: false,
                 is_downloading: false,
@@ -859,14 +828,7 @@ impl ModelManager {
                 name: "Moonshine V2 Small".to_string(),
                 description: "Fast, English only. Good balance of speed and accuracy.".to_string(),
                 filename: "moonshine-small-streaming-en".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/moonshine-small-streaming-en.tar.gz"
-                        .to_string(),
-                    sha256: Some(
-                        "dbb3e1c1832bd88a4ac712f7449a136cc2c9a18c5fe33a12ed1b7cb1cfe9cdd5"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 99,
                 is_downloaded: false,
                 is_downloading: false,
@@ -892,14 +854,7 @@ impl ModelManager {
                 name: "Moonshine V2 Medium".to_string(),
                 description: "English only. High quality.".to_string(),
                 filename: "moonshine-medium-streaming-en".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/moonshine-medium-streaming-en.tar.gz"
-                        .to_string(),
-                    sha256: Some(
-                        "07a66f3bff1c77e75a2f637e5a263928a08baae3c29c4c053fc968a9a9373d13"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 192,
                 is_downloaded: false,
                 is_downloading: false,
@@ -932,13 +887,7 @@ impl ModelManager {
                 description: "Very fast. Chinese, English, Japanese, Korean, Cantonese."
                     .to_string(),
                 filename: "sense-voice-int8".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/sense-voice-int8.tar.gz".to_string(),
-                    sha256: Some(
-                        "171d611fe5d353a50bbb741b6f3ef42559b1565685684e9aa888ef563ba3e8a4"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 152,
                 is_downloaded: false,
                 is_downloading: false,
@@ -967,13 +916,7 @@ impl ModelManager {
                 name: "GigaAM v3".to_string(),
                 description: "Russian speech recognition. Fast and accurate.".to_string(),
                 filename: "giga-am-v3-int8".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/giga-am-v3-int8.tar.gz".to_string(),
-                    sha256: Some(
-                        "d872462268430db140b69b72e0fc4b787b194c1dbe51b58de39444d55b6da45b"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 151,
                 is_downloaded: false,
                 is_downloading: false,
@@ -1006,13 +949,7 @@ impl ModelManager {
                 description: "Very fast. English, German, Spanish, French. Supports translation."
                     .to_string(),
                 filename: "canary-180m-flash".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/canary-180m-flash.tar.gz".to_string(),
-                    sha256: Some(
-                        "6d9cfca6118b296e196eaedc1c8fa9788305a7b0f1feafdb6dc91932ab6e53f7"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 146,
                 is_downloaded: false,
                 is_downloading: false,
@@ -1049,13 +986,7 @@ impl ModelManager {
                 description: "Accurate multilingual. 25 European languages. Supports translation."
                     .to_string(),
                 filename: "canary-1b-v2".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/canary-1b-v2.tar.gz".to_string(),
-                    sha256: Some(
-                        "02305b2a25f9cf3e7deaffa7f94df00efa44f442cd55c101c2cb9c000f904666"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 691,
                 is_downloaded: false,
                 is_downloading: false,
@@ -1089,13 +1020,7 @@ impl ModelManager {
                 name: "Cohere".to_string(),
                 description: "A large, slower, but very accurate multilingual model.".to_string(),
                 filename: "cohere-int8".to_string(),
-                source: ModelSource::Url {
-                    url: "https://blob.handy.computer/cohere-int8.tar.gz".to_string(),
-                    sha256: Some(
-                        "ea2257d52434f3644574f187dcdcf666e302cd11b92866116ab8e14cd9c887f0"
-                            .to_string(),
-                    ),
-                },
+                source: ModelSource::Local,
                 size_mb: 1708,
                 is_downloaded: false,
                 is_downloading: false,
@@ -1156,31 +1081,43 @@ impl ModelManager {
     pub fn get_available_models(&self) -> Vec<ModelInfo> {
         let mut list: Vec<ModelInfo> = {
             let models = self.available_models.lock().unwrap();
-            models.values().cloned().collect()
+            models
+                .values()
+                .filter(|m| Self::is_listed(m))
+                .cloned()
+                .collect()
         };
-        // Stable, reasonable order: catalog editorial rank first (lower = higher
-        // priority), then any other recommended model, then by accuracy, speed,
-        // and name. `ModelInfo` doesn't carry rank, so resolve it by id from the
-        // catalog here.
-        list.sort_by(|a, b| {
-            crate::catalog::rank_of(&a.id)
-                .cmp(&crate::catalog::rank_of(&b.id))
-                .then((!a.is_recommended).cmp(&(!b.is_recommended)))
-                .then(b.accuracy_score.total_cmp(&a.accuracy_score))
-                .then(b.speed_score.total_cmp(&a.speed_score))
-                .then_with(|| a.name.cmp(&b.name))
-        });
+        // Order for the system language: models that transcribe it first (the
+        // most accurate one when a GPU is usable, then a light one that needs no
+        // setup), each group in the catalog's editorial order; `is_recommended`
+        // follows. `ModelInfo` doesn't carry rank, so it is resolved by id from
+        // the catalog. See `recommendation::order_for_language`.
+        let accelerator = get_settings(&self.app_handle).transcribe_accelerator;
+        super::recommendation::order_for_language(
+            &mut list,
+            super::system_language::system_language(),
+            super::transcription::transcribe_gpu_usable_hint(accelerator),
+            crate::catalog::rank_of,
+        );
         list
+    }
+
+    /// Whether a registry entry is shown at all. A `Local` entry has no
+    /// download source, so it only makes sense once its files are on disk —
+    /// this hides the legacy models nobody copied over.
+    fn is_listed(model: &ModelInfo) -> bool {
+        model.is_downloaded || !matches!(model.source, ModelSource::Local)
     }
 
     /// Seed the bundled catalog ([`crate::catalog::CATALOG`]) into the registry,
     /// inserting each model whose id isn't already present (additive).
     ///
-    /// Catalog (`.gguf`, `HuggingFace`) and legacy (`.bin`/ONNX, `Url`) entries
-    /// stay SEPARATE — different files, ids, and runtimes. Nothing is merged or
-    /// removed; the UI just hides not-on-disk `Url` entries to deprecate legacy
-    /// downloads, while already-downloaded ones stay runnable. Runs before the
-    /// on-disk scans so a cached model dedups onto its catalog entry.
+    /// Catalog (`.gguf`, `HuggingFace`) and legacy (`.bin`/ONNX, `Local`)
+    /// entries stay SEPARATE — different files, ids, and runtimes. Nothing is
+    /// merged or removed; legacy entries are simply not listed until their
+    /// files are on disk (see [`Self::is_listed`]), and then stay runnable.
+    /// Runs before the on-disk scans so a cached model dedups onto its catalog
+    /// entry.
     fn seed_catalog_models(available_models: &mut HashMap<String, ModelInfo>) {
         use std::collections::hash_map::Entry;
         let mut added = 0usize;
@@ -2675,7 +2612,7 @@ mod tests {
     fn test_effective_language_falls_back_to_canonical_chinese() {
         let languages = vec!["zh-Hant".to_string()];
 
-        assert_eq!(effective_language("auto", &languages, false), "zh");
+        assert_eq!(effective_language("auto", &languages, false, None), "zh");
     }
 
     #[test]
@@ -2691,29 +2628,149 @@ mod tests {
             "ja-JP".to_string(),
         ];
 
-        assert_eq!(effective_language("en", &languages, true), "en-US");
-        assert_eq!(effective_language("es", &languages, true), "es-ES");
+        assert_eq!(effective_language("en", &languages, true, None), "en-US");
+        assert_eq!(effective_language("es", &languages, true, None), "es-ES");
         // `zh`/`ja` have no bare entry in this model's table; resolve to locale.
-        assert_eq!(effective_language("zh", &languages, true), "zh-CN");
-        assert_eq!(effective_language("ja", &languages, true), "ja-JP");
+        assert_eq!(effective_language("zh", &languages, true, None), "zh-CN");
+        assert_eq!(effective_language("ja", &languages, true, None), "ja-JP");
         // An unsupported intent still auto-detects when the model can.
-        assert_eq!(effective_language("fr", &languages, true), "auto");
+        assert_eq!(effective_language("fr", &languages, true, None), "auto");
     }
 
     #[test]
     fn test_effective_language_preserves_intent_across_model_code_variants() {
-        assert_eq!(effective_language("no", &["nb".to_string()], true), "nb");
-        assert_eq!(effective_language("nb", &["no".to_string()], true), "no");
-        assert_eq!(effective_language("tl", &["fil".to_string()], true), "fil");
-        assert_eq!(effective_language("fil", &["tl".to_string()], true), "tl");
+        assert_eq!(
+            effective_language("no", &["nb".to_string()], true, None),
+            "nb"
+        );
+        assert_eq!(
+            effective_language("nb", &["no".to_string()], true, None),
+            "no"
+        );
+        assert_eq!(
+            effective_language("tl", &["fil".to_string()], true, None),
+            "fil"
+        );
+        assert_eq!(
+            effective_language("fil", &["tl".to_string()], true, None),
+            "tl"
+        );
     }
 
     #[test]
     fn test_effective_language_prefers_exact_norwegian_code() {
         let languages = vec!["no".to_string(), "nb".to_string()];
 
-        assert_eq!(effective_language("nb", &languages, true), "nb");
-        assert_eq!(effective_language("no", &languages, true), "no");
+        assert_eq!(effective_language("nb", &languages, true, None), "nb");
+        assert_eq!(effective_language("no", &languages, true, None), "no");
+    }
+
+    fn langs(codes: &[&str]) -> Vec<String> {
+        codes.iter().map(|code| (*code).to_string()).collect()
+    }
+
+    #[test]
+    fn test_effective_language_auto_without_detection_uses_system_language() {
+        // Cohere Transcribe: 14 languages, no language detection.
+        let cohere = langs(&[
+            "en", "fr", "de", "es", "it", "pt", "nl", "pl", "el", "ar", "ja", "zh", "vi", "ko",
+        ]);
+        assert_eq!(effective_language("auto", &cohere, false, Some("fr")), "fr");
+        assert_eq!(effective_language("auto", &cohere, false, Some("ja")), "ja");
+        // Not supported by the model: English, as before.
+        assert_eq!(effective_language("auto", &cohere, false, Some("ru")), "en");
+        // No system language known: English, as before.
+        assert_eq!(effective_language("auto", &cohere, false, None), "en");
+    }
+
+    #[test]
+    fn test_effective_language_system_language_returns_model_code() {
+        // Region/script variants and aliases resolve to the model's own code.
+        let locales = langs(&["en-US", "fr-FR", "de-DE"]);
+        assert_eq!(
+            effective_language("auto", &locales, false, Some("fr")),
+            "fr-FR"
+        );
+        assert_eq!(
+            effective_language("auto", &langs(&["en", "nb"]), false, Some("no")),
+            "nb"
+        );
+    }
+
+    #[test]
+    fn test_effective_language_system_language_never_overrides_detection_or_choice() {
+        let languages = langs(&["en", "fr", "de"]);
+        // A model that detects the language keeps auto-detecting.
+        assert_eq!(
+            effective_language("auto", &languages, true, Some("fr")),
+            "auto"
+        );
+        // An explicit supported choice always wins over the system language.
+        assert_eq!(
+            effective_language("de", &languages, false, Some("fr")),
+            "de"
+        );
+        assert_eq!(
+            effective_language("en", &languages, false, Some("fr")),
+            "en"
+        );
+    }
+
+    #[test]
+    fn test_effective_language_unsupported_choice_falls_back_to_system_language() {
+        // An explicit language the model lacks gets the same fallback as auto.
+        let languages = langs(&["en", "fr", "de"]);
+        assert_eq!(
+            effective_language("ru", &languages, false, Some("fr")),
+            "fr"
+        );
+        assert_eq!(
+            effective_language("ru", &languages, false, Some("it")),
+            "en"
+        );
+        // No English and no system language: the model's first language.
+        assert_eq!(
+            effective_language("auto", &langs(&["de", "fr"]), false, None),
+            "de"
+        );
+    }
+
+    #[test]
+    fn test_local_entries_are_listed_only_when_on_disk() {
+        // Legacy models lost their download URL: they show up only once their
+        // files are on disk, while catalog models stay offered for download.
+        let mut model = ModelInfo {
+            id: "parakeet-tdt-0.6b-v3".to_string(),
+            name: "Parakeet V3".to_string(),
+            description: String::new(),
+            filename: "parakeet-tdt-0.6b-v3-int8".to_string(),
+            source: ModelSource::Local,
+            size_mb: 456,
+            is_downloaded: false,
+            is_downloading: false,
+            partial_size: 0,
+            is_directory: true,
+            engine_type: EngineType::Parakeet,
+            accuracy_score: 0.8,
+            speed_score: 0.85,
+            supports_translation: false,
+            is_recommended: false,
+            supported_languages: langs(&["en", "fr"]),
+            supports_language_selection: false,
+            is_custom: false,
+            supports_streaming: false,
+            supports_language_detection: true,
+        };
+        assert!(!ModelManager::is_listed(&model));
+        model.is_downloaded = true;
+        assert!(ModelManager::is_listed(&model));
+
+        model.is_downloaded = false;
+        model.source = ModelSource::HuggingFace {
+            repo_id: "handy-computer/parakeet-tdt-0.6b-v3-gguf".to_string(),
+            revision: "main".to_string(),
+        };
+        assert!(ModelManager::is_listed(&model));
     }
 
     #[test]

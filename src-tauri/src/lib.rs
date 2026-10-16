@@ -1012,6 +1012,12 @@ pub fn run(cli_args: CliArgs) {
 
             initialize_core_logic(&app_handle);
 
+            // Warm the selected model in the background a few seconds after
+            // launch, so the first dictation doesn't wait for a cold load.
+            app_handle
+                .state::<Arc<TranscriptionManager>>()
+                .schedule_startup_preload();
+
             // Secure Input monitor (macOS): detects stuck secure input that
             // silently blocks keyed shortcuts, warns the user, and activates
             // the Carbon fallback. See secure_input.rs and issue #1578.
