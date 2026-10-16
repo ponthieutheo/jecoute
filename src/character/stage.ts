@@ -91,6 +91,8 @@ export function createOverlayCharacter(
     preserveDrawingBuffer: false,
   });
   renderer.setClearColor(0x000000, 0);
+  // Vérification synchrone des shaders (journal du compilateur) : en développement seulement.
+  renderer.debug.checkShaderErrors = import.meta.env.DEV;
   renderer.setPixelRatio(PIXEL_RATIO_CAP);
   renderer.setSize(STAGE_W, STAGE_H, true);
 
@@ -299,10 +301,52 @@ export function createOverlayCharacter(
     if (disposed) return;
     render(); // envoie géométries et textures au GPU
     setAllVisible(false);
+    await rehearse();
+    if (disposed) return;
     head.face.resetCache();
     renderer.clear(); // la toile repart transparente
     isReady = true;
     if (choreo.visible) start();
+  };
+  // Répétition silencieuse d'une séance complète (fenêtre encore cachée), par petits paquets d'images : tous les
+  // chemins de rendu et de mise à jour du visage servent une fois avant la première vraie dictée. Une vraie
+  // dictée qui arrive entre-temps l'interrompt.
+  const rehearse = async () => {
+    const sim = new Choreography({ root, head, hands, decor }, 11);
+    const voice = (i: number) =>
+      Array.from({ length: 16 }, () => 0.3 + (i % 6 < 3 ? 0.45 : 0));
+    const steps: [number, (i: number, t: number) => void][] = [
+      [1, (_, t) => sim.show("recording", t)],
+      [10, () => {}],
+      [1, (_, t) => sim.ready(t)],
+      [24, (i) => sim.levels(voice(i))],
+      [1, (_, t) => sim.show("transcribing", t)],
+      [24, () => {}],
+      [1, (_, t) => sim.show("processing", t)],
+      [24, () => {}],
+      [1, (_, t) => sim.hide("done", t)],
+      [22, () => {}],
+      [1, (_, t) => sim.show("recording", t)],
+      [8, () => {}],
+      [1, (_, t) => sim.hide("cancel", t)],
+      [22, () => {}],
+    ];
+    let t = 0;
+    let n = 0;
+    for (const [count, fn] of steps) {
+      for (let i = 0; i < count; i++) {
+        if (disposed || choreo.visible) {
+          sim.reset();
+          return;
+        }
+        fn(i, t);
+        t += 1 / 30;
+        sim.update(1 / 30, t);
+        render();
+        if (++n % 12 === 0) await new Promise((r) => setTimeout(r, 0));
+      }
+    }
+    sim.reset();
   };
   const ready = warm();
 
