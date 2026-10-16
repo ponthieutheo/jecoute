@@ -639,7 +639,8 @@
       "whatsNewUpdates": {
         "label": "Zobrazovat novinky",
         "description": "Zobrazovat poznámky k vydání po aktualizacích J’écoute"
-      }
+      },
+      "basedOn": "Based on Handy by CJ Pais"
     }
   },
   "footer": {
