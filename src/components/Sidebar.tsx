@@ -1,8 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Cog, FlaskConical, History, Info, Sparkles, Cpu } from "lucide-react";
-import HandyTextLogo from "./icons/HandyTextLogo";
-import HandyHand from "./icons/HandyHand";
+import JecouteWordmark from "./icons/JecouteWordmark";
+import PersoHead from "./icons/PersoHead";
 import { useSettings } from "../hooks/useSettings";
 import {
   GeneralSettings,
@@ -34,7 +34,7 @@ interface SectionConfig {
 export const SECTIONS_CONFIG = {
   general: {
     labelKey: "sidebar.general",
-    icon: HandyHand,
+    icon: PersoHead,
     component: GeneralSettings,
     enabled: () => true,
   },
@@ -93,9 +93,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
     .map(([id, config]) => ({ id: id as SidebarSection, ...config }));
 
   return (
-    <div className="flex flex-col w-40 h-full border-e border-mid-gray/20 items-center px-2">
-      <HandyTextLogo width={120} className="m-4" />
-      <div className="flex flex-col w-full items-center gap-1 pt-2 border-t border-mid-gray/20">
+    <div className="flex flex-col w-40 h-full shrink-0 border-e border-mid-gray/20 px-1.5">
+      <div className="flex items-center h-16 px-2.5">
+        <JecouteWordmark width={104} />
+      </div>
+      <div className="flex flex-col w-full gap-0.5 pt-2 border-t border-mid-gray/20">
         {availableSections.map((section) => {
           const Icon = section.icon;
           const isActive = activeSection === section.id;
@@ -103,14 +105,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
           return (
             <div
               key={section.id}
-              className={`flex gap-2 items-center p-2 w-full rounded-lg cursor-pointer transition-colors ${
+              className={`relative flex gap-2 items-center h-9 px-2 w-full rounded-md cursor-pointer transition-colors duration-150 ${
                 isActive
-                  ? "bg-logo-primary/80"
-                  : "hover:bg-mid-gray/20 hover:opacity-100 opacity-85"
+                  ? "bg-mid-gray/15 text-text before:absolute before:start-0 before:top-2 before:bottom-2 before:w-[3px] before:rounded-full before:bg-accent"
+                  : "text-text/80 hover:bg-mid-gray/10 hover:text-text"
               }`}
               onClick={() => onSectionChange(section.id)}
             >
-              <Icon width={24} height={24} className="shrink-0" />
+              <Icon
+                width={20}
+                height={20}
+                strokeWidth={1.75}
+                className={`shrink-0 ${isActive ? "text-accent" : ""}`}
+              />
               <p
                 className="text-sm font-medium truncate"
                 title={t(section.labelKey)}
