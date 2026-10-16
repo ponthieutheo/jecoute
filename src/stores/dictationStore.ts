@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { listen } from "@tauri-apps/api/event";
+import { events } from "@/bindings";
 import type { RecordingErrorEvent } from "@/lib/types/events";
 
 /** État de dictée envoyé par le cœur à la fenêtre principale (contrat 2). */
@@ -17,7 +18,7 @@ interface DictationStore {
   state: DictationState;
   /** 16 bandes 0..1 pendant l'enregistrement, null sinon. */
   levels: number[] | null;
-  /** Une dictée vient de se terminer sans erreur (affiché un court instant). */
+  /** Une dictée vient d'écrire du texte, sans erreur (affiché un court instant). */
   justDone: boolean;
   /** Dernier problème de micro signalé par le cœur. */
   micProblem: MicProblem;
@@ -35,6 +36,9 @@ const STATES: DictationState[] = [
 
 let doneTimer: ReturnType<typeof setTimeout> | undefined;
 let cycleFailed = false;
+// Une dictée vide (silence, tout coupé par la détection de voix) n'écrit rien :
+// pas de « C'est collé » dans ce cas.
+let cycleWrote = false;
 
 /**
  * Écoute « dictation-state » et « main-mic-level » (noms en dur, voir
@@ -62,6 +66,7 @@ export const useDictationStore = create<DictationStore>()((set, get) => ({
 
       if (next === "recording") {
         cycleFailed = false;
+        cycleWrote = false;
         clearTimeout(doneTimer);
         set({ state: next, justDone: false, micProblem: "none" });
         return;
@@ -69,7 +74,8 @@ export const useDictationStore = create<DictationStore>()((set, get) => ({
       if (next === "idle") {
         const finished =
           (previous === "transcribing" || previous === "processing") &&
-          !cycleFailed;
+          !cycleFailed &&
+          cycleWrote;
         set({ state: next, levels: null, justDone: finished });
         clearTimeout(doneTimer);
         if (finished) {
@@ -98,6 +104,13 @@ export const useDictationStore = create<DictationStore>()((set, get) => ({
     });
     listen("paste-error", () => {
       cycleFailed = true;
+    });
+    // L'entrée d'historique arrive avant le retour à « idle ».
+    events.historyUpdatePayload.listen((event) => {
+      const p = event.payload;
+      if (p.action !== "added") return;
+      const text = p.entry.post_processed_text || p.entry.transcription_text;
+      if (text.trim()) cycleWrote = true;
     });
   },
 }));
