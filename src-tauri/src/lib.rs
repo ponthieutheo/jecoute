@@ -95,11 +95,41 @@ fn build_console_filter() -> env_filter::Filter {
     builder.build()
 }
 
+/// WebView2 keeps rendering a page whose window is hidden or minimized
+/// (requestAnimationFrame at the screen's refresh rate, CSS animations, the
+/// 3D character). Hiding the webview itself (`IsVisible = false`) lets
+/// Chromium put the page to sleep and report `document.hidden`. macOS and
+/// Linux webviews already do this on their own.
+#[cfg(target_os = "windows")]
+fn set_main_webview_visible(window: &tauri::WebviewWindow, visible: bool) {
+    // Webviews are created visible. Resized fires on every step of a drag:
+    // only an actual change goes to WebView2.
+    static VISIBLE: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(true);
+    if VISIBLE.swap(visible, std::sync::atomic::Ordering::Relaxed) == visible {
+        return;
+    }
+    let webview: &tauri::Webview = window.as_ref();
+    let result = if visible {
+        webview.show()
+    } else {
+        webview.hide()
+    };
+    if let Err(e) = result {
+        log::warn!(
+            "Failed to set main webview visibility to {}: {}",
+            visible,
+            e
+        );
+    }
+}
+
 fn show_main_window(app: &AppHandle) {
     if let Some(main_window) = app.get_webview_window("main") {
         if let Err(e) = main_window.unminimize() {
             log::error!("Failed to unminimize webview window: {}", e);
         }
+        #[cfg(target_os = "windows")]
+        set_main_webview_visible(&main_window, true);
         if let Err(e) = main_window.show() {
             log::error!("Failed to show webview window: {}", e);
         }
@@ -960,6 +990,10 @@ pub fn run(cli_args: CliArgs) {
             #[cfg_attr(not(target_os = "windows"), allow(unused_variables))]
             let main_window = win_builder.build()?;
 
+            // The window starts hidden: so does its page, until show_main_window.
+            #[cfg(target_os = "windows")]
+            set_main_webview_visible(&main_window, false);
+
             // Disable WebView2 browser accelerators (F5, F6, Ctrl+F, F12, ...).
             // A settings window has no use for them, and pressing F6 while
             // recording a shortcut was reported to turn the whole window white
@@ -1068,6 +1102,12 @@ pub fn run(cli_args: CliArgs) {
             tauri::WindowEvent::CloseRequested { api, .. } => {
                 api.prevent_close();
                 let _res = window.hide();
+                #[cfg(target_os = "windows")]
+                if window.label() == "main" {
+                    if let Some(main) = window.app_handle().get_webview_window("main") {
+                        set_main_webview_visible(&main, false);
+                    }
+                }
 
                 #[cfg(target_os = "macos")]
                 {
@@ -1084,6 +1124,22 @@ pub fn run(cli_args: CliArgs) {
                         }
                     }
                     // No tray: keep the dock icon visible so the user can reopen
+                }
+            }
+            // Minimized: the page sleeps (see `set_main_webview_visible`);
+            // restored or focused again: it wakes up. Hiding to the tray is
+            // handled by CloseRequested, and showing by show_main_window, so a
+            // window caught mid-show (not visible yet) is left alone here.
+            #[cfg(target_os = "windows")]
+            tauri::WindowEvent::Resized(_) | tauri::WindowEvent::Focused(true)
+                if window.label() == "main" =>
+            {
+                if let Some(main) = window.app_handle().get_webview_window("main") {
+                    if main.is_minimized().unwrap_or(false) {
+                        set_main_webview_visible(&main, false);
+                    } else if main.is_visible().unwrap_or(false) {
+                        set_main_webview_visible(&main, true);
+                    }
                 }
             }
             tauri::WindowEvent::ThemeChanged(theme) => {
