@@ -26,6 +26,8 @@
   },
   "bundle": {
     "active": true,
+    "publisher": "Théo Ponthieu",
+    "homepage": "https://github.com/ponthieutheo/jecoute",
     "createUpdaterArtifacts": true,
     "targets": "all",
     "resources": ["resources/**/*"],
