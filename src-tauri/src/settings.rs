@@ -121,6 +121,8 @@ pub enum OverlayPosition {
 
 /// Which recording overlay to display. `Minimal` and `Live` share one base
 /// (the pill); `Live` grows into the panel that shows live transcription text.
+/// `Character` shows the 3D mascot (it listens, whistles while transcribing,
+/// whispers while post-processing); streaming models keep the Live panel.
 /// `None` hides the overlay entirely. Decoupled from whether the model runs in
 /// streaming mode (that is driven purely by model capability).
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type)]
@@ -129,6 +131,7 @@ pub enum OverlayStyle {
     None,
     Minimal,
     Live,
+    Character,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type, Default)]
@@ -585,12 +588,13 @@ fn default_overlay_position() -> OverlayPosition {
 }
 
 fn default_overlay_style() -> OverlayStyle {
-    // Linux hides the overlay by default; other platforms show the live overlay.
-    // Position is independent and only selects top vs. bottom placement.
+    // Linux hides the overlay by default; other platforms show the 3D character
+    // (streaming models still get the Live panel). Position is independent and
+    // only selects top vs. bottom placement.
     #[cfg(target_os = "linux")]
     return OverlayStyle::None;
     #[cfg(not(target_os = "linux"))]
-    return OverlayStyle::Live;
+    return OverlayStyle::Character;
 }
 
 fn default_vad_enabled() -> bool {

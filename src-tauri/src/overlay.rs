@@ -1,9 +1,12 @@
 use crate::input;
+use crate::managers::audio::AudioRecordingManager;
 use crate::settings;
 use crate::settings::{OverlayPosition, OverlayStyle};
-use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
+use serde::Serialize;
+use std::sync::atomic::{AtomicBool, AtomicU64, AtomicU8, Ordering};
+use std::sync::Arc;
 use std::time::{SystemTime, UNIX_EPOCH};
-use tauri::{AppHandle, Emitter, Manager, PhysicalPosition, PhysicalSize};
+use tauri::{AppHandle, Emitter, Listener, Manager, PhysicalPosition, PhysicalSize};
 
 #[cfg(not(target_os = "macos"))]
 use log::debug;
@@ -53,14 +56,98 @@ const OVERLAY_HEIGHT: f64 = 50.0;
 const OVERLAY_STREAM_WIDTH: f64 = 400.0;
 const OVERLAY_STREAM_HEIGHT: f64 = 120.0;
 
-/// Overlay window size (logical) for a given UI state.
-fn overlay_dimensions(state: &str) -> (f64, f64) {
-    if state == "streaming" {
-        (OVERLAY_STREAM_WIDTH, OVERLAY_STREAM_HEIGHT)
-    } else {
-        (OVERLAY_WIDTH, OVERLAY_HEIGHT)
+// 3D character (OverlayStyle::Character): exactly the WebGL stage (STAGE_W x
+// STAGE_H in src/character/stage.ts). It holds the head with its pop
+// overshoot, the cupped hand and its sound arcs (right), the rising notes
+// (left, above) and the shrug; nothing is drawn past it. The head's bottom
+// sits ~9 px above the window's bottom edge, so with OVERLAY_BOTTOM_OFFSET it
+// clears a 48 px Windows taskbar.
+const OVERLAY_CHARACTER_WIDTH: f64 = 224.0;
+const OVERLAY_CHARACTER_HEIGHT: f64 = 144.0;
+
+/// Which overlay form the window currently hosts (its size depends on it).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[repr(u8)]
+enum OverlayKind {
+    /// Minimal / Live with a non-streaming model: the compact pill.
+    Pill = 0,
+    /// Live card with a streaming model (Live and Character styles).
+    Streaming = 1,
+    /// The 3D character.
+    Character = 2,
+}
+
+impl OverlayKind {
+    fn from_u8(value: u8) -> Self {
+        match value {
+            1 => OverlayKind::Streaming,
+            2 => OverlayKind::Character,
+            _ => OverlayKind::Pill,
+        }
     }
 }
+
+/// Overlay form for a UI state under a style. Streaming models keep the Live
+/// card even with the character style: its text needs the wide panel, and the
+/// streaming pipeline drives that card through its own phase events.
+fn overlay_kind(state: &str, style: OverlayStyle) -> OverlayKind {
+    if state == "streaming" {
+        OverlayKind::Streaming
+    } else if style == OverlayStyle::Character {
+        OverlayKind::Character
+    } else {
+        OverlayKind::Pill
+    }
+}
+
+/// Overlay window size (logical) for an overlay form.
+fn overlay_dimensions(kind: OverlayKind) -> (f64, f64) {
+    match kind {
+        OverlayKind::Pill => (OVERLAY_WIDTH, OVERLAY_HEIGHT),
+        OverlayKind::Streaming => (OVERLAY_STREAM_WIDTH, OVERLAY_STREAM_HEIGHT),
+        OverlayKind::Character => (OVERLAY_CHARACTER_WIDTH, OVERLAY_CHARACTER_HEIGHT),
+    }
+}
+
+/// Form the window was last sized for (an `OverlayKind`).
+static CURRENT_OVERLAY_KIND: AtomicU8 = AtomicU8::new(OverlayKind::Pill as u8);
+
+fn current_overlay_kind() -> OverlayKind {
+    OverlayKind::from_u8(CURRENT_OVERLAY_KIND.load(Ordering::Relaxed))
+}
+
+/// Size the hidden window is created with, so the character's canvas boots at
+/// its final size (no resize, hence no reallocation, on the first show).
+fn initial_overlay_kind(app_handle: &AppHandle) -> OverlayKind {
+    let kind = overlay_kind(
+        "recording",
+        settings::get_settings(app_handle).overlay_style,
+    );
+    CURRENT_OVERLAY_KIND.store(kind as u8, Ordering::Relaxed);
+    kind
+}
+
+/// Payload of `show-overlay`: the UI state and the style picking its form.
+#[derive(Clone, Serialize)]
+struct ShowOverlayPayload<'a> {
+    state: &'a str,
+    style: OverlayStyle,
+}
+
+/// Payload of `hide-overlay`: why the overlay goes away (the character smiles
+/// or shrugs) and the show generation, which the character echoes back in
+/// `overlay-exit-done` once its exit animation has fully played.
+#[derive(Clone, Serialize)]
+struct HideOverlayPayload {
+    reason: &'static str,
+    id: u64,
+}
+
+/// Upper bound on the character's exit before the window is hidden anyway (the
+/// animation itself lasts ~0.62 s and is acknowledged by `overlay-exit-done`).
+const CHARACTER_EXIT_FALLBACK_MS: u64 = 1500;
+/// Delay before hiding the pill / Live card (their CSS fade-out).
+const PILL_EXIT_MS: u64 = 300;
 
 static LAST_MIC_LEVEL_EMIT: AtomicU64 = AtomicU64::new(0);
 const EMIT_THROTTLE_MS: u64 = 33; // ~30 FPS
@@ -136,7 +223,8 @@ fn init_gtk_layer_shell(overlay_window: &tauri::webview::WebviewWindow) -> bool 
         gtk_window.set_exclusive_zone(0);
 
         let overlay_position = settings::get_settings(overlay_window.app_handle()).overlay_position;
-        configure_layer_shell_surface(&gtk_window, overlay_position, OVERLAY_WIDTH, OVERLAY_HEIGHT);
+        let (width, height) = overlay_dimensions(current_overlay_kind());
+        configure_layer_shell_surface(&gtk_window, overlay_position, width, height);
 
         let initialized = gtk_window.is_layer_window();
         LAYER_SHELL_ACTIVE.store(initialized, Ordering::SeqCst);
@@ -286,9 +374,6 @@ fn current_overlay_logical_size(window: &tauri::webview::WebviewWindow) -> Optio
     Some((size.width as f64 / scale, size.height as f64 / scale))
 }
 
-#[cfg(target_os = "windows")]
-static WINDOWS_OVERLAY_IS_STREAMING: AtomicBool = AtomicBool::new(false);
-
 /// Windows accessibility text size (Settings > Accessibility > Text size), a
 /// separate axis from display scaling that WebView2 applies as a document zoom.
 #[cfg(target_os = "windows")]
@@ -388,11 +473,14 @@ fn place_windows_overlay(
 /// Creates the recording overlay window and keeps it hidden by default
 #[cfg(not(target_os = "macos"))]
 pub fn create_recording_overlay(app_handle: &AppHandle) {
+    let (width, height) = overlay_dimensions(initial_overlay_kind(app_handle));
+    listen_for_exit_ack(app_handle);
+
     // On Linux (Wayland), monitor detection often fails, but we don't need exact coordinates
     // for Layer Shell as we use anchors. On other platforms, we require a monitor.
     #[cfg(not(target_os = "linux"))]
     {
-        let position = calculate_overlay_position(app_handle, OVERLAY_WIDTH, OVERLAY_HEIGHT);
+        let position = calculate_overlay_position(app_handle, width, height);
         if position.is_none() {
             debug!("Failed to determine overlay position, not creating overlay window");
             return;
@@ -408,7 +496,7 @@ pub fn create_recording_overlay(app_handle: &AppHandle) {
     )
     .title("Recording")
     .resizable(false)
-    .inner_size(OVERLAY_WIDTH, OVERLAY_HEIGHT)
+    .inner_size(width, height)
     .shadow(false)
     .maximizable(false)
     .minimizable(false)
@@ -450,7 +538,9 @@ pub fn create_recording_overlay(app_handle: &AppHandle) {
 /// Creates the recording overlay panel and keeps it hidden by default (macOS)
 #[cfg(target_os = "macos")]
 pub fn create_recording_overlay(app_handle: &AppHandle) {
-    if let Some((x, y)) = calculate_overlay_position(app_handle, OVERLAY_WIDTH, OVERLAY_HEIGHT) {
+    let (width, height) = overlay_dimensions(initial_overlay_kind(app_handle));
+    listen_for_exit_ack(app_handle);
+    if let Some((x, y)) = calculate_overlay_position(app_handle, width, height) {
         // PanelBuilder creates a Tauri window then converts it to NSPanel.
         // The window remains registered, so get_webview_window() still works.
         match PanelBuilder::<_, RecordingOverlayPanel>::new(app_handle, "recording_overlay")
@@ -458,10 +548,7 @@ pub fn create_recording_overlay(app_handle: &AppHandle) {
             .title("Recording")
             .position(tauri::Position::Logical(tauri::LogicalPosition { x, y }))
             .level(PanelLevel::Status)
-            .size(tauri::Size::Logical(tauri::LogicalSize {
-                width: OVERLAY_WIDTH,
-                height: OVERLAY_HEIGHT,
-            }))
+            .size(tauri::Size::Logical(tauri::LogicalSize { width, height }))
             .has_shadow(false)
             .transparent(true)
             .no_activate(true)
@@ -504,16 +591,39 @@ fn show_overlay_state(app_handle: &AppHandle, state: &str) {
     // inline when already on the main thread, so this never deadlocks.
     let handle = app_handle.clone();
     let state = state.to_string();
-    let _ = app_handle.run_on_main_thread(move || show_overlay_state_on_main(&handle, &state));
+    let style = settings.overlay_style;
+    let _ =
+        app_handle.run_on_main_thread(move || show_overlay_state_on_main(&handle, &state, style));
 }
 
-fn show_overlay_state_on_main(app_handle: &AppHandle, state: &str) {
-    // Size the overlay for this state (compact vs. streaming), then position it.
-    let (width, height) = overlay_dimensions(state);
+fn show_overlay_state_on_main(app_handle: &AppHandle, state: &str, style: OverlayStyle) {
+    // Size the overlay for this state and style (pill, Live card or character),
+    // then position it.
+    let kind = overlay_kind(state, style);
+    let (width, height) = overlay_dimensions(kind);
     if let Some(overlay_window) = app_handle.get_webview_window("recording_overlay") {
         // Invalidate any delayed hide still in flight from a previous session
         // (see `hide_recording_overlay`).
         OVERLAY_SHOW_GENERATION.fetch_add(1, Ordering::SeqCst);
+        CURRENT_OVERLAY_KIND.store(kind as u8, Ordering::Relaxed);
+
+        // A session starts: remember the cancel generation, so the hide can tell
+        // a cancellation (the character shrugs) from a finished dictation.
+        if state == "recording" || state == "streaming" {
+            if let Some(generation) = cancel_generation(app_handle) {
+                SESSION_CANCEL_GENERATION.store(generation, Ordering::SeqCst);
+            }
+        }
+
+        // The character's window is click-through: it has no button, and its
+        // transparent stage must not swallow clicks meant for the app below.
+        // The pill and the Live card keep their cancel button clickable.
+        let ignore_cursor = kind == OverlayKind::Character;
+        if IGNORE_CURSOR_EVENTS.swap(ignore_cursor, Ordering::SeqCst) != ignore_cursor {
+            if let Err(error) = overlay_window.set_ignore_cursor_events(ignore_cursor) {
+                log::warn!("Failed to set overlay click-through ({ignore_cursor}): {error}");
+            }
+        }
 
         #[cfg(target_os = "linux")]
         let shown_with_layer_shell = if LAYER_SHELL_ACTIVE.load(Ordering::SeqCst) {
@@ -537,8 +647,6 @@ fn show_overlay_state_on_main(app_handle: &AppHandle, state: &str) {
             #[cfg(not(target_os = "windows"))]
             let _ =
                 overlay_window.set_size(tauri::Size::Logical(tauri::LogicalSize { width, height }));
-            #[cfg(target_os = "windows")]
-            WINDOWS_OVERLAY_IS_STREAMING.store(state == "streaming", Ordering::Relaxed);
             let size_elapsed = size_started.elapsed();
 
             let pos_started = std::time::Instant::now();
@@ -589,7 +697,7 @@ fn show_overlay_state_on_main(app_handle: &AppHandle, state: &str) {
             );
         }
 
-        let _ = overlay_window.emit("show-overlay", state);
+        let _ = overlay_window.emit("show-overlay", ShowOverlayPayload { state, style });
     }
 }
 
@@ -652,12 +760,7 @@ fn update_overlay_position_on_main(app_handle: &AppHandle) {
 
         #[cfg(target_os = "windows")]
         {
-            let state = if WINDOWS_OVERLAY_IS_STREAMING.load(Ordering::Relaxed) {
-                "streaming"
-            } else {
-                "recording"
-            };
-            let (width, height) = overlay_dimensions(state);
+            let (width, height) = overlay_dimensions(current_overlay_kind());
             if let Err(error) = place_windows_overlay(app_handle, &overlay_window, width, height) {
                 log::error!("Failed to update recording overlay position: {error}");
             }
@@ -668,7 +771,7 @@ fn update_overlay_position_on_main(app_handle: &AppHandle) {
             // Use the window's current size so centering stays correct whether the
             // overlay is in compact or streaming layout.
             let (width, height) = current_overlay_logical_size(&overlay_window)
-                .unwrap_or((OVERLAY_WIDTH, OVERLAY_HEIGHT));
+                .unwrap_or_else(|| overlay_dimensions(current_overlay_kind()));
             if let Some((x, y)) = calculate_overlay_position(app_handle, width, height) {
                 let _ = overlay_window
                     .set_position(tauri::Position::Logical(tauri::LogicalPosition { x, y }));
@@ -685,7 +788,15 @@ fn update_overlay_position_on_main(app_handle: &AppHandle) {
 /// the instant it drained, well inside the 300 ms hide delay.
 static OVERLAY_SHOW_GENERATION: AtomicU64 = AtomicU64::new(0);
 
-/// Hides the recording overlay window with fade-out animation
+/// Hides the recording overlay window after its exit animation.
+///
+/// The pill and the Live card fade out in CSS, so the window is hidden after a
+/// fixed delay. The character plays a full exit (smile or shrug, then a reverse
+/// pop) and acknowledges it with `overlay-exit-done` once its last, empty frame
+/// is on screen; the window is hidden then, or after a fallback delay if the
+/// acknowledgement never comes. Either way, a show in the meantime wins: the
+/// hide only applies to the generation it was scheduled for, so a dictation
+/// restarted during the exit brings the character straight back.
 pub fn hide_recording_overlay(app_handle: &AppHandle) {
     // Always hide the overlay regardless of settings - if setting was changed while recording,
     // we still want to hide it properly
@@ -693,21 +804,80 @@ pub fn hide_recording_overlay(app_handle: &AppHandle) {
         // Snapshot before doing anything observable, so any show that lands
         // after this point invalidates the delayed hide below.
         let scheduled_at = OVERLAY_SHOW_GENERATION.load(Ordering::SeqCst);
-        // Emit event to trigger fade-out animation
-        let _ = overlay_window.emit("hide-overlay", ());
-        // Hide the window after a short delay to allow animation to complete,
-        // unless a newer session has shown the overlay again by then.
-        let window_clone = overlay_window.clone();
-        std::thread::spawn(move || {
-            std::thread::sleep(std::time::Duration::from_millis(300));
-            if OVERLAY_SHOW_GENERATION.load(Ordering::SeqCst) != scheduled_at {
-                log::debug!("Skipping stale overlay hide: a newer session is showing the overlay");
-                return;
+        let reason = match cancel_generation(app_handle) {
+            Some(generation) if generation != SESSION_CANCEL_GENERATION.load(Ordering::SeqCst) => {
+                "cancel"
             }
-            let _ = window_clone.hide();
+            _ => "done",
+        };
+        // Emit event to trigger the exit animation
+        let _ = overlay_window.emit(
+            "hide-overlay",
+            HideOverlayPayload {
+                reason,
+                id: scheduled_at,
+            },
+        );
+        let delay_ms = if current_overlay_kind() == OverlayKind::Character {
+            CHARACTER_EXIT_FALLBACK_MS
+        } else {
+            PILL_EXIT_MS
+        };
+        let handle = app_handle.clone();
+        std::thread::spawn(move || {
+            std::thread::sleep(std::time::Duration::from_millis(delay_ms));
+            hide_overlay_if_current(&handle, scheduled_at);
         });
     }
 }
+
+/// Hides the overlay unless a newer session has shown it since `generation`.
+/// Runs on the main thread, like `show_overlay_state_on_main`, so the check and
+/// the hide can never interleave with a show.
+fn hide_overlay_if_current(app_handle: &AppHandle, generation: u64) {
+    let handle = app_handle.clone();
+    let _ = app_handle.run_on_main_thread(move || {
+        if OVERLAY_SHOW_GENERATION.load(Ordering::SeqCst) != generation {
+            log::debug!("Skipping stale overlay hide: a newer session is showing the overlay");
+            return;
+        }
+        if let Some(window) = handle.get_webview_window("recording_overlay") {
+            let _ = window.hide();
+        }
+    });
+}
+
+/// Listens (once) for the character's `overlay-exit-done`: its exit animation
+/// has fully played, the window can be hidden right away.
+fn listen_for_exit_ack(app_handle: &AppHandle) {
+    if EXIT_ACK_LISTENING.swap(true, Ordering::SeqCst) {
+        return;
+    }
+    let handle = app_handle.clone();
+    app_handle.listen_any(
+        "overlay-exit-done",
+        move |event| match serde_json::from_str::<u64>(event.payload()) {
+            Ok(generation) => hide_overlay_if_current(&handle, generation),
+            Err(error) => log::warn!("Invalid overlay-exit-done payload: {error}"),
+        },
+    );
+}
+
+/// Current cancel generation of the recorder (bumped by every cancellation).
+fn cancel_generation(app_handle: &AppHandle) -> Option<u64> {
+    app_handle
+        .try_state::<Arc<AudioRecordingManager>>()
+        .map(|manager| manager.cancel_generation())
+}
+
+/// Cancel generation when the current session started (see `hide_recording_overlay`).
+static SESSION_CANCEL_GENERATION: AtomicU64 = AtomicU64::new(0);
+
+/// Whether the overlay window currently lets clicks through.
+static IGNORE_CURSOR_EVENTS: AtomicBool = AtomicBool::new(false);
+
+/// Whether the `overlay-exit-done` listener is registered.
+static EXIT_ACK_LISTENING: AtomicBool = AtomicBool::new(false);
 
 // Cached "overlay is enabled" flag, kept in sync with overlay_style. Avoids
 // reading the Tauri store on every audio callback (~24 Hz during recording).
@@ -838,6 +1008,69 @@ mod tests {
             ),
             (3648, 6, 384, 75)
         );
+    }
+
+    #[test]
+    fn overlay_kind_keeps_live_card_for_streaming_models() {
+        assert_eq!(
+            overlay_kind("streaming", OverlayStyle::Character),
+            OverlayKind::Streaming
+        );
+        assert_eq!(
+            overlay_kind("streaming", OverlayStyle::Live),
+            OverlayKind::Streaming
+        );
+        for state in ["recording", "transcribing", "processing"] {
+            assert_eq!(
+                overlay_kind(state, OverlayStyle::Character),
+                OverlayKind::Character
+            );
+            assert_eq!(overlay_kind(state, OverlayStyle::Live), OverlayKind::Pill);
+            assert_eq!(
+                overlay_kind(state, OverlayStyle::Minimal),
+                OverlayKind::Pill
+            );
+        }
+        for kind in [
+            OverlayKind::Pill,
+            OverlayKind::Streaming,
+            OverlayKind::Character,
+        ] {
+            assert_eq!(OverlayKind::from_u8(kind as u8), kind);
+        }
+        assert_eq!(
+            overlay_dimensions(OverlayKind::Character),
+            (OVERLAY_CHARACTER_WIDTH, OVERLAY_CHARACTER_HEIGHT)
+        );
+    }
+
+    #[cfg(target_os = "windows")]
+    #[test]
+    fn windows_character_overlay_bounds_at_common_scales() {
+        // 1920x1080 monitor at 100 %, 125 % (1536x864 logical) and 150 %.
+        let origin = PhysicalPosition::new(0, 0);
+        for (scale, size, expected) in [
+            (1.0, PhysicalSize::new(1920, 1080), (848, 896, 224, 144)),
+            (1.25, PhysicalSize::new(1920, 1080), (820, 850, 280, 180)),
+            (1.5, PhysicalSize::new(2880, 1620), (1272, 1344, 336, 216)),
+        ] {
+            let bounds = windows_overlay_bounds(
+                origin,
+                size,
+                scale,
+                1.0,
+                OVERLAY_CHARACTER_WIDTH,
+                OVERLAY_CHARACTER_HEIGHT,
+                OverlayPosition::Bottom,
+            );
+            assert_eq!(bounds, expected, "scale {scale}");
+            // Bottom edge stays OVERLAY_BOTTOM_OFFSET (logical) above the screen's.
+            let (_, y, _, height) = bounds;
+            assert_eq!(
+                size.height as i32 - (y + height),
+                (OVERLAY_BOTTOM_OFFSET * scale).round() as i32
+            );
+        }
     }
 
     #[cfg(target_os = "windows")]
