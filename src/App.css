@@ -1,18 +1,33 @@
 @import "tailwindcss";
 @import "./styles/theme.css";
 
-/* Register the shared color tokens (src/styles/theme.css) as Tailwind
-   utilities */
+/* Enregistre les jetons partagés (src/styles/theme.css) comme utilitaires
+   Tailwind */
 @theme inline {
   --color-text: var(--color-text);
   --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
   --color-background-ui: var(--color-background-ui);
   --color-logo-primary: var(--color-logo-primary);
   --color-logo-stroke: var(--color-logo-stroke);
   --color-text-stroke: var(--color-text-stroke);
   --color-mid-gray: var(--color-mid-gray);
+  --color-accent: var(--color-accent);
+  --color-accent-fill: var(--color-accent-fill);
+  --color-accent-fill-hover: var(--color-accent-fill-hover);
+  --color-accent-text: var(--color-accent-text);
+  --color-on-accent: var(--color-on-accent);
   --color-warning: var(--color-warning);
   --color-error: var(--color-error);
+  --color-success: var(--color-success);
+}
+
+/* Polices : Barlow pour le texte, Chakra Petch pour les titres et le wordmark
+   (src/styles/fonts.css). */
+@theme {
+  --font-sans:
+    "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Chakra Petch", "Barlow", system-ui, sans-serif;
 }
 
 :root {
@@ -28,21 +43,38 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  --scrollbar-thumb: color-mix(in srgb, var(--color-text), transparent 85%);
+  --scrollbar-thumb: color-mix(in srgb, var(--color-text), transparent 82%);
   --scrollbar-thumb-hover: color-mix(
     in srgb,
     var(--color-text),
-    transparent 70%
+    transparent 65%
   );
 
-  /* Log console surface — a subtle shade off the app background so the live log
-     viewer reads as a distinct console. In light mode this is a faint gray code
-     block (matching other surfaces); the dark theme overrides it below. */
-  --color-log-surface: color-mix(in srgb, var(--color-background), black 6%);
+  /* Surface de la console de journaux : une nuance à part du fond, pour que la
+     visionneuse se lise comme une console distincte. */
+  --color-log-surface: color-mix(in srgb, var(--color-background), black 5%);
 
   /* Apply colors */
   color: var(--color-text);
   background-color: var(--color-background);
+  color-scheme: light dark;
+  accent-color: var(--color-accent-fill);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-background);
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
 }
 
 .container {
@@ -56,9 +88,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Just a bit darker than the (already dark) background, keeping its warm tint */
-    --color-log-surface: color-mix(in srgb, var(--color-background), black 15%);
+    --color-log-surface: color-mix(in srgb, var(--color-surface), black 35%);
   }
+}
+
+:root[data-theme="dark"] {
+  --color-log-surface: color-mix(in srgb, var(--color-surface), black 35%);
+}
+
+:root[data-theme="light"] {
+  --color-log-surface: color-mix(in srgb, var(--color-background), black 5%);
 }
 
 /* Keep onboarding centered when classic scrollbars consume layout space.
@@ -91,6 +130,48 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--scrollbar-thumb-hover);
+}
+
+/* Curseurs (input type="range") : piste dessinée par le composant, pouce
+   rouge cerclé de la couleur de la surface pour se détacher de la partie
+   remplie. */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background-color: var(--color-accent-fill);
+  border: 3px solid var(--color-surface);
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--color-mid-gray) 45%, transparent);
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background-color: var(--color-accent-fill);
+  border: 3px solid var(--color-surface);
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--color-mid-gray) 45%, transparent);
+  cursor: pointer;
+}
+input[type="range"]:not(:disabled):hover::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+input[type="range"]:disabled::-webkit-slider-thumb {
+  cursor: not-allowed;
+}
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
 @layer utilities {
