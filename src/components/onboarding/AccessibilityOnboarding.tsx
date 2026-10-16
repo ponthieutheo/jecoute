@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { platform } from "@tauri-apps/plugin-os";
 import {
@@ -10,7 +10,7 @@ import {
 import { toast } from "sonner";
 import { commands } from "@/bindings";
 import { useSettingsStore } from "@/stores/settingsStore";
-import HandyTextLogo from "../icons/HandyTextLogo";
+import { Perso } from "@/character/Perso";
 import { Keyboard, Mic, Check, Loader2 } from "lucide-react";
 
 interface AccessibilityOnboardingProps {
@@ -303,11 +303,24 @@ const AccessibilityOnboarding: React.FC<AccessibilityOnboardingProps> = ({
       permissions.microphone === "checking") ||
     (isWindows && permissions.microphone === "checking");
 
+  const hero = (mood: "pret" | "chargement" | "micro-absent") => (
+    <div className="j-onb-hero">
+      <div className="j-contact" aria-hidden="true" />
+      <div className="j-hero-perso">
+        <Perso mood={mood} />
+      </div>
+    </div>
+  );
+
   // Still checking platform/initial permissions
   if (isChecking) {
     return (
-      <div className="h-screen w-full flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-mid-gray" />
+      <div className="j-layer j-onb justify-center">
+        {hero("chargement")}
+        <p className="lead flex items-center gap-2">
+          <Loader2 size={16} className="j-spin" aria-hidden="true" />
+          {t("onboarding.permissions.checking")}
+        </p>
       </div>
     );
   }
@@ -315,109 +328,74 @@ const AccessibilityOnboarding: React.FC<AccessibilityOnboardingProps> = ({
   // All permissions granted - show success briefly
   if (allGranted) {
     return (
-      <div className="h-screen w-full flex flex-col items-center justify-center gap-4">
-        <div className="p-4 rounded-full bg-success/15">
-          <Check className="w-12 h-12 text-success" />
-        </div>
-        <p className="text-lg font-medium text-text">
-          {t("onboarding.permissions.allGranted")}
-        </p>
+      <div className="j-layer j-onb justify-center">
+        {hero("pret")}
+        <h1 className="j-display">{t("onboarding.permissions.allGranted")}</h1>
       </div>
     );
   }
 
+  const permissionCard = (
+    icon: React.ReactNode,
+    title: string,
+    description: string,
+    status: PermissionStatus,
+    onGrant: () => void,
+    grantLabel: string,
+  ) => (
+    <div className="j-perm">
+      <span className="j-perm-ic" aria-hidden="true">
+        {icon}
+      </span>
+      <div className="min-w-0">
+        <b>{title}</b>
+        <p>{description}</p>
+        {status === "granted" ? (
+          <span className="ok">
+            <Check size={16} aria-hidden="true" />
+            {t("onboarding.permissions.granted")}
+          </span>
+        ) : status === "waiting" ? (
+          <span className="j-small inline-flex items-center gap-2">
+            <Loader2 size={15} className="j-spin" aria-hidden="true" />
+            {t("onboarding.permissions.waiting")}
+          </span>
+        ) : (
+          <button type="button" className="j-btn sm primary" onClick={onGrant}>
+            {grantLabel}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+
   // Show permissions request screen
   return (
-    <div className="h-screen w-full flex flex-col p-6 gap-6 items-center justify-center">
-      <div className="flex flex-col items-center gap-2">
-        <HandyTextLogo width={200} />
-      </div>
-
-      <div className="max-w-md w-full flex flex-col items-center gap-4">
-        <div className="text-center mb-2">
-          <h2 className="text-xl font-semibold text-text mb-2">
-            {t("onboarding.permissions.title")}
-          </h2>
-          <p className="text-text/70">
-            {t("onboarding.permissions.description")}
-          </p>
-        </div>
-
-        {/* Microphone Permission Card */}
-        {showMicrophonePermission && (
-          <div className="w-full p-4 rounded-lg bg-mid-gray/5 border border-border">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-full bg-mid-gray/10 shrink-0">
-                <Mic className="w-6 h-6 text-logo-primary" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-medium text-text">
-                  {t("onboarding.permissions.microphone.title")}
-                </h3>
-                <p className="text-sm text-text/60 mb-3">
-                  {t("onboarding.permissions.microphone.description")}
-                </p>
-                {permissions.microphone === "granted" ? (
-                  <div className="flex items-center gap-2 text-success text-sm">
-                    <Check className="w-4 h-4" />
-                    {t("onboarding.permissions.granted")}
-                  </div>
-                ) : permissions.microphone === "waiting" ? (
-                  <div className="flex items-center gap-2 text-mid-gray text-sm">
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    {t("onboarding.permissions.waiting")}
-                  </div>
-                ) : (
-                  <button
-                    onClick={handleGrantMicrophone}
-                    className="px-4 py-2 rounded-lg bg-accent-fill hover:bg-accent-fill-hover text-on-accent text-sm font-medium transition-colors"
-                  >
-                    {isWindows
-                      ? t("accessibility.openSettings")
-                      : t("onboarding.permissions.grant")}
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Accessibility Permission Card */}
-        {showAccessibilityPermission && (
-          <div className="w-full p-4 rounded-lg bg-mid-gray/5 border border-border">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-full bg-mid-gray/10 shrink-0">
-                <Keyboard className="w-6 h-6 text-logo-primary" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-medium text-text">
-                  {t("onboarding.permissions.accessibility.title")}
-                </h3>
-                <p className="text-sm text-text/60 mb-3">
-                  {t("onboarding.permissions.accessibility.description")}
-                </p>
-                {permissions.accessibility === "granted" ? (
-                  <div className="flex items-center gap-2 text-success text-sm">
-                    <Check className="w-4 h-4" />
-                    {t("onboarding.permissions.granted")}
-                  </div>
-                ) : permissions.accessibility === "waiting" ? (
-                  <div className="flex items-center gap-2 text-mid-gray text-sm">
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    {t("onboarding.permissions.waiting")}
-                  </div>
-                ) : (
-                  <button
-                    onClick={handleGrantAccessibility}
-                    className="px-4 py-2 rounded-lg bg-accent-fill hover:bg-accent-fill-hover text-on-accent text-sm font-medium transition-colors"
-                  >
-                    {t("onboarding.permissions.grant")}
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+    <div className="j-layer j-onb j-scroll">
+      {hero("micro-absent")}
+      <h1 className="j-display">{t("onboarding.permissions.title")}</h1>
+      <p className="lead">{t("onboarding.permissions.description")}</p>
+      <div className="flex flex-col items-center gap-3 w-full mt-5 pb-6">
+        {showMicrophonePermission &&
+          permissionCard(
+            <Mic size={20} />,
+            t("onboarding.permissions.microphone.title"),
+            t("onboarding.permissions.microphone.description"),
+            permissions.microphone,
+            handleGrantMicrophone,
+            isWindows
+              ? t("accessibility.openSettings")
+              : t("onboarding.permissions.grant"),
+          )}
+        {showAccessibilityPermission &&
+          permissionCard(
+            <Keyboard size={20} />,
+            t("onboarding.permissions.accessibility.title"),
+            t("onboarding.permissions.accessibility.description"),
+            permissions.accessibility,
+            handleGrantAccessibility,
+            t("onboarding.permissions.grant"),
+          )}
       </div>
     </div>
   );
