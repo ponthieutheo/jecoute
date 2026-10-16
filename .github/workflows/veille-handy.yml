@@ -1,0 +1,45 @@
+# Veille des versions de Handy, dont J’écoute dérive.
+#
+# Chaque lundi (et à la demande : Actions > Veille Handy > Run workflow), compare la dernière release de
+# cjpais/Handy à .github/upstream-version et ouvre un ticket « Handy vX.Y.Z est sortie » s'il y a plus récent, avec
+# les notes de version et les commandes de synchronisation. Pas de doublon ; un seul ticket de veille ouvert à la
+# fois. Logique : .github/scripts/veille-handy.sh.
+#
+# Après une synchronisation, mettre .github/upstream-version à jour (par exemple v0.9.9).
+# Les actions tierces sont épinglées par commit (le commentaire donne la version).
+
+name: "Veille Handy"
+
+on:
+  schedule:
+    - cron: "23 5 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: veille-handy
+  cancel-in-progress: false
+
+jobs:
+  veille:
+    name: Nouvelle version de Handy ?
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            .github/upstream-version
+            .github/scripts/veille-handy.sh
+          sparse-checkout-cone-mode: false
+
+      - name: Comparer à la dernière release de Handy
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AMONT: cjpais/Handy
+        run: bash .github/scripts/veille-handy.sh
