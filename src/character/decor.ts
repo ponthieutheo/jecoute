@@ -5,7 +5,6 @@
 /* Les petits signes graphiques autour du personnage, sans aucun texte :
    - les arcs sonores qui arrivent dans sa main quand il tend l'oreille (un seul quadrilatère, arcs calculés dans
      le shader : épaisseur constante quel que soit le rayon, bouts arrondis, bord lissé) ;
-   - les notes de musique quand il siffle ;
    - la petite bulle pointillée (trois points) quand il chuchote ;
    - la goutte de sueur du modèle d'origine (« oups »).
    Tout est en aplat rouge #f0101c (non éclairé), sauf la goutte qui garde sa matière d'origine. */
@@ -14,7 +13,6 @@ import * as THREE from "three";
 import { createDropGeometry } from "./head";
 
 export const MAX_ARCS = 4;
-export const MAX_NOTES = 6;
 
 const RED = 0xf0101c;
 const RED_CSS = "#f0101c";
@@ -27,7 +25,6 @@ export interface Decor {
     alpha: Float32Array;
     width: Float32Array;
   };
-  notes: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>[];
   bubble: THREE.Group;
   bubbleFrame: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>;
   bubbleDots: THREE.Mesh<THREE.CircleGeometry, THREE.MeshBasicMaterial>[];
@@ -53,43 +50,6 @@ function canvasTexture(
   t.generateMipmaps = true;
   t.minFilter = THREE.LinearMipmapLinearFilter;
   return t;
-}
-
-// croche (♪) : tête ovale penchée, hampe, crochet
-function paintNote(c: CanvasRenderingContext2D) {
-  c.fillStyle = RED_CSS;
-  c.beginPath();
-  c.ellipse(46, 96, 23, 16.5, -0.42, 0, Math.PI * 2);
-  c.fill();
-  c.fillRect(60, 18, 9.5, 80);
-  c.beginPath();
-  c.moveTo(60, 16);
-  c.bezierCurveTo(66, 40, 106, 44, 98, 84);
-  c.bezierCurveTo(94, 62, 84, 52, 66, 50);
-  c.closePath();
-  c.fill();
-}
-
-// deux croches liées (♫)
-function paintNotes(c: CanvasRenderingContext2D) {
-  c.fillStyle = RED_CSS;
-  for (const [x, y] of [
-    [32, 102],
-    [92, 90],
-  ]) {
-    c.beginPath();
-    c.ellipse(x, y, 19, 14, -0.42, 0, Math.PI * 2);
-    c.fill();
-  }
-  c.fillRect(42, 28, 8.5, 74);
-  c.fillRect(102, 16, 8.5, 74);
-  c.beginPath();
-  c.moveTo(42, 22);
-  c.lineTo(110.5, 10);
-  c.lineTo(110.5, 28);
-  c.lineTo(42, 40);
-  c.closePath();
-  c.fill();
 }
 
 // bulle pointillée, queue en bas à gauche (vers la bouche)
@@ -168,28 +128,6 @@ export function createDecor(): Decor {
   arcMesh.visible = false;
   group.add(arcMesh);
 
-  // notes
-  const noteTex = canvasTexture(128, 128, paintNote);
-  const notesTex = canvasTexture(128, 128, paintNotes);
-  textures.push(noteTex, notesTex);
-  const noteGeo = new THREE.PlaneGeometry(1, 1);
-  const notes = Array.from({ length: MAX_NOTES }, (_, i) => {
-    const m = new THREE.Mesh(
-      noteGeo,
-      new THREE.MeshBasicMaterial({
-        map: i % 3 === 1 ? notesTex : noteTex,
-        transparent: true,
-        depthWrite: false,
-        toneMapped: false,
-        opacity: 0,
-      }),
-    );
-    m.renderOrder = 4;
-    m.visible = false;
-    group.add(m);
-    return m;
-  });
-
   // bulle du chuchotement
   const bubble = new THREE.Group();
   bubble.visible = false;
@@ -244,7 +182,6 @@ export function createDecor(): Decor {
   return {
     group,
     arcs: { mesh: arcMesh, radius, alpha, width },
-    notes,
     bubble,
     bubbleFrame,
     bubbleDots,

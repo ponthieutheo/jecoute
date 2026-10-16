@@ -121,8 +121,9 @@ pub enum OverlayPosition {
 
 /// Which recording overlay to display. `Minimal` and `Live` share one base
 /// (the pill); `Live` grows into the panel that shows live transcription text.
-/// `Character` shows the 3D mascot (it listens, whistles while transcribing,
-/// whispers while post-processing); streaming models keep the Live panel.
+/// `Character` shows the 3D mascot (it listens, types on a keyboard while
+/// transcribing, whispers while post-processing); streaming models keep the
+/// Live panel.
 /// `None` hides the overlay entirely. Decoupled from whether the model runs in
 /// streaming mode (that is driven purely by model capability).
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type)]

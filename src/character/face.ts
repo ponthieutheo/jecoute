@@ -8,12 +8,13 @@
 
    Repris du visage d'origine (mêmes tracés, même noir, même rouge), sans les accessoires. Formes ajoutées pour
    la fenêtre d'enregistrement : yeux mi-clos (« half »), sourcils levés (« lift »), sourcil complice (« sly »),
-   bouche qui siffle (« whistle »), bouche qui chuchote (« whisper »), petite bouche crispée (« zig » réduite). */
+   bouche qui chuchote (« whisper »), petite bouche crispée (« zig » réduite). Sourcils légèrement
+   froncés quand il tape (« focus »). */
 
 import * as THREE from "three";
 
 export type EyeMode = "open" | "wide" | "happy" | "half" | "squint";
-export type MouthMode = "grin" | "o" | "whistle" | "whisper" | "zig";
+export type MouthMode = "grin" | "o" | "whisper" | "zig";
 
 export interface FaceState {
   eyes: EyeMode;
@@ -30,10 +31,12 @@ export interface FaceState {
   brows: number;
   /** Sourcils levés, attentifs (0..1). */
   lift: number;
-  /** Un sourcil levé, l'autre bas : regard complice. */
+  /** Un sourcil levé : regard complice. */
   sly: boolean;
+  /** Sourcils froncés : concentré (il tape). */
+  focus: boolean;
   mouth: MouthMode;
-  /** Ouverture de la bouche (0..1) : sourire du logo, « o », sifflet, chuchotement. */
+  /** Ouverture de la bouche (0..1) : sourire du logo, « o », chuchotement. */
   open: number;
   /** Décalage horizontal de la bouche (unités du logo). */
   mx: number;
@@ -208,6 +211,8 @@ export function createFace(renderer?: THREE.WebGLRenderer): Face {
   );
   // ajouts : sourcils levés en arc (attentif)
   const LIFT = new Path2D("M398 492Q462 432 536 470M718 470Q792 432 856 492");
+  // sourcils légèrement froncés, bas sur les yeux (concentré, pas fâché)
+  const FOCUS = new Path2D("M400 492Q466 494 530 510M724 510Q788 494 854 492");
   // contour de la bouche du logo (crocs compris), échantillonné pour pouvoir la refermer progressivement
   const MOUTH_PTS = (() => {
     const P: [number, number][] = [
@@ -274,7 +279,7 @@ export function createFace(renderer?: THREE.WebGLRenderer): Face {
   function drawFace(s: FaceState): boolean {
     const blink = Math.max(0, Math.min(1, s.blink));
     const open = Math.max(0, Math.min(1, s.open));
-    const key = `${s.eyes}|${blink.toFixed(2)}|${s.lid.toFixed(2)}|${s.lidTilt.toFixed(0)}|${s.ex.toFixed(0)}|${s.ey.toFixed(0)}|${s.brows.toFixed(1)}|${s.lift.toFixed(2)}|${s.sly}|${s.mouth}|${open.toFixed(3)}|${s.mx.toFixed(0)}`;
+    const key = `${s.eyes}|${blink.toFixed(2)}|${s.lid.toFixed(2)}|${s.lidTilt.toFixed(0)}|${s.ex.toFixed(0)}|${s.ey.toFixed(0)}|${s.brows.toFixed(1)}|${s.lift.toFixed(2)}|${s.sly}|${s.focus}|${s.mouth}|${open.toFixed(3)}|${s.mx.toFixed(0)}`;
     if (key === faceKey) return false;
     faceKey = key;
     const c = fctx!;
@@ -343,6 +348,12 @@ export function createFace(renderer?: THREE.WebGLRenderer): Face {
       c.lineWidth = 34;
       c.stroke(THINK_UP);
       c.restore();
+    } else if (s.focus && s.eyes !== "happy" && s.eyes !== "squint") {
+      c.save();
+      c.translate(ex * 0.3, Math.max(0, ey) * 0.25);
+      c.lineWidth = 32;
+      c.stroke(FOCUS);
+      c.restore();
     } else if (s.lift > 0.05) {
       c.save();
       c.lineWidth = 36 * Math.min(1, 0.55 + s.lift);
@@ -365,11 +376,6 @@ export function createFace(renderer?: THREE.WebGLRenderer): Face {
         0,
         Math.PI * 2,
       );
-      c.fill();
-    } else if (s.mouth === "whistle") {
-      // lèvres en cul-de-poule : petit « o » rond, légèrement décalé
-      const cx = 627 + s.mx;
-      c.ellipse(cx, 884, 52 + 14 * open, 58 + 16 * open, 0, 0, Math.PI * 2);
       c.fill();
     } else if (s.mouth === "whisper") {
       // bouche au coin, entrouverte, qui murmure de côté

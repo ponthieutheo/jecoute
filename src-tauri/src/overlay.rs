@@ -58,10 +58,11 @@ const OVERLAY_STREAM_HEIGHT: f64 = 120.0;
 
 // 3D character (OverlayStyle::Character): exactly the WebGL stage (STAGE_W x
 // STAGE_H in src/character/stage.ts). It holds the head with its pop
-// overshoot, the cupped hand and its sound arcs (right), the rising notes
-// (left, above) and the shrug; nothing is drawn past it. The head's bottom
-// sits ~9 px above the window's bottom edge, so with OVERLAY_BOTTOM_OFFSET it
-// clears a 48 px Windows taskbar.
+// overshoot, the cupped hand and its sound arcs (right), the keyboard it types
+// on while transcribing (under the head, which rises for it) and the shrug;
+// nothing is drawn past it. At rest the head's bottom sits ~9 px above the
+// window's bottom edge, so with OVERLAY_BOTTOM_OFFSET it clears a 48 px
+// Windows taskbar.
 const OVERLAY_CHARACTER_WIDTH: f64 = 224.0;
 const OVERLAY_CHARACTER_HEIGHT: f64 = 144.0;
 
@@ -143,9 +144,12 @@ struct HideOverlayPayload {
     id: u64,
 }
 
-/// Upper bound on the character's exit before the window is hidden anyway (the
-/// animation itself lasts ~0.62 s and is acknowledged by `overlay-exit-done`).
-const CHARACTER_EXIT_FALLBACK_MS: u64 = 1500;
+/// Upper bound on the character's exit before the window is hidden anyway. The
+/// animation is acknowledged by `overlay-exit-done`; it lasts ~0.62 s, plus up
+/// to MIN_TYPING (1 s, src/character/choreography.ts) when the transcription was
+/// faster than the minimum typing time. Only the window's hiding waits for it:
+/// the text is pasted before `hide_recording_overlay` is called.
+const CHARACTER_EXIT_FALLBACK_MS: u64 = 2500;
 /// Delay before hiding the pill / Live card (their CSS fade-out).
 const PILL_EXIT_MS: u64 = 300;
 
