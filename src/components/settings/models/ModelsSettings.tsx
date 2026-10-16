@@ -256,7 +256,7 @@ export const ModelsSettings: React.FC = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder={t("settings.models.searchPlaceholder")}
-          className="w-full pl-9 pr-3 py-2 text-sm bg-surface border border-mid-gray/70 rounded-md transition-[border-color,box-shadow] duration-150 hover:border-mid-gray focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent placeholder:text-mid-gray"
+          className="w-full pl-9 pr-3 py-2 text-sm bg-surface border border-mid-gray/70 rounded-md transition-[border-color,box-shadow] duration-150 hover:border-mid-gray focus:outline-none focus:border-focus focus:ring-1 focus:ring-focus placeholder:text-mid-gray"
         />
       </div>
 
@@ -336,7 +336,7 @@ export const ModelsSettings: React.FC = () => {
 
                 {languageDropdownOpen && (
                   <div className="absolute top-full right-0 mt-1 w-56 bg-surface border border-mid-gray/35 rounded-md shadow-popover z-50 overflow-hidden">
-                    <div className="p-2 border-b border-mid-gray/20">
+                    <div className="p-2 border-b border-border">
                       <input
                         ref={languageSearchInputRef}
                         type="text"
@@ -358,7 +358,7 @@ export const ModelsSettings: React.FC = () => {
                         placeholder={t(
                           "settings.general.language.searchPlaceholder",
                         )}
-                        className="w-full px-2 py-1 text-sm bg-mid-gray/[0.07] border border-mid-gray/70 rounded-md placeholder:text-mid-gray focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+                        className="w-full px-2 py-1 text-sm bg-mid-gray/[0.07] border border-mid-gray/70 rounded-md placeholder:text-mid-gray focus:outline-none focus:border-focus focus:ring-1 focus:ring-focus"
                       />
                     </div>
                     <div className="max-h-48 overflow-y-auto">

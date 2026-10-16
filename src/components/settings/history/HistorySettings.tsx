@@ -245,7 +245,7 @@ export const HistorySettings: React.FC = () => {
     content = (
       <>
         <AudioPlayerGroup>
-          <div className="divide-y divide-mid-gray/15">
+          <div className="divide-y divide-border">
             {entries.map((entry) => (
               <HistoryEntryComponent
                 key={entry.id}
@@ -279,7 +279,7 @@ export const HistorySettings: React.FC = () => {
             label={t("settings.history.openFolder")}
           />
         </div>
-        <div className="bg-surface border border-mid-gray/20 rounded-lg overflow-visible">
+        <div className="bg-surface border border-border rounded-lg overflow-visible">
           {content}
         </div>
       </div>

@@ -46,7 +46,7 @@ export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
         />
         {/* Éteint : piste vide cerclée de gris, petit pouce gris. Allumé :
             piste rouge pleine, pouce blanc plus grand (contrastes ≥ 3:1). */}
-        <div className="relative w-11 h-6 rounded-full border-2 border-mid-gray bg-transparent transition-colors duration-150 peer peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent peer-checked:bg-accent-fill peer-checked:border-accent-fill peer-disabled:opacity-50 after:content-[''] after:absolute after:top-[3px] after:start-[3px] after:h-3.5 after:w-3.5 after:rounded-full after:bg-mid-gray after:transition-all after:duration-150 peer-checked:after:top-[2px] peer-checked:after:start-[2px] peer-checked:after:h-4 peer-checked:after:w-4 peer-checked:after:bg-on-accent peer-checked:after:translate-x-5 rtl:peer-checked:after:-translate-x-5"></div>
+        <div className="relative w-11 h-6 rounded-full border-2 border-mid-gray bg-transparent transition-colors duration-150 peer peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus peer-checked:bg-accent-fill peer-checked:border-accent-fill peer-disabled:opacity-50 after:content-[''] after:absolute after:top-[3px] after:start-[3px] after:h-3.5 after:w-3.5 after:rounded-full after:bg-mid-gray after:transition-all after:duration-150 peer-checked:after:top-[2px] peer-checked:after:start-[2px] peer-checked:after:h-4 peer-checked:after:w-4 peer-checked:after:bg-on-accent peer-checked:after:translate-x-5 rtl:peer-checked:after:-translate-x-5"></div>
       </label>
       {isUpdating && (
         <div className="absolute inset-0 flex items-center justify-center">

@@ -61,6 +61,16 @@
   --color-scrim: var(--light-color-scrim);
   --elevation-popover: var(--light-elevation-popover);
 
+  /* Bordures : filet discret des cartes et séparateurs ; bordure des champs
+     et menus, à 3:1 minimum sur les surfaces (WCAG 1.4.11). */
+  --color-border: color-mix(in srgb, var(--color-mid-gray) 20%, transparent);
+  --color-border-strong: color-mix(
+    in srgb,
+    var(--color-mid-gray) 80%,
+    transparent
+  );
+  /* Anneau de focus clavier. */
+  --color-focus: var(--color-accent);
   /* Rouge lisible en texte (alias explicite de logo-primary). */
   --color-accent-text: var(--color-logo-primary);
   /* Anciens jetons du logo de Handy, gardés pour compatibilité. */

@@ -285,7 +285,7 @@ export const GlobalShortcutInput: React.FC<GlobalShortcutInputProps> = ({
           </div>
         ) : (
           <div
-            className="px-2 py-1 text-sm font-semibold bg-mid-gray/10 border border-mid-gray/80 hover:bg-mid-gray/15 hover:border-accent rounded-md cursor-pointer transition-colors duration-150"
+            className="px-2 py-1 text-sm font-semibold bg-mid-gray/10 border border-border-strong hover:bg-mid-gray/15 hover:border-accent rounded-md cursor-pointer transition-colors duration-150"
             onClick={() => startRecording(shortcutId)}
           >
             {formatKeyCombination(binding.current_binding, osType)}

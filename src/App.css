@@ -20,6 +20,9 @@
   --color-warning: var(--color-warning);
   --color-error: var(--color-error);
   --color-success: var(--color-success);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-focus: var(--color-focus);
   --color-scrim: var(--color-scrim);
   --shadow-popover: var(--elevation-popover);
 }

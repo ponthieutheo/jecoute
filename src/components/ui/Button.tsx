@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseClasses =
-    "font-medium rounded-md border outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
+    "font-medium rounded-md border outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
 
   const variantClasses = {
     primary:

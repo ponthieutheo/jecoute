@@ -46,16 +46,15 @@ const hoverBackground =
 const selectedBackground =
   "color-mix(in srgb, var(--color-mid-gray) 16%, transparent)";
 // Bordure des champs : contraste ≥ 3:1 avec la surface (WCAG 1.4.11).
-const neutralBorder =
-  "color-mix(in srgb, var(--color-mid-gray) 80%, transparent)";
+const neutralBorder = "var(--color-border-strong)";
 
 const selectStyles: StylesConfig<SelectOption, false> = {
   control: (base, state) => ({
     ...base,
     minHeight: 36,
     borderRadius: 6,
-    borderColor: state.isFocused ? "var(--color-accent)" : neutralBorder,
-    boxShadow: state.isFocused ? "0 0 0 1px var(--color-accent)" : "none",
+    borderColor: state.isFocused ? "var(--color-focus)" : neutralBorder,
+    boxShadow: state.isFocused ? "0 0 0 1px var(--color-focus)" : "none",
     backgroundColor: state.isFocused ? hoverBackground : baseBackground,
     fontSize: "0.875rem",
     fontWeight: 600,

@@ -93,11 +93,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
     .map(([id, config]) => ({ id: id as SidebarSection, ...config }));
 
   return (
-    <div className="flex flex-col w-40 h-full shrink-0 border-e border-mid-gray/20 px-1.5">
+    <div className="flex flex-col w-40 h-full shrink-0 border-e border-border px-1.5">
       <div className="flex items-center h-16 px-2.5">
         <JecouteWordmark width={104} />
       </div>
-      <div className="flex flex-col w-full gap-0.5 pt-2 border-t border-mid-gray/20">
+      <div className="flex flex-col w-full gap-0.5 pt-2 border-t border-border">
         {availableSections.map((section) => {
           const Icon = section.icon;
           const isActive = activeSection === section.id;
