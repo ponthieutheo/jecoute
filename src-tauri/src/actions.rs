@@ -115,7 +115,8 @@ where
 }
 
 fn should_use_streaming_overlay(style: OverlayStyle, is_streaming: bool) -> bool {
-    style == OverlayStyle::Live && is_streaming
+    // The character style keeps the Live panel for streaming models.
+    matches!(style, OverlayStyle::Live | OverlayStyle::Character) && is_streaming
 }
 
 async fn post_process_transcription(settings: &AppSettings, transcription: &str) -> Option<String> {
@@ -455,8 +456,12 @@ impl ShortcutAction for TranscribeAction {
         // pill instead of an oversized transparent live window.
         let overlay_started = Instant::now();
         match settings.overlay_style {
-            OverlayStyle::Live if model_supports_streaming => utils::show_streaming_overlay(app),
-            OverlayStyle::Live | OverlayStyle::Minimal => show_recording_overlay(app),
+            OverlayStyle::Live | OverlayStyle::Character if model_supports_streaming => {
+                utils::show_streaming_overlay(app)
+            }
+            OverlayStyle::Live | OverlayStyle::Minimal | OverlayStyle::Character => {
+                show_recording_overlay(app)
+            }
             OverlayStyle::None => {} // show_overlay_state no-ops on None anyway
         }
         // Everything above runs before capture can begin, so each span here is
@@ -965,6 +970,11 @@ mod tests {
     fn live_overlay_uses_streaming_states_only_for_streaming_models() {
         assert!(should_use_streaming_overlay(OverlayStyle::Live, true));
         assert!(!should_use_streaming_overlay(OverlayStyle::Live, false));
+        assert!(should_use_streaming_overlay(OverlayStyle::Character, true));
+        assert!(!should_use_streaming_overlay(
+            OverlayStyle::Character,
+            false
+        ));
         assert!(!should_use_streaming_overlay(OverlayStyle::Minimal, true));
         assert!(!should_use_streaming_overlay(OverlayStyle::None, true));
     }
