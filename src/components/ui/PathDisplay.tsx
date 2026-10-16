@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { FolderOpen } from "lucide-react";
 import { Button } from "./Button";
 
 interface PathDisplayProps {
@@ -16,17 +17,23 @@ export const PathDisplay: React.FC<PathDisplayProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="flex items-center gap-2">
-      <div className="flex-1 min-w-0 px-2 py-2 bg-mid-gray/[0.07] border border-mid-gray/35 rounded-md text-xs font-mono break-all select-text cursor-text">
-        {path}
+    <div className="flex items-center gap-2 w-full min-w-0">
+      <div
+        className="j-input mono j-selectable flex-1 flex items-center overflow-hidden"
+        title={path}
+      >
+        <span className="truncate" dir="ltr">
+          {path}
+        </span>
       </div>
       <Button
         onClick={onOpen}
         variant="secondary"
         size="sm"
         disabled={disabled}
-        className="px-3 py-2"
+        className="shrink-0"
       >
+        <FolderOpen size={14} aria-hidden="true" />
         {t("common.open")}
       </Button>
     </div>

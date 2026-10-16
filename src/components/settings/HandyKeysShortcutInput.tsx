@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { listen } from "@tauri-apps/api/event";
-import { formatKeyCombination } from "../../lib/utils/keyboard";
+import { PenLine } from "lucide-react";
 import { ResetButton } from "../ui/ResetButton";
+import { KeyCombo } from "@/app/ui/KeyCombo";
 import { SettingContainer } from "../ui/SettingContainer";
 import { useSettings } from "../../hooks/useSettings";
-import { useOsType } from "../../hooks/useOsType";
 import { commands } from "@/bindings";
 import { toast } from "sonner";
 import { openUrl } from "@tauri-apps/plugin-opener";
-import { SECURE_INPUT_HELP_URL } from "../SecureInputWarning";
+import { secureInputHelpUrl } from "../SecureInputWarning";
 
 interface HandyKeysShortcutInputProps {
   descriptionMode?: "inline" | "tooltip";
@@ -31,7 +31,7 @@ export const HandyKeysShortcutInput: React.FC<HandyKeysShortcutInputProps> = ({
   shortcutId,
   disabled = false,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { getSetting, updateBinding, resetBinding, isUpdating, isLoading } =
     useSettings();
   const [isRecording, setIsRecording] = useState(false);
@@ -48,7 +48,6 @@ export const HandyKeysShortcutInput: React.FC<HandyKeysShortcutInputProps> = ({
   // arrived — e.g. while macOS Secure Input is active (issue #1578).
   const keyedShortcutRef = useRef<string>("");
   const modifierOnlyShortcutRef = useRef<string>("");
-  const osType = useOsType();
 
   const bindings = getSetting("bindings") || {};
 
@@ -225,7 +224,7 @@ export const HandyKeysShortcutInput: React.FC<HandyKeysShortcutInputProps> = ({
           toast.error(t("secureInput.recorderBlocked"), {
             action: {
               label: t("secureInput.learnMore"),
-              onClick: () => openUrl(SECURE_INPUT_HELP_URL),
+              onClick: () => openUrl(secureInputHelpUrl(i18n.language)),
             },
           });
         } else {
@@ -250,11 +249,8 @@ export const HandyKeysShortcutInput: React.FC<HandyKeysShortcutInputProps> = ({
     }
   };
 
-  // Format the current shortcut keys being recorded
-  const formatCurrentKeys = (): string => {
-    if (!currentKeys) return t("settings.general.shortcut.pressKeys");
-    return formatKeyCombination(currentKeys, osType);
-  };
+  // Keys recorded so far, drawn as key caps while recording.
+  const recordingKeys = currentKeys;
 
   // If still loading, show loading state
   if (isLoading) {
@@ -323,25 +319,51 @@ export const HandyKeysShortcutInput: React.FC<HandyKeysShortcutInputProps> = ({
       disabled={disabled}
       layout="horizontal"
     >
-      <div className="flex items-center space-x-1">
+      <div className="flex items-center gap-1">
         {isRecording ? (
           <div
             ref={shortcutRef}
-            className="px-2 py-1 text-sm font-semibold border border-accent bg-surface ring-1 ring-accent rounded-md"
+            className="j-keys"
+            aria-live="polite"
+            data-recording-shortcut
           >
-            {formatCurrentKeys()}
+            {recordingKeys ? (
+              <KeyCombo combination={recordingKeys} recording />
+            ) : (
+              <span className="j-key recording">
+                {t("settings.general.shortcut.pressKeys")}
+              </span>
+            )}
           </div>
         ) : (
-          <div
-            className="px-2 py-1 text-sm font-semibold bg-mid-gray/10 border border-border-strong hover:bg-mid-gray/15 hover:border-accent rounded-md cursor-pointer transition-colors duration-150"
-            onClick={startRecording}
+          <button
+            type="button"
+            className="j-keys cursor-pointer"
+            onClick={() => startRecording()}
+            title={t("app.settings.editShortcut")}
+            aria-label={t("app.settings.editShortcutNamed", {
+              name: translatedName,
+            })}
           >
-            {formatKeyCombination(binding.current_binding, osType)}
-          </div>
+            <KeyCombo combination={binding.current_binding} />
+          </button>
         )}
+        <button
+          type="button"
+          className="j-ibtn sm"
+          onClick={() => startRecording()}
+          title={t("app.settings.editShortcut")}
+          aria-label={t("app.settings.editShortcutNamed", {
+            name: translatedName,
+          })}
+          disabled={isRecording}
+        >
+          <PenLine size={16} aria-hidden="true" />
+        </button>
         <ResetButton
           onClick={() => resetBinding(shortcutId)}
           disabled={isUpdating(`binding_${shortcutId}`)}
+          ariaLabel={t("app.settings.resetShortcut")}
         />
       </div>
     </SettingContainer>

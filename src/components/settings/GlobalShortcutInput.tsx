@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  getKeyName,
-  formatKeyCombination,
-  normalizeKey,
-} from "../../lib/utils/keyboard";
+import { getKeyName, normalizeKey } from "../../lib/utils/keyboard";
+import { PenLine } from "lucide-react";
 import { ResetButton } from "../ui/ResetButton";
+import { KeyCombo } from "@/app/ui/KeyCombo";
 import { SettingContainer } from "../ui/SettingContainer";
 import { useSettings } from "../../hooks/useSettings";
 import { useOsType } from "../../hooks/useOsType";
@@ -194,14 +192,8 @@ export const GlobalShortcutInput: React.FC<GlobalShortcutInputProps> = ({
     setRecordedKeys([]);
   };
 
-  // Format the current shortcut keys being recorded
-  const formatCurrentKeys = (): string => {
-    if (recordedKeys.length === 0)
-      return t("settings.general.shortcut.pressKeys");
-
-    // Use the same formatting as the display to ensure consistency
-    return formatKeyCombination(recordedKeys.join("+"), osType);
-  };
+  // Keys recorded so far, drawn as key caps while recording.
+  const recordingKeys = recordedKeys.join("+");
 
   // Store references to shortcut elements
   const setShortcutRef = (id: string, ref: HTMLDivElement | null) => {
@@ -275,25 +267,51 @@ export const GlobalShortcutInput: React.FC<GlobalShortcutInputProps> = ({
       disabled={disabled}
       layout="horizontal"
     >
-      <div className="flex items-center space-x-1">
+      <div className="flex items-center gap-1">
         {editingShortcutId === shortcutId ? (
           <div
             ref={(ref) => setShortcutRef(shortcutId, ref)}
-            className="px-2 py-1 text-sm font-semibold border border-accent bg-surface ring-1 ring-accent rounded-md"
+            className="j-keys"
+            aria-live="polite"
+            data-recording-shortcut
           >
-            {formatCurrentKeys()}
+            {recordingKeys ? (
+              <KeyCombo combination={recordingKeys} recording />
+            ) : (
+              <span className="j-key recording">
+                {t("settings.general.shortcut.pressKeys")}
+              </span>
+            )}
           </div>
         ) : (
-          <div
-            className="px-2 py-1 text-sm font-semibold bg-mid-gray/10 border border-border-strong hover:bg-mid-gray/15 hover:border-accent rounded-md cursor-pointer transition-colors duration-150"
+          <button
+            type="button"
+            className="j-keys cursor-pointer"
             onClick={() => startRecording(shortcutId)}
+            title={t("app.settings.editShortcut")}
+            aria-label={t("app.settings.editShortcutNamed", {
+              name: translatedName,
+            })}
           >
-            {formatKeyCombination(binding.current_binding, osType)}
-          </div>
+            <KeyCombo combination={binding.current_binding} />
+          </button>
         )}
+        <button
+          type="button"
+          className="j-ibtn sm"
+          onClick={() => startRecording(shortcutId)}
+          title={t("app.settings.editShortcut")}
+          aria-label={t("app.settings.editShortcutNamed", {
+            name: translatedName,
+          })}
+          disabled={editingShortcutId === shortcutId}
+        >
+          <PenLine size={16} aria-hidden="true" />
+        </button>
         <ResetButton
           onClick={() => resetBinding(shortcutId)}
           disabled={isUpdating(`binding_${shortcutId}`)}
+          ariaLabel={t("app.settings.resetShortcut")}
         />
       </div>
     </SettingContainer>

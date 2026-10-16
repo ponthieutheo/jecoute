@@ -1,5 +1,6 @@
 import React from "react";
-import ResetIcon from "../icons/ResetIcon";
+import { useTranslation } from "react-i18next";
+import { RotateCcw } from "lucide-react";
 
 interface ResetButtonProps {
   onClick: () => void;
@@ -10,19 +11,20 @@ interface ResetButtonProps {
 }
 
 export const ResetButton: React.FC<ResetButtonProps> = React.memo(
-  ({ onClick, disabled = false, className = "", ariaLabel, children }) => (
-    <button
-      type="button"
-      aria-label={ariaLabel}
-      className={`p-1 rounded-md border border-transparent outline-none focus-visible:outline-2 focus-visible:outline-focus transition-colors duration-150 ${
-        disabled
-          ? "opacity-50 cursor-not-allowed text-text/40"
-          : "text-mid-gray hover:text-text hover:bg-mid-gray/15 active:bg-mid-gray/25 active:translate-y-[1px] hover:cursor-pointer"
-      } ${className}`}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {children ?? <ResetIcon />}
-    </button>
-  ),
+  ({ onClick, disabled = false, className = "", ariaLabel, children }) => {
+    const { t } = useTranslation();
+    const label = ariaLabel ?? t("common.reset");
+    return (
+      <button
+        type="button"
+        aria-label={label}
+        title={label}
+        className={`j-ibtn sm ${className}`}
+        onClick={onClick}
+        disabled={disabled}
+      >
+        {children ?? <RotateCcw size={15} aria-hidden="true" />}
+      </button>
+    );
+  },
 );

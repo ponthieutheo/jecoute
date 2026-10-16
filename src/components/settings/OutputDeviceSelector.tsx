@@ -2,7 +2,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Dropdown } from "../ui/Dropdown";
 import { SettingContainer } from "../ui/SettingContainer";
-import { ResetButton } from "../ui/ResetButton";
 import { useSettings } from "../../hooks/useSettings";
 import type { AudioDevice } from "@/bindings";
 
@@ -19,7 +18,6 @@ export const OutputDeviceSelector: React.FC<OutputDeviceSelectorProps> =
       const {
         getSetting,
         updateSetting,
-        resetSetting,
         isUpdating,
         isLoading,
         outputDevices,
@@ -35,48 +33,40 @@ export const OutputDeviceSelector: React.FC<OutputDeviceSelectorProps> =
         await updateSetting("selected_output_device", deviceName);
       };
 
-      const handleReset = async () => {
-        await resetSetting("selected_output_device");
-      };
-
       const outputDeviceOptions = outputDevices.map((device: AudioDevice) => ({
         value: device.name,
-        label: device.name,
+        label:
+          device.name === "Default"
+            ? t("app.settings.systemDefault")
+            : device.name,
       }));
 
       return (
         <SettingContainer
           title={t("settings.sound.outputDevice.title")}
-          description={t("settings.sound.outputDevice.description")}
-          descriptionMode={descriptionMode}
-          grouped={grouped}
+          description=""
           disabled={disabled}
+          layout="stacked"
         >
-          <div className="flex items-center space-x-1">
-            <Dropdown
-              options={outputDeviceOptions}
-              selectedValue={selectedOutputDevice}
-              onSelect={handleOutputDeviceSelect}
-              placeholder={
-                isLoading || outputDevices.length === 0
-                  ? t("settings.sound.outputDevice.loading")
-                  : t("settings.sound.outputDevice.placeholder")
-              }
-              disabled={
-                disabled ||
-                isUpdating("selected_output_device") ||
-                isLoading ||
-                outputDevices.length === 0
-              }
-              onRefresh={refreshOutputDevices}
-            />
-            <ResetButton
-              onClick={handleReset}
-              disabled={
-                disabled || isUpdating("selected_output_device") || isLoading
-              }
-            />
-          </div>
+          <Dropdown
+            options={outputDeviceOptions}
+            selectedValue={selectedOutputDevice}
+            onSelect={handleOutputDeviceSelect}
+            placeholder={
+              isLoading || outputDevices.length === 0
+                ? t("settings.sound.outputDevice.loading")
+                : t("settings.sound.outputDevice.placeholder")
+            }
+            disabled={
+              disabled ||
+              isUpdating("selected_output_device") ||
+              isLoading ||
+              outputDevices.length === 0
+            }
+            onRefresh={refreshOutputDevices}
+            ariaLabel={t("settings.sound.outputDevice.title")}
+            fullWidth
+          />
         </SettingContainer>
       );
     },

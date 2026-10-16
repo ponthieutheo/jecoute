@@ -1,6 +1,6 @@
 import {
+  useCallback,
   useEffect,
-  useLayoutEffect,
   useState,
   useRef,
   type ReactNode,
@@ -15,17 +15,10 @@ import {
 } from "tauri-plugin-macos-permissions-api";
 import { ModelStateEvent, RecordingErrorEvent } from "./lib/types/events";
 import "./App.css";
-import AccessibilityPermissions from "./components/AccessibilityPermissions";
-import SecureInputWarning from "./components/SecureInputWarning";
-import Footer from "./components/footer";
-import Onboarding, { AccessibilityOnboarding } from "./components/onboarding";
-import {
-  DebugSettings,
-  type OnboardingPreviewStep,
-} from "./components/settings";
-import { ErrorBoundary } from "./components/ErrorBoundary";
-import { Sidebar, SidebarSection, SECTIONS_CONFIG } from "./components/Sidebar";
-import { WhatsNewGate } from "./components/whats-new";
+import { AccessibilityOnboarding } from "./components/onboarding";
+import type { OnboardingPreviewStep } from "./components/settings/debug/OnboardingPreview";
+import { AppShell } from "./app/AppShell";
+import { Welcome } from "./app/onboarding/Welcome";
 import { useSettings } from "./hooks/useSettings";
 import { useSettingsStore } from "./stores/settingsStore";
 import { commands } from "@/bindings";
@@ -36,19 +29,6 @@ type OnboardingStep = "accessibility" | "model" | "done";
 // Stable identity so preview effects do not re-run due to callback changes.
 const NOOP = () => {};
 
-const renderSettingsContent = (
-  section: SidebarSection,
-  onPreviewOnboarding: (step: OnboardingPreviewStep) => void,
-) => {
-  if (section === "debug") {
-    return <DebugSettings onPreviewOnboarding={onPreviewOnboarding} />;
-  }
-
-  const ActiveComponent =
-    SECTIONS_CONFIG[section]?.component || SECTIONS_CONFIG.general.component;
-  return <ActiveComponent />;
-};
-
 function App() {
   const { t, i18n } = useTranslation();
   const [onboardingStep, setOnboardingStep] = useState<OnboardingStep | null>(
@@ -58,9 +38,6 @@ function App() {
     useState<OnboardingPreviewStep | null>(null);
   // Track if this is a returning user who just needs to grant permissions
   // (vs a new user who needs full onboarding including model selection)
-  const [isReturningUser, setIsReturningUser] = useState(false);
-  const [currentSection, setCurrentSection] =
-    useState<SidebarSection>("general");
   const { settings, updateSetting } = useSettings();
   const direction = getLanguageDirection(i18n.language);
   const refreshAudioDevices = useSettingsStore(
@@ -70,25 +47,6 @@ function App() {
     (state) => state.refreshOutputDevices,
   );
   const hasCompletedPostOnboardingInit = useRef(false);
-  const settingsScrollRef = useRef<HTMLDivElement>(null);
-  const isShowingOnboarding =
-    onboardingPreview !== null ||
-    onboardingStep === "accessibility" ||
-    onboardingStep === "model";
-
-  // Classic scrollbars consume layout space. Reserve a matching gutter on the
-  // opposite edge while onboarding is visible so its content stays centered in
-  // the physical window. Overlay scrollbars ignore scrollbar-gutter.
-  useLayoutEffect(() => {
-    const attribute = "data-onboarding-active";
-    document.documentElement.toggleAttribute(attribute, isShowingOnboarding);
-    return () => document.documentElement.removeAttribute(attribute);
-  }, [isShowingOnboarding]);
-
-  // Reset the scroll position whenever the active section changes.
-  useLayoutEffect(() => {
-    settingsScrollRef.current?.scrollTo({ top: 0 });
-  }, [currentSection]);
 
   useEffect(() => {
     checkOnboardingStatus();
@@ -232,8 +190,6 @@ function App() {
 
       if (hasCompletedOnboarding) {
         // Returning user - check if they need to grant permissions first
-        setIsReturningUser(true);
-
         if (currentPlatform === "macos") {
           try {
             const [hasAccessibility, hasMicrophone] = await Promise.all([
@@ -271,26 +227,25 @@ function App() {
 
         setOnboardingStep("done");
       } else {
-        // New user - start full onboarding
-        setIsReturningUser(false);
-        setOnboardingStep("accessibility");
+        // New user: welcome and model choice first, then the platform's
+        // permission steps (skipped on their own when nothing is needed).
+        setOnboardingStep("model");
       }
     } catch (error) {
       console.error("Failed to check onboarding status:", error);
-      setOnboardingStep("accessibility");
+      setOnboardingStep("model");
     }
   };
 
-  const handleAccessibilityComplete = () => {
-    // Returning users already have models, skip to main app
-    // New users need to select a model
-    setOnboardingStep(isReturningUser ? "done" : "model");
-  };
-
-  const handleModelSelected = () => {
-    // Transition to main app - user has started a download
+  // Stable: AccessibilityOnboarding re-runs its checks when this changes.
+  const handleAccessibilityComplete = useCallback(() => {
     setOnboardingStep("done");
-  };
+  }, []);
+
+  const handleModelSelected = useCallback(() => {
+    // The chosen model is downloaded and selected: permission steps next.
+    setOnboardingStep("accessibility");
+  }, []);
 
   // Rendered once around every step below (including onboarding) so
   // toast.error() calls surface to the user. sonner renders via a portal, so
@@ -300,15 +255,19 @@ function App() {
   const toaster = (
     <Toaster
       theme="system"
+      position="bottom-center"
+      offset={18}
+      gap={8}
+      dir={direction}
       toastOptions={{
         unstyled: true,
+        duration: 2400,
         classNames: {
-          toast:
-            "bg-background border border-mid-gray/20 rounded-lg shadow-lg px-4 py-3 flex items-center gap-3 text-sm",
-          title: "font-medium",
-          description: "text-mid-gray",
-          actionButton:
-            "px-2 py-1 text-xs font-medium rounded-lg border bg-mid-gray/10 border-mid-gray/20 hover:bg-mid-gray/15 hover:border-logo-primary cursor-pointer whitespace-nowrap",
+          toast: "j-toast",
+          title: "j-toast-title",
+          description: "j-toast-desc",
+          actionButton: "j-toast-action",
+          cancelButton: "j-toast-action",
         },
       }}
     />
@@ -324,61 +283,43 @@ function App() {
   // the main app never remounts it (which would drop any in-flight toast).
   let content: ReactNode;
   if (onboardingPreview) {
-    // Render previews in the same top-level slot as real onboarding. Keeping
-    // the settings layout unmounted ensures viewport overflow behaves exactly
-    // as it does during first-run onboarding.
+    // Previews are inert: nothing is downloaded, selected or requested.
     content = (
-      <>
+      <div className="j-app" dir={direction}>
         {onboardingPreview === "accessibility" ? (
           <AccessibilityOnboarding onComplete={NOOP} preview />
         ) : (
-          <Onboarding onModelSelected={NOOP} preview />
+          <Welcome onModelSelected={NOOP} preview />
         )}
         <button
           type="button"
           onClick={() => setOnboardingPreview(null)}
-          className="fixed top-4 end-4 z-50 rounded-lg border border-mid-gray/20 bg-background px-4 py-2 text-sm font-medium text-text shadow-lg hover:bg-mid-gray/15 cursor-pointer"
+          className="j-btn sm"
+          style={{
+            position: "absolute",
+            top: 12,
+            insetInlineEnd: 12,
+            zIndex: 20,
+          }}
         >
           {t("settings.debug.onboardingPreview.exitButton")}
         </button>
-      </>
+      </div>
     );
   } else if (onboardingStep === "accessibility") {
     content = (
-      <AccessibilityOnboarding onComplete={handleAccessibilityComplete} />
-    );
-  } else if (onboardingStep === "model") {
-    content = <Onboarding onModelSelected={handleModelSelected} />;
-  } else {
-    content = (
-      <div
-        dir={direction}
-        className="h-screen flex flex-col select-none cursor-default"
-      >
-        <ErrorBoundary context="What's New">
-          <WhatsNewGate />
-        </ErrorBoundary>
-        {/* Main content area that takes remaining space */}
-        <div className="flex-1 flex overflow-hidden">
-          <Sidebar
-            activeSection={currentSection}
-            onSectionChange={setCurrentSection}
-          />
-          {/* Scrollable content area */}
-          <div className="flex-1 flex flex-col overflow-hidden">
-            <div ref={settingsScrollRef} className="flex-1 overflow-y-auto">
-              <div className="flex flex-col items-center p-4 gap-4">
-                <AccessibilityPermissions />
-                <SecureInputWarning />
-                {renderSettingsContent(currentSection, setOnboardingPreview)}
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Fixed footer at bottom */}
-        <Footer />
+      <div className="j-app" dir={direction}>
+        <AccessibilityOnboarding onComplete={handleAccessibilityComplete} />
       </div>
     );
+  } else if (onboardingStep === "model") {
+    content = (
+      <div className="j-app" dir={direction}>
+        <Welcome onModelSelected={handleModelSelected} />
+      </div>
+    );
+  } else {
+    content = <AppShell onPreviewOnboarding={setOnboardingPreview} />;
   }
 
   return (

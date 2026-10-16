@@ -99,31 +99,26 @@ const SecureInputWarning: React.FC = () => {
         : t("secureInput.recorderBlockedNoCulprit");
 
   return (
-    <div className="w-full rounded-lg border border-warning/40 bg-warning/10 px-3 py-2.5">
-      <div className="flex items-center gap-3">
-        <TriangleAlert className="h-5 w-5 shrink-0 text-warning" />
-        <p className="min-w-0 flex-1 text-sm font-medium leading-5">
-          {message}
-        </p>
-        <div className="flex shrink-0 items-center gap-1">
-          <button
-            onClick={() => openUrl(secureInputHelpUrl(i18n.language))}
-            className="cursor-pointer whitespace-nowrap rounded px-2 py-1.5 text-sm font-medium text-text hover:text-warning focus:outline-none focus:ring-1 focus:ring-warning"
-          >
-            <span className="flex items-center gap-1 border-b border-current leading-4">
-              {t("secureInput.learnMore")}
-              <ExternalLink className="h-3.5 w-3.5" />
-            </span>
-          </button>
-          <button
-            onClick={() => setDismissed(true)}
-            aria-label={t("secureInput.dismiss")}
-            className="cursor-pointer rounded p-1.5 text-mid-gray hover:bg-warning/15 hover:text-warning focus:outline-none focus:ring-1 focus:ring-warning"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
+    <div className="j-notice warn" role="alert">
+      <TriangleAlert size={18} className="ic" aria-hidden="true" />
+      <p>{message}</p>
+      <button
+        type="button"
+        className="j-btn ghost sm"
+        onClick={() => openUrl(secureInputHelpUrl(i18n.language))}
+      >
+        {t("secureInput.learnMore")}
+        <ExternalLink size={14} aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        className="j-ibtn sm"
+        onClick={() => setDismissed(true)}
+        aria-label={t("secureInput.dismiss")}
+        title={t("secureInput.dismiss")}
+      >
+        <X size={16} aria-hidden="true" />
+      </button>
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Dropdown } from "../ui/Dropdown";
 import { SettingContainer } from "../ui/SettingContainer";
 import { useSettings } from "@/hooks/useSettings";
 import { applyTheme, THEME_OPTIONS } from "@/lib/utils/theme";
@@ -11,39 +10,34 @@ interface ThemeSelectorProps {
   grouped?: boolean;
 }
 
-export const ThemeSelector: React.FC<ThemeSelectorProps> = React.memo(
-  ({ descriptionMode = "tooltip", grouped = false }) => {
-    const { t } = useTranslation();
-    const { settings, updateSetting } = useSettings();
+/** Apparence : Système, Clair ou Sombre, en segments. */
+export const ThemeSelector: React.FC<ThemeSelectorProps> = React.memo(() => {
+  const { t } = useTranslation();
+  const { settings, updateSetting } = useSettings();
+  const currentTheme: Theme = settings?.theme ?? "system";
 
-    const currentTheme: Theme = settings?.theme ?? "system";
+  const handleThemeChange = (theme: Theme) => {
+    applyTheme(theme);
+    updateSetting("theme", theme);
+  };
 
-    const themeOptions = THEME_OPTIONS.map((value) => ({
-      value,
-      label: t(`theme.options.${value}`),
-    }));
-
-    const handleThemeChange = (value: string) => {
-      const theme = value as Theme;
-      applyTheme(theme);
-      updateSetting("theme", theme);
-    };
-
-    return (
-      <SettingContainer
-        title={t("theme.title")}
-        description={t("theme.description")}
-        descriptionMode={descriptionMode}
-        grouped={grouped}
-      >
-        <Dropdown
-          options={themeOptions}
-          selectedValue={currentTheme}
-          onSelect={handleThemeChange}
-        />
-      </SettingContainer>
-    );
-  },
-);
+  return (
+    <SettingContainer title={t("theme.title")} description="">
+      <div className="j-seg" role="radiogroup" aria-label={t("theme.title")}>
+        {THEME_OPTIONS.map((value) => (
+          <button
+            key={value}
+            type="button"
+            role="radio"
+            aria-checked={currentTheme === value}
+            onClick={() => handleThemeChange(value)}
+          >
+            {t(`theme.options.${value}`)}
+          </button>
+        ))}
+      </div>
+    </SettingContainer>
+  );
+});
 
 ThemeSelector.displayName = "ThemeSelector";

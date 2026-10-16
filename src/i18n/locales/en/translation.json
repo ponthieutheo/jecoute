@@ -117,7 +117,8 @@
       "errors": {
         "checkFailed": "Failed to check permissions. Please try again.",
         "requestFailed": "Failed to request permission. Please try again."
-      }
+      },
+      "checking": "Checking permissions…"
     }
   },
   "modelSelector": {
@@ -169,16 +170,16 @@
         "pressKeys": "Press keys...",
         "bindings": {
           "transcribe": {
-            "name": "Transcribe Shortcut",
-            "description": "The keyboard shortcut to record and transcribe your voice."
+            "name": "Dictation shortcut",
+            "description": "Hold to talk, release to write."
           },
           "cancel": {
-            "name": "Cancel Shortcut",
-            "description": "The keyboard shortcut to cancel the current recording."
+            "name": "Cancel a dictation",
+            "description": "Stops without writing anything."
           },
           "transcribe_with_post_process": {
-            "name": "Post-Processing Hotkey",
-            "description": "Optional: A dedicated hotkey that always applies AI post-processing to your transcription."
+            "name": "Shortcut with AI correction",
+            "description": "Dictates and always has the AI review the text."
           }
         },
         "errors": {
@@ -188,8 +189,8 @@
         }
       },
       "language": {
-        "title": "Language",
-        "description": "Select the language for speech recognition. Auto will automatically determine the language, while selecting a specific language can improve accuracy for that language.",
+        "title": "Spoken language",
+        "description": "The active model understands {{count}} languages.",
         "searchPlaceholder": "Search languages...",
         "noResults": "No languages found",
         "auto": "Auto",
@@ -201,12 +202,12 @@
         "options": {
           "holdOrToggle": "Auto",
           "pushToTalk": "Hold",
-          "toggle": "Toggle"
+          "toggle": "Press to start"
         },
         "descriptions": {
-          "hold_or_toggle": "Hold to record or tap to toggle",
-          "push_to_talk": "Records while you hold the shortcut",
-          "toggle": "Tap the shortcut to start recording, tap again to stop"
+          "hold_or_toggle": "Hold to dictate, or press once to start and once to stop.",
+          "push_to_talk": "I listen as long as you hold the keys.",
+          "toggle": "One press to start, another to stop."
         }
       }
     },
@@ -234,28 +235,28 @@
       "title": "Sound",
       "microphone": {
         "title": "Microphone",
-        "description": "Select your preferred microphone device",
+        "description": "The microphone that listens to you.",
         "placeholder": "Select microphone...",
         "loading": "Loading..."
       },
       "channel": {
         "title": "Input Channel",
-        "description": "Select which input channel to record from. Use this if your audio interface has multiple inputs.",
+        "description": "For an audio interface with several inputs.",
         "average": "Average all channels",
         "channel": "Channel {{n}}"
       },
       "audioFeedback": {
-        "label": "Audio Feedback",
-        "description": "Play sound when recording starts and stops"
+        "label": "Sound signal",
+        "description": "A short sound when a dictation starts and ends."
       },
       "outputDevice": {
-        "title": "Output Device",
-        "description": "Select your preferred audio output device for feedback sounds",
+        "title": "Signal output",
+        "description": "Where the sound signal plays.",
         "placeholder": "Select output device...",
         "loading": "Loading..."
       },
       "volume": {
-        "title": "Volume",
+        "title": "Signal volume",
         "description": "Adjust the volume of audio feedback sounds"
       }
     },
@@ -268,52 +269,52 @@
         "experimental": "Experimental"
       },
       "experimentalToggle": {
-        "label": "Experimental Features",
-        "description": "Enable experimental features that are still in development."
+        "label": "Experimental features",
+        "description": "Features still in development."
       },
       "lazyStreamClose": {
-        "label": "Keep Mic Open Between Transcriptions",
-        "description": "Keeps the microphone stream open for 30 seconds after recording stops, reducing latency for back-to-back transcriptions. May degrade Bluetooth audio quality while active."
+        "label": "Keep the mic open between dictations",
+        "description": "The mic stays open 30 seconds after a dictation so the next one starts faster. May degrade Bluetooth audio."
       },
       "acceleration": {
         "transcribe": {
-          "title": "transcribe.cpp Acceleration",
-          "description": "Hardware acceleration for transcribe.cpp (Whisper-family) models. Auto uses GPU if available (Metal on macOS, Vulkan on Windows/Linux)."
+          "title": "Acceleration",
+          "description": "Graphics card (Vulkan, Metal) or processor. Auto uses the graphics card when available."
         },
         "ort": {
           "title": "ONNX Acceleration",
-          "description": "Hardware acceleration for ONNX models (Parakeet, Canary, Moonshine, etc.). DirectML on Windows is experimental. Models may fail to transcribe."
+          "description": "For older ONNX models. DirectML (Windows) is experimental."
         },
         "gpuDevice": {
           "auto": "Auto"
         }
       },
       "startHidden": {
-        "label": "Start Hidden",
-        "description": "Launch to system tray without opening the window."
+        "label": "Start hidden",
+        "description": "Start in the taskbar without opening the window."
       },
       "autostart": {
-        "label": "Launch on Startup",
-        "description": "Automatically start J’écoute when you log in to your computer."
+        "label": "Launch at startup",
+        "description": "J’écoute starts when you sign in."
       },
       "showTrayIcon": {
-        "label": "Show Tray Icon",
-        "description": "Display the J’écoute icon in the system tray."
+        "label": "Taskbar icon",
+        "description": "In the notification area, next to the clock."
       },
       "overlay": {
         "style": {
-          "title": "Overlay",
-          "description": "Choose the recording overlay: None hides it, Minimal shows a compact pill, Live shows transcription in real time as you speak (streaming-capable models only — look for the Streaming badge in the model picker). On Linux 'None' is recommended.",
+          "title": "During a dictation",
+          "description": "What shows on screen. Live text needs a compatible model. On Linux, None is recommended.",
           "options": {
             "none": "None",
             "minimal": "Minimal",
-            "live": "Live",
+            "live": "Live text",
             "character": "Character"
           }
         },
         "position": {
-          "title": "Overlay Position",
-          "description": "Where the overlay appears on screen during recording and transcription.",
+          "title": "Position on screen",
+          "description": "At the top or bottom of the screen.",
           "options": {
             "bottom": "Bottom",
             "top": "Top"
@@ -321,36 +322,36 @@
         }
       },
       "pasteMethod": {
-        "title": "Paste Method",
-        "description": "Choose how text is inserted. Direct: simulates typing via system input. None: skips paste, only updates history/clipboard.",
+        "title": "Write the text",
+        "description": "How the dictation reaches your app.",
         "options": {
-          "clipboard": "Clipboard ({{modifier}}+V)",
-          "clipboardCtrlShiftV": "Clipboard (Ctrl+Shift+V)",
-          "clipboardShiftInsert": "Clipboard (Shift+Insert)",
-          "direct": "Direct",
-          "none": "None",
+          "clipboard": "Paste ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "Paste (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "Paste (Shift+Insert)",
+          "direct": "Type the text",
+          "none": "Don’t write",
           "externalScript": "External Script"
         },
         "externalScriptPlaceholder": "/path/to/your/script.sh"
       },
       "typingTool": {
         "title": "Typing Tool",
-        "description": "Choose which Linux typing tool to use for Direct paste method. Auto will automatically detect and use the best available tool for your system.",
+        "description": "The Linux tool that types the text. Auto picks the best one available.",
         "options": {
           "auto": "Auto (Recommended)"
         }
       },
       "clipboardHandling": {
-        "title": "Clipboard Handling",
-        "description": "Don't Modify Clipboard preserves your current clipboard contents after transcription. Copy to Clipboard leaves the transcription result in your clipboard after pasting.",
+        "title": "Clipboard",
+        "description": "After pasting.",
         "options": {
-          "dontModify": "Don't Modify Clipboard",
-          "copyToClipboard": "Copy to Clipboard"
+          "dontModify": "Restore previous content",
+          "copyToClipboard": "Keep the dictation"
         }
       },
       "autoSubmit": {
-        "title": "Auto Submit",
-        "description": "Automatically send the selected key combination after text insertion. Cmd+Enter applies on macOS, while Windows/Linux use Super+Enter.",
+        "title": "Submit after the text",
+        "description": "Presses a key for you, to send a message.",
         "options": {
           "off": "Off",
           "enter": "Enter",
@@ -361,11 +362,11 @@
       },
       "translateToEnglish": {
         "label": "Translate to English",
-        "description": "Automatically translate speech from other languages to English during transcription."
+        "description": "What you say in another language is written in English."
       },
       "modelUnload": {
-        "title": "Unload Model",
-        "description": "Automatically free GPU/CPU memory when the model hasn't been used for the specified time",
+        "title": "Free up memory",
+        "description": "Unloads the model when you stop dictating.",
         "options": {
           "never": "Never",
           "immediately": "Immediately",
@@ -378,32 +379,32 @@
         }
       },
       "customWords": {
-        "title": "Custom Words",
-        "description": "Help supported models recognize names and specialized terms. Fuzzy correction is currently limited to words using A–Z and numbers.",
+        "title": "Words to recognize",
+        "description": "Names and technical terms I should spell right.",
         "placeholder": "Add a word",
         "add": "Add",
         "remove": "Remove {{word}}",
-        "duplicate": "\"{{word}}\" already exists"
+        "duplicate": "“{{word}}” is already in the list"
       },
       "voiceActivityDetection": {
-        "title": "Voice Activity Detection",
-        "description": "Filter silence from recordings. Streaming-capable models use a longer VAD tail; disabling VAD records raw audio."
+        "title": "Voice detection",
+        "description": "Ignores silence before and after speech."
       },
       "vadBackend": {
-        "title": "Voice Activity Backend",
-        "description": "Choose the detector used to filter silence. Earshot is experimental; switch back to Silero if speech is clipped or noise is retained.",
+        "title": "Voice detector",
+        "description": "Earshot is experimental: switch back to Silero if speech gets cut.",
         "options": {
           "silero": "Silero",
           "earshot": "Earshot"
         }
       },
       "fillerWordRemoval": {
-        "title": "Remove Filler Words",
-        "description": "Removes common hesitation words from transcriptions. Turn off to keep them."
+        "title": "Remove filler words",
+        "description": "“uh”, “um”, “er”…"
       },
       "chineseScript": {
         "title": "Chinese Script",
-        "description": "Writes Mandarin and Cantonese transcriptions in Simplified or Traditional characters. Other languages are left unchanged.",
+        "description": "Simplified or Traditional characters for Mandarin and Cantonese.",
         "options": {
           "asTranscribed": "As Transcribed",
           "simplified": "Simplified",
@@ -416,22 +417,22 @@
         "title": "Hotkey"
       },
       "api": {
-        "title": "API (OpenAI Compatible)",
+        "title": "AI provider",
         "provider": {
           "title": "Provider",
-          "description": "Select an OpenAI-compatible provider."
+          "description": "An OpenAI-compatible service."
         },
         "appleIntelligence": {
           "unavailable": "Apple Intelligence is not available on this device. Requires an Apple Silicon Mac running macOS Tahoe (26.0) or later with Apple Intelligence enabled in System Settings."
         },
         "baseUrl": {
-          "title": "Base URL",
-          "description": "API base URL for the selected provider. Only the custom provider can be edited.",
+          "title": "API address",
+          "description": "Editable only for a custom provider.",
           "placeholder": "https://api.openai.com/v1"
         },
         "apiKey": {
           "title": "API Key",
-          "description": "API key for the selected provider.",
+          "description": "Your account key with this provider.",
           "placeholder": "sk-..."
         },
         "model": {
@@ -444,10 +445,10 @@
         }
       },
       "prompts": {
-        "title": "Prompt",
+        "title": "Instructions",
         "selectedPrompt": {
-          "title": "Selected Prompt",
-          "description": "Select a template for refining transcriptions or create a new one. Use ${output} inside the prompt text to reference the captured transcript."
+          "title": "Instruction",
+          "description": "What the AI does with the text. ${output} stands for your dictation."
         },
         "noPrompts": "No prompts available",
         "selectPrompt": "Select a prompt",
@@ -467,14 +468,14 @@
     },
     "history": {
       "title": "History",
-      "openFolder": "Open Recordings Folder",
+      "openFolder": "Recordings folder",
       "loading": "Loading history...",
       "empty": "No transcriptions yet. Start recording to build your history!",
-      "copyToClipboard": "Copy transcription to clipboard",
+      "copyToClipboard": "Copy",
       "copyError": "Failed to copy transcription to clipboard.",
-      "save": "Save transcription",
-      "unsave": "Remove from saved",
-      "delete": "Delete entry",
+      "save": "Add to favorites",
+      "unsave": "Remove from favorites",
+      "delete": "Delete",
       "deleteError": "Failed to delete entry. Please try again.",
       "retranscribe": "Re-transcribe",
       "retranscribeError": "Failed to re-transcribe. Please try again.",
@@ -484,8 +485,8 @@
     "debug": {
       "title": "Debug",
       "logDirectory": {
-        "title": "Log Directory",
-        "description": "Location where log files are stored"
+        "title": "Logs",
+        "description": "The folder of log files."
       },
       "logLevel": {
         "title": "Log Level",
@@ -503,8 +504,8 @@
         "empty": "Waiting for logs… Entries appear here as the app emits them."
       },
       "updateChecks": {
-        "label": "Check for Updates",
-        "description": "Automatically check for new versions of J’écoute",
+        "label": "Check for updates",
+        "description": "Look for new versions of J’écoute automatically.",
         "lockedDescription": "Disabled by system configuration (HANDY_DISABLE_UPDATER)"
       },
       "whatsNewPreview": {
@@ -522,21 +523,21 @@
         "exitButton": "Exit Preview"
       },
       "soundTheme": {
-        "label": "Sound Theme",
-        "description": "Choose a sound theme for recording start and stop feedback"
+        "label": "Signal sound",
+        "description": "The sound at the start and end of a dictation."
       },
       "wordCorrectionThreshold": {
         "title": "Word Correction Threshold",
         "description": "Sensitivity for custom word corrections"
       },
       "historyLimit": {
-        "title": "History Limit",
-        "description": "Maximum number of history entries to keep",
-        "entries": "entries"
+        "title": "History",
+        "description": "Older dictations are erased (favorites are kept).",
+        "entries": "dictations"
       },
       "recordingRetention": {
-        "title": "Auto-Delete Recordings",
-        "description": "Automatically delete old recordings to save space",
+        "title": "Audio recordings",
+        "description": "Delete old recordings to save space.",
         "never": "Never",
         "preserveLimit": "Keep latest {{count}}",
         "days3": "After 3 days",
@@ -545,24 +546,24 @@
         "placeholder": "Select retention period..."
       },
       "alwaysOnMicrophone": {
-        "label": "Always-On Microphone",
-        "description": "Keep microphone active for faster response"
+        "label": "Always-on microphone",
+        "description": "Dictation starts faster."
       },
       "clamshellMicrophone": {
         "title": "Clamshell Microphone",
         "description": "Microphone to use when laptop lid is closed"
       },
       "postProcessingToggle": {
-        "label": "Post Processing",
-        "description": "Enable AI-powered text refinement after transcription"
+        "label": "AI correction",
+        "description": "An online AI reviews the dictation before pasting it. Needs an API key (OpenRouter, Anthropic, OpenAI…)."
       },
       "muteWhileRecording": {
-        "label": "Mute While Recording",
-        "description": "Mute system audio during recording"
+        "label": "Mute the computer",
+        "description": "Music and videos go quiet during a dictation."
       },
       "appendTrailingSpace": {
-        "label": "Append Trailing Space",
-        "description": "Add a space after pasted transcription"
+        "label": "Space after the text",
+        "description": "Adds a space after each dictation."
       },
       "keyboardImplementation": {
         "title": "Keyboard Implementation",
@@ -622,12 +623,12 @@
         "description": "Current version of J’écoute"
       },
       "whatsNewUpdates": {
-        "label": "Show What's New",
-        "description": "Show release notes after J’écoute updates"
+        "label": "Show what’s new",
+        "description": "After J’écoute updates."
       },
       "appDataDirectory": {
-        "title": "App Data Directory",
-        "description": "Location where J’écoute stores its data"
+        "title": "App data",
+        "description": "Models, settings, recordings."
       },
       "sourceCode": {
         "title": "Source Code",
@@ -639,7 +640,7 @@
         "ggml": {
           "title": "ggml",
           "description": "High-performance tensor library for on-device machine learning inference",
-          "details": "Local speech-to-text in J’écoute is built on transcribe.cpp and ggml. Thanks to the amazing work by Georgi Gerganov and contributors."
+          "details": "J’écoute transcribes locally thanks to ggml. Thanks to Georgi Gerganov and the contributors for their remarkable work."
         }
       },
       "basedOn": "Based on Handy by CJ Pais"
@@ -670,7 +671,9 @@
     "open": "Open",
     "copy": "Copy",
     "clear": "Clear",
-    "noOptionsFound": "No options found"
+    "noOptionsFound": "No options found",
+    "select": "Choose…",
+    "reset": "Reset to default"
   },
   "accessibility": {
     "permissionsDescription": "J’écoute needs accessibility permissions to type transcribed text.",
@@ -695,11 +698,11 @@
     "transcriptionFailedTitle": "Transcription Failed"
   },
   "appLanguage": {
-    "title": "Application Language",
-    "description": "Change the language of the J’écoute interface"
+    "title": "Interface language",
+    "description": ""
   },
   "theme": {
-    "title": "Application Theme",
+    "title": "Appearance",
     "description": "Choose whether J’écoute follows your system theme or stays light or dark",
     "options": {
       "system": "System",
@@ -721,5 +724,284 @@
     "learnMore": "How to fix",
     "recorderBlocked": "Can't record shortcuts right now — macOS Secure Input is blocking key events. Resolve the Secure Input warning first.",
     "dismiss": "Dismiss"
+  },
+  "app": {
+    "home": {
+      "history": "History",
+      "update": "Update",
+      "recent": "Recent dictations",
+      "allHistory": "All history",
+      "empty": "Your dictations will show up here.",
+      "copyTitle": "Copy",
+      "copied": "Copied",
+      "copiedToast": "Copied to clipboard",
+      "modelPill": "Transcription model: {{model}}",
+      "languagePill": "Spoken language: {{language}}",
+      "allModels": "All models",
+      "downloadPill": "{{model}}, {{percent}}%"
+    },
+    "status": {
+      "ready": {
+        "title": "Ready",
+        "desc": "Hold <keys/> and speak: I write wherever your cursor is.",
+        "descToggle": "Press <keys/> and speak: I write wherever your cursor is."
+      },
+      "loading": {
+        "title": "Loading {{model}}…",
+        "titleGeneric": "Loading the model…",
+        "desc": "A few seconds after startup, then I stay ready."
+      },
+      "downloading": {
+        "title": "Downloading {{model}}…",
+        "desc": "{{percent}}%",
+        "descSpeed": "{{percent}}%, {{speed}} MB/s"
+      },
+      "noMic": {
+        "title": "I can’t hear anything",
+        "desc": "No microphone found. Plug one in or pick another.",
+        "action": "Choose a microphone"
+      },
+      "micDenied": {
+        "title": "I can’t use the microphone",
+        "action": "Open microphone settings"
+      },
+      "noModel": {
+        "title": "Choose a model",
+        "desc": "I need a transcription model to write what you say.",
+        "action": "Choose a model"
+      },
+      "error": {
+        "title": "The model didn’t load",
+        "desc": "Try another model, or restart J’écoute.",
+        "action": "Change model"
+      },
+      "listening": {
+        "title": "Listening…",
+        "desc": "Release <keys/> when you’re done.",
+        "descToggle": "Press <keys/> again when you’re done."
+      },
+      "writing": {
+        "title": "Writing…",
+        "desc": "{{model}} is transcribing your sentence.",
+        "descGeneric": "Transcribing your sentence."
+      },
+      "processing": {
+        "title": "Polishing…",
+        "desc": "The AI is reviewing your dictation."
+      },
+      "done": {
+        "title": "Pasted",
+        "titleNoPaste": "Got it",
+        "desc": "Find it in your recent dictations."
+      },
+      "short": {
+        "ready": "Ready",
+        "loading": "Loading…",
+        "downloading": "Downloading…",
+        "nomic": "No microphone",
+        "micDenied": "Microphone blocked",
+        "nomodel": "No model",
+        "error": "Error",
+        "listening": "Listening…",
+        "writing": "Writing…",
+        "processing": "Polishing…",
+        "done": "Pasted"
+      }
+    },
+    "history": {
+      "title": "History",
+      "back": "Back to home",
+      "search": "Search",
+      "searchLabel": "Search the history",
+      "filters": {
+        "label": "Show",
+        "all": "All",
+        "favorites": "Favorites",
+        "corrected": "AI-corrected"
+      },
+      "iaBadge": "AI",
+      "correctedBadge": "Corrected by AI",
+      "correctedWith": "Corrected by AI ({{prompt}})",
+      "versionLabel": "Version shown",
+      "corrected": "Corrected",
+      "raw": "Raw",
+      "legendAddedSample": "highlighted",
+      "legendAdded": "added by the AI",
+      "legendRemovedSample": "struck through",
+      "legendRemoved": "removed by the AI",
+      "favorite": "Favorite",
+      "more": "More",
+      "play": "Play",
+      "pause": "Pause",
+      "seek": "Position in the recording",
+      "count_one": "{{count}} dictation",
+      "count_other": "{{count}} dictations",
+      "countKept_one": "{{count}} dictation kept out of {{limit}}",
+      "countKept_other": "{{count}} dictations kept out of {{limit}}",
+      "countMore": "More than {{count}} dictations",
+      "empty": "No dictations yet. Hold your shortcut and speak!",
+      "noResults": "No dictation matches."
+    },
+    "settings": {
+      "title": "Settings",
+      "close": "Close settings",
+      "hint": "Every change applies right away.",
+      "tabs": {
+        "dictation": "Dictation",
+        "sound": "Sound",
+        "text": "Text",
+        "app": "App",
+        "about": "About"
+      },
+      "advanced": "Advanced options",
+      "editShortcut": "Change",
+      "editShortcutNamed": "Change: {{name}}",
+      "resetShortcut": "Restore the default shortcut",
+      "systemDefault": "System default",
+      "playSound": "Play the signal",
+      "customSound": "Custom",
+      "micLevelHint": "The level shows here during a dictation.",
+      "micLevelLive": "I can hear you.",
+      "model": {
+        "title": "Transcription model",
+        "change": "Change",
+        "choose": "Choose",
+        "none": "No model",
+        "loading": "Loading…",
+        "error": "Failed to load"
+      },
+      "debugMode": {
+        "label": "Debug mode",
+        "description": "Shows the debug tools. Also Ctrl+Shift+D."
+      }
+    },
+    "models": {
+      "title": "Transcription model",
+      "back": "Back to settings",
+      "search": "Search",
+      "download": "Download",
+      "use": "Use",
+      "live": "Live text",
+      "accuracy": "Accuracy",
+      "speed": "Speed",
+      "sorted": "Sorted for your language.",
+      "sortedFor": "Sorted for {{language}}.",
+      "count_one": "{{count}} model",
+      "count_other": "{{count}} models",
+      "countFiltered": "{{count}} of {{total}}",
+      "translation": "Translates to English"
+    },
+    "onboarding": {
+      "welcome": "Welcome to J’écoute",
+      "lead": "Choose the model that transcribes your voice. It runs on your computer, nothing goes online.",
+      "choose": "Choose a model",
+      "recommendedFor": "Recommended for {{language}}",
+      "light": "Very light",
+      "onDisk": "Already downloaded",
+      "download": "Download {{model}} ({{size}})",
+      "use": "Use {{model}}",
+      "showAll": "See the {{count}} models",
+      "allModels": "All models",
+      "downloading": "Downloading {{model}}",
+      "downloadingSpeed": "Downloading {{model}}, {{speed}} MB/s",
+      "preparing": "Getting {{model}} ready…",
+      "percent": "{{percent}}%"
+    },
+    "about": {
+      "version": "Version {{version}}",
+      "versionUpToDate": "Version {{version}}, up to date",
+      "versionUpdate": "Version {{version}}, update available",
+      "license": "MIT license. Local transcription thanks to ggml.",
+      "handy": "Handy",
+      "character": "The character: Copyright (c) 2026 Théo Ponthieu, PolyForm Noncommercial 1.0.0 license.",
+      "updates": {
+        "title": "Updates",
+        "auto": "Checked automatically.",
+        "upToDate": "You have the latest version.",
+        "failed": "Couldn’t check. Try again later.",
+        "availableVersion": "Version {{version}} is available.",
+        "downloading": "Downloading… {{progress}}%",
+        "check": "Check",
+        "install": "Install"
+      }
+    },
+    "dates": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "todayAt": "Today, {{time}}",
+      "yesterdayAt": "Yesterday, {{time}}",
+      "dayAt": "{{day}}, {{time}}"
+    },
+    "units": {
+      "gb": "{{value}} GB",
+      "mb": "{{value}} MB"
+    },
+    "keys": {
+      "ctrl": "Ctrl",
+      "shift": "Shift",
+      "alt": "Alt",
+      "option": "Option",
+      "cmd": "Cmd",
+      "win": "Win",
+      "super": "Super",
+      "space": "Space",
+      "escape": "Esc",
+      "enter": "Enter",
+      "tab": "Tab",
+      "backspace": "Backspace",
+      "delete": "Delete",
+      "capslock": "Caps Lock",
+      "insert": "Insert",
+      "home": "Home",
+      "end": "End",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down",
+      "up": "↑",
+      "down": "↓",
+      "arrowLeft": "←",
+      "arrowRight": "→",
+      "leftSide": "Left {{key}}",
+      "rightSide": "Right {{key}}"
+    },
+    "modelDescriptions": {
+      "fast_accurate_live_english_transcription": "Fast, accurate live English transcription",
+      "live_multilingual_transcription_across_28_languages": "Live multilingual transcription across 28 languages",
+      "tiny_and_instant_runs_well_on_any_hardware": "Tiny and instant, runs well on any hardware",
+      "highest_accuracy_14_languages_slower": "Highest accuracy, 14 languages, slower",
+      "broadest_language_but_may_run_a_bit_slow": "Broadest language, but may run a bit slow",
+      "live_multilingual_excellent_on_powerful_machines": "Live multilingual, excellent on powerful machines",
+      "fast_and_accurate_supports_25_european_languages": "Fast and accurate. Supports 25 European languages",
+      "english_only_the_best_model_for_english_speakers": "English only. The best model for English speakers",
+      "excellent_multilingual_model": "Excellent multilingual model",
+      "a_tiny_multilingual_model": "A tiny multilingual model",
+      "4_language_speech_to_text_with_translation": "4-language speech-to-text with translation.",
+      "25_language_speech_to_text_with_translation": "25-language speech-to-text with translation.",
+      "english_speech_to_text": "English speech-to-text.",
+      "2_language_speech_to_text": "2-language speech-to-text.",
+      "3_language_speech_to_text": "3-language speech-to-text.",
+      "russian_speech_to_text_with_token_level_timestamps": "Russian speech-to-text with token-level timestamps.",
+      "5_language_speech_to_text": "5-language speech-to-text.",
+      "6_language_speech_to_text_with_translation": "6-language speech-to-text with translation.",
+      "5_language_speech_to_text_with_word_level_timestamps": "5-language speech-to-text with word-level timestamps.",
+      "english_speech_to_text_with_token_level_timestamps": "English speech-to-text with token-level timestamps.",
+      "english_speech_to_text_with_streaming": "English speech-to-text with streaming.",
+      "arabic_speech_to_text": "Arabic speech-to-text.",
+      "japanese_speech_to_text": "Japanese speech-to-text.",
+      "korean_speech_to_text": "Korean speech-to-text.",
+      "ukrainian_speech_to_text": "Ukrainian speech-to-text.",
+      "vietnamese_speech_to_text": "Vietnamese speech-to-text.",
+      "chinese_speech_to_text": "Chinese speech-to-text.",
+      "2_language_speech_to_text_with_segment_level_timestamps": "2-language speech-to-text with segment-level timestamps.",
+      "english_speech_to_text_with_streaming_token_level_timestamps": "English speech-to-text with streaming, token-level timestamps.",
+      "25_language_speech_to_text_with_auto_language_detection_token_level_timestamps": "25-language speech-to-text with auto language detection, token-level timestamps.",
+      "30_language_speech_to_text_with_auto_language_detection": "30-language speech-to-text with auto language detection.",
+      "5_language_speech_to_text_with_auto_language_detection": "5-language speech-to-text with auto language detection.",
+      "8_language_speech_to_text_with_translation_auto_language_detection": "8-language speech-to-text with translation, auto language detection.",
+      "99_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "99-language speech-to-text with translation, auto language detection, segment-level timestamps.",
+      "english_speech_to_text_with_segment_level_timestamps": "English speech-to-text with segment-level timestamps.",
+      "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100-language speech-to-text with auto language detection, segment-level timestamps.",
+      "optimized_for_taiwanese_mandarin_code_switching_support": "Optimized for Taiwanese Mandarin. Code-switching support.",
+      "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100-language speech-to-text with translation, auto language detection, segment-level timestamps."
+    }
   }
 }
