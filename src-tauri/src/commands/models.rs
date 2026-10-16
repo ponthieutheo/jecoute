@@ -96,12 +96,12 @@ pub fn switch_active_model(app: &AppHandle, model_id: &str) -> Result<(), String
     let model_manager = app.state::<Arc<ModelManager>>();
     let transcription_manager = app.state::<Arc<TranscriptionManager>>();
 
-    // Atomically claim the loading slot — prevents concurrent model loads
-    // from tray double-clicks or overlapping commands. The guard resets the
-    // flag on drop (including early returns, errors, and panics).
-    let _loading_guard = transcription_manager
-        .try_start_loading()
-        .ok_or_else(|| "Model load already in progress".to_string())?;
+    // Claim the loading slot — prevents concurrent model loads from tray
+    // double-clicks or overlapping commands. A load already in flight (the
+    // startup preload, a dictation, a previous switch) is waited for rather
+    // than reported as an error; switches then apply in order. The guard
+    // resets the flag on drop (including early returns, errors, and panics).
+    let _loading_guard = transcription_manager.wait_for_loading_slot();
 
     // Check if model exists and is available
     let model_info = model_manager
