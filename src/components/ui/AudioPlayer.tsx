@@ -283,7 +283,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       <button
         onClick={togglePlay}
         disabled={isLoading}
-        className="transition-colors cursor-pointer text-text hover:text-logo-primary disabled:opacity-50"
+        className="transition-colors cursor-pointer text-text hover:text-accent-text disabled:opacity-50"
         aria-label={isPlaying ? "Pause" : "Play"}
       >
         {isPlaying ? (
@@ -294,7 +294,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       </button>
 
       <div className="flex-1 flex items-center gap-2">
-        <span className="text-xs text-text/60 min-w-[30px] tabular-nums">
+        <span className="text-xs text-mid-gray min-w-[30px] tabular-nums">
           {formatTime(currentTime)}
         </span>
 
@@ -307,13 +307,14 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           onChange={handleSeek}
           onMouseDown={handleSliderMouseDown}
           onTouchStart={handleSliderTouchStart}
-          className={`flex-1 h-1 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-1 focus:ring-logo-primary ${progressPercent >= 99.5 ? "[&::-webkit-slider-thumb]:translate-x-0.5 [&::-moz-range-thumb]:translate-x-0.5" : ""}`}
+          className={`flex-1 h-1 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:border-2 ${progressPercent >= 99.5 ? "[&::-webkit-slider-thumb]:translate-x-0.5 [&::-moz-range-thumb]:translate-x-0.5" : ""}`}
           style={{
-            background: `linear-gradient(to right, #FAA2CA 0%, #FAA2CA ${progressPercent}%, rgba(128, 128, 128, 0.2) ${progressPercent}%, rgba(128, 128, 128, 0.2) 100%)`,
+            // Deux aplats (lu en rouge, reste en gris), sans dégradé.
+            background: `linear-gradient(to right, var(--color-accent-fill) ${progressPercent}%, color-mix(in srgb, var(--color-mid-gray) 30%, transparent) ${progressPercent}%)`,
           }}
         />
 
-        <span className="text-xs text-text/60 min-w-[30px] tabular-nums">
+        <span className="text-xs text-mid-gray min-w-[30px] tabular-nums">
           {formatTime(duration)}
         </span>
       </div>

@@ -15,25 +15,27 @@ const variantStyles: Record<
   AlertVariant,
   { container: string; icon: string; text: string }
 > = {
+  // Teinte légère et bordure de la couleur d'état ; le texte reste dans la
+  // couleur du texte pour rester lisible (AA) sur toutes les teintes.
   error: {
-    container: "bg-red-500/10",
-    icon: "text-red-500",
-    text: "text-red-400",
+    container: "bg-error/[0.08] border border-error/35",
+    icon: "text-error",
+    text: "text-text",
   },
   warning: {
-    container: "bg-yellow-500/10",
-    icon: "text-yellow-500",
-    text: "text-yellow-400",
+    container: "bg-warning/[0.08] border border-warning/35",
+    icon: "text-warning",
+    text: "text-text",
   },
   info: {
-    container: "bg-blue-500/10",
-    icon: "text-blue-500",
-    text: "text-blue-400",
+    container: "bg-mid-gray/10 border border-mid-gray/30",
+    icon: "text-mid-gray",
+    text: "text-text",
   },
   success: {
-    container: "bg-green-500/10",
-    icon: "text-green-500",
-    text: "text-green-400",
+    container: "bg-success/[0.08] border border-success/35",
+    icon: "text-success",
+    text: "text-text",
   },
 };
 

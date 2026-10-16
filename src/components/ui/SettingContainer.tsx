@@ -49,7 +49,7 @@ export const SettingContainer: React.FC<SettingContainerProps> = ({
 
   const containerClasses = grouped
     ? "px-4 p-2"
-    : "px-4 p-2 rounded-lg border border-mid-gray/20";
+    : "px-4 p-2 rounded-lg border border-border bg-surface";
 
   if (layout === "stacked") {
     if (descriptionMode === "tooltip") {
@@ -69,7 +69,7 @@ export const SettingContainer: React.FC<SettingContainerProps> = ({
               onClick={toggleTooltip}
             >
               <svg
-                className="w-4 h-4 text-mid-gray cursor-help hover:text-logo-primary transition-colors duration-200 select-none"
+                className="w-4 h-4 text-mid-gray cursor-help hover:text-text transition-colors duration-200 select-none"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -110,7 +110,9 @@ export const SettingContainer: React.FC<SettingContainerProps> = ({
           <h3 className={`text-sm font-medium ${disabled ? "opacity-50" : ""}`}>
             {title}
           </h3>
-          <p className={`text-sm ${disabled ? "opacity-50" : ""}`}>
+          <p
+            className={`text-sm text-mid-gray ${disabled ? "opacity-50" : ""}`}
+          >
             {description}
           </p>
         </div>
@@ -122,7 +124,7 @@ export const SettingContainer: React.FC<SettingContainerProps> = ({
   // Horizontal layout (default)
   const horizontalContainerClasses = grouped
     ? "flex items-center justify-between min-h-12 px-4 p-2"
-    : "flex items-center justify-between min-h-12 px-4 p-2 rounded-lg border border-mid-gray/20";
+    : "flex items-center justify-between min-h-12 px-4 p-2 rounded-lg border border-border bg-surface";
 
   if (descriptionMode === "tooltip") {
     return (
@@ -142,7 +144,7 @@ export const SettingContainer: React.FC<SettingContainerProps> = ({
               onClick={toggleTooltip}
             >
               <svg
-                className="w-4 h-4 text-mid-gray cursor-help hover:text-logo-primary transition-colors duration-200 select-none"
+                className="w-4 h-4 text-mid-gray cursor-help hover:text-text transition-colors duration-200 select-none"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -184,7 +186,7 @@ export const SettingContainer: React.FC<SettingContainerProps> = ({
         <h3 className={`text-sm font-medium ${disabled ? "opacity-50" : ""}`}>
           {title}
         </h3>
-        <p className={`text-sm ${disabled ? "opacity-50" : ""}`}>
+        <p className={`text-sm text-mid-gray ${disabled ? "opacity-50" : ""}`}>
           {description}
         </p>
       </div>

@@ -28,8 +28,8 @@ const IconButton: React.FC<{
     disabled={disabled}
     className={`p-1.5 rounded-md flex items-center justify-center transition-colors cursor-pointer disabled:cursor-not-allowed disabled:text-text/20 ${
       active
-        ? "text-logo-primary hover:text-logo-primary/80"
-        : "text-text/50 hover:text-logo-primary"
+        ? "text-accent hover:text-accent/80"
+        : "text-mid-gray hover:text-text hover:bg-mid-gray/15"
     }`}
     title={title}
   >
@@ -231,13 +231,13 @@ export const HistorySettings: React.FC = () => {
 
   if (loading) {
     content = (
-      <div className="px-4 py-3 text-center text-text/60">
+      <div className="px-4 py-3 text-center text-mid-gray">
         {t("settings.history.loading")}
       </div>
     );
   } else if (entries.length === 0) {
     content = (
-      <div className="px-4 py-3 text-center text-text/60">
+      <div className="px-4 py-3 text-center text-mid-gray">
         {t("settings.history.empty")}
       </div>
     );
@@ -245,7 +245,7 @@ export const HistorySettings: React.FC = () => {
     content = (
       <>
         <AudioPlayerGroup>
-          <div className="divide-y divide-mid-gray/20">
+          <div className="divide-y divide-border">
             {entries.map((entry) => (
               <HistoryEntryComponent
                 key={entry.id}
@@ -270,7 +270,7 @@ export const HistorySettings: React.FC = () => {
       <div className="space-y-2">
         <div className="px-4 flex items-center justify-between">
           <div>
-            <h2 className="text-xs font-medium text-mid-gray uppercase tracking-wide">
+            <h2 className="font-display text-xs font-semibold text-mid-gray uppercase tracking-[0.08em]">
               {t("settings.history.title")}
             </h2>
           </div>
@@ -279,7 +279,7 @@ export const HistorySettings: React.FC = () => {
             label={t("settings.history.openFolder")}
           />
         </div>
-        <div className="bg-background border border-mid-gray/20 rounded-lg overflow-visible">
+        <div className="bg-surface border border-border rounded-lg overflow-visible">
           {content}
         </div>
       </div>
@@ -416,7 +416,7 @@ const HistoryEntryComponent: React.FC<HistoryEntryProps> = ({
             ? ""
             : hasTranscription
               ? "text-text/90 select-text cursor-text whitespace-pre-wrap break-words"
-              : "text-text/40"
+              : "text-mid-gray"
         }`}
         style={
           retrying
