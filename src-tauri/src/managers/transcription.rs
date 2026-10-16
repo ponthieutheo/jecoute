@@ -1982,6 +1982,9 @@ pub fn init_transcribe_backend() {
 /// path. A model load that comes first waits on the same one-time compile.
 pub fn report_compute_devices() {
     let devices = transcribe_compute_devices();
+    // Fill the GPU cache from this same enumeration, so the model list can tell
+    // whether a GPU is usable without ever enumerating on its own.
+    let _ = GPU_DEVICES.set(gpu_device_options(&devices));
     info!(
         "transcribe-cpp initialized with {} compute device(s): [{}]",
         devices.len(),
@@ -2192,21 +2195,40 @@ fn available_transcribe_accelerators(gpu_disabled: bool) -> Vec<String> {
 }
 
 fn cached_gpu_devices() -> &'static [GpuDeviceOption] {
-    // GPU compute devices transcribe-cpp registered at startup. `id` is a
-    // persistent identity key, never the process-local registry index. It uses
-    // the backend's device_id where available and its name otherwise (Metal).
-    // `total_vram_mb` is 0 when the backend does not report capacity.
-    GPU_DEVICES.get_or_init(|| {
-        transcribe_compute_devices()
-            .into_iter()
-            .filter(is_transcribe_gpu_device)
-            .map(|d| GpuDeviceOption {
-                id: transcribe_device_key(&d),
-                name: transcribe_device_label(&d),
-                total_vram_mb: (d.memory_total / (1024 * 1024)) as usize,
-            })
-            .collect()
-    })
+    GPU_DEVICES.get_or_init(|| gpu_device_options(&transcribe_compute_devices()))
+}
+
+/// GPU compute devices among `devices`. `id` is a persistent identity key,
+/// never the process-local registry index. It uses the backend's device_id
+/// where available and its name otherwise (Metal). `total_vram_mb` is 0 when
+/// the backend does not report capacity.
+fn gpu_device_options(devices: &[transcribe_cpp::Device]) -> Vec<GpuDeviceOption> {
+    devices
+        .iter()
+        .filter(|d| is_transcribe_gpu_device(d))
+        .map(|d| GpuDeviceOption {
+            id: transcribe_device_key(d),
+            name: transcribe_device_label(d),
+            total_vram_mb: (d.memory_total / (1024 * 1024)) as usize,
+        })
+        .collect()
+}
+
+/// Whether transcribe-cpp models will likely run on a GPU with this accelerator
+/// setting — used to recommend heavier, more accurate models. Never blocks:
+/// until the startup device enumeration has finished (see
+/// [`report_compute_devices`]) a GPU is assumed, as on most desktops.
+pub fn transcribe_gpu_usable_hint(setting: TranscribeAcceleratorSetting) -> bool {
+    if transcribe_gpu_disabled_for_host() || setting == TranscribeAcceleratorSetting::Cpu {
+        return false;
+    }
+    GPU_DEVICES.get().is_none_or(|devices| !devices.is_empty())
+}
+
+/// Whether the GPU enumeration has finished and found no GPU — the one case
+/// where [`transcribe_gpu_usable_hint`]'s startup assumption was wrong.
+pub fn transcribe_gpu_known_absent() -> bool {
+    GPU_DEVICES.get().is_some_and(|devices| devices.is_empty())
 }
 
 #[derive(Serialize, Clone, Debug, Type)]

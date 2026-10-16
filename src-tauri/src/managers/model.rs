@@ -1081,20 +1081,24 @@ impl ModelManager {
     pub fn get_available_models(&self) -> Vec<ModelInfo> {
         let mut list: Vec<ModelInfo> = {
             let models = self.available_models.lock().unwrap();
-            models.values().filter(|m| Self::is_listed(m)).cloned().collect()
+            models
+                .values()
+                .filter(|m| Self::is_listed(m))
+                .cloned()
+                .collect()
         };
-        // Stable, reasonable order: catalog editorial rank first (lower = higher
-        // priority), then any other recommended model, then by accuracy, speed,
-        // and name. `ModelInfo` doesn't carry rank, so resolve it by id from the
-        // catalog here.
-        list.sort_by(|a, b| {
-            crate::catalog::rank_of(&a.id)
-                .cmp(&crate::catalog::rank_of(&b.id))
-                .then((!a.is_recommended).cmp(&(!b.is_recommended)))
-                .then(b.accuracy_score.total_cmp(&a.accuracy_score))
-                .then(b.speed_score.total_cmp(&a.speed_score))
-                .then_with(|| a.name.cmp(&b.name))
-        });
+        // Order for the system language: models that transcribe it first (the
+        // most accurate one when a GPU is usable, then a light one that needs no
+        // setup), each group in the catalog's editorial order; `is_recommended`
+        // follows. `ModelInfo` doesn't carry rank, so it is resolved by id from
+        // the catalog. See `recommendation::order_for_language`.
+        let accelerator = get_settings(&self.app_handle).transcribe_accelerator;
+        super::recommendation::order_for_language(
+            &mut list,
+            super::system_language::system_language(),
+            super::transcription::transcribe_gpu_usable_hint(accelerator),
+            crate::catalog::rank_of,
+        );
         list
     }
 
