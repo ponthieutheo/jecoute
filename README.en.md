@@ -90,9 +90,9 @@ All its moods and animations: **[docs/en/character.md](docs/en/character.md)**.
 
 ## Install
 
-From the installer to your first dictation, in 30 seconds (on-screen text in French):
+From the installer to your first dictation, in 30 seconds:
 
-https://github.com/user-attachments/assets/4e66e7b9-4aaf-48d5-8807-6908f7f5f884
+https://github.com/user-attachments/assets/fafe6b41-6c35-4c18-bb57-bb5b538d340b
 
 1. **Download** `Jecoute_<version>_x64-setup.exe` from the
    [releases](https://github.com/ponthieutheo/jecoute/releases/latest) page (Windows 10 or 11, 64-bit).
