@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Histórico",
-        "description": "Os ditados mais antigos são apagados (os favoritos são mantidos).",
+        "description": "Quantos ditados ficam quando “Manter os ditados” está nos mais recentes. Os favoritos não contam.",
         "entries": "ditados"
       },
       "recordingRetention": {
-        "title": "Gravações de áudio",
-        "description": "Excluir gravações antigas para economizar espaço.",
-        "never": "Nunca",
-        "preserveLimit": "Manter as últimas {{count}}",
-        "days3": "Após 3 dias",
-        "weeks2": "Após 2 semanas",
-        "months3": "Após 3 meses",
+        "title": "Manter os ditados",
+        "description": "Os ditados antigos (texto e áudio) são apagados, exceto os favoritos.",
+        "never": "Sempre",
+        "preserveLimit": "Os {{count}} mais recentes",
+        "days3": "3 dias",
+        "weeks2": "2 semanas",
+        "months3": "3 meses",
         "placeholder": "Selecionar período de retenção..."
       },
       "alwaysOnMicrophone": {

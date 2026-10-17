@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "歷史紀錄",
-        "description": "最舊的聽寫會被清除（最愛除外）。",
+        "description": "「保留聽寫」設為最新幾筆時保留的數量。最愛不計入。",
         "entries": "筆"
       },
       "recordingRetention": {
-        "title": "錄音檔",
-        "description": "刪除舊錄音以節省空間。",
-        "never": "從不",
-        "preserveLimit": "保留最新 {{count}} 筆",
-        "days3": "3 天後",
-        "weeks2": "2 週後",
-        "months3": "3 個月後",
+        "title": "保留聽寫",
+        "description": "較舊的聽寫（文字與音訊）會被清除，最愛除外。",
+        "never": "永久",
+        "preserveLimit": "最新 {{count}} 筆",
+        "days3": "3 天",
+        "weeks2": "2 週",
+        "months3": "3 個月",
         "placeholder": "選擇保留期限..."
       },
       "alwaysOnMicrophone": {

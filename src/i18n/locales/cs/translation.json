@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Historie",
-        "description": "Starší přepisy se mažou (oblíbené zůstávají).",
+        "description": "Kolik přepisů zůstane, když je „Uchovávat přepisy“ nastaveno na nejnovější. Oblíbené se nepočítají.",
         "entries": "přepisů"
       },
       "recordingRetention": {
-        "title": "Zvukové nahrávky",
-        "description": "Mazat staré nahrávky a šetřit místo.",
-        "never": "Nikdy",
-        "preserveLimit": "Ponechat posledních {{count}}",
-        "days3": "Po 3 dnech",
-        "weeks2": "Po 2 týdnech",
-        "months3": "Po 3 měsících",
+        "title": "Uchovávat přepisy",
+        "description": "Staré přepisy (text i zvuk) se mažou, kromě oblíbených.",
+        "never": "Navždy",
+        "preserveLimit": "Posledních {{count}}",
+        "days3": "3 dny",
+        "weeks2": "2 týdny",
+        "months3": "3 měsíce",
         "placeholder": "Vyberte dobu uchování..."
       },
       "alwaysOnMicrophone": {

@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "기록",
-        "description": "오래된 받아쓰기부터 지워집니다(즐겨찾기는 유지).",
+        "description": "‘받아쓰기 보관’을 최근 항목으로 설정했을 때 남길 개수입니다. 즐겨찾기는 세지 않습니다.",
         "entries": "개"
       },
       "recordingRetention": {
-        "title": "오디오 녹음",
-        "description": "오래된 녹음을 삭제해 공간을 확보합니다.",
-        "never": "안 함",
-        "preserveLimit": "최근 {{count}}개 유지",
-        "days3": "3일 후",
-        "weeks2": "2주 후",
-        "months3": "3개월 후",
+        "title": "받아쓰기 보관",
+        "description": "오래된 받아쓰기(텍스트와 오디오)는 지워집니다. 즐겨찾기는 유지됩니다.",
+        "never": "무기한",
+        "preserveLimit": "최근 {{count}}개",
+        "days3": "3일",
+        "weeks2": "2주",
+        "months3": "3개월",
         "placeholder": "보관 기간 선택..."
       },
       "alwaysOnMicrophone": {

@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Cronologia",
-        "description": "Le dettature più vecchie vengono cancellate (tranne le preferite).",
+        "description": "Quante dettature restano quando “Conserva le dettature” è sulle più recenti. Le preferite non contano.",
         "entries": "dettature"
       },
       "recordingRetention": {
-        "title": "Registrazioni audio",
-        "description": "Elimina le vecchie registrazioni per liberare spazio.",
-        "never": "Mai",
-        "preserveLimit": "Conserva le ultime {{count}}",
-        "days3": "Dopo 3 giorni",
-        "weeks2": "Dopo 2 settimane",
-        "months3": "Dopo 3 mesi",
+        "title": "Conserva le dettature",
+        "description": "Le dettature vecchie (testo e audio) vengono cancellate, tranne le preferite.",
+        "never": "Per sempre",
+        "preserveLimit": "Le {{count}} più recenti",
+        "days3": "3 giorni",
+        "weeks2": "2 settimane",
+        "months3": "3 mesi",
         "placeholder": "Seleziona periodo di conservazione..."
       },
       "alwaysOnMicrophone": {

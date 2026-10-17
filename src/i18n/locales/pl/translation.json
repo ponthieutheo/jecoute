@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Historia",
-        "description": "Najstarsze dyktowania są usuwane (poza ulubionymi).",
+        "description": "Ile dyktowań zostaje, gdy „Przechowuj dyktowania” jest ustawione na najnowsze. Ulubione się nie liczą.",
         "entries": "dyktowań"
       },
       "recordingRetention": {
-        "title": "Nagrania audio",
-        "description": "Usuwaj stare nagrania, by zaoszczędzić miejsce.",
-        "never": "Nigdy",
-        "preserveLimit": "Zachowaj ostatnie {{count}}",
-        "days3": "Po 3 dniach",
-        "weeks2": "Po 2 tygodniach",
-        "months3": "Po 3 miesiącach",
+        "title": "Przechowuj dyktowania",
+        "description": "Stare dyktowania (tekst i dźwięk) są usuwane, poza ulubionymi.",
+        "never": "Zawsze",
+        "preserveLimit": "Ostatnie {{count}}",
+        "days3": "3 dni",
+        "weeks2": "2 tygodnie",
+        "months3": "3 miesiące",
         "placeholder": "Wybierz okres retencji..."
       },
       "alwaysOnMicrophone": {
