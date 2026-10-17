@@ -2,6 +2,18 @@
   "name": "jecoute",
   "private": true,
   "version": "0.1.0",
+  "description": "J’écoute : dictée vocale locale, tu parles, il écrit là où est ton curseur. Basé sur Handy de CJ Pais.",
+  "author": "Théo Ponthieu",
+  "contributors": [
+    "CJ Pais"
+  ],
+  "license": "MIT AND PolyForm-Noncommercial-1.0.0",
+  "homepage": "https://github.com/ponthieutheo/jecoute",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ponthieutheo/jecoute.git"
+  },
+  "bugs": "https://github.com/ponthieutheo/jecoute/issues",
   "type": "module",
   "scripts": {
     "dev": "vite",
