@@ -106,7 +106,7 @@ the keys you want. The arrow (“Restore the default shortcut”) goes back to C
 
 <p align="center"><img src="../media/en/fonctions/raccourci.png" width="480" alt="The dictation shortcut: Ctrl and Space keycaps, the pencil and the reset arrow"></p>
 
-#### Shortcut Behavior
+#### Shortcut behavior
 
 “Choose how the transcribe shortcut starts and stops recording.”
 
@@ -156,7 +156,7 @@ example Canary 180M Flash or Whisper Medium).
 #### Microphone
 
 “The microphone that listens to you.” “System default” or a specific microphone. During a dictation, its level shows
-under the list (“I can hear you.”). With an audio interface that has several inputs, “Input Channel” picks the input,
+under the list (“I can hear you.”). With an audio interface that has several inputs, “Input channel” picks the input,
 or “Average all channels”.
 
 <p align="center"><img src="../media/en/fonctions/micro.png" width="480" alt="The microphone picker and its level during a dictation"></p>
@@ -228,7 +228,7 @@ J’écoute then corrects the close-sounding words the model hears.
 
 <p align="center"><img src="../media/en/fonctions/mots.png" width="480" alt="Words to recognize as tags, and the Add a word field"></p>
 
-Under “Advanced options”, “Chinese Script” picks Simplified or Traditional characters for Mandarin and Cantonese.
+Under “Advanced options”, “Chinese script” picks Simplified or Traditional characters for Mandarin and Cantonese.
 
 ### AI correction
 
@@ -250,7 +250,7 @@ change: the second shortcut, Ctrl+Shift+Space, is the one that has the text revi
 - “AI provider”, then “Provider” (“An OpenAI-compatible service.”): OpenAI, Z.AI, OpenRouter, Anthropic, Groq,
   Cerebras, AWS Bedrock (Mantle), or Custom. Custom opens “API address”: a server of your own, including on your PC
   (`http://localhost:11434/v1` to start with).
-- “API Key”: “Your account key with this provider.”
+- “API key”: “Your account key with this provider.”
 - “Model”: a model offered by the provider, or its name typed by hand; “Refresh models” reloads the list.
 
 <p align="center"><img src="../media/en/fonctions/correction-ia.png" width="480" alt="The shortcut with AI correction, the provider, the API key and the model"></p>
@@ -258,7 +258,7 @@ change: the second shortcut, Ctrl+Shift+Space, is the one that has the text revi
 #### Instructions
 
 “What the AI does with the text. ${output} stands for your dictation.” Pick an instruction, edit it, or write your own
-with “Create New Prompt” (a “Prompt Label”, “Prompt Instructions”, then “Create Prompt”). The bundled one, Improve
+with “Create new prompt” (a “Prompt label”, “Prompt instructions”, then “Create prompt”). The bundled one, Improve
 Transcriptions, fixes spelling and punctuation, writes numbers as digits and removes filler words, without changing
 the meaning or the language of the dictation.
 
@@ -368,7 +368,7 @@ restarts on the new version.
 
 #### Folders and credits
 
-“Source Code” (github.com/ponthieutheo/jecoute), “App data” (“Models, settings, recordings.”) and “Logs” open with
+“Source code” (github.com/ponthieutheo/jecoute), “App data” (“Models, settings, recordings.”) and “Logs” open with
 one click. Below, “Based on Handy by CJ Pais”, the thanks to ggml and the character’s license.
 
 <p align="center"><img src="../media/en/fonctions/credits.png" width="480" alt="The Based on Handy by CJ Pais credit, the acknowledgments and the character’s license"></p>
@@ -427,14 +427,14 @@ model heard, with what the AI removed struck through).
 ## Models
 
 “Change” (Settings › Dictation), “All models” (model pill) or “Choose a model” open the list: the 69 models of the
-catalog, “Sorted for English.” (for the Windows language). “Downloaded Models” at the top, “Available to Download”
+catalog, “Sorted for English.” (for the Windows language). “Downloaded models” at the top, “Available to Download”
 below. How to choose: [models.md](models.md).
 
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="../media/en/modeles-sombre.png">
     <source media="(prefers-color-scheme: light)" srcset="../media/en/modeles-clair.png">
-    <img src="../media/en/modeles-sombre.png" width="696" alt="The model list: search, filters, Downloaded Models, Available to Download, accuracy and speed">
+    <img src="../media/en/modeles-sombre.png" width="696" alt="The model list: search, filters, Downloaded models, Available to Download, accuracy and speed">
   </picture>
 </p>
 
@@ -443,7 +443,7 @@ Each model shows its tags (“Recommended”, “Live text”), its description,
 
 ### Filters
 
-“Search” by name. The icons filter: the globe by language (“All Languages” or one language), the waves (“Filter models
+“Search” by name. The icons filter: the globe by language (“All languages” or one language), the waves (“Filter models
 that support live streaming transcription”), translation (“Filter models that support translation to English”). The
 circular arrow: “Rescan for models added to the models folder or Hugging Face cache outside J’écoute”.
 
@@ -472,5 +472,5 @@ download right there, then the home screen opens.
   </picture>
 </p>
 
-If Windows blocks microphone access, a “Permissions Required” step is added, with a button that opens the right
+If Windows blocks microphone access, a “Permissions required” step is added, with a button that opens the right
 Windows settings.
