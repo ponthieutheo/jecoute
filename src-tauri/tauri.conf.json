@@ -76,8 +76,13 @@
       }
     },
     "windows": {
+      "wix": {
+        "upgradeCode": "868C71D7-EE8A-408B-8F3D-0AED589C9F88"
+      },
       "nsis": {
         "template": "nsis/installer.nsi",
+        "languages": ["English", "French"],
+        "displayLanguageSelector": false,
         "installerIcon": "icons/icon.ico",
         "headerImage": "nsis/header.bmp",
         "sidebarImage": "nsis/sidebar.bmp"

@@ -182,7 +182,7 @@ Function PageInstallType
     Abort
   ${EndIf}
 
-  !insertmacro MUI_HEADER_TEXT "Choose Install Type" "Select how you want to install ${PRODUCTNAME}."
+  !insertmacro MUI_HEADER_TEXT "$(jecouteTypeTitle)" "$(jecouteTypeSubtitle)"
 
   nsDialogs::Create 1018
   Pop $0
@@ -190,19 +190,19 @@ Function PageInstallType
     Abort
   ${EndIf}
 
-  ${NSD_CreateLabel} 0 0 100% 24u "Choose whether to perform a normal installation or a portable installation."
+  ${NSD_CreateLabel} 0 0 100% 24u "$(jecouteTypeIntro)"
   Pop $0
 
-  ${NSD_CreateRadioButton} 30u 35u -30u 12u "Normal Installation (recommended)"
+  ${NSD_CreateRadioButton} 30u 35u -30u 12u "$(jecouteTypeNormal)"
   Pop $InstallTypeRadioNormal
 
-  ${NSD_CreateLabel} 44u 49u -44u 20u "Installs to your system with Start Menu shortcuts, uninstaller, and auto-update support."
+  ${NSD_CreateLabel} 44u 49u -44u 20u "$(jecouteTypeNormalDesc)"
   Pop $0
 
-  ${NSD_CreateRadioButton} 30u 75u -30u 12u "Portable Installation"
+  ${NSD_CreateRadioButton} 30u 75u -30u 12u "$(jecouteTypePortable)"
   Pop $InstallTypeRadioPortable
 
-  ${NSD_CreateLabel} 44u 89u -44u 20u "Self-contained folder with no registry changes, shortcuts, or uninstaller. Data stored next to the app."
+  ${NSD_CreateLabel} 44u 89u -44u 20u "$(jecouteTypePortableDesc)"
   Pop $0
 
   ; Pre-select based on current state
@@ -532,6 +532,26 @@ FunctionEnd
 {{#each language_files}}
   !include "{{this}}"
 {{/each}}
+
+; --- J’écoute --- Texts of the install type page (portable mode), in each installer language.
+!ifdef LANG_ENGLISH
+LangString jecouteTypeTitle ${LANG_ENGLISH} "Choose Install Type"
+LangString jecouteTypeSubtitle ${LANG_ENGLISH} "Select how you want to install ${PRODUCTNAME}."
+LangString jecouteTypeIntro ${LANG_ENGLISH} "Choose whether to perform a normal installation or a portable installation."
+LangString jecouteTypeNormal ${LANG_ENGLISH} "Normal Installation (recommended)"
+LangString jecouteTypeNormalDesc ${LANG_ENGLISH} "Installs to your system with Start Menu shortcuts, uninstaller, and auto-update support."
+LangString jecouteTypePortable ${LANG_ENGLISH} "Portable Installation"
+LangString jecouteTypePortableDesc ${LANG_ENGLISH} "Self-contained folder with no registry changes, shortcuts, or uninstaller. Data stored next to the app."
+!endif
+!ifdef LANG_FRENCH
+LangString jecouteTypeTitle ${LANG_FRENCH} "Type d’installation"
+LangString jecouteTypeSubtitle ${LANG_FRENCH} "Choisis comment installer ${PRODUCTNAME}."
+LangString jecouteTypeIntro ${LANG_FRENCH} "Choisis une installation normale ou une installation portable."
+LangString jecouteTypeNormal ${LANG_FRENCH} "Installation normale (recommandée)"
+LangString jecouteTypeNormalDesc ${LANG_FRENCH} "S’installe sur ton PC, avec les raccourcis du menu Démarrer, la désinstallation et les mises à jour automatiques."
+LangString jecouteTypePortable ${LANG_FRENCH} "Installation portable"
+LangString jecouteTypePortableDesc ${LANG_FRENCH} "Un dossier autonome : rien dans le registre, ni raccourci, ni désinstalleur. Les données restent à côté de l’app."
+!endif
 
 Function .onInit
   ${GetOptions} $CMDLINE "/P" $PassiveMode
