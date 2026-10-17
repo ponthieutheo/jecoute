@@ -193,7 +193,7 @@ ioreg -l -w 0 | grep -o 'kCGSSessionSecureInputPID"=[0-9]*' | grep -o '[0-9]*' |
 ```
 
 The command prints nothing if the offending app has already quit. In the **Debug** section (Cmd+Shift+D), the
-**Keyboard Diagnostic** shows whether keystrokes reach J’écoute at all.
+**Keyboard diagnostic** shows whether keystrokes reach J’écoute at all.
 
 **Fixes, in order**:
 
