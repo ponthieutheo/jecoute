@@ -144,18 +144,18 @@ texte alternatif). Données inventées seulement : aucune dictée, aucun réglag
 
 ## Le perso (sans texte, valable dans les deux langues)
 
-- `perso/apparition.webp` (312 Ko, 328 × 280, 3,4 s) : Animation : le perso surgit en bas de l’écran, tend l’oreille, tape au clavier, sourit et repart (fond transparent) / Animation: the character pops up at the bottom of the screen, listens, types, smiles and leaves (transparent background)
-- `perso/ecoute.webp` (351 Ko, 302 × 184, 3,1 s) : Animation : il tend l’oreille pendant qu’on parle, arcs sonores au rythme de la voix / Animation: he listens while you speak, sound arcs following the voice
-- `perso/frappe.webp` (386 Ko, 194 × 242, 4,3 s) : Animation : il tape sur son petit clavier pendant la transcription / Animation: he types on his little keyboard during transcription
-- `perso/chuchote.webp` (250 Ko, 286 × 184, 2,6 s) : Animation : il chuchote pendant la correction par IA / Animation: he whispers during the AI correction
-- `perso/repos.webp` (967 Ko, 301 × 219, 10,8 s) : Animation : saynètes de l’accueil au repos (il regarde autour de lui, s’étire, fait un tour sur lui-même) / Animation: idle scenes on the home screen (he looks around, stretches, spins around)
-- `perso/regard.webp` (429 Ko, 416 × 220, 5,0 s) : Animation : il suit le curseur des yeux et de la tête / Animation: his eyes and head follow the cursor
-- `perso/clic.webp` (395 Ko, 560 × 207, 4,6 s) : Animation : un clic sur lui, il fait une pirouette puis te regarde de nouveau / Animation: a click on him, he spins around then looks back at you
-- `perso/dodo.webp` (169 Ko, 171 × 174, 2,3 s) : Animation : endormi après une longue inactivité, il respire doucement / Animation: asleep after a long idle time, breathing softly
+- `perso/apparition.webp` (312 Ko, 324 × 276, 3,4 s) : Animation : le perso surgit en bas de l’écran, tend l’oreille, tape au clavier, sourit et repart (fond transparent) / Animation: the character pops up at the bottom of the screen, listens, types, smiles and leaves (transparent background)
+- `perso/ecoute.webp` (351 Ko, 324 × 276, 3,1 s) : Animation : il tend l’oreille pendant qu’on parle, arcs sonores au rythme de la voix / Animation: he listens while you speak, sound arcs following the voice
+- `perso/frappe.webp` (388 Ko, 324 × 276, 4,3 s) : Animation : il tape sur son petit clavier pendant la transcription / Animation: he types on his little keyboard during transcription
+- `perso/chuchote.webp` (247 Ko, 324 × 276, 2,6 s) : Animation : il chuchote pendant la correction par IA / Animation: he whispers during the AI correction
+- `perso/repos.webp` (965 Ko, 300 × 220, 10,8 s) : Animation : saynètes de l’accueil au repos (il regarde autour de lui, s’étire, fait un tour sur lui-même) / Animation: idle scenes on the home screen (he looks around, stretches, spins around)
+- `perso/regard.webp` (461 Ko, 300 × 220, 5,0 s) : Animation : il suit le curseur des yeux et de la tête / Animation: his eyes and head follow the cursor
+- `perso/clic.webp` (388 Ko, 300 × 220, 4,6 s) : Animation : un clic sur lui, il fait une pirouette puis te regarde de nouveau / Animation: a click on him, he spins around then looks back at you
+- `perso/dodo.webp` (168 Ko, 300 × 220, 2,3 s) : Animation : endormi après une longue inactivité, il respire doucement / Animation: asleep after a long idle time, breathing softly
 - `perso/etats-sombre.png` (236 Ko, 2034 × 634) : Les humeurs du perso sur fond sombre : prêt, chargement, micro absent, erreur, écoute, frappe, chuchotement / The character’s moods on a dark background: ready, loading, no microphone, error, listening, typing, whispering
 - `perso/etats-clair.png` (259 Ko, 2034 × 634) : Les humeurs du perso sur fond clair : prêt, chargement, micro absent, erreur, écoute, frappe, chuchotement / The character’s moods on a light background: ready, loading, no microphone, error, listening, typing, whispering
 - `perso/styles-overlay.png` (39 Ko, 1158 × 206) : Les styles d’overlay pendant la dictée : Minimal, Texte en direct, Personnage / Overlay styles during a dictation: Minimal, Live text, Character
 - `perso/LICENSE` (5 Ko) : Licence PolyForm Noncommercial 1.0.0 des images du perso / PolyForm Noncommercial 1.0.0 license of the character images
 - `perso/README.md` (200 o) : Le dossier perso/ est sous licence PolyForm Noncommercial / The perso/ folder is under the PolyForm Noncommercial license
 
-Poids de ces fichiers : 7,36 Mo (hors `apercu.webp` et `apercu-en.webp`).
+Poids de ces fichiers : 7,38 Mo (hors `apercu.webp` et `apercu-en.webp`).
