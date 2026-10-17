@@ -1,7 +1,8 @@
 # Mises à jour des dépendances par Dependabot : une passe par semaine, le lundi matin.
 #
-# - Mises à jour mineures et correctives regroupées : une seule pull request par écosystème. Les mises à jour
-#   majeures arrivent une par une, pour être relues séparément.
+# - Mises à jour mineures et correctives regroupées : une seule pull request par écosystème. Pas de mises à jour
+#   majeures pour Rust et le front : J’écoute suit les versions de Handy, elles arrivent avec les synchronisations
+#   (ou à la main), sans conflits à chaque fusion.
 # - cooldown : une nouvelle version n'est proposée qu'au bout de 7 jours, le temps qu'une version piégée (paquet
 #   compromis) soit repérée et retirée. Ne concerne pas les alertes de sécurité.
 # - Tauri : la CLI refuse de construire si la crate `tauri` (ou un plugin) et son paquet npm `@tauri-apps/...`
@@ -28,6 +29,9 @@ updates:
       default-days: 7
     open-pull-requests-limit: 5
     ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
       - dependency-name: "tauri"
         update-types:
           - "version-update:semver-major"
@@ -60,6 +64,9 @@ updates:
       default-days: 7
     open-pull-requests-limit: 5
     ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
       - dependency-name: "@tauri-apps/*"
         update-types:
           - "version-update:semver-major"
