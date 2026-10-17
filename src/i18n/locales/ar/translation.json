@@ -9,27 +9,10 @@
     "cancel": "إلغاء",
     "secureInputWarning": "⚠ الاختصارات محجوبة بواسطة Secure Input"
   },
-  "sidebar": {
-    "general": "عام",
-    "models": "النماذج",
-    "advanced": "متقدم",
-    "postProcessing": "معالجة لاحقة",
-    "history": "السجل",
-    "debug": "تصحيح الأخطاء",
-    "about": "حول"
-  },
   "onboarding": {
-    "subtitle": "للبدء، اختر نموذج التفريغ الصوتي",
-    "existingModelsTitle": "النماذج المتوافقة",
-    "downloadModelsTitle": "متاح للتنزيل",
-    "showAllModels": "عرض كل النماذج ({{total}})",
     "showFewerModels": "عرض عدد أقل من النماذج",
     "recommended": "موصى به",
     "customModelDescription": "غير مدعوم رسميًا",
-    "modelCard": {
-      "accuracy": "الدقة",
-      "speed": "السرعة"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "مخصص",
     "legacy": "قديم",
-    "streaming": "البث",
     "active": "نشط",
     "switching": "جارٍ التبديل...",
     "noModelsAvailable": "لا توجد نماذج متاحة",
     "verifying": "جارٍ التحقق من {{modelName}}...",
     "verifyingGeneric": "جارٍ التحقق...",
     "extracting": "...جاري استخراج {{modelName}}",
-    "extractingMultiple": "...جاري استخراج {{count}} من النماذج",
     "extractingGeneric": "...جاري الاستخراج",
     "downloading": "جاري التنزيل {{percentage}}%",
-    "downloadingMultiple": "جاري تنزيل {{count}} من النماذج...",
-    "modelReady": "النموذج جاهز",
-    "loading": "...جاري تحميل {{modelName}}",
-    "loadingGeneric": "...جاري التحميل",
-    "modelError": "خطأ في النموذج",
-    "modelUnloaded": "تم إلغاء تحميل النموذج",
-    "noModelDownloadRequired": "لا يوجد نموذج - التنزيل مطلوب",
     "deleteModel": "حذف {{modelName}}",
     "downloadSpeed": "{{speed}} ميجابايت/ث",
     "cancel": "إلغاء",
     "cancelDownload": "إلغاء التنزيل",
     "capabilities": {
-      "languageSelection": "يدعم اختيار اللغة",
-      "singleLanguage": "يدعم هذه اللغة فقط",
       "languageCount": "{{total}} لغة",
       "languageOnly": "{{language}} فقط",
       "translation": "يدعم الترجمة",
-      "translate": "ترجمة",
       "streaming": "يعرض النسخ المباشر أثناء التحدث"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "إعدادات {{model}}"
-    },
     "general": {
-      "title": "عام",
       "shortcut": {
         "title": "اختصارات J’écoute",
         "description": "إعداد اختصارات لوحة المفاتيح لبدء تسجيل التفريغ الصوتي",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "سلوك الاختصار",
-        "description": "اختر كيفية بدء التسجيل وإيقافه باستخدام اختصار التفريغ الصوتي.",
         "options": {
           "holdOrToggle": "تلقائي",
           "pushToTalk": "ضغط مطوّل",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "نماذج النسخ",
-      "description": "اختر نموذج نسخ أو قم بتنزيل نماذج إضافية. تقدم النماذج المختلفة مستويات متفاوتة من الدقة والسرعة.",
       "searchPlaceholder": "ابحث عن النماذج بالاسم…",
       "yourModels": "النماذج المحمّلة",
       "availableModels": "متاح للتنزيل",
@@ -226,16 +190,13 @@
         "translation": "تصفية النماذج التي تدعم الترجمة إلى الإنجليزية"
       },
       "rescan": {
-        "label": "إعادة الفحص",
         "tooltip": "إعادة الفحص بحثًا عن النماذج المضافة إلى مجلد النماذج أو ذاكرة Hugging Face التخزينية المؤقتة خارج J’écoute"
       },
       "noModelsMatch": "لا توجد نماذج مطابقة لهذا الفلتر."
     },
     "sound": {
-      "title": "الصوت",
       "microphone": {
         "title": "الميكروفون",
-        "description": "الميكروفون الذي يستمع إليك.",
         "placeholder": "...اختر الميكروفون",
         "loading": "...جاري التحميل"
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "مخرج التنبيه",
-        "description": "الجهاز الذي يُسمع منه التنبيه الصوتي.",
         "placeholder": "...اختر جهاز الإخراج",
         "loading": "...جاري التحميل"
       },
       "volume": {
-        "title": "مستوى صوت التنبيه",
-        "description": "ضبط مستوى صوت تنبيهات الصوت"
+        "title": "مستوى صوت التنبيه"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "التطبيق",
-        "output": "الإخراج",
-        "transcription": "التفريغ الصوتي",
-        "history": "السجل",
-        "experimental": "تجريبي"
-      },
       "experimentalToggle": {
         "label": "ميزات تجريبية",
         "description": "ميزات لا تزال قيد التطوير."
@@ -382,7 +334,6 @@
         "title": "كلمات للتعرّف عليها",
         "description": "أسماء ومصطلحات تقنية عليّ كتابتها بشكل صحيح.",
         "placeholder": "أضف كلمة",
-        "add": "إضافة",
         "remove": "إزالة {{word}}",
         "duplicate": "«{{word}}» موجودة في القائمة بالفعل"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "مفتاح الاختصار"
-      },
       "api": {
         "title": "مزود الذكاء الاصطناعي",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "السجل",
       "openFolder": "مجلد التسجيلات",
       "loading": "...جاري تحميل السجل",
-      "empty": "!لا يوجد تفريغ صوتي بعد. ابدأ التسجيل لبناء سجلك",
       "copyToClipboard": "نسخ",
       "copyError": "تعذر نسخ التفريغ إلى الحافظة.",
       "save": "إضافة إلى المفضلة",
@@ -570,11 +516,6 @@
         "description": ".اختر الواجهة الخلفية لاختصارات لوحة المفاتيح",
         "bindingsReset": "كانت اختصارات لوحة المفاتيح غير متوافقة وتمت إعادة تعيينها إلى القيم الافتراضية"
       },
-      "paths": {
-        "appData": "بيانات التطبيق:",
-        "models": "النماذج:",
-        "settings": "الإعدادات:"
-      },
       "pasteDelay": {
         "title": "تأخير اللصق (قبل)",
         "description": "التأخير (بالمللي ثانية) بعد نسخ النص وقبل إرسال ضغطة مفتاح اللصق. قم بزيادته إذا لم يتم لصق أي شيء."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "حول",
-      "version": {
-        "title": "الإصدار",
-        "description": "الإصدار الحالي من J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "عرض الجديد",
         "description": "بعد تحديث J’écoute."
@@ -631,15 +567,11 @@
         "description": "النماذج والإعدادات والتسجيلات."
       },
       "sourceCode": {
-        "title": "كود المصدر",
-        "description": "عرض كود المصدر والمساهمة",
-        "button": "عرض على GitHub"
+        "title": "كود المصدر"
       },
       "acknowledgments": {
         "title": "شكر وتقدير",
         "ggml": {
-          "title": "ggml",
-          "description": "استنتاج عالي الأداء لنموذج التعرف التلقائي على الكلام Whisper من OpenAI",
           "details": "يحوّل J’écoute الكلام إلى نص محليًا بفضل ggml. شكرًا لـ Georgi Gerganov والمساهمين على عملهم الرائع."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "...جاري التحقق من وجود تحديثات",
     "updateAvailableShort": "تحديث متاح",
-    "upToDate": "محدث",
     "updateCheckingDisabled": "تم تعطيل التحقق من التحديث",
-    "downloading": "...جاري التنزيل {{progress}}%",
     "installing": "...جاري التثبيت",
     "preparing": "...جاري التحضير",
-    "checkForUpdates": "التحقق من وجود تحديثات",
     "portableUpdateTitle": "التحديث اليدوي مطلوب",
     "portableUpdateMessage": "لا يمكن تحديث التثبيتات المحمولة تلقائيًا. نزّل المثبّت المناسب لنظامك من الزر أدناه، شغّله، وثبّته في المجلد نفسه — يبقى مجلد Data/ (الإعدادات والنماذج والتسجيلات) في مكانه.",
     "portableUpdateButton": "تنزيل المثبّت",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "...جاري التحميل",
-    "delete": "حذف",
     "close": "إغلاق",
     "open": "فتح",
     "copy": "نسخ",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "المظهر",
-    "description": "اختر ما إذا كان J’écoute يتبع مظهر النظام أو يبقى فاتحًا أو داكنًا",
     "options": {
       "system": "النظام",
       "light": "فاتح",

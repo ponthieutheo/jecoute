@@ -9,27 +9,10 @@
     "cancel": "Cancel",
     "secureInputWarning": "⚠ Shortcuts blocked by Secure Input"
   },
-  "sidebar": {
-    "general": "General",
-    "models": "Models",
-    "advanced": "Advanced",
-    "postProcessing": "Post Process",
-    "history": "History",
-    "debug": "Debug",
-    "about": "About"
-  },
   "onboarding": {
-    "subtitle": "To get started, choose a transcription model",
-    "existingModelsTitle": "Compatible models",
-    "downloadModelsTitle": "Available to download",
-    "showAllModels": "Show all {{total}} models",
     "showFewerModels": "Show fewer models",
     "recommended": "Recommended",
     "customModelDescription": "Not officially supported",
-    "modelCard": {
-      "accuracy": "accuracy",
-      "speed": "speed"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Custom",
     "legacy": "Legacy",
-    "streaming": "Streaming",
     "active": "Active",
     "switching": "Switching...",
     "noModelsAvailable": "No models available",
     "verifying": "Verifying {{modelName}}...",
     "verifyingGeneric": "Verifying...",
     "extracting": "Extracting {{modelName}}...",
-    "extractingMultiple": "Extracting {{count}} models...",
     "extractingGeneric": "Extracting...",
     "downloading": "Downloading {{percentage}}%",
-    "downloadingMultiple": "Downloading {{count}} models...",
-    "modelReady": "Model ready",
-    "loading": "Loading {{modelName}}...",
-    "loadingGeneric": "Loading...",
-    "modelError": "Model error",
-    "modelUnloaded": "Model unloaded",
-    "noModelDownloadRequired": "No Model - Download Required",
     "deleteModel": "Delete {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Cancel",
     "cancelDownload": "Cancel download",
     "capabilities": {
-      "languageSelection": "Supports multiple input languages",
-      "singleLanguage": "Supports this language only",
       "languageCount": "{{total}} languages",
       "languageOnly": "{{language}} only",
       "translation": "Can translate to English",
-      "translate": "Translate",
       "streaming": "Shows live transcription as you speak"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "{{model}} Settings"
-    },
     "general": {
-      "title": "General",
       "shortcut": {
         "title": "J’écoute shortcuts",
         "description": "Configure keyboard shortcuts to trigger speech-to-text recording",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Shortcut behavior",
-        "description": "Choose how the transcribe shortcut starts and stops recording.",
         "options": {
           "holdOrToggle": "Auto",
           "pushToTalk": "Hold",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Transcription models",
-      "description": "Select a transcription model or download additional models. Different models offer varying levels of accuracy and speed.",
       "searchPlaceholder": "Search models by name…",
       "yourModels": "Downloaded models",
       "availableModels": "Available to download",
@@ -226,16 +190,13 @@
         "translation": "Filter models that support translation to English"
       },
       "rescan": {
-        "label": "Rescan",
         "tooltip": "Rescan for models added to the models folder or Hugging Face cache outside J’écoute"
       },
       "noModelsMatch": "No models match this filter."
     },
     "sound": {
-      "title": "Sound",
       "microphone": {
         "title": "Microphone",
-        "description": "The microphone that listens to you.",
         "placeholder": "Select microphone...",
         "loading": "Loading..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Signal output",
-        "description": "Where the sound signal plays.",
         "placeholder": "Select output device...",
         "loading": "Loading..."
       },
       "volume": {
-        "title": "Signal volume",
-        "description": "Adjust the volume of audio feedback sounds"
+        "title": "Signal volume"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "App",
-        "output": "Output",
-        "transcription": "Transcription",
-        "history": "History",
-        "experimental": "Experimental"
-      },
       "experimentalToggle": {
         "label": "Experimental features",
         "description": "Features still in development."
@@ -382,7 +334,6 @@
         "title": "Words to recognize",
         "description": "Names and technical terms I should spell right.",
         "placeholder": "Add a word",
-        "add": "Add",
         "remove": "Remove {{word}}",
         "duplicate": "“{{word}}” is already in the list"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Hotkey"
-      },
       "api": {
         "title": "AI provider",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "History",
       "openFolder": "Recordings folder",
       "loading": "Loading history...",
-      "empty": "No transcriptions yet. Start recording to build your history!",
       "copyToClipboard": "Copy",
       "copyError": "Failed to copy transcription to clipboard.",
       "save": "Add to favorites",
@@ -570,11 +516,6 @@
         "description": "Choose the keyboard shortcut backend.",
         "bindingsReset": "Keyboard shortcuts were incompatible and reset to defaults"
       },
-      "paths": {
-        "appData": "App Data:",
-        "models": "Models:",
-        "settings": "Settings:"
-      },
       "pasteDelay": {
         "title": "Paste Delay (Before)",
         "description": "Delay (in milliseconds) after copying text, before sending the paste keystroke. Increase if nothing gets pasted."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "About",
-      "version": {
-        "title": "Version",
-        "description": "Current version of J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "Show what’s new",
         "description": "After J’écoute updates."
@@ -631,15 +567,11 @@
         "description": "Models, settings, recordings."
       },
       "sourceCode": {
-        "title": "Source code",
-        "description": "View source code and contribute",
-        "button": "View on GitHub"
+        "title": "Source code"
       },
       "acknowledgments": {
         "title": "Acknowledgments",
         "ggml": {
-          "title": "ggml",
-          "description": "High-performance tensor library for on-device machine learning inference",
           "details": "J’écoute transcribes locally thanks to ggml. Thanks to Georgi Gerganov and the contributors for their remarkable work."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Checking for updates...",
     "updateAvailableShort": "Update available",
-    "upToDate": "Up to date",
     "updateCheckingDisabled": "Update checking disabled",
-    "downloading": "Downloading... {{progress}}%",
     "installing": "Installing...",
     "preparing": "Preparing...",
-    "checkForUpdates": "Check for updates",
     "portableUpdateTitle": "Manual update required",
     "portableUpdateMessage": "Portable installs cannot be updated automatically. Download the installer for your system below, run it, and install to the same folder — your Data/ folder (settings, models, recordings) is kept in place.",
     "portableUpdateButton": "Download installer",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "Loading...",
-    "delete": "Delete",
     "close": "Close",
     "open": "Open",
     "copy": "Copy",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Appearance",
-    "description": "Choose whether J’écoute follows your system theme or stays light or dark",
     "options": {
       "system": "System",
       "light": "Light",

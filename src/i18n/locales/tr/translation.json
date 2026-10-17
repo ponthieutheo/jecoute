@@ -9,27 +9,10 @@
     "cancel": "İptal",
     "secureInputWarning": "⚠ Kısayollar Secure Input tarafından engelleniyor"
   },
-  "sidebar": {
-    "general": "Genel",
-    "models": "Modeller",
-    "advanced": "Gelişmiş",
-    "postProcessing": "Son İşlem",
-    "history": "Geçmiş",
-    "debug": "Hata Ayıklama",
-    "about": "Hakkında"
-  },
   "onboarding": {
-    "subtitle": "Başlamak için bir transkripsiyon modeli seçin",
-    "existingModelsTitle": "Uyumlu Modeller",
-    "downloadModelsTitle": "İndirilebilir",
-    "showAllModels": "{{total}} modelin tümünü göster",
     "showFewerModels": "Daha az model göster",
     "recommended": "Önerilen",
     "customModelDescription": "Resmi olarak desteklenmiyor",
-    "modelCard": {
-      "accuracy": "doğruluk",
-      "speed": "hız"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Özel",
     "legacy": "Eski",
-    "streaming": "Akış",
     "active": "Aktif",
     "switching": "Değiştiriliyor...",
     "noModelsAvailable": "Kullanılabilir model yok",
     "verifying": "{{modelName}} doğrulanıyor...",
     "verifyingGeneric": "Doğrulanıyor...",
     "extracting": "{{modelName}} çıkarılıyor...",
-    "extractingMultiple": "{{count}} model çıkarılıyor...",
     "extractingGeneric": "Çıkarılıyor...",
     "downloading": "%{{percentage}} indiriliyor",
-    "downloadingMultiple": "{{count}} model indiriliyor...",
-    "modelReady": "Model Hazır",
-    "loading": "{{modelName}} yükleniyor...",
-    "loadingGeneric": "Yükleniyor...",
-    "modelError": "Model Hatası",
-    "modelUnloaded": "Model Boşaltıldı",
-    "noModelDownloadRequired": "Model Yok – İndirme Gerekli",
     "deleteModel": "{{modelName}} Sil",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "İptal",
     "cancelDownload": "İndirmeyi iptal et",
     "capabilities": {
-      "languageSelection": "Birden fazla giriş dilini destekler",
-      "singleLanguage": "Yalnızca bu dili destekler",
       "languageCount": "{{total}} dil",
       "languageOnly": "Yalnızca {{language}}",
       "translation": "İngilizce'ye çevirebilir",
-      "translate": "İngilizce'ye çevir",
       "streaming": "Konuşurken canlı transkripsiyon gösterir"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "{{model}} Ayarları"
-    },
     "general": {
-      "title": "Genel",
       "shortcut": {
         "title": "J’écoute Kısayolları",
         "description": "Sesle yazma kaydını başlatmak için klavye kısayollarını yapılandırın",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Kısayol davranışı",
-        "description": "Transkripsiyon kısayolunun kaydı nasıl başlatıp durduracağını seçin.",
         "options": {
           "holdOrToggle": "Otomatik",
           "pushToTalk": "Basılı tut",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Transkripsiyon Modelleri",
-      "description": "Bir transkripsiyon modeli seçin veya ek modeller indirin. Farklı modeller değişen doğruluk ve hız seviyeleri sunar.",
       "searchPlaceholder": "Modelleri ada göre ara…",
       "yourModels": "İndirilen Modeller",
       "availableModels": "İndirilebilir",
@@ -226,16 +190,13 @@
         "translation": "İngilizce'ye çeviriyi destekleyen modelleri filtrele"
       },
       "rescan": {
-        "label": "Yeniden Tara",
         "tooltip": "J’écoute dışında modeller klasörüne veya Hugging Face önbelleğine eklenen modelleri yeniden tara"
       },
       "noModelsMatch": "Bu filtreyle eşleşen model yok."
     },
     "sound": {
-      "title": "Ses",
       "microphone": {
         "title": "Mikrofon",
-        "description": "Sizi dinleyen mikrofon.",
         "placeholder": "Mikrofon seçin...",
         "loading": "Yükleniyor..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Sinyal çıkışı",
-        "description": "Sesli sinyalin çalacağı yer.",
         "placeholder": "Çıkış cihazı seçin...",
         "loading": "Yükleniyor..."
       },
       "volume": {
-        "title": "Sinyal ses seviyesi",
-        "description": "Sesli geri bildirimlerin ses seviyesini ayarlayın"
+        "title": "Sinyal ses seviyesi"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "Uygulama",
-        "output": "Çıktı",
-        "transcription": "Transkripsiyon",
-        "history": "Geçmiş",
-        "experimental": "Deneysel"
-      },
       "experimentalToggle": {
         "label": "Deneysel özellikler",
         "description": "Hâlâ geliştirilmekte olan özellikler."
@@ -382,7 +334,6 @@
         "title": "Tanınacak kelimeler",
         "description": "Doğru yazmam gereken adlar ve teknik terimler.",
         "placeholder": "Kelime ekle",
-        "add": "Ekle",
         "remove": "{{word}} Kaldır",
         "duplicate": "“{{word}}” zaten listede"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Kısayol Tuşu"
-      },
       "api": {
         "title": "Yapay zekâ sağlayıcısı",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "Geçmiş",
       "openFolder": "Kayıtlar klasörü",
       "loading": "Geçmiş yükleniyor...",
-      "empty": "Henüz transkripsiyon yok. Geçmişinizi oluşturmak için kayda başlayın!",
       "copyToClipboard": "Kopyala",
       "copyError": "Transkripsiyon panoya kopyalanamadı.",
       "save": "Favorilere ekle",
@@ -570,11 +516,6 @@
         "description": "Klavye kısayolları için kullanılacak altyapıyı seçin.",
         "bindingsReset": "Klavye kısayolları uyumsuzdu ve varsayılan ayarlara sıfırlandı"
       },
-      "paths": {
-        "appData": "Uygulama Verileri:",
-        "models": "Modeller:",
-        "settings": "Ayarlar:"
-      },
       "pasteDelay": {
         "title": "Yapıştırma Gecikmesi (Önce)",
         "description": "Metin kopyalandıktan sonra, yapıştırma tuşu gönderilmeden önceki gecikme (milisaniye cinsinden). Hiçbir şey yapıştırılmıyorsa artırın."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "Hakkında",
-      "version": {
-        "title": "Sürüm",
-        "description": "J’écoute uygulamasının mevcut sürümü"
-      },
       "whatsNewUpdates": {
         "label": "Yenilikleri göster",
         "description": "J’écoute güncellendikten sonra."
@@ -631,15 +567,11 @@
         "description": "Modeller, ayarlar, kayıtlar."
       },
       "sourceCode": {
-        "title": "Kaynak Kodu",
-        "description": "Kaynak kodunu görüntüle ve katkıda bulun",
-        "button": "GitHub'da Görüntüle"
+        "title": "Kaynak Kodu"
       },
       "acknowledgments": {
         "title": "Teşekkürler",
         "ggml": {
-          "title": "ggml",
-          "description": "Cihaz üzerinde makine öğrenmesi çıkarımı için yüksek performanslı tensör kütüphanesi",
           "details": "J’écoute, ggml sayesinde konuşmayı yerel olarak yazıya döker. Georgi Gerganov’a ve katkıda bulunanlara olağanüstü çalışmaları için teşekkürler."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Güncellemeler kontrol ediliyor...",
     "updateAvailableShort": "Güncelleme mevcut",
-    "upToDate": "Güncel",
     "updateCheckingDisabled": "Güncelleme Kontrolü Devre Dışı",
-    "downloading": "İndiriliyor... %{{progress}}",
     "installing": "Yükleniyor...",
     "preparing": "Hazırlanıyor...",
-    "checkForUpdates": "Güncellemeleri kontrol et",
     "portableUpdateTitle": "Manuel güncelleme gerekli",
     "portableUpdateMessage": "Taşınabilir kurulumlar otomatik olarak güncellenemez. Aşağıdan sisteminize uygun yükleyiciyi indirin, çalıştırın ve aynı klasöre kurun — Data/ klasörünüz (ayarlar, modeller, kayıtlar) yerinde kalır.",
     "portableUpdateButton": "Yükleyiciyi indir",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "Yükleniyor...",
-    "delete": "Sil",
     "close": "Kapat",
     "open": "Aç",
     "copy": "Kopyala",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Görünüm",
-    "description": "J’écoute uygulamasının sistem temasını izlemesini ya da açık veya koyu kalmasını seçin",
     "options": {
       "system": "Sistem",
       "light": "Açık",

@@ -9,27 +9,10 @@
     "cancel": "Отмена",
     "secureInputWarning": "⚠ Сочетания клавиш заблокированы Secure Input"
   },
-  "sidebar": {
-    "general": "Общие",
-    "models": "Модели",
-    "advanced": "Продвинутые",
-    "postProcessing": "Постобработка",
-    "history": "История",
-    "debug": "Отладка",
-    "about": "О программе"
-  },
   "onboarding": {
-    "subtitle": "Для начала выберите модель транскрипции",
-    "existingModelsTitle": "Совместимые модели",
-    "downloadModelsTitle": "Доступны для загрузки",
-    "showAllModels": "Показать все модели ({{total}})",
     "showFewerModels": "Показать меньше моделей",
     "recommended": "Рекомендуется",
     "customModelDescription": "Официально не поддерживается",
-    "modelCard": {
-      "accuracy": "точность",
-      "speed": "скорость"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Пользовательская",
     "legacy": "Устаревшее",
-    "streaming": "Потоковый",
     "active": "Активный",
     "switching": "Переключение...",
     "noModelsAvailable": "Нет доступных моделей",
     "verifying": "Проверка {{modelName}}...",
     "verifyingGeneric": "Проверка...",
     "extracting": "Извлечение {{modelName}}...",
-    "extractingMultiple": "Извлечение моделей {{count}}...",
     "extractingGeneric": "Извлечение...",
     "downloading": "Загрузка {{percentage}} %",
-    "downloadingMultiple": "Загрузка моделей {{count}}...",
-    "modelReady": "Модель готова",
-    "loading": "Загрузка {{modelName}}...",
-    "loadingGeneric": "Загрузка...",
-    "modelError": "Ошибка модели",
-    "modelUnloaded": "Модель выгружена",
-    "noModelDownloadRequired": "Нет модели – требуется загрузка",
     "deleteModel": "Удалить {{modelName}}",
     "downloadSpeed": "{{speed}} МБ/с",
     "cancel": "Отмена",
     "cancelDownload": "Отменить загрузку",
     "capabilities": {
-      "languageSelection": "Поддерживает несколько языков ввода",
-      "singleLanguage": "Поддерживает только этот язык",
       "languageCount": "{{total}} языков",
       "languageOnly": "Только {{language}}",
       "translation": "Может переводить на английский",
-      "translate": "Перевод на английский",
       "streaming": "Показывает транскрипцию в реальном времени во время речи"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "Настройки {{model}}"
-    },
     "general": {
-      "title": "Общие",
       "shortcut": {
         "title": "Ярлыки J’écoute",
         "description": "Настройте сочетания клавиш для запуска записи речи в текст",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Поведение сочетания клавиш",
-        "description": "Выберите, как горячая клавиша транскрипции запускает и останавливает запись.",
         "options": {
           "holdOrToggle": "Автоматически",
           "pushToTalk": "Удержание",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Модели транскрипции",
-      "description": "Выберите модель транскрипции или загрузите дополнительные модели. Разные модели предлагают разные уровни точности и скорости.",
       "searchPlaceholder": "Поиск моделей по имени…",
       "yourModels": "Загруженные модели",
       "availableModels": "Доступны для загрузки",
@@ -226,16 +190,13 @@
         "translation": "Фильтровать модели с поддержкой перевода на английский"
       },
       "rescan": {
-        "label": "Пересканировать",
         "tooltip": "Пересканировать модели, добавленные в папку моделей или кэш Hugging Face вне J’écoute"
       },
       "noModelsMatch": "Нет моделей, соответствующих этому фильтру."
     },
     "sound": {
-      "title": "Звук",
       "microphone": {
         "title": "Микрофон",
-        "description": "Микрофон, который вас слушает.",
         "placeholder": "Выбрать микрофон...",
         "loading": "Загрузка..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Вывод сигнала",
-        "description": "Где звучит сигнал.",
         "placeholder": "Выберите устройство вывода...",
         "loading": "Загрузка..."
       },
       "volume": {
-        "title": "Громкость сигнала",
-        "description": "Отрегулируйте громкость звуков обратной связи"
+        "title": "Громкость сигнала"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "Приложение",
-        "output": "Вывод",
-        "transcription": "Транскрипция",
-        "history": "История",
-        "experimental": "Экспериментальное"
-      },
       "experimentalToggle": {
         "label": "Экспериментальные функции",
         "description": "Функции, которые ещё в разработке."
@@ -382,7 +334,6 @@
         "title": "Слова для распознавания",
         "description": "Имена и специальные термины, которые мне нужно писать без ошибок.",
         "placeholder": "Добавить слово",
-        "add": "Добавить",
         "remove": "Удалить {{word}}",
         "duplicate": "«{{word}}» уже в списке"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Горячая клавиша"
-      },
       "api": {
         "title": "Поставщик ИИ",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "История",
       "openFolder": "Папка записей",
       "loading": "Загрузка истории...",
-      "empty": "Транскрипций пока нет. Начните запись, чтобы создать свою историю!",
       "copyToClipboard": "Копировать",
       "copyError": "Не удалось скопировать транскрипцию в буфер обмена.",
       "save": "Добавить в избранное",
@@ -570,11 +516,6 @@
         "description": "Выберите бэкенд для клавиатурных сочетаний.",
         "bindingsReset": "Клавиатурные сочетания были несовместимы и сброшены к значениям по умолчанию"
       },
-      "paths": {
-        "appData": "Данные приложения:",
-        "models": "Модели:",
-        "settings": "Настройки:"
-      },
       "pasteDelay": {
         "title": "Задержка вставки (до)",
         "description": "Задержка (в миллисекундах) после копирования текста, перед отправкой нажатия клавиши вставки. Увеличьте, если ничего не вставляется."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "О программе",
-      "version": {
-        "title": "Версия",
-        "description": "Текущая версия J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "Показывать, что нового",
         "description": "После обновления J’écoute."
@@ -631,15 +567,11 @@
         "description": "Модели, настройки, записи."
       },
       "sourceCode": {
-        "title": "Исходный код",
-        "description": "Просмотреть исходный код и внести свой вклад",
-        "button": "Посмотреть на GitHub"
+        "title": "Исходный код"
       },
       "acknowledgments": {
         "title": "Благодарности",
         "ggml": {
-          "title": "ggml",
-          "description": "Высокопроизводительная модель автоматического распознавания речи OpenAI Whisper",
           "details": "J’écoute распознаёт речь локально благодаря ggml. Спасибо Георгию Герганову и участникам проекта за их замечательную работу."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Проверяем наличие обновлений...",
     "updateAvailableShort": "Доступно обновление",
-    "upToDate": "Не требует обновлений",
     "updateCheckingDisabled": "Проверка обновлений отключена",
-    "downloading": "Загрузка... {{progress}} %",
     "installing": "Установка...",
     "preparing": "Подготовка...",
-    "checkForUpdates": "Проверить наличие обновлений",
     "portableUpdateTitle": "Требуется ручное обновление",
     "portableUpdateMessage": "Портативные установки нельзя обновить автоматически. Скачайте ниже установщик для вашей системы, запустите его и установите в ту же папку — папка Data/ (настройки, модели, записи) останется на месте.",
     "portableUpdateButton": "Скачать установщик",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "Загрузка...",
-    "delete": "Удалить",
     "close": "Закрывать",
     "open": "Открыть",
     "copy": "Копировать",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Оформление",
-    "description": "Выберите, следует ли J’écoute системной теме или остаётся светлым либо тёмным",
     "options": {
       "system": "Системная",
       "light": "Светлая",

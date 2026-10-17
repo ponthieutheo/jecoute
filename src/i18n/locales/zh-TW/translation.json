@@ -9,27 +9,10 @@
     "cancel": "取消",
     "secureInputWarning": "⚠ 快捷鍵被 Secure Input 阻擋"
   },
-  "sidebar": {
-    "general": "一般",
-    "models": "模型",
-    "advanced": "進階",
-    "postProcessing": "後處理",
-    "history": "歷史紀錄",
-    "debug": "偵錯",
-    "about": "關於"
-  },
   "onboarding": {
-    "subtitle": "首先，請選擇一種模型",
-    "existingModelsTitle": "相容的模型",
-    "downloadModelsTitle": "可供下載",
-    "showAllModels": "顯示全部 {{total}} 個模型",
     "showFewerModels": "顯示較少模型",
     "recommended": "推薦",
     "customModelDescription": "官方不支援",
-    "modelCard": {
-      "accuracy": "準確度",
-      "speed": "速度"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "自訂",
     "legacy": "舊版",
-    "streaming": "串流",
     "active": "使用中",
     "switching": "切換中...",
     "noModelsAvailable": "沒有可用的模型",
     "verifying": "正在驗證 {{modelName}}...",
     "verifyingGeneric": "正在驗證...",
     "extracting": "正在解壓 {{modelName}}...",
-    "extractingMultiple": "正在解壓 {{count}} 個模型...",
     "extractingGeneric": "解壓中...",
     "downloading": "下載中 {{percentage}}%",
-    "downloadingMultiple": "正在下載 {{count}} 個模型...",
-    "modelReady": "模型已就緒",
-    "loading": "正在載入 {{modelName}}...",
-    "loadingGeneric": "載入中...",
-    "modelError": "模型錯誤",
-    "modelUnloaded": "模型已卸載",
-    "noModelDownloadRequired": "無模型 - 需要下載",
     "deleteModel": "刪除 {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "取消",
     "cancelDownload": "取消下載",
     "capabilities": {
-      "languageSelection": "支援多種輸入語言",
-      "singleLanguage": "僅支援此語言",
       "languageCount": "{{total}} 種語言",
       "languageOnly": "僅 {{language}}",
       "translation": "可翻譯為英語",
-      "translate": "翻譯為英語",
       "streaming": "在您說話時即時顯示轉錄"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "{{model}} 設定"
-    },
     "general": {
-      "title": "一般",
       "shortcut": {
         "title": "J’écoute 快捷鍵",
         "description": "設定啟動語音轉文字錄製的鍵盤快捷鍵",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "快捷鍵行為",
-        "description": "選擇轉錄快捷鍵開始和停止錄音的方式。",
         "options": {
           "holdOrToggle": "自動",
           "pushToTalk": "按住",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "轉錄模型",
-      "description": "選擇轉錄模型或下載其他模型。不同模型提供不同的準確度和速度",
       "searchPlaceholder": "依名稱搜尋模型…",
       "yourModels": "已下載的模型",
       "availableModels": "可供下載",
@@ -226,16 +190,13 @@
         "translation": "篩選支援翻譯為英語的模型"
       },
       "rescan": {
-        "label": "重新掃描",
         "tooltip": "重新掃描在 J’écoute 之外新增到模型資料夾或 Hugging Face 快取中的模型"
       },
       "noModelsMatch": "沒有符合此篩選條件的模型"
     },
     "sound": {
-      "title": "聲音",
       "microphone": {
         "title": "麥克風",
-        "description": "用來聽您說話的麥克風。",
         "placeholder": "選擇麥克風...",
         "loading": "載入中..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "提示音輸出",
-        "description": "播放提示音的裝置。",
         "placeholder": "選擇輸出裝置...",
         "loading": "載入中..."
       },
       "volume": {
-        "title": "提示音音量",
-        "description": "調整聲音回饋的音量"
+        "title": "提示音音量"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "應用程式",
-        "output": "輸出",
-        "transcription": "轉錄",
-        "history": "歷史",
-        "experimental": "實驗性"
-      },
       "experimentalToggle": {
         "label": "實驗性功能",
         "description": "仍在開發中的功能。"
@@ -382,7 +334,6 @@
         "title": "要辨識的詞彙",
         "description": "需要我正確寫出的人名和專業術語。",
         "placeholder": "新增詞彙",
-        "add": "新增",
         "remove": "刪除 {{word}}",
         "duplicate": "「{{word}}」已在清單中"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "快捷鍵"
-      },
       "api": {
         "title": "AI 供應商",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "歷史紀錄",
       "openFolder": "錄音資料夾",
       "loading": "載入歷史紀錄中...",
-      "empty": "還沒有轉錄紀錄。開始錄製以建立您的歷史紀錄！",
       "copyToClipboard": "複製",
       "copyError": "無法將轉錄複製到剪貼簿。",
       "save": "加入最愛",
@@ -570,11 +516,6 @@
         "description": "選擇鍵盤快捷鍵的後端",
         "bindingsReset": "鍵盤快捷鍵不相容，已重設為預設值"
       },
-      "paths": {
-        "appData": "應用程式資料:",
-        "models": "模型:",
-        "settings": "設定:"
-      },
       "pasteDelay": {
         "title": "貼上延遲（前）",
         "description": "複製文字後、發送貼上按鍵前的延遲（毫秒）。如果沒有貼上任何內容，請增加此值。"
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "關於",
-      "version": {
-        "title": "版本",
-        "description": "J’écoute 的目前版本"
-      },
       "whatsNewUpdates": {
         "label": "顯示新功能",
         "description": "J’écoute 更新後顯示。"
@@ -631,15 +567,11 @@
         "description": "模型、設定、錄音。"
       },
       "sourceCode": {
-        "title": "原始碼",
-        "description": "檢視原始碼並參與貢獻",
-        "button": "在 GitHub 上檢視"
+        "title": "原始碼"
       },
       "acknowledgments": {
         "title": "致謝",
         "ggml": {
-          "title": "ggml",
-          "description": "針對 OpenAI Whisper 自動語音辨識模型的高效能推理引擎",
           "details": "J’écoute 藉由 ggml 在本機完成轉錄。感謝 Georgi Gerganov 和各位貢獻者的傑出成果。"
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "檢查更新中...",
     "updateAvailableShort": "有可用更新",
-    "upToDate": "已是最新版本",
     "updateCheckingDisabled": "更新檢查已停用",
-    "downloading": "下載中... {{progress}}%",
     "installing": "安裝中...",
     "preparing": "準備中...",
-    "checkForUpdates": "檢查更新",
     "portableUpdateTitle": "需要手動更新",
     "portableUpdateMessage": "可攜式安裝無法自動更新。請透過下方按鈕下載適用於你的系統的安裝程式，執行後安裝到相同資料夾，你的 Data/ 資料夾（設定、模型、錄音）會保留在原處。",
     "portableUpdateButton": "下載安裝程式",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "載入中...",
-    "delete": "刪除",
     "close": "關閉",
     "open": "開啟",
     "copy": "複製",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "外觀",
-    "description": "選擇 J’écoute 跟隨系統主題，或維持淺色或深色",
     "options": {
       "system": "跟隨系統",
       "light": "淺色",

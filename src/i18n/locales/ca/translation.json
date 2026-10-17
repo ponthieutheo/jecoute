@@ -9,27 +9,10 @@
     "cancel": "Cancel·la",
     "secureInputWarning": "⚠ Dreceres blocades per l'entrada segura"
   },
-  "sidebar": {
-    "general": "General",
-    "models": "Models",
-    "advanced": "Avançat",
-    "postProcessing": "Postprocessament",
-    "history": "Historial",
-    "debug": "Depuració",
-    "about": "Quant a"
-  },
   "onboarding": {
-    "subtitle": "Per començar, trieu un model de transcripció",
-    "existingModelsTitle": "Models compatibles",
-    "downloadModelsTitle": "Disponibles per baixar",
-    "showAllModels": "Mostra tots els {{total}} models",
     "showFewerModels": "Mostra menys models",
     "recommended": "Recomanat",
     "customModelDescription": "Sense suport oficial",
-    "modelCard": {
-      "accuracy": "precisió",
-      "speed": "velocitat"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Personalitzat",
     "legacy": "Antic",
-    "streaming": "En temps real",
     "active": "Actiu",
     "switching": "S'està canviant...",
     "noModelsAvailable": "No hi ha models disponibles",
     "verifying": "S'està verificant {{modelName}}...",
     "verifyingGeneric": "S'està verificant...",
     "extracting": "S'està extraient {{modelName}}...",
-    "extractingMultiple": "S'estan extraient {{count}} models...",
     "extractingGeneric": "S'està extraient...",
     "downloading": "S'està baixant: {{percentage}}%",
-    "downloadingMultiple": "S'estan baixant {{count}} models...",
-    "modelReady": "Model a punt",
-    "loading": "S'està carregant {{modelName}}...",
-    "loadingGeneric": "S'està carregant...",
-    "modelError": "Error del model",
-    "modelUnloaded": "Model alliberat de la memòria",
-    "noModelDownloadRequired": "No hi ha cap model: cal baixar-ne un",
     "deleteModel": "Suprimiu {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Cancel·la",
     "cancelDownload": "Cancel·la la baixada",
     "capabilities": {
-      "languageSelection": "Admet diverses llengües d'entrada",
-      "singleLanguage": "Només admet aquesta llengua",
       "languageCount": "{{total}} llengües",
       "languageOnly": "Només {{language}}",
       "translation": "Pot traduir a l'anglès",
-      "translate": "Tradueix",
       "streaming": "Mostra la transcripció en temps real mentre parleu"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "Configuració de {{model}}"
-    },
     "general": {
-      "title": "General",
       "shortcut": {
         "title": "Dreceres del J’écoute",
         "description": "Configura les dreceres de teclat per iniciar l'enregistrament de veu per a la transcripció",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Comportament de la drecera",
-        "description": "Trieu com la drecera de transcripció inicia i atura l'enregistrament.",
         "options": {
           "holdOrToggle": "Automàtic",
           "pushToTalk": "Mantén premuda",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Models de transcripció",
-      "description": "Seleccioneu un model de transcripció o baixeu-ne més. Els models ofereixen diferents nivells de precisió i velocitat.",
       "searchPlaceholder": "Cerqueu models pel nom…",
       "yourModels": "Models baixats",
       "availableModels": "Disponibles per baixar",
@@ -226,16 +190,13 @@
         "translation": "Filtra els models que admeten la traducció a l'anglès"
       },
       "rescan": {
-        "label": "Torna a cercar",
         "tooltip": "Torna a cercar models afegits a la carpeta de models o a la memòria cau de Hugging Face des de fora del J’écoute"
       },
       "noModelsMatch": "Cap model no coincideix amb aquest filtre."
     },
     "sound": {
-      "title": "So",
       "microphone": {
         "title": "Micròfon",
-        "description": "El micròfon que us escolta.",
         "placeholder": "Seleccionaun micròfon...",
         "loading": "S'està carregant..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Sortida del senyal",
-        "description": "On sona el senyal sonor.",
         "placeholder": "Selecciona un dispositiu de sortida...",
         "loading": "S'està carregant..."
       },
       "volume": {
-        "title": "Volum del senyal",
-        "description": "Ajusta el volum dels avisos sonors"
+        "title": "Volum del senyal"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "Aplicació",
-        "output": "Sortida",
-        "transcription": "Transcripció",
-        "history": "Historial",
-        "experimental": "Experimental"
-      },
       "experimentalToggle": {
         "label": "Funcions experimentals",
         "description": "Funcions encara en desenvolupament."
@@ -382,7 +334,6 @@
         "title": "Paraules que cal reconèixer",
         "description": "Noms i termes tècnics que he d’escriure bé.",
         "placeholder": "Afegiu una paraula",
-        "add": "Afegiu",
         "remove": "Suprimiu {{word}}",
         "duplicate": "«{{word}}» ja és a la llista"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Drecera de teclat"
-      },
       "api": {
         "title": "Proveïdor d’IA",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "Historial",
       "openFolder": "Carpeta d’enregistraments",
       "loading": "S'està carregant l'historial...",
-      "empty": "Encara no hi ha transcripcions. Comenceu a enregistrar per crear l'historial!",
       "copyToClipboard": "Copia",
       "copyError": "No s'ha pogut copiar la transcripció al porta-retalls.",
       "save": "Afegeix als preferits",
@@ -570,11 +516,6 @@
         "description": "Tria el motor de dreceres de teclat.",
         "bindingsReset": "Les dreceres de teclat eren incompatibles i s'han restablert als valors per defecte"
       },
-      "paths": {
-        "appData": "Dades de l'aplicació:",
-        "models": "Models:",
-        "settings": "Configuració:"
-      },
       "pasteDelay": {
         "title": "Retard abans d'enganxar",
         "description": "Retard (en mil·lisegons) després de copiar el text i abans d'enviar la combinació de tecles per enganxar-lo. Augmenteu-lo si no s'enganxa res."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "Quant a",
-      "version": {
-        "title": "Versió",
-        "description": "Versió actual del J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "Mostra les novetats",
         "description": "Després de cada actualització del J’écoute."
@@ -631,15 +567,11 @@
         "description": "Models, configuració, enregistraments."
       },
       "sourceCode": {
-        "title": "Codi font",
-        "description": "Consulta el codi font i col·laboreu-hi",
-        "button": "Mostra al GitHub"
+        "title": "Codi font"
       },
       "acknowledgments": {
         "title": "Agraïments",
         "ggml": {
-          "title": "ggml",
-          "description": "Biblioteca de tensors d'alt rendiment per a la inferència d'aprenentatge automàtic al dispositiu",
           "details": "El J’écoute transcriu en local amb el ggml. Gràcies a Georgi Gerganov i als col·laboradors per la seva feina extraordinària."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "S'està comprovant si hi ha actualitzacions...",
     "updateAvailableShort": "Hi ha una actualització disponible",
-    "upToDate": "Actualitzat",
     "updateCheckingDisabled": "Comprovació d'actualitzacions desactivada",
-    "downloading": "S'està baixant... {{progress}}%",
     "installing": "S'està instal·lant...",
     "preparing": "S'està preparant...",
-    "checkForUpdates": "Comprova si hi ha actualitzacions",
     "portableUpdateTitle": "Cal actualitzar manualment",
     "portableUpdateMessage": "Les instal·lacions portables no es poden actualitzar automàticament. Baixa l'instal·lador per al vostre sistema a continuació, executeu-lo i instal·leu-lo a la mateixa carpeta. La carpeta Data/ (configuració, models i enregistraments) es conserva.",
     "portableUpdateButton": "Baixa l'instal·lador",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "S'està carregant...",
-    "delete": "Suprimeix",
     "close": "Tanca",
     "open": "Obre",
     "copy": "Copia",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Aparença",
-    "description": "Tria si el J’écoute segueix el tema del sistema o es manté en mode clar o fosc",
     "options": {
       "system": "Sistema",
       "light": "Clar",

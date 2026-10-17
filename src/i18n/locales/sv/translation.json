@@ -9,27 +9,10 @@
     "cancel": "Avbryt",
     "secureInputWarning": "⚠ Kortkommandon blockeras av Secure Input"
   },
-  "sidebar": {
-    "general": "Allmänt",
-    "models": "Modeller",
-    "advanced": "Avancerat",
-    "postProcessing": "Efterbearbetning",
-    "history": "Historik",
-    "debug": "Felsökning",
-    "about": "Om"
-  },
   "onboarding": {
-    "subtitle": "För att komma igång, välj en transkriptionsmodell",
-    "existingModelsTitle": "Kompatibla modeller",
-    "downloadModelsTitle": "Tillgängliga för nedladdning",
-    "showAllModels": "Visa alla {{total}} modeller",
     "showFewerModels": "Visa färre modeller",
     "recommended": "Rekommenderat",
     "customModelDescription": "Stöds inte officiellt",
-    "modelCard": {
-      "accuracy": "noggrannhet",
-      "speed": "hastighet"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Anpassad",
     "legacy": "Äldre",
-    "streaming": "Streaming",
     "active": "Aktiv",
     "switching": "Byter...",
     "noModelsAvailable": "Inga modeller tillgängliga",
     "verifying": "Verifierar {{modelName}}...",
     "verifyingGeneric": "Verifierar...",
     "extracting": "Extraherar {{modelName}}...",
-    "extractingMultiple": "Extraherar {{count}} modeller...",
     "extractingGeneric": "Extraherar...",
     "downloading": "Laddar ner {{percentage}}%",
-    "downloadingMultiple": "Laddar ner {{count}} modeller...",
-    "modelReady": "Modell klar",
-    "loading": "Laddar {{modelName}}...",
-    "loadingGeneric": "Laddar...",
-    "modelError": "Modellfel",
-    "modelUnloaded": "Modell avlastad",
-    "noModelDownloadRequired": "Ingen modell - Nedladdning krävs",
     "deleteModel": "Ta bort {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Avbryt",
     "cancelDownload": "Avbryt nedladdning",
     "capabilities": {
-      "languageSelection": "Stöder flera indataspråk",
-      "singleLanguage": "Stöder endast detta språk",
       "languageCount": "{{total}} språk",
       "languageOnly": "Endast {{language}}",
       "translation": "Kan översätta till engelska",
-      "translate": "Översätt till engelska",
       "streaming": "Visar transkription i realtid medan du talar"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "{{model}}-inställningar"
-    },
     "general": {
-      "title": "Allmänt",
       "shortcut": {
         "title": "J’écoute-kortkommandon",
         "description": "Konfigurera kortkommandon för att starta tal-till-text-inspelning",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Genvägens beteende",
-        "description": "Välj hur kortkommandot för transkribering startar och stoppar inspelningen.",
         "options": {
           "holdOrToggle": "Automatiskt",
           "pushToTalk": "Håll",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Transkriptionsmodeller",
-      "description": "Välj en transkriptionsmodell eller ladda ner ytterligare modeller. Olika modeller erbjuder varierande nivåer av noggrannhet och hastighet.",
       "searchPlaceholder": "Sök modeller efter namn…",
       "yourModels": "Nedladdade modeller",
       "availableModels": "Tillgängliga att ladda ner",
@@ -226,16 +190,13 @@
         "translation": "Filtrera modeller som stöder översättning till engelska"
       },
       "rescan": {
-        "label": "Skanna om",
         "tooltip": "Skanna om efter modeller som lagts till i modellmappen eller Hugging Face-cachen utanför J’écoute"
       },
       "noModelsMatch": "Inga modeller matchar detta filter."
     },
     "sound": {
-      "title": "Ljud",
       "microphone": {
         "title": "Mikrofon",
-        "description": "Mikrofonen som lyssnar på dig.",
         "placeholder": "Välj mikrofon...",
         "loading": "Laddar..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Signalutgång",
-        "description": "Var ljudsignalen spelas upp.",
         "placeholder": "Välj utmatningsenhet...",
         "loading": "Laddar..."
       },
       "volume": {
-        "title": "Signalvolym",
-        "description": "Justera volymen för ljudåterkopplingsljud"
+        "title": "Signalvolym"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "App",
-        "output": "Utmatning",
-        "transcription": "Transkription",
-        "history": "Historik",
-        "experimental": "Experimentellt"
-      },
       "experimentalToggle": {
         "label": "Experimentella funktioner",
         "description": "Funktioner som fortfarande är under utveckling."
@@ -382,7 +334,6 @@
         "title": "Egna ord",
         "description": "Namn och facktermer som jag ska stava rätt.",
         "placeholder": "Lägg till ett ord",
-        "add": "Lägg till",
         "remove": "Ta bort {{word}}",
         "duplicate": "”{{word}}” finns redan i listan"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Snabbkommando"
-      },
       "api": {
         "title": "AI-leverantör",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "Historik",
       "openFolder": "Mapp för inspelningar",
       "loading": "Laddar historik...",
-      "empty": "Inga transkriptioner ännu. Börja spela in för att bygga upp din historik!",
       "copyToClipboard": "Kopiera",
       "copyError": "Det gick inte att kopiera transkriptionen till urklipp.",
       "save": "Lägg till i favoriter",
@@ -570,11 +516,6 @@
         "description": "Välj tangentbordsgenvägens implementation.",
         "bindingsReset": "Kortkommandona var inkompatibla och återställdes till standardvärden"
       },
-      "paths": {
-        "appData": "Appdata:",
-        "models": "Modeller:",
-        "settings": "Inställningar:"
-      },
       "pasteDelay": {
         "title": "Fördröjning vid klistra in (före)",
         "description": "Fördröjning (i millisekunder) efter att text kopierats, innan tangenttryckningen för att klistra in skickas. Öka om ingenting klistras in."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "Om",
-      "version": {
-        "title": "Version",
-        "description": "Nuvarande version av J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "Visa nyheter",
         "description": "Efter en uppdatering av J’écoute."
@@ -631,15 +567,11 @@
         "description": "Modeller, inställningar, inspelningar."
       },
       "sourceCode": {
-        "title": "Källkod",
-        "description": "Visa källkod och bidra",
-        "button": "Visa på GitHub"
+        "title": "Källkod"
       },
       "acknowledgments": {
         "title": "Tack till",
         "ggml": {
-          "title": "ggml",
-          "description": "Högpresterande inferens av OpenAI:s Whisper-modell för automatisk taligenkänning",
           "details": "J’écoute transkriberar lokalt tack vare ggml. Tack till Georgi Gerganov och alla bidragsgivare för deras fantastiska arbete."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Söker efter uppdateringar...",
     "updateAvailableShort": "Uppdatering tillgänglig",
-    "upToDate": "Uppdaterad",
     "updateCheckingDisabled": "Uppdateringskontroll inaktiverad",
-    "downloading": "Laddar ner... {{progress}}%",
     "installing": "Installerar...",
     "preparing": "Förbereder...",
-    "checkForUpdates": "Sök efter uppdateringar",
     "portableUpdateTitle": "Manuell uppdatering krävs",
     "portableUpdateMessage": "Portabla installationer kan inte uppdateras automatiskt. Ladda ner installeraren för ditt system nedan, kör den och installera i samma mapp — din Data/-mapp (inställningar, modeller, inspelningar) behålls.",
     "portableUpdateButton": "Ladda ner installeraren",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "Laddar...",
-    "delete": "Ta bort",
     "close": "Stäng",
     "open": "Öppna",
     "copy": "Kopiera",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Utseende",
-    "description": "Välj om J’écoute ska följa systemets tema eller förbli ljust eller mörkt",
     "options": {
       "system": "System",
       "light": "Ljust",

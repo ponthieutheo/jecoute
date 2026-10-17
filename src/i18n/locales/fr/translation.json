@@ -9,27 +9,10 @@
     "cancel": "Annuler",
     "secureInputWarning": "⚠ Raccourcis bloqués par Secure Input"
   },
-  "sidebar": {
-    "general": "Général",
-    "models": "Modèles",
-    "advanced": "Avancé",
-    "postProcessing": "Post-traitement",
-    "history": "Historique",
-    "debug": "Débogage",
-    "about": "À propos"
-  },
   "onboarding": {
-    "subtitle": "Pour commencer, choisis un modèle de transcription",
-    "existingModelsTitle": "Modèles compatibles",
-    "downloadModelsTitle": "Disponibles au téléchargement",
-    "showAllModels": "Afficher tous les {{total}} modèles",
     "showFewerModels": "Afficher moins de modèles",
     "recommended": "Recommandé",
     "customModelDescription": "Non officiellement pris en charge",
-    "modelCard": {
-      "accuracy": "précision",
-      "speed": "vitesse"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -123,31 +106,19 @@
   },
   "modelSelector": {
     "custom": "Personnalisé",
-    "streaming": "Streaming",
     "active": "Actif",
     "switching": "Changement…",
     "noModelsAvailable": "Aucun modèle disponible",
     "verifying": "Vérification de {{modelName}}…",
     "verifyingGeneric": "Vérification…",
     "extracting": "Extraction de {{modelName}}…",
-    "extractingMultiple": "Extraction de {{count}} modèles…",
     "extractingGeneric": "Extraction…",
     "downloading": "Téléchargement : {{percentage}} %",
-    "downloadingMultiple": "Téléchargement de {{count}} modèles…",
-    "modelReady": "Modèle prêt",
-    "loading": "Chargement de {{modelName}}…",
-    "loadingGeneric": "Chargement…",
-    "modelError": "Erreur du modèle",
-    "modelUnloaded": "Modèle déchargé",
-    "noModelDownloadRequired": "Aucun modèle : téléchargement nécessaire",
     "deleteModel": "Supprimer {{modelName}}",
     "downloadSpeed": "{{speed}} Mo/s",
     "capabilities": {
-      "languageSelection": "Comprend plusieurs langues",
       "languageCount": "{{total}} langues",
       "translation": "Peut traduire en anglais",
-      "translate": "Traduire en anglais",
-      "singleLanguage": "Ne comprend que cette langue",
       "languageOnly": "{{language}} uniquement",
       "streaming": "Affiche le texte en direct pendant que tu parles"
     },
@@ -156,12 +127,7 @@
     "legacy": "Hérité"
   },
   "settings": {
-    "modelSettings": {
-      "title": "Paramètres de {{model}}"
-    },
     "models": {
-      "title": "Modèles de Transcription",
-      "description": "Choisis un modèle de transcription ou télécharges-en d’autres. Chaque modèle a sa précision et sa vitesse.",
       "deleteConfirm": "Supprimer {{modelName}} ? Il faudra le télécharger de nouveau pour l’utiliser.",
       "deleteActiveConfirm": "{{modelName}} est ton modèle actif : sans lui, plus de transcription jusqu’à ce que tu en choisisses un autre. Le supprimer quand même ?",
       "deleteTitle": "Supprimer le modèle",
@@ -175,12 +141,10 @@
       "availableModels": "À télécharger",
       "searchPlaceholder": "Rechercher un modèle par son nom…",
       "rescan": {
-        "label": "Réanalyser",
         "tooltip": "Chercher les modèles ajoutés à la main (dossier des modèles ou cache Hugging Face)"
       }
     },
     "general": {
-      "title": "Général",
       "shortcut": {
         "title": "Raccourcis de J’écoute",
         "description": "Les raccourcis clavier qui lancent la dictée",
@@ -218,7 +182,6 @@
       },
       "shortcutActivation": {
         "title": "Comportement du raccourci",
-        "description": "Comment le raccourci démarre et arrête la dictée.",
         "options": {
           "holdOrToggle": "Auto",
           "pushToTalk": "Maintenir",
@@ -232,10 +195,8 @@
       }
     },
     "sound": {
-      "title": "Son",
       "microphone": {
         "title": "Micro",
-        "description": "Le micro qui t’écoute.",
         "placeholder": "Choisir un micro…",
         "loading": "Chargement…"
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Sortie du signal",
-        "description": "Où le signal sonore se fait entendre.",
         "placeholder": "Choisir une sortie…",
         "loading": "Chargement…"
       },
       "volume": {
-        "title": "Volume du signal",
-        "description": "Le volume du signal sonore."
+        "title": "Volume du signal"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "Application",
-        "output": "Sortie",
-        "transcription": "Transcription",
-        "history": "Historique",
-        "experimental": "Expérimental"
-      },
       "experimentalToggle": {
         "label": "Fonctions expérimentales",
         "description": "Des fonctions encore en développement."
@@ -382,7 +334,6 @@
         "title": "Mots à reconnaître",
         "description": "Noms propres et termes techniques que je dois bien écrire.",
         "placeholder": "Ajouter un mot",
-        "add": "Ajouter",
         "remove": "Retirer {{word}}",
         "duplicate": "« {{word}} » est déjà dans la liste"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Raccourci clavier"
-      },
       "api": {
         "title": "Fournisseur d’IA",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "Historique",
       "openFolder": "Dossier des enregistrements",
       "loading": "Chargement de l’historique…",
-      "empty": "Pas encore de dictée. Maintiens ton raccourci et parle !",
       "copyToClipboard": "Copier",
       "copyError": "Impossible de copier la dictée.",
       "save": "Ajouter aux favoris",
@@ -556,11 +502,6 @@
         "description": "Le système qui capte les raccourcis.",
         "bindingsReset": "Des raccourcis incompatibles ont été remis par défaut"
       },
-      "paths": {
-        "appData": "Données de l’application :",
-        "models": "Modèles :",
-        "settings": "Paramètres :"
-      },
       "pasteDelay": {
         "title": "Délai de collage (avant)",
         "description": "Millisecondes entre la copie et la touche de collage. Augmente-le si rien n’est collé."
@@ -617,25 +558,16 @@
       }
     },
     "about": {
-      "title": "À propos",
-      "version": {
-        "title": "Version",
-        "description": "La version de J’écoute"
-      },
       "appDataDirectory": {
         "title": "Données de l’application",
         "description": "Modèles, réglages, enregistrements."
       },
       "sourceCode": {
-        "title": "Code source",
-        "description": "Voir le code et contribuer",
-        "button": "Voir sur GitHub"
+        "title": "Code source"
       },
       "acknowledgments": {
         "title": "Remerciements",
         "ggml": {
-          "title": "ggml",
-          "description": "Inférence rapide des modèles de reconnaissance vocale",
           "details": "J’écoute transcrit en local grâce à ggml. Merci à Georgi Gerganov et aux contributeurs pour leur travail remarquable."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Recherche de mises à jour…",
     "updateAvailableShort": "Mise à jour disponible",
-    "upToDate": "À jour",
     "updateCheckingDisabled": "Vérification des mises à jour désactivée",
-    "downloading": "Téléchargement… {{progress}} %",
     "installing": "Installation…",
     "preparing": "Préparation…",
-    "checkForUpdates": "Rechercher des mises à jour",
     "portableUpdateTitle": "Mise à jour manuelle",
     "portableUpdateMessage": "Une installation portable ne se met pas à jour toute seule. Télécharge l’installeur ci-dessous, lance-le et installe dans le même dossier : ton dossier Data/ (réglages, modèles, enregistrements) est conservé.",
     "portableUpdateButton": "Télécharger l’installeur",
@@ -663,7 +592,6 @@
   },
   "common": {
     "loading": "Chargement…",
-    "delete": "Supprimer",
     "close": "Fermer",
     "open": "Ouvrir",
     "copy": "Copier",
@@ -700,7 +628,6 @@
   },
   "theme": {
     "title": "Apparence",
-    "description": "J’écoute suit le thème du système, ou reste clair ou sombre.",
     "options": {
       "system": "Système",
       "light": "Clair",

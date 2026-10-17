@@ -9,27 +9,10 @@
     "cancel": "Cancelar",
     "secureInputWarning": "⚠ Atalhos bloqueados pelo Secure Input"
   },
-  "sidebar": {
-    "general": "Geral",
-    "models": "Modelos",
-    "advanced": "Avançado",
-    "postProcessing": "Pós-Processamento",
-    "history": "Histórico",
-    "debug": "Depuração",
-    "about": "Sobre"
-  },
   "onboarding": {
-    "subtitle": "Para começar, escolha um modelo de transcrição",
-    "existingModelsTitle": "Modelos compatíveis",
-    "downloadModelsTitle": "Disponíveis para download",
-    "showAllModels": "Mostrar todos os {{total}} modelos",
     "showFewerModels": "Mostrar menos modelos",
     "recommended": "Recomendado",
     "customModelDescription": "Não suportado oficialmente",
-    "modelCard": {
-      "accuracy": "precisão",
-      "speed": "velocidade"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Personalizado",
     "legacy": "Legado",
-    "streaming": "Streaming",
     "active": "Ativo",
     "switching": "Alternando...",
     "noModelsAvailable": "Nenhum modelo disponível",
     "verifying": "Verificando {{modelName}}...",
     "verifyingGeneric": "Verificando...",
     "extracting": "Extraindo {{modelName}}...",
-    "extractingMultiple": "Extraindo {{count}} modelos...",
     "extractingGeneric": "Extraindo...",
     "downloading": "Baixando {{percentage}}%",
-    "downloadingMultiple": "Baixando {{count}} modelos...",
-    "modelReady": "Modelo Pronto",
-    "loading": "Carregando {{modelName}}...",
-    "loadingGeneric": "Carregando...",
-    "modelError": "Erro no Modelo",
-    "modelUnloaded": "Modelo Descarregado",
-    "noModelDownloadRequired": "Sem Modelo - Download Necessário",
     "deleteModel": "Excluir {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Cancelar",
     "cancelDownload": "Cancelar download",
     "capabilities": {
-      "languageSelection": "Suporta vários idiomas de entrada",
-      "singleLanguage": "Suporta apenas este idioma",
       "languageCount": "{{total}} idiomas",
       "languageOnly": "Apenas {{language}}",
       "translation": "Pode traduzir para inglês",
-      "translate": "Traduzir para inglês",
       "streaming": "Mostra a transcrição ao vivo enquanto você fala"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "Configurações de {{model}}"
-    },
     "general": {
-      "title": "Geral",
       "shortcut": {
         "title": "Atalhos do J’écoute",
         "description": "Configure atalhos de teclado para iniciar a gravação de voz para texto",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Comportamento do atalho",
-        "description": "Escolha como o atalho de transcrição inicia e para a gravação.",
         "options": {
           "holdOrToggle": "Automático",
           "pushToTalk": "Segurar",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Modelos de Transcrição",
-      "description": "Selecione um modelo de transcrição ou baixe modelos adicionais. Diferentes modelos oferecem diferentes níveis de precisão e velocidade.",
       "searchPlaceholder": "Buscar modelos por nome…",
       "yourModels": "Modelos baixados",
       "availableModels": "Disponíveis para download",
@@ -226,16 +190,13 @@
         "translation": "Filtrar modelos compatíveis com tradução para inglês"
       },
       "rescan": {
-        "label": "Reescanear",
         "tooltip": "Reescaneia em busca de modelos adicionados à pasta de modelos ou ao cache do Hugging Face fora do J’écoute"
       },
       "noModelsMatch": "Nenhum modelo corresponde a este filtro."
     },
     "sound": {
-      "title": "Som",
       "microphone": {
         "title": "Microfone",
-        "description": "O microfone que escuta você.",
         "placeholder": "Selecionar microfone...",
         "loading": "Carregando..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Saída do sinal",
-        "description": "Onde o sinal sonoro é reproduzido.",
         "placeholder": "Selecionar dispositivo de saída...",
         "loading": "Carregando..."
       },
       "volume": {
-        "title": "Volume do sinal",
-        "description": "Ajustar o volume dos sons de feedback de áudio"
+        "title": "Volume do sinal"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "Aplicativo",
-        "output": "Saída",
-        "transcription": "Transcrição",
-        "history": "Histórico",
-        "experimental": "Experimental"
-      },
       "experimentalToggle": {
         "label": "Recursos experimentais",
         "description": "Recursos ainda em desenvolvimento."
@@ -382,7 +334,6 @@
         "title": "Palavras a reconhecer",
         "description": "Nomes e termos técnicos que devo escrever certo.",
         "placeholder": "Adicionar uma palavra",
-        "add": "Adicionar",
         "remove": "Remover {{word}}",
         "duplicate": "“{{word}}” já está na lista"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Tecla de atalho"
-      },
       "api": {
         "title": "Provedor de IA",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "Histórico",
       "openFolder": "Pasta de gravações",
       "loading": "Carregando histórico...",
-      "empty": "Nenhuma transcrição ainda. Comece a gravar para construir seu histórico!",
       "copyToClipboard": "Copiar",
       "copyError": "Não foi possível copiar a transcrição para a área de transferência.",
       "save": "Adicionar aos favoritos",
@@ -570,11 +516,6 @@
         "description": "Escolha o sistema responsável pelos atalhos de teclado.",
         "bindingsReset": "Os atalhos de teclado eram incompatíveis e foram redefinidos para os padrões"
       },
-      "paths": {
-        "appData": "Dados do App:",
-        "models": "Modelos:",
-        "settings": "Configurações:"
-      },
       "pasteDelay": {
         "title": "Atraso de colagem (antes)",
         "description": "Atraso (em milissegundos) após copiar o texto, antes de enviar a tecla de colar. Aumente se nada for colado."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "Sobre",
-      "version": {
-        "title": "Versão",
-        "description": "Versão atual do J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "Mostrar novidades",
         "description": "Após cada atualização do J’écoute."
@@ -631,15 +567,11 @@
         "description": "Modelos, configurações, gravações."
       },
       "sourceCode": {
-        "title": "Código Fonte",
-        "description": "Visualizar código fonte e contribuir",
-        "button": "Ver no GitHub"
+        "title": "Código Fonte"
       },
       "acknowledgments": {
         "title": "Agradecimentos",
         "ggml": {
-          "title": "ggml",
-          "description": "Inferência de alto desempenho do modelo de reconhecimento automático de fala Whisper da OpenAI",
           "details": "O J’écoute transcreve localmente graças ao ggml. Obrigado a Georgi Gerganov e aos colaboradores pelo trabalho notável."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Verificando atualizações...",
     "updateAvailableShort": "Atualização disponível",
-    "upToDate": "Atualizado",
     "updateCheckingDisabled": "Verificação de Atualização Desabilitada",
-    "downloading": "Baixando... {{progress}}%",
     "installing": "Instalando...",
     "preparing": "Preparando...",
-    "checkForUpdates": "Verificar atualizações",
     "portableUpdateTitle": "Atualização manual necessária",
     "portableUpdateMessage": "Instalações portáteis não podem ser atualizadas automaticamente. Baixe abaixo o instalador para o seu sistema, execute-o e instale na mesma pasta — a sua pasta Data/ (configurações, modelos, gravações) é mantida.",
     "portableUpdateButton": "Baixar instalador",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "Carregando...",
-    "delete": "Excluir",
     "close": "Fechar",
     "open": "Abrir",
     "copy": "Copiar",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Aparência",
-    "description": "Escolha se o J’écoute segue o tema do sistema ou permanece claro ou escuro",
     "options": {
       "system": "Sistema",
       "light": "Claro",

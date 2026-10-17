@@ -9,27 +9,10 @@
     "cancel": "Hủy",
     "secureInputWarning": "⚠ Phím tắt bị Secure Input chặn"
   },
-  "sidebar": {
-    "general": "Chung",
-    "models": "Mô hình",
-    "advanced": "Nâng cao",
-    "postProcessing": "Xử lý sau",
-    "history": "Lịch sử",
-    "debug": "Gỡ lỗi",
-    "about": "Giới thiệu"
-  },
   "onboarding": {
-    "subtitle": "Để bắt đầu, hãy chọn một mô hình chuyển đổi giọng nói",
-    "existingModelsTitle": "Mô hình tương thích",
-    "downloadModelsTitle": "Có sẵn để tải xuống",
-    "showAllModels": "Hiển thị tất cả {{total}} mô hình",
     "showFewerModels": "Hiển thị ít mô hình hơn",
     "recommended": "Đề xuất",
     "customModelDescription": "Không được hỗ trợ chính thức",
-    "modelCard": {
-      "accuracy": "độ chính xác",
-      "speed": "tốc độ"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Tùy chỉnh",
     "legacy": "Cũ",
-    "streaming": "Truyền trực tiếp",
     "active": "Đang hoạt động",
     "switching": "Đang chuyển...",
     "noModelsAvailable": "Không có mô hình nào",
     "verifying": "Đang xác minh {{modelName}}...",
     "verifyingGeneric": "Đang xác minh...",
     "extracting": "Đang giải nén {{modelName}}...",
-    "extractingMultiple": "Đang giải nén {{count}} mô hình...",
     "extractingGeneric": "Đang giải nén...",
     "downloading": "Đang tải xuống {{percentage}}%",
-    "downloadingMultiple": "Đang tải xuống {{count}} mô hình...",
-    "modelReady": "Mô Hình Sẵn Sàng",
-    "loading": "Đang tải {{modelName}}...",
-    "loadingGeneric": "Đang tải...",
-    "modelError": "Lỗi Mô Hình",
-    "modelUnloaded": "Mô Hình Đã Gỡ",
-    "noModelDownloadRequired": "Chưa Có Mô Hình - Cần Tải Xuống",
     "deleteModel": "Xóa {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Hủy",
     "cancelDownload": "Hủy tải xuống",
     "capabilities": {
-      "languageSelection": "Hỗ trợ nhiều ngôn ngữ đầu vào",
-      "singleLanguage": "Chỉ hỗ trợ ngôn ngữ này",
       "languageCount": "{{total}} ngôn ngữ",
       "languageOnly": "Chỉ {{language}}",
       "translation": "Có thể dịch sang tiếng Anh",
-      "translate": "Dịch sang tiếng Anh",
       "streaming": "Hiển thị phiên âm trực tiếp khi bạn nói"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "Cài đặt {{model}}"
-    },
     "general": {
-      "title": "Chung",
       "shortcut": {
         "title": "Phím tắt J’écoute",
         "description": "Cấu hình phím tắt để kích hoạt ghi âm chuyển đổi giọng nói thành văn bản",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Hành vi phím tắt",
-        "description": "Chọn cách phím tắt chuyển đổi bắt đầu và dừng ghi âm.",
         "options": {
           "holdOrToggle": "Tự động",
           "pushToTalk": "Giữ",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Mô hình chuyển đổi",
-      "description": "Chọn mô hình chuyển đổi hoặc tải thêm mô hình. Các mô hình khác nhau có mức độ chính xác và tốc độ khác nhau.",
       "searchPlaceholder": "Tìm mô hình theo tên…",
       "yourModels": "Mô hình đã tải",
       "availableModels": "Có sẵn để tải xuống",
@@ -226,16 +190,13 @@
         "translation": "Lọc các mô hình hỗ trợ dịch sang tiếng Anh"
       },
       "rescan": {
-        "label": "Quét lại",
         "tooltip": "Quét lại các mô hình được thêm vào thư mục mô hình hoặc bộ nhớ đệm Hugging Face bên ngoài J’écoute"
       },
       "noModelsMatch": "Không có mô hình nào khớp với bộ lọc này."
     },
     "sound": {
-      "title": "Âm thanh",
       "microphone": {
         "title": "Micrô",
-        "description": "Micrô lắng nghe bạn.",
         "placeholder": "Chọn micrô...",
         "loading": "Đang tải..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Đầu ra tín hiệu",
-        "description": "Nơi phát tín hiệu âm thanh.",
         "placeholder": "Chọn thiết bị đầu ra...",
         "loading": "Đang tải..."
       },
       "volume": {
-        "title": "Âm lượng tín hiệu",
-        "description": "Điều chỉnh âm lượng của âm thanh phản hồi"
+        "title": "Âm lượng tín hiệu"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "Ứng dụng",
-        "output": "Đầu ra",
-        "transcription": "Chuyển đổi",
-        "history": "Lịch sử",
-        "experimental": "Thử nghiệm"
-      },
       "experimentalToggle": {
         "label": "Tính năng thử nghiệm",
         "description": "Các tính năng vẫn đang phát triển."
@@ -382,7 +334,6 @@
         "title": "Từ cần nhận dạng",
         "description": "Tên riêng và thuật ngữ mà mình cần viết cho đúng.",
         "placeholder": "Thêm một từ",
-        "add": "Thêm",
         "remove": "Xóa {{word}}",
         "duplicate": "“{{word}}” đã có trong danh sách"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Phím tắt"
-      },
       "api": {
         "title": "Nhà cung cấp AI",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "Lịch sử",
       "openFolder": "Thư mục ghi âm",
       "loading": "Đang tải lịch sử...",
-      "empty": "Chưa có bản ghi nào. Bắt đầu ghi âm để xây dựng lịch sử của bạn!",
       "copyToClipboard": "Sao chép",
       "copyError": "Không thể sao chép bản ghi vào bộ nhớ tạm.",
       "save": "Thêm vào mục yêu thích",
@@ -570,11 +516,6 @@
         "description": "Chọn hệ thống xử lý phím tắt.",
         "bindingsReset": "Các phím tắt không tương thích và đã được đặt lại về mặc định"
       },
-      "paths": {
-        "appData": "Dữ liệu ứng dụng:",
-        "models": "Mô hình:",
-        "settings": "Cài đặt:"
-      },
       "pasteDelay": {
         "title": "Độ trễ dán (trước)",
         "description": "Độ trễ (tính bằng mili giây) sau khi sao chép văn bản, trước khi gửi phím dán. Tăng nếu không có gì được dán."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "Giới thiệu",
-      "version": {
-        "title": "Phiên bản",
-        "description": "Phiên bản hiện tại của J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "Hiện điểm mới",
         "description": "Sau khi J’écoute cập nhật."
@@ -631,15 +567,11 @@
         "description": "Mô hình, cài đặt, bản ghi âm."
       },
       "sourceCode": {
-        "title": "Mã nguồn",
-        "description": "Xem mã nguồn và đóng góp",
-        "button": "Xem trên GitHub"
+        "title": "Mã nguồn"
       },
       "acknowledgments": {
         "title": "Lời cảm ơn",
         "ggml": {
-          "title": "ggml",
-          "description": "Suy luận hiệu suất cao của mô hình nhận dạng giọng nói tự động Whisper của OpenAI",
           "details": "J’écoute chép lời ngay trên máy nhờ ggml. Cảm ơn Georgi Gerganov và các cộng tác viên vì công việc tuyệt vời của họ."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Đang kiểm tra cập nhật...",
     "updateAvailableShort": "Có bản cập nhật",
-    "upToDate": "Đã cập nhật",
     "updateCheckingDisabled": "Đã tắt kiểm tra cập nhật",
-    "downloading": "Đang tải... {{progress}}%",
     "installing": "Đang cài đặt...",
     "preparing": "Đang chuẩn bị...",
-    "checkForUpdates": "Kiểm tra cập nhật",
     "portableUpdateTitle": "Cần cập nhật thủ công",
     "portableUpdateMessage": "Bản cài đặt di động không thể cập nhật tự động. Hãy tải trình cài đặt phù hợp với hệ thống của bạn bên dưới, chạy nó và cài vào cùng thư mục — thư mục Data/ (cài đặt, mô hình, bản ghi) của bạn được giữ nguyên.",
     "portableUpdateButton": "Tải trình cài đặt",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "Đang tải...",
-    "delete": "Xóa",
     "close": "Đóng",
     "open": "Mở",
     "copy": "Sao chép",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Giao diện",
-    "description": "Chọn xem J’écoute theo chủ đề hệ thống hay giữ ở chế độ sáng hoặc tối",
     "options": {
       "system": "Hệ thống",
       "light": "Sáng",

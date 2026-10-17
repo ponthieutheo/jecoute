@@ -9,27 +9,10 @@
     "cancel": "Batal",
     "secureInputWarning": "⚠ Pintasan diblokir oleh Secure Input"
   },
-  "sidebar": {
-    "general": "Umum",
-    "models": "Model",
-    "advanced": "Lanjutan",
-    "postProcessing": "Pascaproses",
-    "history": "Riwayat",
-    "debug": "Debug",
-    "about": "Tentang"
-  },
   "onboarding": {
-    "subtitle": "Untuk memulai, pilih model transkripsi",
-    "existingModelsTitle": "Model yang Kompatibel",
-    "downloadModelsTitle": "Tersedia untuk Diunduh",
-    "showAllModels": "Tampilkan semua {{total}} model",
     "showFewerModels": "Tampilkan lebih sedikit model",
     "recommended": "Direkomendasikan",
     "customModelDescription": "Tidak didukung secara resmi",
-    "modelCard": {
-      "accuracy": "akurasi",
-      "speed": "kecepatan"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Kustom",
     "legacy": "Legacy",
-    "streaming": "Streaming",
     "active": "Aktif",
     "switching": "Beralih...",
     "noModelsAvailable": "Tidak ada model yang tersedia",
     "verifying": "Memverifikasi {{modelName}}...",
     "verifyingGeneric": "Memverifikasi...",
     "extracting": "Mengekstrak {{modelName}}...",
-    "extractingMultiple": "Mengekstrak {{count}} model...",
     "extractingGeneric": "Mengekstrak...",
     "downloading": "Mengunduh {{percentage}}%",
-    "downloadingMultiple": "Mengunduh {{count}} model...",
-    "modelReady": "Model Siap",
-    "loading": "Memuat {{modelName}}...",
-    "loadingGeneric": "Memuat...",
-    "modelError": "Kesalahan Model",
-    "modelUnloaded": "Model Dikeluarkan dari Memori",
-    "noModelDownloadRequired": "Model Belum Tersedia — Perlu Diunduh",
     "deleteModel": "Hapus {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Batal",
     "cancelDownload": "Batalkan unduhan",
     "capabilities": {
-      "languageSelection": "Mendukung beberapa bahasa masukan",
-      "singleLanguage": "Hanya mendukung bahasa ini",
       "languageCount": "{{total}} bahasa",
       "languageOnly": "Hanya {{language}}",
       "translation": "Dapat menerjemahkan ke bahasa Inggris",
-      "translate": "Terjemahkan",
       "streaming": "Menampilkan transkripsi langsung saat Anda berbicara"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "Pengaturan {{model}}"
-    },
     "general": {
-      "title": "Umum",
       "shortcut": {
         "title": "Pintasan J’écoute",
         "description": "Atur pintasan keyboard untuk memulai perekaman ucapan-ke-teks",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Perilaku Pintasan",
-        "description": "Pilih cara pintasan transkripsi memulai dan menghentikan perekaman.",
         "options": {
           "holdOrToggle": "Otomatis",
           "pushToTalk": "Tahan",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Model Transkripsi",
-      "description": "Pilih model transkripsi atau unduh model tambahan. Setiap model menawarkan tingkat akurasi dan kecepatan yang berbeda.",
       "searchPlaceholder": "Cari model berdasarkan nama…",
       "yourModels": "Model yang Diunduh",
       "availableModels": "Tersedia untuk Diunduh",
@@ -226,16 +190,13 @@
         "translation": "Saring model yang mendukung penerjemahan ke bahasa Inggris"
       },
       "rescan": {
-        "label": "Pindai Ulang",
         "tooltip": "Pindai ulang model yang ditambahkan ke folder model atau cache Hugging Face dari luar J’écoute"
       },
       "noModelsMatch": "Tidak ada model yang cocok dengan kriteria ini."
     },
     "sound": {
-      "title": "Suara",
       "microphone": {
         "title": "Mikrofon",
-        "description": "Mikrofon yang mendengarkan Anda.",
         "placeholder": "Pilih mikrofon...",
         "loading": "Memuat..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Keluaran sinyal",
-        "description": "Tempat sinyal suara diputar.",
         "placeholder": "Pilih perangkat keluaran...",
         "loading": "Memuat..."
       },
       "volume": {
-        "title": "Volume sinyal",
-        "description": "Sesuaikan volume suara umpan balik audio"
+        "title": "Volume sinyal"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "Aplikasi",
-        "output": "Keluaran",
-        "transcription": "Transkripsi",
-        "history": "Riwayat",
-        "experimental": "Eksperimental"
-      },
       "experimentalToggle": {
         "label": "Fitur eksperimental",
         "description": "Fitur yang masih dalam pengembangan."
@@ -382,7 +334,6 @@
         "title": "Kata yang perlu dikenali",
         "description": "Nama dan istilah teknis yang harus saya tulis dengan benar.",
         "placeholder": "Tambahkan kata",
-        "add": "Tambah",
         "remove": "Hapus {{word}}",
         "duplicate": "“{{word}}” sudah ada di daftar"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Pintasan"
-      },
       "api": {
         "title": "Penyedia AI",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "Riwayat",
       "openFolder": "Folder rekaman",
       "loading": "Memuat riwayat...",
-      "empty": "Belum ada transkripsi. Mulai merekam untuk mengisi riwayat Anda!",
       "copyToClipboard": "Salin",
       "copyError": "Gagal menyalin transkripsi ke papan klip.",
       "save": "Tambahkan ke favorit",
@@ -570,11 +516,6 @@
         "description": "Pilih backend pintasan keyboard.",
         "bindingsReset": "Pintasan keyboard tidak kompatibel dan telah dikembalikan ke nilai awal"
       },
-      "paths": {
-        "appData": "Data Aplikasi:",
-        "models": "Model:",
-        "settings": "Pengaturan:"
-      },
       "pasteDelay": {
         "title": "Jeda Tempel (Sebelum)",
         "description": "Jeda (dalam milidetik) setelah menyalin teks sebelum mengirim perintah tempel. Tingkatkan jika tidak ada yang ditempel."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "Tentang",
-      "version": {
-        "title": "Versi",
-        "description": "Versi J’écoute saat ini"
-      },
       "whatsNewUpdates": {
         "label": "Tampilkan yang baru",
         "description": "Setelah J’écoute diperbarui."
@@ -631,15 +567,11 @@
         "description": "Model, pengaturan, rekaman."
       },
       "sourceCode": {
-        "title": "Kode Sumber",
-        "description": "Lihat kode sumber dan berkontribusi",
-        "button": "Lihat di GitHub"
+        "title": "Kode Sumber"
       },
       "acknowledgments": {
         "title": "Ucapan Terima Kasih",
         "ggml": {
-          "title": "ggml",
-          "description": "Pustaka tensor berkinerja tinggi untuk inferensi pembelajaran mesin di perangkat",
           "details": "J’écoute mentranskripsikan secara lokal berkat ggml. Terima kasih kepada Georgi Gerganov dan para kontributor atas karya luar biasa mereka."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Memeriksa pembaruan...",
     "updateAvailableShort": "Pembaruan tersedia",
-    "upToDate": "Sudah versi terbaru",
     "updateCheckingDisabled": "Pemeriksaan Pembaruan Dinonaktifkan",
-    "downloading": "Mengunduh... {{progress}}%",
     "installing": "Menginstal...",
     "preparing": "Menyiapkan...",
-    "checkForUpdates": "Periksa pembaruan",
     "portableUpdateTitle": "Pembaruan manual diperlukan",
     "portableUpdateMessage": "Instalasi portabel tidak dapat diperbarui secara otomatis. Unduh penginstal untuk sistem Anda di bawah ini, jalankan, lalu instal ke folder yang sama — folder Data/ Anda (pengaturan, model, rekaman) tetap dipertahankan.",
     "portableUpdateButton": "Unduh penginstal",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "Memuat...",
-    "delete": "Hapus",
     "close": "Tutup",
     "open": "Buka",
     "copy": "Salin",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Tampilan",
-    "description": "Pilih apakah J’écoute mengikuti tema sistem atau selalu menggunakan tema terang atau gelap",
     "options": {
       "system": "Sistem",
       "light": "Terang",
