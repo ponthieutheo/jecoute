@@ -75,14 +75,14 @@ Below the status, two pills: the active model and the spoken language. A click o
 the ones you downloaded, or “All models”) or languages (with a search box). During a download, a third pill shows its
 progress.
 
-<p align="center"><img src="../media/en/fonctions/pastilles.png" width="480" alt="The model and language pills, with the model menu open"></p>
+<p align="center"><img src="../media/en/fonctions/pastilles.png" width="445" alt="The model and language pills, with the model menu open"></p>
 
 ### Recent dictations
 
 “Recent dictations”: the three latest, as cards. A click on a card copies its text (“Copied to clipboard”). An “AI”
 tag marks a dictation corrected by the AI, a star marks a favorite. “All history” opens the history.
 
-<p align="center"><img src="../media/en/fonctions/cartes.png" width="480" alt="The three recent dictations as cards, with the time, the AI tag and the Copy button"></p>
+<p align="center"><img src="../media/en/fonctions/cartes.png" width="684" alt="The three recent dictations as cards, with the time, the AI tag and the Copy button"></p>
 
 ## Settings
 
@@ -104,7 +104,7 @@ along with you. “Every change applies right away.”
 “Hold to talk, release to write.” The keys are drawn as keycaps. The pencil (“Change”) records a new shortcut: press
 the keys you want. The arrow (“Restore the default shortcut”) goes back to Ctrl+Space.
 
-<p align="center"><img src="../media/en/fonctions/raccourci.png" width="480" alt="The dictation shortcut: Ctrl and Space keycaps, the pencil and the reset arrow"></p>
+<p align="center"><img src="../media/en/fonctions/raccourci.png" width="455" alt="The dictation shortcut: Ctrl and Space keycaps, the pencil and the reset arrow"></p>
 
 #### Shortcut behavior
 
@@ -116,19 +116,19 @@ the keys you want. The arrow (“Restore the default shortcut”) goes back to C
 | “Hold”           | “I listen as long as you hold the keys.”                    |
 | “Press to start” | “One press to start, another to stop.”                      |
 
-<p align="center"><img src="../media/en/fonctions/comportement.png" width="480" alt="Shortcut behavior: Auto, Hold, Press to start"></p>
+<p align="center"><img src="../media/en/fonctions/comportement.png" width="455" alt="Shortcut behavior: Auto, Hold, Press to start"></p>
 
 #### Cancel a dictation
 
 “Stops without writing anything.” Default: Esc, during a dictation.
 
-<p align="center"><img src="../media/en/fonctions/annuler.png" width="480" alt="The cancel shortcut: the Esc key"></p>
+<p align="center"><img src="../media/en/fonctions/annuler.png" width="455" alt="The cancel shortcut: the Esc key"></p>
 
 #### Transcription model
 
 The active model, its size and how many languages it understands. “Change” opens the [model list](#models).
 
-<p align="center"><img src="../media/en/fonctions/modele.png" width="480" alt="The active model card: its name, Active, its size, its languages, the Change button"></p>
+<p align="center"><img src="../media/en/fonctions/modele.png" width="455" alt="The active model card: its name, Active, its size, its languages, the Change button"></p>
 
 #### Spoken language
 
@@ -136,7 +136,7 @@ The active model, its size and how many languages it understands. “Change” o
 languages. A model that cannot detect the language on its own uses the Windows language, if it knows it: the option
 then reads “Auto (English)”.
 
-<p align="center"><img src="../media/en/fonctions/langue.png" width="480" alt="The spoken language and its list with the search box"></p>
+<p align="center"><img src="../media/en/fonctions/langue.png" width="455" alt="The spoken language and its list with the search box"></p>
 
 #### Translate to English
 
@@ -159,20 +159,20 @@ example Canary 180M Flash or Whisper Medium).
 under the list (“I can hear you.”). With an audio interface that has several inputs, “Input channel” picks the input,
 or “Average all channels”.
 
-<p align="center"><img src="../media/en/fonctions/micro.png" width="480" alt="The microphone picker and its level during a dictation"></p>
+<p align="center"><img src="../media/en/fonctions/micro.png" width="455" alt="The microphone picker and its level during a dictation"></p>
 
 #### Mute the computer
 
 “Music and videos go quiet during a dictation.”
 
-<p align="center"><img src="../media/en/fonctions/couper-son.png" width="480" alt="The Mute the computer switch"></p>
+<p align="center"><img src="../media/en/fonctions/couper-son.png" width="455" alt="The Mute the computer switch"></p>
 
 #### Sound signal
 
 “A short sound when a dictation starts and ends.” Off by default. Once on: “Signal volume”, “Signal sound” (Marimba or
 Pop, with “Play the signal”) and “Signal output” (where it plays).
 
-<p align="center"><img src="../media/en/fonctions/signal-sonore.png" width="480" alt="The sound signal turned on, its volume, its sound and its output"></p>
+<p align="center"><img src="../media/en/fonctions/signal-sonore.png" width="455" alt="The sound signal turned on, its volume, its sound and its output"></p>
 
 ### Text
 
@@ -195,38 +195,38 @@ Pop, with “Play the signal”) and “Signal output” (where it plays).
 | “Paste (Ctrl+Shift+V)”, “Paste (Shift+Insert)” | for apps that paste differently (terminals, for example)        |
 | “Don’t write”                                  | the dictation only goes to the history                          |
 
-<p align="center"><img src="../media/en/fonctions/ecrire-texte.png" width="480" alt="The Write the text list, open"></p>
+<p align="center"><img src="../media/en/fonctions/ecrire-texte.png" width="455" alt="The Write the text list, open"></p>
 
 #### Clipboard
 
 “After pasting.” “Restore previous content” (default) or “Keep the dictation” on the clipboard.
 
-<p align="center"><img src="../media/en/fonctions/presse-papiers.png" width="480" alt="The clipboard setting"></p>
+<p align="center"><img src="../media/en/fonctions/presse-papiers.png" width="455" alt="The clipboard setting"></p>
 
 #### Submit after the text
 
 “Presses a key for you, to send a message.” “Off” (default), “Enter”, “Ctrl+Enter” or “Super+Enter”.
 
-<p align="center"><img src="../media/en/fonctions/valider.png" width="480" alt="Submit after the text: Off, Enter, Ctrl+Enter, Super+Enter"></p>
+<p align="center"><img src="../media/en/fonctions/valider.png" width="455" alt="Submit after the text: Off, Enter, Ctrl+Enter, Super+Enter"></p>
 
 #### Remove filler words
 
 ““uh”, “um”, “er”…” disappear from the text. On by default.
 
-<p align="center"><img src="../media/en/fonctions/hesitations.png" width="480" alt="The Remove filler words switch"></p>
+<p align="center"><img src="../media/en/fonctions/hesitations.png" width="455" alt="The Remove filler words switch"></p>
 
 #### Space after the text
 
 “Adds a space after each dictation.” Useful for chaining sentences. Off by default.
 
-<p align="center"><img src="../media/en/fonctions/espace-final.png" width="480" alt="The Space after the text switch"></p>
+<p align="center"><img src="../media/en/fonctions/espace-final.png" width="455" alt="The Space after the text switch"></p>
 
 #### Words to recognize
 
 “Names and technical terms I should spell right.” Type a word, “Add”: it becomes a tag, removed with one click.
 J’écoute then corrects the close-sounding words the model hears.
 
-<p align="center"><img src="../media/en/fonctions/mots.png" width="480" alt="Words to recognize as tags, and the Add a word field"></p>
+<p align="center"><img src="../media/en/fonctions/mots.png" width="455" alt="Words to recognize as tags, and the Add a word field"></p>
 
 Under “Advanced options”, “Chinese script” picks Simplified or Traditional characters for Mandarin and Cantonese.
 
@@ -253,7 +253,7 @@ change: the second shortcut, Ctrl+Shift+Space, is the one that has the text revi
 - “API key”: “Your account key with this provider.”
 - “Model”: a model offered by the provider, or its name typed by hand; “Refresh models” reloads the list.
 
-<p align="center"><img src="../media/en/fonctions/correction-ia.png" width="480" alt="The shortcut with AI correction, the provider, the API key and the model"></p>
+<p align="center"><img src="../media/en/fonctions/correction-ia.png" width="455" alt="The shortcut with AI correction, the provider, the API key and the model"></p>
 
 #### Instructions
 
@@ -262,7 +262,7 @@ with “Create new prompt” (a “Prompt label”, “Prompt instructions”, t
 Transcriptions, fixes spelling and punctuation, writes numbers as digits and removes filler words, without changing
 the meaning or the language of the dictation.
 
-<p align="center"><img src="../media/en/fonctions/consignes.png" width="480" alt="Instructions: the selected one, its label and its text"></p>
+<p align="center"><img src="../media/en/fonctions/consignes.png" width="455" alt="Instructions: the selected one, its label and its text"></p>
 
 In the history, each corrected dictation keeps both versions: see [Raw or corrected](#raw-or-corrected).
 
@@ -280,13 +280,13 @@ In the history, each corrected dictation keeps both versions: see [Raw or correc
 
 “Choose whether J’écoute follows your system theme or stays light or dark”: “System”, “Light” or “Dark”.
 
-<p align="center"><img src="../media/en/fonctions/apparence.png" width="480" alt="Appearance: System, Light, Dark"></p>
+<p align="center"><img src="../media/en/fonctions/apparence.png" width="455" alt="Appearance: System, Light, Dark"></p>
 
 #### Interface language
 
 The interface comes in 26 languages. By default, the Windows one.
 
-<p align="center"><img src="../media/en/fonctions/langue-interface.png" width="480" alt="The list of interface languages"></p>
+<p align="center"><img src="../media/en/fonctions/langue-interface.png" width="455" alt="The list of interface languages"></p>
 
 #### Startup
 
@@ -295,7 +295,7 @@ The interface comes in 26 languages. By default, the Windows one.
 - “Taskbar icon”: “In the notification area, next to the clock.” Its menu: copy the last transcript, switch models,
   unload the model, open the settings, check for updates, quit.
 
-<p align="center"><img src="../media/en/fonctions/demarrage.png" width="480" alt="Launch at startup, Start hidden, Taskbar icon"></p>
+<p align="center"><img src="../media/en/fonctions/demarrage.png" width="455" alt="Launch at startup, Start hidden, Taskbar icon"></p>
 
 #### During a dictation
 
@@ -311,7 +311,7 @@ The interface comes in 26 languages. By default, the Windows one.
 With a model that writes live, “Character” also shows the live text card, instead of the character. “Position on
 screen”: “Bottom” (default) or “Top”.
 
-<p align="center"><img src="../media/en/fonctions/pendant-dictee.png" width="480" alt="During a dictation: None, Minimal, Live text, Character; Position on screen"></p>
+<p align="center"><img src="../media/en/fonctions/pendant-dictee.png" width="455" alt="During a dictation: None, Minimal, Live text, Character; Position on screen"></p>
 
 <p align="center"><img src="../media/perso/styles-overlay.png" width="696" alt="The styles side by side: the character, the live text card, the minimal pill"></p>
 
@@ -320,13 +320,13 @@ screen”: “Bottom” (default) or “Top”.
 “Unloads the model when you stop dictating.” “Never” (default), “Immediately”, or after 2, 5, 10, 15 minutes or 1 hour.
 The model loads again on the next dictation.
 
-<p align="center"><img src="../media/en/fonctions/memoire.png" width="480" alt="Free up memory and its delays"></p>
+<p align="center"><img src="../media/en/fonctions/memoire.png" width="455" alt="Free up memory and its delays"></p>
 
 #### History size
 
 “How many dictations are kept when “Keep dictations” is set to the latest. Favorites don’t count.” 50 by default.
 
-<p align="center"><img src="../media/en/fonctions/historique-limite.png" width="480" alt="How many dictations the history keeps"></p>
+<p align="center"><img src="../media/en/fonctions/historique-limite.png" width="455" alt="How many dictations the history keeps"></p>
 
 #### Keep dictations
 
@@ -334,7 +334,7 @@ The model loads again on the next dictation.
 “History”), “Forever” (nothing is erased), “3 days”, “2 weeks” or “3 months”. An erased dictation goes with its
 recording; favorites always stay.
 
-<p align="center"><img src="../media/en/fonctions/enregistrements.png" width="480" alt="Keep dictations: the retention options"></p>
+<p align="center"><img src="../media/en/fonctions/enregistrements.png" width="455" alt="Keep dictations: the retention options"></p>
 
 #### Updates and what’s new
 
@@ -364,14 +364,14 @@ an update. Installing happens in [About](#about).
 The version (“Version 0.1.0, up to date”) and “Updates”: “Check”, then “Install” when a version is available. J’écoute
 restarts on the new version.
 
-<p align="center"><img src="../media/en/fonctions/mises-a-jour.png" width="480" alt="The Updates row and its Check button"></p>
+<p align="center"><img src="../media/en/fonctions/mises-a-jour.png" width="455" alt="The Updates row and its Check button"></p>
 
 #### Folders and credits
 
 “Source code” (github.com/ponthieutheo/jecoute), “App data” (“Models, settings, recordings.”) and “Logs” open with
 one click. Below, “Based on Handy by CJ Pais”, the thanks to ggml and the character’s license.
 
-<p align="center"><img src="../media/en/fonctions/credits.png" width="480" alt="The Based on Handy by CJ Pais credit, the acknowledgments and the character’s license"></p>
+<p align="center"><img src="../media/en/fonctions/credits.png" width="455" alt="The Based on Handy by CJ Pais credit, the acknowledgments and the character’s license"></p>
 
 ## History
 
@@ -393,14 +393,14 @@ original was) and the trash can (“Delete”). At the bottom, the number of dic
 
 “Search”, or Ctrl+F: looks in the final text and in the raw text, across the whole history.
 
-<p align="center"><img src="../media/en/fonctions/recherche.png" width="480" alt="Searching the history and the matching dictations"></p>
+<p align="center"><img src="../media/en/fonctions/recherche.png" width="696" alt="Searching the history and the matching dictations"></p>
 
 ### Favorites
 
 The star keeps a dictation for good: favorites are never erased, whatever the history limit. The “All”, “Favorites”
 and “AI-corrected” filters sort the list.
 
-<p align="center"><img src="../media/en/fonctions/favoris.png" width="480" alt="The Favorites filter and starred dictations"></p>
+<p align="center"><img src="../media/en/fonctions/favoris.png" width="696" alt="The Favorites filter and starred dictations"></p>
 
 ### Raw or corrected
 
@@ -416,13 +416,13 @@ model heard, with what the AI removed struck through).
   </picture>
 </p>
 
-<p align="center"><img src="../media/en/fonctions/brut-corrige.png" width="480" alt="The Corrected by AI box: Corrected or Raw, highlighted and struck-through words"></p>
+<p align="center"><img src="../media/en/fonctions/brut-corrige.png" width="600" alt="The Corrected by AI box: Corrected or Raw, highlighted and struck-through words"></p>
 
 ### Playback
 
 ▶ expands the row and plays the recording. Only one plays at a time; the bar lets you skip ahead or back.
 
-<p align="center"><img src="../media/en/fonctions/lecture.png" width="480" alt="The player of an expanded dictation, Re-transcribe and the trash can"></p>
+<p align="center"><img src="../media/en/fonctions/lecture.png" width="692" alt="The player of an expanded dictation, Re-transcribe and the trash can"></p>
 
 ## Models
 
@@ -447,7 +447,7 @@ Each model shows its tags (“Recommended”, “Live text”), its description,
 that support live streaming transcription”), translation (“Filter models that support translation to English”). The
 circular arrow: “Rescan for models added to the models folder or Hugging Face cache outside J’écoute”.
 
-<p align="center"><img src="../media/en/fonctions/modeles-filtres.png" width="480" alt="The search box and filters of the model list"></p>
+<p align="center"><img src="../media/en/fonctions/modeles-filtres.png" width="455" alt="The search box and filters of the model list"></p>
 
 ### Download, use, delete
 
@@ -455,7 +455,7 @@ circular arrow: “Rescan for models added to the models folder or Hugging Face 
 Models”. A model that finishes downloading becomes the active model. “Use” picks another one; the trash can deletes it
 (after confirmation).
 
-<p align="center"><img src="../media/en/fonctions/modele-telechargement.png" width="480" alt="A model downloading: the bar, the percentage, the speed, Cancel"></p>
+<p align="center"><img src="../media/en/fonctions/modele-telechargement.png" width="455" alt="A model downloading: the bar, the percentage, the speed, Cancel"></p>
 
 ## First launch
 

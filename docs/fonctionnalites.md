@@ -76,7 +76,7 @@ Sous l’état, deux pastilles : le modèle actif et la langue parlée. Un clic
 ceux que tu as téléchargés, ou « Tous les modèles ») ou de langue (avec une recherche). Pendant un téléchargement, une
 troisième pastille montre où il en est.
 
-<p align="center"><img src="media/fr/fonctions/pastilles.png" width="480" alt="Les pastilles du modèle et de la langue, et le menu des modèles ouvert"></p>
+<p align="center"><img src="media/fr/fonctions/pastilles.png" width="486" alt="Les pastilles du modèle et de la langue, et le menu des modèles ouvert"></p>
 
 ### Les dernières dictées
 
@@ -84,7 +84,7 @@ troisième pastille montre où il en est.
 presse-papiers »). Une pastille « IA » marque une dictée corrigée par l’IA, une étoile une dictée en favori.
 « Tout l’historique » ouvre l’historique.
 
-<p align="center"><img src="media/fr/fonctions/cartes.png" width="480" alt="Les trois dernières dictées en cartes, avec l’heure, la pastille IA et le bouton Copier"></p>
+<p align="center"><img src="media/fr/fonctions/cartes.png" width="684" alt="Les trois dernières dictées en cartes, avec l’heure, la pastille IA et le bouton Copier"></p>
 
 ## Les réglages
 
@@ -107,7 +107,7 @@ le côté et les regarde avec toi. « Chaque changement s’applique tout de su
 nouveau raccourci : appuie sur les touches voulues. La flèche (« Remettre le raccourci par défaut ») revient à
 Ctrl+Espace.
 
-<p align="center"><img src="media/fr/fonctions/raccourci.png" width="480" alt="Le raccourci de dictée : les touches Ctrl et Espace dessinées, le crayon et la flèche de retour"></p>
+<p align="center"><img src="media/fr/fonctions/raccourci.png" width="455" alt="Le raccourci de dictée : les touches Ctrl et Espace dessinées, le crayon et la flèche de retour"></p>
 
 #### Comportement du raccourci
 
@@ -119,19 +119,19 @@ Ctrl+Espace.
 | « Maintenir »           | « J’écoute tant que tu gardes les touches enfoncées. »                                |
 | « Appui pour démarrer » | « Un appui pour démarrer, un autre pour arrêter. »                                    |
 
-<p align="center"><img src="media/fr/fonctions/comportement.png" width="480" alt="Le comportement du raccourci : Auto, Maintenir, Appui pour démarrer"></p>
+<p align="center"><img src="media/fr/fonctions/comportement.png" width="455" alt="Le comportement du raccourci : Auto, Maintenir, Appui pour démarrer"></p>
 
 #### Annuler une dictée
 
 « Arrête sans rien écrire. » Par défaut : Échap, pendant une dictée.
 
-<p align="center"><img src="media/fr/fonctions/annuler.png" width="480" alt="Le raccourci d’annulation : la touche Échap"></p>
+<p align="center"><img src="media/fr/fonctions/annuler.png" width="455" alt="Le raccourci d’annulation : la touche Échap"></p>
 
 #### Modèle de transcription
 
 Le modèle actif, sa taille et le nombre de langues qu’il comprend. « Changer » ouvre la [liste des modèles](#les-modèles).
 
-<p align="center"><img src="media/fr/fonctions/modele.png" width="480" alt="La carte du modèle actif : son nom, Actif, sa taille, ses langues, le bouton Changer"></p>
+<p align="center"><img src="media/fr/fonctions/modele.png" width="455" alt="La carte du modèle actif : son nom, Actif, sa taille, ses langues, le bouton Changer"></p>
 
 #### Langue parlée
 
@@ -139,7 +139,7 @@ Le modèle actif, sa taille et le nombre de langues qu’il comprend. « Change
 langues. Un modèle qui ne reconnaît pas la langue tout seul prend celle de Windows, s’il la connaît : l’option
 s’affiche alors « Automatique (Français) ».
 
-<p align="center"><img src="media/fr/fonctions/langue.png" width="480" alt="La langue parlée et sa liste avec la recherche"></p>
+<p align="center"><img src="media/fr/fonctions/langue.png" width="455" alt="La langue parlée et sa liste avec la recherche"></p>
 
 #### Traduire en anglais
 
@@ -162,20 +162,20 @@ s’affiche alors « Automatique (Français) ».
 la liste (« Je t’entends. »). Avec une interface audio à plusieurs entrées, « Canal d’entrée » choisit l’entrée, ou
 « Moyenne de tous les canaux ».
 
-<p align="center"><img src="media/fr/fonctions/micro.png" width="480" alt="Le choix du micro et son niveau pendant une dictée"></p>
+<p align="center"><img src="media/fr/fonctions/micro.png" width="455" alt="Le choix du micro et son niveau pendant une dictée"></p>
 
 #### Couper le son de l’ordinateur
 
 « Pendant la dictée, la musique et les vidéos se taisent. »
 
-<p align="center"><img src="media/fr/fonctions/couper-son.png" width="480" alt="L’interrupteur Couper le son de l’ordinateur"></p>
+<p align="center"><img src="media/fr/fonctions/couper-son.png" width="455" alt="L’interrupteur Couper le son de l’ordinateur"></p>
 
 #### Signal sonore
 
 « Un petit son au début et à la fin de la dictée. » Désactivé au départ. Une fois activé : « Volume du signal », « Son du
 signal » (Marimba ou Pop, avec « Écouter le signal ») et « Sortie du signal » (où il se fait entendre).
 
-<p align="center"><img src="media/fr/fonctions/signal-sonore.png" width="480" alt="Le signal sonore activé, son volume, son son et sa sortie"></p>
+<p align="center"><img src="media/fr/fonctions/signal-sonore.png" width="455" alt="Le signal sonore activé, son volume, son son et sa sortie"></p>
 
 ### Texte
 
@@ -198,39 +198,39 @@ signal » (Marimba ou Pop, avec « Écouter le signal ») et « Sortie du si
 | « Coller (Ctrl+Maj+V) », « Coller (Maj+Inser) » | pour les applications qui collent autrement (terminaux, par exemple) |
 | « Ne rien écrire »                              | la dictée va seulement dans l’historique                             |
 
-<p align="center"><img src="media/fr/fonctions/ecrire-texte.png" width="480" alt="La liste Écrire le texte ouverte"></p>
+<p align="center"><img src="media/fr/fonctions/ecrire-texte.png" width="455" alt="La liste Écrire le texte ouverte"></p>
 
 #### Presse-papiers
 
 « Après le collage. » « Remettre l’ancien contenu » (par défaut) ou « Garder la dictée » dans le presse-papiers.
 
-<p align="center"><img src="media/fr/fonctions/presse-papiers.png" width="480" alt="Le réglage du presse-papiers"></p>
+<p align="center"><img src="media/fr/fonctions/presse-papiers.png" width="455" alt="Le réglage du presse-papiers"></p>
 
 #### Valider après le texte
 
 « Appuie sur une touche à ta place, pour envoyer un message. » « Non » (par défaut), « Entrée », « Ctrl+Entrée » ou
 « Super+Entrée ».
 
-<p align="center"><img src="media/fr/fonctions/valider.png" width="480" alt="Valider après le texte : Non, Entrée, Ctrl+Entrée, Super+Entrée"></p>
+<p align="center"><img src="media/fr/fonctions/valider.png" width="455" alt="Valider après le texte : Non, Entrée, Ctrl+Entrée, Super+Entrée"></p>
 
 #### Retirer les hésitations
 
 « « euh », « hum », « ben »… » disparaissent du texte. Activé au départ.
 
-<p align="center"><img src="media/fr/fonctions/hesitations.png" width="480" alt="L’interrupteur Retirer les hésitations"></p>
+<p align="center"><img src="media/fr/fonctions/hesitations.png" width="455" alt="L’interrupteur Retirer les hésitations"></p>
 
 #### Espace après le texte
 
 « Ajoute une espace après chaque dictée. » Pratique pour enchaîner les phrases. Désactivé au départ.
 
-<p align="center"><img src="media/fr/fonctions/espace-final.png" width="480" alt="L’interrupteur Espace après le texte"></p>
+<p align="center"><img src="media/fr/fonctions/espace-final.png" width="455" alt="L’interrupteur Espace après le texte"></p>
 
 #### Mots à reconnaître
 
 « Noms propres et termes techniques que je dois bien écrire. » Tape un mot, « Ajouter » : il devient une étiquette, que
 tu retires d’un clic. J’écoute corrige ensuite les mots proches que le modèle entend.
 
-<p align="center"><img src="media/fr/fonctions/mots.png" width="480" alt="Les mots à reconnaître en étiquettes, et le champ Ajouter un mot"></p>
+<p align="center"><img src="media/fr/fonctions/mots.png" width="455" alt="Les mots à reconnaître en étiquettes, et le champ Ajouter un mot"></p>
 
 Dans « Options avancées », « Écriture chinoise » choisit les caractères simplifiés ou traditionnels pour le mandarin et
 le cantonais.
@@ -258,7 +258,7 @@ raccourci normal ne change pas : c’est le second raccourci, Ctrl+Maj+Espace, 
 - « Clé d’API » : « La clé de ton compte chez ce fournisseur. »
 - « Modèle » : un modèle proposé par le fournisseur, ou son nom tapé à la main ; « Actualiser la liste » la recharge.
 
-<p align="center"><img src="media/fr/fonctions/correction-ia.png" width="480" alt="Le raccourci avec correction IA, le fournisseur, la clé d’API et le modèle"></p>
+<p align="center"><img src="media/fr/fonctions/correction-ia.png" width="455" alt="Le raccourci avec correction IA, le fournisseur, la clé d’API et le modèle"></p>
 
 #### Consignes
 
@@ -267,7 +267,7 @@ raccourci normal ne change pas : c’est le second raccourci, Ctrl+Maj+Espace, 
 Transcriptions, corrige l’orthographe et la ponctuation, écrit les nombres en chiffres et retire les hésitations, sans
 changer le sens ni la langue de la dictée.
 
-<p align="center"><img src="media/fr/fonctions/consignes.png" width="480" alt="Les consignes : la consigne choisie, son nom et ses instructions"></p>
+<p align="center"><img src="media/fr/fonctions/consignes.png" width="455" alt="Les consignes : la consigne choisie, son nom et ses instructions"></p>
 
 Dans l’historique, chaque dictée corrigée garde ses deux versions : voir [Brut ou corrigé](#brut-ou-corrigé).
 
@@ -285,13 +285,13 @@ Dans l’historique, chaque dictée corrigée garde ses deux versions : voir [B
 
 « J’écoute suit le thème du système, ou reste clair ou sombre. » « Système », « Clair » ou « Sombre ».
 
-<p align="center"><img src="media/fr/fonctions/apparence.png" width="480" alt="L’apparence : Système, Clair, Sombre"></p>
+<p align="center"><img src="media/fr/fonctions/apparence.png" width="455" alt="L’apparence : Système, Clair, Sombre"></p>
 
 #### Langue de l’interface
 
 L’interface existe en 26 langues. Par défaut, celle de Windows.
 
-<p align="center"><img src="media/fr/fonctions/langue-interface.png" width="480" alt="La liste des langues de l’interface"></p>
+<p align="center"><img src="media/fr/fonctions/langue-interface.png" width="455" alt="La liste des langues de l’interface"></p>
 
 #### Démarrage
 
@@ -301,7 +301,7 @@ L’interface existe en 26 langues. Par défaut, celle de Windows.
   dernière transcription, changer de modèle, décharger le modèle, ouvrir les réglages, chercher une mise à jour,
   quitter.
 
-<p align="center"><img src="media/fr/fonctions/demarrage.png" width="480" alt="Lancer au démarrage, Démarrer masqué, Icône dans la barre des tâches"></p>
+<p align="center"><img src="media/fr/fonctions/demarrage.png" width="455" alt="Lancer au démarrage, Démarrer masqué, Icône dans la barre des tâches"></p>
 
 #### Pendant la dictée
 
@@ -317,7 +317,7 @@ L’interface existe en 26 langues. Par défaut, celle de Windows.
 Avec un modèle qui écrit en direct, « Personnage » affiche aussi la carte du texte en direct, à la place du perso.
 « Position à l’écran » : « En bas » (par défaut) ou « En haut ».
 
-<p align="center"><img src="media/fr/fonctions/pendant-dictee.png" width="480" alt="Pendant la dictée : Aucun, Minimal, Texte en direct, Personnage ; Position à l’écran"></p>
+<p align="center"><img src="media/fr/fonctions/pendant-dictee.png" width="455" alt="Pendant la dictée : Aucun, Minimal, Texte en direct, Personnage ; Position à l’écran"></p>
 
 <p align="center"><img src="media/perso/styles-overlay.png" width="696" alt="Les styles côte à côte : le perso, la carte du texte en direct, la pastille minimale"></p>
 
@@ -326,14 +326,14 @@ Avec un modèle qui écrit en direct, « Personnage » affiche aussi la carte 
 « Décharge le modèle quand tu ne dictes plus. » « Jamais » (par défaut), « Tout de suite », ou après 2, 5, 10,
 15 minutes ou 1 heure. Le modèle se recharge à la dictée suivante.
 
-<p align="center"><img src="media/fr/fonctions/memoire.png" width="480" alt="Libérer la mémoire et ses délais"></p>
+<p align="center"><img src="media/fr/fonctions/memoire.png" width="455" alt="Libérer la mémoire et ses délais"></p>
 
 #### Taille de l’historique
 
 « Le nombre de dictées gardées quand « Conserver les dictées » est sur les plus récentes. Les favoris ne comptent
 pas. » 50 au départ.
 
-<p align="center"><img src="media/fr/fonctions/historique-limite.png" width="480" alt="Le nombre de dictées gardées dans l’historique"></p>
+<p align="center"><img src="media/fr/fonctions/historique-limite.png" width="455" alt="Le nombre de dictées gardées dans l’historique"></p>
 
 #### Conserver les dictées
 
@@ -341,7 +341,7 @@ pas. » 50 au départ.
 nombre réglé dans « Historique »), « Toujours » (rien ne s’efface), « 3 jours », « 2 semaines » ou « 3 mois ».
 Une dictée effacée part avec son enregistrement ; les favoris restent toujours.
 
-<p align="center"><img src="media/fr/fonctions/enregistrements.png" width="480" alt="Conserver les dictées : les choix de conservation"></p>
+<p align="center"><img src="media/fr/fonctions/enregistrements.png" width="455" alt="Conserver les dictées : les choix de conservation"></p>
 
 #### Mises à jour et nouveautés
 
@@ -372,7 +372,7 @@ ouvre la note de version après une mise à jour. L’installation se fait dans 
 La version (« Version 0.1.0, à jour ») et « Mises à jour » : « Vérifier », puis « Installer » quand une version est
 disponible. J’écoute se relance sur la nouvelle version.
 
-<p align="center"><img src="media/fr/fonctions/mises-a-jour.png" width="480" alt="La ligne Mises à jour et son bouton Vérifier"></p>
+<p align="center"><img src="media/fr/fonctions/mises-a-jour.png" width="455" alt="La ligne Mises à jour et son bouton Vérifier"></p>
 
 #### Dossiers et crédits
 
@@ -380,7 +380,7 @@ disponible. J’écoute se relance sur la nouvelle version.
 et « Journaux » s’ouvrent d’un clic. En dessous, « Basé sur Handy de CJ Pais », les remerciements à ggml et la licence du
 perso.
 
-<p align="center"><img src="media/fr/fonctions/credits.png" width="480" alt="Le crédit Basé sur Handy de CJ Pais, les remerciements et la licence du perso"></p>
+<p align="center"><img src="media/fr/fonctions/credits.png" width="455" alt="Le crédit Basé sur Handy de CJ Pais, les remerciements et la licence du perso"></p>
 
 ## L’historique
 
@@ -403,14 +403,14 @@ s’il l’avait été) et la corbeille (« Supprimer »). En bas, le nombre d
 
 « Rechercher », ou Ctrl+F : cherche dans le texte final et dans le texte brut, sur tout l’historique.
 
-<p align="center"><img src="media/fr/fonctions/recherche.png" width="480" alt="La recherche dans l’historique et les dictées trouvées"></p>
+<p align="center"><img src="media/fr/fonctions/recherche.png" width="696" alt="La recherche dans l’historique et les dictées trouvées"></p>
 
 ### Favoris
 
 L’étoile garde une dictée pour toujours : les favoris ne s’effacent jamais, quelle que soit la limite de l’historique.
 Les filtres « Toutes », « Favoris » et « Corrigées par IA » trient la liste.
 
-<p align="center"><img src="media/fr/fonctions/favoris.png" width="480" alt="Le filtre Favoris et les dictées étoilées"></p>
+<p align="center"><img src="media/fr/fonctions/favoris.png" width="696" alt="Le filtre Favoris et les dictées étoilées"></p>
 
 ### Brut ou corrigé
 
@@ -426,13 +426,13 @@ modèle a entendu, ce que l’IA a retiré barré).
   </picture>
 </p>
 
-<p align="center"><img src="media/fr/fonctions/brut-corrige.png" width="480" alt="L’encadré Corrigée par l’IA : Corrigé ou Brut, mots surlignés et barrés"></p>
+<p align="center"><img src="media/fr/fonctions/brut-corrige.png" width="620" alt="L’encadré Corrigée par l’IA : Corrigé ou Brut, mots surlignés et barrés"></p>
 
 ### Lecture
 
 ▶ déplie la ligne et lance l’enregistrement. Un seul joue à la fois ; la barre permet d’avancer ou de revenir.
 
-<p align="center"><img src="media/fr/fonctions/lecture.png" width="480" alt="Le lecteur d’une dictée dépliée, Retranscrire et la corbeille"></p>
+<p align="center"><img src="media/fr/fonctions/lecture.png" width="692" alt="Le lecteur d’une dictée dépliée, Retranscrire et la corbeille"></p>
 
 ## Les modèles
 
@@ -457,7 +457,7 @@ Chaque modèle montre ses étiquettes (« Recommandé », « Texte en direct�
 (« Seulement les modèles qui écrivent en direct »), la traduction (« Seulement les modèles qui traduisent en anglais »).
 La flèche circulaire : « Chercher les modèles ajoutés à la main (dossier des modèles ou cache Hugging Face) ».
 
-<p align="center"><img src="media/fr/fonctions/modeles-filtres.png" width="480" alt="La recherche et les filtres de la liste des modèles"></p>
+<p align="center"><img src="media/fr/fonctions/modeles-filtres.png" width="455" alt="La recherche et les filtres de la liste des modèles"></p>
 
 ### Télécharger, utiliser, supprimer
 
@@ -465,7 +465,7 @@ La flèche circulaire : « Chercher les modèles ajoutés à la main (dossier 
 modèles ». Un modèle qui finit de se télécharger devient le modèle actif. « Utiliser » en choisit un autre ; la
 corbeille le supprime (après confirmation).
 
-<p align="center"><img src="media/fr/fonctions/modele-telechargement.png" width="480" alt="Un modèle en cours de téléchargement : la barre, le pourcentage, la vitesse, Annuler"></p>
+<p align="center"><img src="media/fr/fonctions/modele-telechargement.png" width="455" alt="Un modèle en cours de téléchargement : la barre, le pourcentage, la vitesse, Annuler"></p>
 
 ## Le premier lancement
 
