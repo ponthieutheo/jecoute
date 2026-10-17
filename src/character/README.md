@@ -86,7 +86,7 @@ import { Perso } from "@/character/Perso";
 ```
 
 - Il remplit son conteneur (fond transparent) ; le cadrage garde toujours la tête, les mains levées, les arcs
-  sonores et le clavier visibles, quelle que soit la forme du conteneur. Accueil de la maquette A : 400 x 240.
+  sonores et le clavier visibles, quelle que soit la forme du conteneur. Conteneur de l'accueil : 400 x 240.
 - `compact` le rapetisse (74 %) dans le même conteneur : inutile de réduire le conteneur en plus (on peut le
   déplacer). Un conteneur qui change de taille est géré quand même, sans image vide.
 - Au repos : respiration, clignements, petits mouvements de tête ; toutes les 8 à 20 s une saynète (regarde autour,

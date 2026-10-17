@@ -37,9 +37,9 @@ const CALM_HOLD = 0.3;
 const GREET_AFTER = 20;
 
 export interface HomeCharacterOptions {
-  /** Mesure le temps GPU de chaque image (banc d'essai). */
+  /** Mesure aussi le temps GPU de chaque image. */
   measureGpu?: boolean;
-  /** Graine des aléas (banc d'essai : mêmes événements, mêmes images). */
+  /** Graine des aléas (tests : mêmes événements, mêmes images). */
   seed?: number;
   /** Salue à la première apparition (défaut : vrai). */
   greet?: boolean;
@@ -62,12 +62,12 @@ export interface HomeCharacter {
   hit(x: number, y: number): boolean;
   /** Clic sur le perso. */
   poke(): void;
-  /** Banc d'essai : joue une saynète, ou l'endort. */
+  /** Pour les tests : joue une saynète, ou l'endort. */
   play(name: ActName): void;
   sleep(): void;
   /** Mesures ; `calm` : part des images rendues au rythme calme (30 i/s). */
   stats(reset?: boolean): FrameStats & { calm: number };
-  /** Banc d'essai : pose de la dernière image (échelle, tête, mains), pour détecter les sauts. */
+  /** Pour les tests : pose de la dernière image (échelle, tête, mains), pour détecter les sauts. */
   probe(): number[];
   dispose(): void;
 }

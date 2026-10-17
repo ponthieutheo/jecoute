@@ -53,7 +53,7 @@ export interface OverlayCharacter {
 
 export interface OverlayCharacterOptions {
   onExitDone?: (token: unknown) => void;
-  /** Mesure le temps GPU de chaque image (EXT_disjoint_timer_query_webgl2), pour le banc d'essai. */
+  /** Mesure le temps GPU de chaque image (EXT_disjoint_timer_query_webgl2). */
   measureGpu?: boolean;
   /** Limite la cadence à ~60 i/s sur les écrans plus rapides (défaut : vrai). */
   capFps?: boolean;

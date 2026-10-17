@@ -922,13 +922,13 @@ export class Rest implements RestDriver {
     this.start(name, t, true);
   }
 
-  /** Joue une saynète tout de suite (salut au retour de la fenêtre, banc d'essai). */
+  /** Joue une saynète tout de suite (salut au retour de la fenêtre, tests). */
   play(name: ActName, t: number) {
     this.activity(t);
     this.start(name, t, true);
   }
 
-  /** Banc d'essai : il s'endort tout de suite. */
+  /** Pour les tests : il s'endort tout de suite. */
   sleepNow(t: number) {
     this.end(t);
     this.sleep = "drowsy";

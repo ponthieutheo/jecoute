@@ -3,7 +3,7 @@ import { listen } from "@tauri-apps/api/event";
 import { events } from "@/bindings";
 import type { RecordingErrorEvent } from "@/lib/types/events";
 
-/** État de dictée envoyé par le cœur à la fenêtre principale (contrat 2). */
+/** État de dictée envoyé par le cœur à la fenêtre principale. */
 export type DictationState =
   | "idle"
   | "recording"
@@ -41,8 +41,8 @@ let cycleFailed = false;
 let cycleWrote = false;
 
 /**
- * Écoute « dictation-state » et « main-mic-level » (noms en dur, voir
- * documentation interne) ainsi que les erreurs d'enregistrement.
+ * Écoute « dictation-state » et « main-mic-level » (noms en dur, émis par
+ * src-tauri/src/overlay.rs) ainsi que les erreurs d'enregistrement.
  */
 export const useDictationStore = create<DictationStore>()((set, get) => ({
   state: "idle",
