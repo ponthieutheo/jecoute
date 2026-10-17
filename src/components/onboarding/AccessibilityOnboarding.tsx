@@ -66,9 +66,30 @@ const AccessibilityOnboarding: React.FC<AccessibilityOnboardingProps> = ({
       ? permissions.microphone === "granted"
       : true;
 
+  // « Tout est prêt » seulement après une vraie demande d'autorisation. Sous
+  // Windows, le micro est presque toujours déjà permis : l'écran ne faisait
+  // qu'un flash de 300 ms entre la vérification et l'accueil.
+  const [asked, setAsked] = useState(false);
+  useEffect(() => {
+    if (
+      permissions.microphone === "needed" ||
+      permissions.microphone === "waiting" ||
+      permissions.accessibility === "needed" ||
+      permissions.accessibility === "waiting"
+    )
+      setAsked(true);
+  }, [permissions]);
+  const askedRef = useRef(asked);
+  useEffect(() => {
+    askedRef.current = asked;
+  }, [asked]);
+
   const completeOnboarding = useCallback(async () => {
     await Promise.all([refreshAudioDevices(), refreshOutputDevices()]);
-    timeoutRef.current = setTimeout(() => onCompleteRef.current(), 300);
+    timeoutRef.current = setTimeout(
+      () => onCompleteRef.current(),
+      askedRef.current ? 300 : 0,
+    );
   }, [refreshAudioDevices, refreshOutputDevices]);
 
   const hasWindowsMicrophoneAccess = useCallback(async (): Promise<boolean> => {
@@ -312,8 +333,9 @@ const AccessibilityOnboarding: React.FC<AccessibilityOnboardingProps> = ({
     </div>
   );
 
-  // Still checking platform/initial permissions
-  if (isChecking) {
+  // Still checking platform/initial permissions (or everything was already
+  // allowed: we go straight on, without the « all set » screen)
+  if (isChecking || (allGranted && !asked && !preview)) {
     return (
       <div className="j-layer j-onb justify-center">
         {hero("chargement")}
