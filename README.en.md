@@ -113,7 +113,7 @@ updating, uninstalling: **[docs/en/installation.md](docs/en/installation.md)**.
 | **Ctrl+Shift+Space** | dictates, then has the AI review the text, once AI correction is turned on |
 
 Everything else is behind the gear icon in the window: the shortcut, the microphone, how the text is written, what shows up
-during a dictation. “Every change applies right away.”
+during a dictation. Every change applies right away.
 
 ## Privacy
 

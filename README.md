@@ -114,7 +114,7 @@ téléchargé, mettre à jour, désinstaller : **[docs/installation.md](docs/in
 | **Ctrl+Maj+Espace** | dicte puis fait relire le texte par l’IA, une fois la correction par IA activée   |
 
 Le reste se règle dans la roue dentée de la fenêtre : le raccourci, le micro, la façon d’écrire le texte, ce qui
-apparaît pendant la dictée. « Chaque changement s’applique tout de suite. »
+apparaît pendant la dictée. Chaque changement s’applique tout de suite.
 
 ## Confidentialité
 
