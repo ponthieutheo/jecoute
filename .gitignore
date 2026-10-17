@@ -30,11 +30,6 @@ dist-ssr
 /target/
 recording_*
 
-# Playwright
-playwright-report/
-test-results/
-blob-report/
-
 .direnv
 .envrc
 
