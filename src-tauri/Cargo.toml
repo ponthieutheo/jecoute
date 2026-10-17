@@ -1,10 +1,14 @@
 [package]
 name = "jecoute"
 version = "0.1.0"
-description = "J'écoute"
-authors = ["Théo Ponthieu", "cjpais"]
+description = "J’écoute : dictée vocale locale, tu parles, il écrit là où est ton curseur. Basé sur Handy de CJ Pais."
+authors = ["Théo Ponthieu", "CJ Pais"]
 edition = "2021"
-license = "MIT"
+# Code sous MIT ; le personnage et ses images (icônes, images de l'installeur et de la zone de
+# notification) sous PolyForm Noncommercial 1.0.0, voir les fichiers LICENSE-perso.md.
+license = "MIT AND PolyForm-Noncommercial-1.0.0"
+repository = "https://github.com/ponthieutheo/jecoute"
+homepage = "https://github.com/ponthieutheo/jecoute"
 default-run = "jecoute"
 
 [profile.dev]

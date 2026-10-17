@@ -1,4 +1,4 @@
-/* Le personnage de J'écoute. Copyright (c) 2026 Théo Ponthieu.
+/* Le personnage de J’écoute. Copyright (c) 2026 Théo Ponthieu.
    Licence : PolyForm Noncommercial 1.0.0 (voir LICENSE dans ce dossier) — usage non commercial uniquement.
    Le reste de l'application est sous licence MIT. */
 
@@ -53,7 +53,7 @@ export interface OverlayCharacter {
 
 export interface OverlayCharacterOptions {
   onExitDone?: (token: unknown) => void;
-  /** Mesure le temps GPU de chaque image (EXT_disjoint_timer_query_webgl2), pour le banc d'essai. */
+  /** Mesure le temps GPU de chaque image (EXT_disjoint_timer_query_webgl2). */
   measureGpu?: boolean;
   /** Limite la cadence à ~60 i/s sur les écrans plus rapides (défaut : vrai). */
   capFps?: boolean;

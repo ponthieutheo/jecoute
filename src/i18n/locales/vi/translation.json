@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Lịch sử",
-        "description": "Các bản ghi cũ nhất sẽ bị xóa (trừ mục yêu thích).",
+        "description": "Số bản ghi được giữ khi “Giữ bản ghi” đặt ở mới nhất. Mục yêu thích không được tính.",
         "entries": "bản ghi"
       },
       "recordingRetention": {
-        "title": "Bản ghi âm",
-        "description": "Xóa bản ghi âm cũ để tiết kiệm dung lượng.",
-        "never": "Không bao giờ",
-        "preserveLimit": "Giữ {{count}} bản mới nhất",
-        "days3": "Sau 3 ngày",
-        "weeks2": "Sau 2 tuần",
-        "months3": "Sau 3 tháng",
+        "title": "Giữ bản ghi",
+        "description": "Các bản ghi cũ (văn bản và âm thanh) sẽ bị xóa, trừ mục yêu thích.",
+        "never": "Mãi mãi",
+        "preserveLimit": "{{count}} bản mới nhất",
+        "days3": "3 ngày",
+        "weeks2": "2 tuần",
+        "months3": "3 tháng",
         "placeholder": "Chọn thời gian lưu giữ..."
       },
       "alwaysOnMicrophone": {

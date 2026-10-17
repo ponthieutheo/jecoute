@@ -1,4 +1,4 @@
-/* Le personnage de J'écoute. Copyright (c) 2026 Théo Ponthieu.
+/* Le personnage de J’écoute. Copyright (c) 2026 Théo Ponthieu.
    Licence : PolyForm Noncommercial 1.0.0 (voir LICENSE dans ce dossier) — usage non commercial uniquement.
    Le reste de l'application est sous licence MIT. */
 
@@ -922,13 +922,13 @@ export class Rest implements RestDriver {
     this.start(name, t, true);
   }
 
-  /** Joue une saynète tout de suite (salut au retour de la fenêtre, banc d'essai). */
+  /** Joue une saynète tout de suite (salut au retour de la fenêtre, tests). */
   play(name: ActName, t: number) {
     this.activity(t);
     this.start(name, t, true);
   }
 
-  /** Banc d'essai : il s'endort tout de suite. */
+  /** Pour les tests : il s'endort tout de suite. */
   sleepNow(t: number) {
     this.end(t);
     this.sleep = "drowsy";

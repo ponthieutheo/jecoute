@@ -1,8 +1,8 @@
 # Images du personnage / Character images
 
-Les images (PNG, ICO, ICNS) de ce dossier représentent le personnage de J’écoute (la boule rouge à cornes). Elles sont dérivées du personnage créé par Théo Ponthieu et sont sous licence **PolyForm Noncommercial 1.0.0** (texte complet ci-dessous) : utilisation, modification et partage libres, pour un usage non commercial uniquement. Le reste de J’écoute est sous licence MIT (fichier `LICENSE` à la racine du dépôt).
+Les images (PNG, ICO, ICNS) de ce dossier et de ses sous-dossiers `android/` et `ios/` représentent le personnage de J’écoute (la boule rouge à cornes). Elles sont dérivées du personnage créé par Théo Ponthieu et sont sous licence **PolyForm Noncommercial 1.0.0** (texte complet ci-dessous) : utilisation, modification et partage libres, pour un usage non commercial uniquement. Le reste de J’écoute est sous licence MIT (fichier `LICENSE` à la racine du dépôt).
 
-The images (PNG, ICO, ICNS) in this folder depict the J’écoute character (the red horned ball). They are derived from the character created by Théo Ponthieu and are licensed under the **PolyForm Noncommercial 1.0.0** license (full text below): noncommercial use only. The rest of J’écoute is licensed under MIT (`LICENSE` at the repository root).
+The images (PNG, ICO, ICNS) in this folder and its `android/` and `ios/` subfolders depict the J’écoute character (the red horned ball). They are derived from the character created by Théo Ponthieu and are licensed under the **PolyForm Noncommercial 1.0.0** license (full text below): noncommercial use only. The rest of J’écoute is licensed under MIT (`LICENSE` at the repository root).
 
 Required Notice: Copyright (c) 2026 Théo Ponthieu
 

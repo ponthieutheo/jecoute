@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Geçmiş",
-        "description": "Eski dikteler silinir (favoriler korunur).",
+        "description": "“Dikteleri sakla” en yenilere ayarlıyken tutulan dikte sayısı. Favoriler sayılmaz.",
         "entries": "dikte"
       },
       "recordingRetention": {
-        "title": "Ses kayıtları",
-        "description": "Yer açmak için eski kayıtları siler.",
-        "never": "Asla",
-        "preserveLimit": "Son {{count}} kaydı tut",
-        "days3": "3 gün sonra",
-        "weeks2": "2 hafta sonra",
-        "months3": "3 ay sonra",
+        "title": "Dikteleri sakla",
+        "description": "Eski dikteler (metin ve ses) silinir, favoriler korunur.",
+        "never": "Süresiz",
+        "preserveLimit": "Son {{count}}",
+        "days3": "3 gün",
+        "weeks2": "2 hafta",
+        "months3": "3 ay",
         "placeholder": "Saklama süresi seçin..."
       },
       "alwaysOnMicrophone": {

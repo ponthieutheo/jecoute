@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Geschiedenis",
-        "description": "Oudere dictaten worden gewist (favorieten blijven bewaard).",
+        "description": "Hoeveel dictaten er blijven als ‘Dictaten bewaren’ op de nieuwste staat. Favorieten tellen niet mee.",
         "entries": "dictaten"
       },
       "recordingRetention": {
-        "title": "Geluidsopnames",
-        "description": "Oude opnames verwijderen om ruimte te besparen.",
-        "never": "Nooit",
-        "preserveLimit": "Bewaar de nieuwste {{count}}",
-        "days3": "Na 3 dagen",
-        "weeks2": "Na 2 weken",
-        "months3": "Na 3 maanden",
+        "title": "Dictaten bewaren",
+        "description": "Oudere dictaten (tekst en audio) worden gewist, favorieten blijven bewaard.",
+        "never": "Altijd",
+        "preserveLimit": "De nieuwste {{count}}",
+        "days3": "3 dagen",
+        "weeks2": "2 weken",
+        "months3": "3 maanden",
         "placeholder": "Selecteer bewaarperiode..."
       },
       "alwaysOnMicrophone": {

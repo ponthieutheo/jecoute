@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Historik",
-        "description": "Äldre dikteringar raderas (favoriter behålls).",
+        "description": "Hur många dikteringar som sparas när ”Behåll dikteringar” står på de senaste. Favoriter räknas inte.",
         "entries": "dikteringar"
       },
       "recordingRetention": {
-        "title": "Ljudinspelningar",
-        "description": "Radera gamla inspelningar för att spara utrymme.",
-        "never": "Aldrig",
-        "preserveLimit": "Behåll de senaste {{count}}",
-        "days3": "Efter 3 dagar",
-        "weeks2": "Efter 2 veckor",
-        "months3": "Efter 3 månader",
+        "title": "Behåll dikteringar",
+        "description": "Äldre dikteringar (text och ljud) raderas, favoriter behålls.",
+        "never": "För alltid",
+        "preserveLimit": "De senaste {{count}}",
+        "days3": "3 dagar",
+        "weeks2": "2 veckor",
+        "months3": "3 månader",
         "placeholder": "Välj lagringsperiod..."
       },
       "alwaysOnMicrophone": {

@@ -19,7 +19,7 @@ présent sous Windows 11. Versions vérifiées : Visual Studio Build Tools 2026,
 
 > [!NOTE]
 > Si la CLI Tauri ne trouve pas `cargo` alors que `cargo --version` marche, vérifie qu'aucune entrée du `PATH` ne
-> contient de guillemet (certains installeurs laissent par exemple `C:\Program Files\Tailscale"`) : la CLI lit alors
+> contient de guillemet (un installeur peut par exemple laisser `C:\Program Files\Outil"`) : la CLI lit alors
 > tout le reste du `PATH` comme une seule entrée. Retire le guillemet dans les variables d'environnement de Windows.
 
 ## Développement

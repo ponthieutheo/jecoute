@@ -280,7 +280,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    /* Au moins la largeur de la maquette ; s'élargit pour une valeur longue
+    /* Au moins la largeur prévue ; s'élargit pour une valeur longue
        (allemand, russe…) plutôt que de la couper. */
     width: auto;
     min-width: 214px;

@@ -54,8 +54,8 @@ jobs:
           toolchain: stable
           components: rustfmt
 
-      # --ignore-scripts : le seul script d'installation du projet (postinstall -> scripts/check-nix-deps.ts,
-      # hérité de Handy) ne sert qu'au paquet Nix et télécharge bun2nix sous Linux.
+      # --ignore-scripts : ces vérifications n'ont besoin d'aucun script d'installation (le projet n'en a pas, et
+      # ceux des dépendances ne servent pas ici).
       - name: Dépendances
         run: bun install --frozen-lockfile --ignore-scripts
 

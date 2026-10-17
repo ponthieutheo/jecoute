@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Historik",
-        "description": "Ældre dikteringer slettes (favoritter bevares).",
+        "description": "Hvor mange dikteringer der gemmes, når »Behold dikteringer« står på de seneste. Favoritter tæller ikke med.",
         "entries": "dikteringer"
       },
       "recordingRetention": {
-        "title": "Lydoptagelser",
-        "description": "Slet gamle optagelser for at spare plads.",
-        "never": "Aldrig",
-        "preserveLimit": "Behold de seneste {{count}}",
-        "days3": "Efter 3 dage",
-        "weeks2": "Efter 2 uger",
-        "months3": "Efter 3 måneder",
+        "title": "Behold dikteringer",
+        "description": "Ældre dikteringer (tekst og lyd) slettes, favoritter bevares.",
+        "never": "Altid",
+        "preserveLimit": "De seneste {{count}}",
+        "days3": "3 dage",
+        "weeks2": "2 uger",
+        "months3": "3 måneder",
         "placeholder": "Vælg opbevaringsperiode..."
       },
       "alwaysOnMicrophone": {

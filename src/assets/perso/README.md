@@ -3,9 +3,9 @@
 Ce dossier contient les images dérivées du personnage de J’écoute, la boule
 rouge à cornes qui sert de mascotte à l'app.
 
-| Fichier    | Rôle                                                          |
-| ---------- | ------------------------------------------------------------- |
-| `tete.svg` | la tête du personnage en 2D (icône de la section « Général ») |
+| Fichier    | Rôle                                                                    |
+| ---------- | ----------------------------------------------------------------------- |
+| `tete.svg` | la tête du personnage en 2D, affichée à la place du perso 3D sans WebGL |
 
 **Licence : PolyForm Noncommercial 1.0.0** (fichier `LICENSE`),
 Copyright (c) 2026 Théo Ponthieu. Usage, modification et partage libres pour

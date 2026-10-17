@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Riwayat",
-        "description": "Dikte terlama akan dihapus (favorit tetap disimpan).",
+        "description": "Jumlah dikte yang disimpan saat “Simpan dikte” diatur ke yang terbaru. Favorit tidak dihitung.",
         "entries": "dikte"
       },
       "recordingRetention": {
-        "title": "Rekaman audio",
-        "description": "Hapus rekaman lama untuk menghemat ruang.",
-        "never": "Tidak Pernah",
-        "preserveLimit": "Simpan {{count}} terbaru",
-        "days3": "Setelah 3 hari",
-        "weeks2": "Setelah 2 minggu",
-        "months3": "Setelah 3 bulan",
+        "title": "Simpan dikte",
+        "description": "Dikte lama (teks dan audio) akan dihapus, kecuali favorit.",
+        "never": "Selamanya",
+        "preserveLimit": "{{count}} terbaru",
+        "days3": "3 hari",
+        "weeks2": "2 minggu",
+        "months3": "3 bulan",
         "placeholder": "Pilih masa penyimpanan..."
       },
       "alwaysOnMicrophone": {

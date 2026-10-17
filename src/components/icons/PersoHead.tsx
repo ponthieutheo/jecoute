@@ -9,7 +9,7 @@ interface PersoHeadProps {
   className?: string;
 }
 
-// Tête du personnage de J’écoute en 2D (icône de la section « Général »).
+// Tête du personnage de J’écoute en 2D, à la place du perso 3D quand WebGL manque.
 const PersoHead: React.FC<PersoHeadProps> = ({
   width = 24,
   height = 24,

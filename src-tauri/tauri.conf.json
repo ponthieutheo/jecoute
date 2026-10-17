@@ -27,11 +27,14 @@
   "bundle": {
     "active": true,
     "publisher": "J’écoute",
+    "copyright": "Copyright © 2025 CJ Pais, © 2026 Théo Ponthieu",
+    "shortDescription": "Dictée vocale locale : tu parles, il écrit là où est ton curseur.",
+    "longDescription": "J’écoute transcrit ta voix sur ton ordinateur, sans envoyer l'audio en ligne, et colle le texte là où est ton curseur. Basé sur Handy de CJ Pais.",
     "homepage": "https://github.com/ponthieutheo/jecoute",
     "createUpdaterArtifacts": true,
     "targets": "all",
     "resources": ["resources/**/*"],
-    "license": "MIT",
+    "license": "MIT AND PolyForm-Noncommercial-1.0.0",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

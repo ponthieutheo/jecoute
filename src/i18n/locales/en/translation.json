@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "History",
-        "description": "Older dictations are erased (favorites are kept).",
+        "description": "How many dictations are kept when “Keep dictations” is set to the latest. Favorites don’t count.",
         "entries": "dictations"
       },
       "recordingRetention": {
-        "title": "Audio recordings",
-        "description": "Delete old recordings to save space.",
-        "never": "Never",
-        "preserveLimit": "Keep latest {{count}}",
-        "days3": "After 3 days",
-        "weeks2": "After 2 weeks",
-        "months3": "After 3 months",
+        "title": "Keep dictations",
+        "description": "Older dictations (text and audio) are erased, favorites are kept.",
+        "never": "Forever",
+        "preserveLimit": "Latest {{count}}",
+        "days3": "3 days",
+        "weeks2": "2 weeks",
+        "months3": "3 months",
         "placeholder": "Select retention period..."
       },
       "alwaysOnMicrophone": {

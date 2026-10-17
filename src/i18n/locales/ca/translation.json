@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Historial",
-        "description": "Els dictats més antics s’esborren (excepte els preferits).",
+        "description": "Quants dictats es conserven quan «Conserva els dictats» és als més recents. Els preferits no hi compten.",
         "entries": "dictats"
       },
       "recordingRetention": {
-        "title": "Enregistraments d’àudio",
-        "description": "Suprimeix els enregistraments antics per estalviar espai.",
-        "never": "Mai",
-        "preserveLimit": "Conserva els últims {{count}}",
-        "days3": "Al cap de 3 dies",
-        "weeks2": "Al cap de 2 setmanes",
-        "months3": "Al cap de 3 mesos",
+        "title": "Conserva els dictats",
+        "description": "Els dictats antics (text i àudio) s’esborren, excepte els preferits.",
+        "never": "Sempre",
+        "preserveLimit": "Els {{count}} més recents",
+        "days3": "3 dies",
+        "weeks2": "2 setmanes",
+        "months3": "3 mesos",
         "placeholder": "Selecciona el període de conservació..."
       },
       "alwaysOnMicrophone": {

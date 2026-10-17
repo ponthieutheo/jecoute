@@ -23,6 +23,6 @@ English is welcome: just fill in the same sections.
 
 ## Vérifications
 
-- [ ] `bun run lint` et `bun run format:check` passent
+- [ ] `bun run lint`, `bun run format:check` et `bun run check:translations` passent
 - [ ] `bun run build` passe, et `cargo test` (dans `src-tauri/`) si le code Rust change
 - [ ] Les nouveaux textes de l'interface passent par les traductions (au moins `en` et `fr`)

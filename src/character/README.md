@@ -1,6 +1,6 @@
-# Le personnage de J'écoute
+# Le personnage de J’écoute
 
-Ce dossier contient le personnage 3D de J'écoute : la boule rouge à cornes, son visage peint, ses mains, et ses
+Ce dossier contient le personnage 3D de J’écoute : la boule rouge à cornes, son visage peint, ses mains, et ses
 moments pendant une dictée (il surgit, tend l'oreille en hochant la tête, tape sur un petit clavier pendant la
 transcription, chuchote pendant le post-traitement, sourit ou hausse les épaules, puis repart). Il joue dans deux
 scènes : la fenêtre d'enregistrement (overlay) et l'accueil de la fenêtre principale (`<Perso />`), où il reste à
@@ -16,7 +16,7 @@ Usage, modification et partage libres pour un usage **non commercial**. Toute pe
 fichiers doit aussi recevoir ces conditions (ou leur adresse) et la mention ci-dessus.
 
 Cette licence ne couvre que ce dossier (`src/character/`) : le code 3D, le visage et tout ce qui est dérivé du
-personnage. **Le reste de J'écoute est sous licence MIT** (basé sur Handy de CJ Pais). Le personnage ne fait pas
+personnage. **Le reste de J’écoute est sous licence MIT** (basé sur Handy de CJ Pais). Le personnage ne fait pas
 partie du code MIT : pour un usage commercial de l'application, il faut le retirer ou obtenir l'accord de son auteur.
 
 ## Fichiers
@@ -86,7 +86,7 @@ import { Perso } from "@/character/Perso";
 ```
 
 - Il remplit son conteneur (fond transparent) ; le cadrage garde toujours la tête, les mains levées, les arcs
-  sonores et le clavier visibles, quelle que soit la forme du conteneur. Accueil de la maquette A : 400 x 240.
+  sonores et le clavier visibles, quelle que soit la forme du conteneur. Conteneur de l'accueil : 400 x 240.
 - `compact` le rapetisse (74 %) dans le même conteneur : inutile de réduire le conteneur en plus (on peut le
   déplacer). Un conteneur qui change de taille est géré quand même, sans image vide.
 - Au repos : respiration, clignements, petits mouvements de tête ; toutes les 8 à 20 s une saynète (regarde autour,

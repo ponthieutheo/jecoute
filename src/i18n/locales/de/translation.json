@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "Verlauf",
-        "description": "Ältere Diktate werden gelöscht (Favoriten bleiben).",
+        "description": "Wie viele Diktate bleiben, wenn „Diktate aufbewahren“ auf die neuesten steht. Favoriten zählen nicht mit.",
         "entries": "Diktate"
       },
       "recordingRetention": {
-        "title": "Audioaufnahmen",
-        "description": "Alte Aufnahmen löschen, um Platz zu sparen.",
-        "never": "Nie",
-        "preserveLimit": "Neueste {{count}} behalten",
-        "days3": "Nach 3 Tagen",
-        "weeks2": "Nach 2 Wochen",
-        "months3": "Nach 3 Monaten",
+        "title": "Diktate aufbewahren",
+        "description": "Ältere Diktate (Text und Audio) werden gelöscht, Favoriten bleiben.",
+        "never": "Für immer",
+        "preserveLimit": "Die neuesten {{count}}",
+        "days3": "3 Tage",
+        "weeks2": "2 Wochen",
+        "months3": "3 Monate",
         "placeholder": "Aufbewahrungszeitraum auswählen..."
       },
       "alwaysOnMicrophone": {

@@ -518,17 +518,17 @@
       },
       "historyLimit": {
         "title": "Historique",
-        "description": "Les plus anciennes dictées s’effacent (sauf les favoris).",
+        "description": "Le nombre de dictées gardées quand « Conserver les dictées » est sur les plus récentes. Les favoris ne comptent pas.",
         "entries": "dictées"
       },
       "recordingRetention": {
-        "title": "Enregistrements audio",
-        "description": "Supprimer les anciens enregistrements pour gagner de la place.",
-        "never": "Les garder",
-        "preserveLimit": "Garder les {{count}} plus récents",
-        "days3": "Supprimer après 3 jours",
-        "weeks2": "Supprimer après 2 semaines",
-        "months3": "Supprimer après 3 mois",
+        "title": "Conserver les dictées",
+        "description": "Les anciennes dictées (texte et audio) s’effacent, sauf les favoris.",
+        "never": "Toujours",
+        "preserveLimit": "Les {{count}} plus récentes",
+        "days3": "3 jours",
+        "weeks2": "2 semaines",
+        "months3": "3 mois",
         "placeholder": "Choisir la durée de conservation…"
       },
       "alwaysOnMicrophone": {

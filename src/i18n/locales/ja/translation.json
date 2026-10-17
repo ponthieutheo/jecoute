@@ -532,17 +532,17 @@
       },
       "historyLimit": {
         "title": "履歴",
-        "description": "古い音声入力から順に消えます（お気に入りは残ります）。",
+        "description": "「音声入力の保存」を最新の件数にしたときに残す数です。お気に入りは数えません。",
         "entries": "件"
       },
       "recordingRetention": {
-        "title": "録音データ",
-        "description": "古い録音を削除して容量を節約します。",
-        "never": "しない",
-        "preserveLimit": "最新{{count}}件を保持",
-        "days3": "3日後",
-        "weeks2": "2週間後",
-        "months3": "3ヶ月後",
+        "title": "音声入力の保存",
+        "description": "古い音声入力（テキストと音声）は消えます。お気に入りは残ります。",
+        "never": "無期限",
+        "preserveLimit": "最新{{count}}件",
+        "days3": "3日間",
+        "weeks2": "2週間",
+        "months3": "3ヶ月間",
         "placeholder": "保持期間を選択…"
       },
       "alwaysOnMicrophone": {

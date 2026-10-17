@@ -1067,7 +1067,9 @@ export type ModelLoadStatus = { is_loaded: boolean; current_model: string | null
  */
 export type ModelSource = 
 /**
- * Direct HTTP download from a URL (current blob.handy.computer hosting).
+ * Direct HTTP download from a URL. No bundled model uses it: the legacy
+ * models were only hosted on the upstream author's server, which J’écoute
+ * does not use.
  */
 { Url: { url: string; 
 /**
@@ -1091,8 +1093,9 @@ export type OverlayPosition = "top" | "bottom"
 /**
  * Which recording overlay to display. `Minimal` and `Live` share one base
  * (the pill); `Live` grows into the panel that shows live transcription text.
- * `Character` shows the 3D mascot (it listens, whistles while transcribing,
- * whispers while post-processing); streaming models keep the Live panel.
+ * `Character` shows the 3D mascot (it listens, types on a keyboard while
+ * transcribing, whispers while post-processing); streaming models keep the
+ * Live panel.
  * `None` hides the overlay entirely. Decoupled from whether the model runs in
  * streaming mode (that is driven purely by model capability).
  */

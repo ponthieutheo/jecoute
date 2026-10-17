@@ -28,8 +28,8 @@ struct CatalogRoot {
     /// Base URLs tried in order when the Hugging Face download fails. The full
     /// file URL is `{mirror}/{repo_id}/{revision}/{filename}` — the same three
     /// values that form the HF resolve URL, so a mirror is a plain static host.
-    /// Empty in J'écoute: models come from Hugging Face only (the upstream
-    /// catalog pointed at its author's server, which J'écoute does not use).
+    /// Empty in J’écoute: models come from Hugging Face only (the upstream
+    /// catalog pointed at its author's server, which J’écoute does not use).
     #[serde(default)]
     mirrors: Vec<String>,
     models: Vec<CatalogModel>,
@@ -261,7 +261,7 @@ mod tests {
 
     #[test]
     fn downloads_come_from_hugging_face_only() {
-        // J'écoute never falls back to the upstream author's server: no mirror
+        // J’écoute never falls back to the upstream author's server: no mirror
         // is configured, so a failed Hugging Face download is reported as is.
         assert!(ROOT.mirrors.is_empty(), "mirrors: {:?}", ROOT.mirrors);
         for d in CATALOG.iter() {

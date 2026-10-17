@@ -61,7 +61,8 @@ dépôt (voir [Vérifier une release](#vérifier-une-release)).
 
 1. Changer la version au même endroit dans `src-tauri/tauri.conf.json`, `package.json` et `src-tauri/Cargo.toml`
    (puis `cargo check` pour mettre `Cargo.lock` à jour), commiter et pousser sur GitHub. Le workflow refuse des
-   versions différentes.
+   versions différentes. Facultatif : une note `src/content/release-notes/<version>.md`, que l'app affiche une
+   fois après la mise à jour (voir [son README](../src/content/release-notes/README.md)).
 2. Lancer **Actions > Release > Run workflow** sur `main` (notes de version facultatives), ou pousser le tag
    `v<version>`. Décocher « Créer la release brouillon » donne seulement les fichiers, en artefact du workflow.
 3. Le workflow vérifie les versions, les secrets et l'absence d'une release du même nom, construit avec Vulkan,
@@ -116,15 +117,15 @@ et les secrets `AZURE_*`), retiré ici.
 
 ### Réactiver Linux, macOS ou Windows ARM64
 
-Point de départ : le workflow de Handy v0.9.8, `.github/workflows/build.yml` (`git show v0.9.8:.github/workflows/build.yml`
-dans ce dépôt, ou [sur le dépôt de Handy](https://github.com/cjpais/Handy/blob/v0.9.8/.github/workflows/build.yml)).
+Point de départ : le workflow de Handy v0.9.8, `.github/workflows/build.yml` (`git show handy/v0.9.8:.github/workflows/build.yml`
+dans ce dépôt, où les tags de Handy sont rangés sous `handy/`, ou [sur le dépôt de Handy](https://github.com/cjpais/Handy/blob/v0.9.8/.github/workflows/build.yml)).
 Il faudra ensuite étendre `prepare-release.ps1` (noms ASCII et entrées de `latest.json` : `linux-x86_64`,
 `darwin-aarch64`, `windows-aarch64-nsis`…) et la liste `--require` de la vérification.
 
 - **Linux** (`ubuntu-22.04` pour le .deb, `ubuntu-24.04` pour AppImage et .rpm, `ubuntu-24.04-arm`) : paquets apt
   (webkit2gtk 4.1, appindicator, rsvg, patchelf, ALSA, OpenBLAS, X11, gtk-layer-shell), SDK Vulkan de LunarG,
   ONNX Runtime pour le .deb 22.04 (Handy le prenait sur son propre serveur : utiliser la release officielle de
-  Microsoft, avec sa somme SHA-256), pré-build pour exposer `libtranscribe.so` à linuxdeploy,
+  Microsoft, avec sa somme SHA-256), pré-build pour exposer `libtranscribe.so` à linuxdeploy (`scripts/ci/stage-transcribe-libs.sh`, gardé de Handy),
   `LINUXDEPLOY_EXCLUDED_LIBRARIES=libvulkan.so*;libwayland-client.so*`, contrôles des paquets avec
   `--list-devices` sous xvfb. Renommer d'abord ensemble le dossier `/usr/lib/Handy` de `tauri.conf.json` et le
   rpath de `src-tauri/build.rs`. Le binaire s'appelle `jecoute` (`/usr/bin/jecoute`).
@@ -132,5 +133,5 @@ Il faudra ensuite étendre `prepare-release.ps1` (noms ASCII et entrées de `lat
   (secrets `APPLE_CERTIFICATE`, `APPLE_CERTIFICATE_PASSWORD`, `KEYCHAIN_PASSWORD`, `APPLE_ID`, `APPLE_PASSWORD`,
   `APPLE_TEAM_ID`), ONNX Runtime en dylib pour Intel. Le binaire est `J’écoute.app/Contents/MacOS/jecoute`.
 - **Windows ARM64** (`windows-11-arm`) : compilation avec clang-cl et Ninja, `TRANSCRIBE_CMAKE_ARGS=-DGGML_NATIVE=OFF
--DGGML_OPENMP=OFF`, `bun install --cpu=arm64`, chemin de `signtool`, sans Vulkan (CPU seulement). Le README
-  mentionne déjà `Jecoute_<version>_arm64-setup.exe`.
+-DGGML_OPENMP=OFF`, `bun install --cpu=arm64`, chemin de `signtool`, sans Vulkan (CPU seulement). La mise à jour
+  de la version portable reconnaît déjà `Jecoute_<version>_arm64-setup.exe`.
