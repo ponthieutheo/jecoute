@@ -427,14 +427,14 @@ model heard, with what the AI removed struck through).
 ## Models
 
 “Change” (Settings › Dictation), “All models” (model pill) or “Choose a model” open the list: the 69 models of the
-catalog, “Sorted for English.” (for the Windows language). “Downloaded models” at the top, “Available to Download”
+catalog, “Sorted for English.” (for the Windows language). “Downloaded models” at the top, “Available to download”
 below. How to choose: [models.md](models.md).
 
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="../media/en/modeles-sombre.png">
     <source media="(prefers-color-scheme: light)" srcset="../media/en/modeles-clair.png">
-    <img src="../media/en/modeles-sombre.png" width="696" alt="The model list: search, filters, Downloaded models, Available to Download, accuracy and speed">
+    <img src="../media/en/modeles-sombre.png" width="696" alt="The model list: search, filters, Downloaded models, Available to download, accuracy and speed">
   </picture>
 </p>
 
