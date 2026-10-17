@@ -133,8 +133,8 @@ The active model, its size and how many languages it understands. “Change” o
 #### Spoken language
 
 “Auto” or a specific language, with a search box. This row only shows up when the model understands several
-languages. A model that cannot detect the language on its own uses the Windows language: the option then reads
-“Auto (English)”.
+languages. A model that cannot detect the language on its own uses the Windows language, if it knows it: the option
+then reads “Auto (English)”.
 
 <p align="center"><img src="../media/en/fonctions/langue.png" width="480" alt="The spoken language and its list with the search box"></p>
 
@@ -217,7 +217,7 @@ Pop, with “Play the signal”) and “Signal output” (where it plays).
 
 #### Space after the text
 
-“Adds a space after each dictation.” Handy for chaining sentences. Off by default.
+“Adds a space after each dictation.” Useful for chaining sentences. Off by default.
 
 <p align="center"><img src="../media/en/fonctions/espace-final.png" width="480" alt="The Space after the text switch"></p>
 
@@ -247,8 +247,8 @@ change: the second shortcut, Ctrl+Shift+Space, is the one that has the text revi
 #### Shortcut and provider
 
 - “Shortcut with AI correction”: “Dictates and always has the AI review the text.” Ctrl+Shift+Space by default.
-- “AI provider”: “Provider” (“An OpenAI-compatible service.”): OpenAI, Z.AI, OpenRouter, Anthropic, Groq, Cerebras,
-  AWS Bedrock (Mantle), or Custom. Custom opens “API address”: a server of your own, including on your PC
+- “AI provider”, then “Provider” (“An OpenAI-compatible service.”): OpenAI, Z.AI, OpenRouter, Anthropic, Groq,
+  Cerebras, AWS Bedrock (Mantle), or Custom. Custom opens “API address”: a server of your own, including on your PC
   (`http://localhost:11434/v1` to start with).
 - “API Key”: “Your account key with this provider.”
 - “Model”: a model offered by the provider, or its name typed by hand; “Refresh models” reloads the list.
@@ -259,8 +259,8 @@ change: the second shortcut, Ctrl+Shift+Space, is the one that has the text revi
 
 “What the AI does with the text. ${output} stands for your dictation.” Pick an instruction, edit it, or write your own
 with “Create New Prompt” (a “Prompt Label”, “Prompt Instructions”, then “Create Prompt”). The bundled one, Improve
-Transcriptions, fixes spelling, punctuation and numbers without changing the meaning, in the language of the
-dictation.
+Transcriptions, fixes spelling and punctuation, writes numbers as digits and removes filler words, without changing
+the meaning or the language of the dictation.
 
 <p align="center"><img src="../media/en/fonctions/consignes.png" width="480" alt="Instructions: the selected one, its label and its text"></p>
 
@@ -345,8 +345,8 @@ an update. Installing happens in [About](#about).
 #### Advanced options
 
 - “Voice detection”: “Ignores silence before and after speech.” On by default.
-- “Experimental features”: keyboard handling, acceleration (graphics card or processor), “Keep the mic open between
-  dictations” and the voice detector.
+- “Experimental features”: “Features still in development.” Once on: keyboard handling, acceleration (graphics
+  card or processor), “Keep the mic open between dictations” and the voice detector.
 - “Debug mode”: “Shows the debug tools. Also Ctrl+Shift+D.” The “Debug” section adds the logs, the paste delays,
   “Reliable Paste (Beta)” and other fine-tuning settings.
 
@@ -440,7 +440,7 @@ below. How to choose: [models.md](models.md).
 </p>
 
 Each model shows its tags (“Recommended”, “Live text”), its description, its “Accuracy” and “Speed” bars,
-“Translates to English” if it can translate, its size and languages (“1.6 GB, 14 languages”).
+“Translates to English” if it can translate, its size and languages (“1.6 GB, 14 languages”).
 
 ### Filters
 
@@ -462,7 +462,7 @@ Models”. A model that finishes downloading becomes the active model. “Use”
 
 “Welcome to J’écoute”: “Choose the model that transcribes your voice. It runs on your computer, nothing goes online.”
 Three models are suggested for your language and your machine (“Recommended for English” on the first one); “See the
-69 models” opens the rest. The button says what it will do: “Download Cohere Transcribe (1.6 GB)”. You follow the
+69 models” opens the rest. The button says what it will do: “Download Cohere Transcribe (1.6 GB)”. You follow the
 download right there, then the home screen opens.
 
 <p align="center">

@@ -132,8 +132,8 @@ Pas de compte, pas de statistiques d’usage. Le détail, et où sont tes donné
 
 | Ta machine                               | Pour le français                                                             | Pour l’anglais                                              |
 | ---------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| avec une carte graphique                 | **Cohere Transcribe** (1,6 Go) : le plus précis                              | **Cohere Transcribe** (1,6 Go)                              |
-| sans carte graphique, ou pour aller vite | **Parakeet TDT 0.6B v3** (705 Mo) : rapide, il reconnaît la langue tout seul | **Parakeet Unified EN 0.6B** (697 Mo) : l’anglais en direct |
+| avec une carte graphique                 | **Cohere Transcribe** (1,6 Go) : le plus précis                              | **Cohere Transcribe** (1,6 Go)                              |
+| sans carte graphique, ou pour aller vite | **Parakeet TDT 0.6B v3** (705 Mo) : rapide, il reconnaît la langue tout seul | **Parakeet Unified EN 0.6B** (697 Mo) : l’anglais en direct |
 
 Au premier lancement, J’écoute fait ce choix pour toi. Tu peux en télécharger d’autres et passer de l’un à l’autre
 depuis l’accueil. Comparer les modèles : **[docs/modeles.md](docs/modeles.md)**.
@@ -187,7 +187,7 @@ alors qu’un raccourci fait seulement de touches de modification (fn seul, Ctrl
 saisie sécurisée de macOS (« Secure Input ») : quand un champ de mot de passe ou une application l’active, macOS
 arrête d’envoyer les frappes aux autres applications, J’écoute compris.
 
-**Trouver le responsable** : J’écoute affiche alors un bandeau en haut de l’accueil et un ⚠ dans son menu de la barre
+**Trouver le responsable** : J’écoute affiche alors un bandeau en haut de l’accueil et une alerte dans son menu de la barre
 des menus. Le bandeau nomme l’application qui tient la saisie sécurisée quand il le peut ; c’est une estimation, pas
 une certitude. Pour vérifier à la main, dans le Terminal :
 

@@ -112,7 +112,7 @@ updating, uninstalling: **[docs/en/installation.md](docs/en/installation.md)**.
 | **Esc**              | cancels the current dictation without writing anything                     |
 | **Ctrl+Shift+Space** | dictates, then has the AI review the text, once AI correction is turned on |
 
-Everything else is in the window’s gear menu: the shortcut, the microphone, how the text is written, what shows up
+Everything else is behind the gear icon in the window: the shortcut, the microphone, how the text is written, what shows up
 during a dictation. “Every change applies right away.”
 
 ## Privacy
@@ -131,8 +131,8 @@ No account, no usage statistics. The details, and where your data lives: **[docs
 
 | Your machine                          | For French                                                               | For English                                         |
 | ------------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------- |
-| with a graphics card                  | **Cohere Transcribe** (1.6 GB): the most accurate                        | **Cohere Transcribe** (1.6 GB)                      |
-| without a graphics card, or for speed | **Parakeet TDT 0.6B v3** (705 MB): fast, detects the language on its own | **Parakeet Unified EN 0.6B** (697 MB): live English |
+| with a graphics card                  | **Cohere Transcribe** (1.6 GB): the most accurate                        | **Cohere Transcribe** (1.6 GB)                      |
+| without a graphics card, or for speed | **Parakeet TDT 0.6B v3** (705 MB): fast, detects the language on its own | **Parakeet Unified EN 0.6B** (697 MB): live English |
 
 On first launch, J’écoute makes this choice for you. You can download others and switch between them from the home
 screen. Comparing models: **[docs/en/models.md](docs/en/models.md)**.
@@ -183,7 +183,7 @@ _J’écoute 0.1.0 is only released for Windows: this section is for you if you 
 modifier-only shortcut (fn alone, Left Ctrl alone) still works. This is macOS Secure Input: when a password field or
 an app turns it on, macOS stops sending keystrokes to other apps, J’écoute included.
 
-**Finding the culprit**: J’écoute then shows a banner at the top of the home screen and a ⚠ in its menu bar menu.
+**Finding the culprit**: J’écoute then shows a banner at the top of the home screen and a warning in its menu bar menu.
 The banner names the app holding Secure Input when it can; that name is a best guess, not a certainty. To check by
 hand, in Terminal:
 

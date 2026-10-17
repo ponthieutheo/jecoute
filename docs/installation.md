@@ -11,8 +11,8 @@ VIDEO_PRISE_EN_MAIN
 - **Windows 10 ou 11, 64 bits (x64).** La version 0.1.0 n’est publiée que pour Windows x64 : pas encore de version
   macOS, Linux ou ARM.
 - **Un micro** : celui du portable, un casque ou un micro USB.
-- **De la place pour un modèle** : de 33 Mo à 16 Go selon le modèle. Cohere Transcribe, le plus précis de ceux que
-  J’écoute conseille, fait 1,6 Go ([modeles.md](modeles.md)).
+- **De la place pour un modèle** : de 33 Mo à 16 Go selon le modèle. Cohere Transcribe, le plus précis de ceux que
+  J’écoute conseille, fait 1,6 Go ([modeles.md](modeles.md)).
 - **Une carte graphique, si possible.** Les modèles tournent sur la carte graphique (Vulkan) quand il y en a une, sinon
   sur le processeur.
 - **WebView2**, le moteur d’affichage de Windows : il est déjà dans Windows 11. Sous Windows 10, l’installeur le
@@ -80,8 +80,8 @@ La dernière page propose de lancer J’écoute.
 ## 5. Premier lancement
 
 1. **« Bienvenue dans J’écoute ».** Trois modèles sont proposés, choisis pour ta langue et ta machine ; « Voir les
-   69 modèles » ouvre le reste. Clique sur le bouton de téléchargement (« Télécharger Cohere Transcribe (1,6 Go) », par exemple) :
-   le modèle vient de Hugging Face, une seule fois.
+   69 modèles » ouvre le reste. Clique sur le bouton de téléchargement (« Télécharger Cohere Transcribe (1,6 Go) »,
+   par exemple) : le modèle vient de Hugging Face, une seule fois.
 2. **Le micro.** Si Windows bloque l’accès au micro, J’écoute te le dit et ouvre les bons réglages (Paramètres →
    Confidentialité et sécurité → Microphone).
 3. **C’est prêt.** L’accueil s’ouvre sur « Prêt ». Place ton curseur dans n’importe quelle application, maintiens
@@ -115,8 +115,8 @@ l’icône), ou couper la vérification (Réglages › Application › « Véri
 ## 7. Désinstaller
 
 **Installation normale.** Paramètres de Windows › Applications › Applications installées (« Applications et
-fonctionnalités » sous Windows 10) › J’écoute › Désinstaller.
-Le désinstalleur propose « Delete the application data » :
+fonctionnalités » sous Windows 10) › J’écoute › Désinstaller. Le désinstalleur propose « Delete the application
+data » :
 
 - coché, il efface aussi `%APPDATA%\io.github.ponthieutheo.jecoute` (réglages, historique, enregistrements, modèles
   ajoutés à la main) et `%LOCALAPPDATA%\io.github.ponthieutheo.jecoute` (journaux, données de la fenêtre) ;

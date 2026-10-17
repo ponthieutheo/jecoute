@@ -2,7 +2,7 @@
 
 **Français** · [English](en/models.md)
 
-J’écoute fait tourner un modèle de reconnaissance vocale sur ton PC. Le catalogue en compte 69, de 33 Mo à 16 Go,
+J’écoute fait tourner un modèle de reconnaissance vocale sur ton PC. Le catalogue en compte 69, de 33 Mo à 16 Go,
 tous au format GGUF, téléchargés depuis Hugging Face et exécutés avec ggml (transcribe.cpp). Tu peux en garder
 plusieurs et passer de l’un à l’autre d’un clic, depuis la pastille du modèle sur l’accueil.
 
@@ -21,7 +21,7 @@ plusieurs et passer de l’un à l’autre d’un clic, depuis la pastille du mo
    Nemotron Streaming 3.5, Whisper). Les autres prennent la langue choisie dans « Langue parlée », ou celle de Windows
    si tu la laisses sur « Automatique ».
 2. **Ta machine.** Avec une carte graphique (Vulkan), même un gros modèle précis reste rapide. Sur le processeur seul,
-   un modèle de moins de 1 Go est plus agréable.
+   un modèle de moins de 1 Go est plus agréable.
 3. **Le direct.** Les modèles « Texte en direct » écrivent pendant que tu parles. La fenêtre de dictée montre alors le
    texte, à la place du perso.
 4. **La traduction.** Certains modèles écrivent en anglais ce que tu dis dans une autre langue (« Traduire en
@@ -35,7 +35,7 @@ issues de bancs d’essai. Elles sont reprises dans les tableaux ci-dessous.
 La liste est classée pour la langue de Windows (« Classés pour le français. »), parmi une sélection de dix modèles :
 
 1. **avec une carte graphique**, le plus précis de la sélection qui connaît ta langue ;
-2. puis le plus précis des modèles légers (jusqu’à 1 Go) qui marchent sans réglage pour ta langue : il la reconnaît
+2. puis le plus précis des modèles légers (jusqu’à 1 Go) qui marchent sans réglage pour ta langue : il la reconnaît
    tout seul, ou c’est la seule qu’il connaît ;
 3. puis les autres modèles qui connaissent ta langue, et enfin ceux qui ne la connaissent pas.
 
@@ -44,15 +44,16 @@ ne trouve pas de carte graphique, l’étape 1 saute : le modèle léger passe 
 
 ## Pour le français
 
-Les modèles qui portent l’étiquette « Recommandé » sur un Windows en français, dans l’ordre de la liste :
+Les modèles qui portent l’étiquette « Recommandé » sur un Windows en français, dans l’ordre de la liste avec une carte
+graphique :
 
 | Modèle                     | Taille | Langues | Précision | Vitesse | Ce qu’il a de plus                                                                                                                            |
 | -------------------------- | ------ | ------- | --------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Cohere Transcribe**      | 1,6 Go | 14      | 92        | 63      | le plus précis ; idéal avec une carte graphique. Il ne reconnaît pas la langue tout seul : il prend celle que tu choisis, ou celle de Windows |
-| **Parakeet TDT 0.6B v3**   | 705 Mo | 25      | 88        | 79      | rapide, reconnaît la langue tout seul : le bon choix sans carte graphique, ou si tu passes du français à l’anglais                            |
-| **Nemotron Streaming 3.5** | 716 Mo | 28      | 82        | 84      | texte en direct, reconnaît la langue tout seul                                                                                                |
-| **Canary 180M Flash**      | 208 Mo | 4       | 88        | 98      | minuscule et instantané ; allemand, anglais, espagnol, français ; traduit en anglais                                                          |
-| **Whisper Medium**         | 793 Mo | 99      | 84        | 42      | le plus de langues, traduit en anglais, plus lent                                                                                             |
+| **Cohere Transcribe**      | 1,6 Go | 14      | 92        | 63      | le plus précis ; idéal avec une carte graphique. Il ne reconnaît pas la langue tout seul : il prend celle que tu choisis, ou celle de Windows |
+| **Parakeet TDT 0.6B v3**   | 705 Mo | 25      | 88        | 79      | rapide, reconnaît la langue tout seul : le bon choix sans carte graphique, ou si tu passes du français à l’anglais                            |
+| **Nemotron Streaming 3.5** | 716 Mo | 28      | 82        | 84      | texte en direct, reconnaît la langue tout seul                                                                                                |
+| **Canary 180M Flash**      | 208 Mo | 4       | 88        | 98      | minuscule et instantané ; allemand, anglais, espagnol, français ; traduit en anglais                                                          |
+| **Whisper Medium**         | 793 Mo | 99      | 84        | 42      | le plus de langues, traduit en anglais, plus lent                                                                                             |
 
 Au premier lancement : Cohere Transcribe, Parakeet TDT 0.6B v3 et Nemotron Streaming 3.5 avec une carte graphique ;
 Parakeet TDT 0.6B v3, Nemotron Streaming 3.5 et Canary 180M Flash sans.
@@ -63,23 +64,23 @@ Sur un Windows en anglais :
 
 | Modèle                       | Taille | Langues | Précision | Vitesse | Ce qu’il a de plus                                |
 | ---------------------------- | ------ | ------- | --------- | ------- | ------------------------------------------------- |
-| **Cohere Transcribe**        | 1,6 Go | 14      | 92        | 63      | le plus précis ; idéal avec une carte graphique   |
-| **Parakeet Unified EN 0.6B** | 697 Mo | 1       | 90        | 79      | l’anglais seulement, en direct, rapide et précis  |
-| **Nemotron Streaming 3.5**   | 716 Mo | 28      | 82        | 84      | texte en direct, reconnaît la langue tout seul    |
-| **Canary 180M Flash**        | 208 Mo | 4       | 88        | 98      | minuscule et instantané, traduit en anglais       |
-| **Whisper Medium**           | 793 Mo | 99      | 84        | 42      | le plus de langues, traduit en anglais, plus lent |
+| **Cohere Transcribe**        | 1,6 Go | 14      | 92        | 63      | le plus précis ; idéal avec une carte graphique   |
+| **Parakeet Unified EN 0.6B** | 697 Mo | 1       | 90        | 79      | l’anglais seulement, en direct, rapide et précis  |
+| **Nemotron Streaming 3.5**   | 716 Mo | 28      | 82        | 84      | texte en direct, reconnaît la langue tout seul    |
+| **Canary 180M Flash**        | 208 Mo | 4       | 88        | 98      | minuscule et instantané, traduit en anglais       |
+| **Whisper Medium**           | 793 Mo | 99      | 84        | 42      | le plus de langues, traduit en anglais, plus lent |
 
 Au premier lancement : Cohere Transcribe, Parakeet Unified EN 0.6B et Nemotron Streaming 3.5 avec une carte graphique ;
 Parakeet Unified EN 0.6B, Nemotron Streaming 3.5 et Canary 180M Flash sans. Autre piste pour l’anglais seul, sans
-texte en direct : Parakeet TDT 0.6B v2 (695 Mo, précision 89, vitesse 85).
+texte en direct : Parakeet TDT 0.6B v2 (695 Mo, précision 89, vitesse 85).
 
 ## D’autres pistes
 
 | Si tu veux                     | Regarde                                                                                          |
 | ------------------------------ | ------------------------------------------------------------------------------------------------ |
-| le plus léger possible         | Moonshine Tiny (33 Mo, anglais), Whisper Tiny (43 Mo, 99 langues)                                |
-| le plus de langues             | Whisper Large v3 (1,1 Go, 100 langues, traduit en anglais)                                       |
-| le texte en direct, en anglais | Moonshine Streaming Small (189 Mo), Moonshine Streaming Medium (282 Mo)                          |
+| le plus léger possible         | Moonshine Tiny (33 Mo, anglais), Whisper Tiny (43 Mo, 99 langues)                                |
+| le plus de langues             | Whisper Large v3 (1,1 Go, 100 langues, traduit en anglais)                                       |
+| le texte en direct, en anglais | Moonshine Streaming Small (189 Mo), Moonshine Streaming Medium (282 Mo)                          |
 | une autre langue               | le filtre de langue (le globe) de la liste des modèles : il ne garde que ceux qui la connaissent |
 
 ## Où sont les modèles

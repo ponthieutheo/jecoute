@@ -136,8 +136,8 @@ Le modèle actif, sa taille et le nombre de langues qu’il comprend. « Change
 #### Langue parlée
 
 « Automatique » ou une langue précise, avec une recherche. La ligne n’apparaît que si le modèle comprend plusieurs
-langues. Un modèle qui ne reconnaît pas la langue tout seul prend celle de Windows : l’option s’affiche alors
-« Automatique (Français) ».
+langues. Un modèle qui ne reconnaît pas la langue tout seul prend celle de Windows, s’il la connaît : l’option
+s’affiche alors « Automatique (Français) ».
 
 <p align="center"><img src="media/fr/fonctions/langue.png" width="480" alt="La langue parlée et sa liste avec la recherche"></p>
 
@@ -238,8 +238,8 @@ le cantonais.
 ### Correction par IA
 
 « Une IA en ligne relit la dictée avant de la coller. Demande une clé d’API (OpenRouter, Anthropic, OpenAI…). »
-Désactivée au départ : l’interrupteur est dans l’onglet Texte, sous les mots à reconnaître. Une fois activée, le raccourci normal ne change pas :
-c’est le second raccourci, Ctrl+Maj+Espace, qui fait relire le texte.
+Désactivée au départ : l’interrupteur est dans l’onglet Texte, sous les mots à reconnaître. Une fois activée, le
+raccourci normal ne change pas : c’est le second raccourci, Ctrl+Maj+Espace, qui fait relire le texte.
 
 <p align="center">
   <picture>
@@ -252,8 +252,8 @@ c’est le second raccourci, Ctrl+Maj+Espace, qui fait relire le texte.
 #### Raccourci et fournisseur
 
 - « Raccourci avec correction IA » : « Dicte et fait toujours relire le texte par l’IA. » Ctrl+Maj+Espace par défaut.
-- « Fournisseur d’IA » : « Fournisseur » (« Un service compatible OpenAI. ») : OpenAI, Z.AI, OpenRouter, Anthropic,
-  Groq, Cerebras, AWS Bedrock (Mantle), ou Custom. Custom ouvre « Adresse de l’API » : un serveur à toi, y compris sur
+- « Fournisseur d’IA », puis « Fournisseur » (« Un service compatible OpenAI. ») : OpenAI, Z.AI, OpenRouter,
+  Anthropic, Groq, Cerebras, AWS Bedrock (Mantle), ou Custom. Custom ouvre « Adresse de l’API » : un serveur à toi, y compris sur
   ton PC (`http://localhost:11434/v1` au départ).
 - « Clé d’API » : « La clé de ton compte chez ce fournisseur. »
 - « Modèle » : un modèle proposé par le fournisseur, ou son nom tapé à la main ; « Actualiser la liste » la recharge.
@@ -264,8 +264,8 @@ c’est le second raccourci, Ctrl+Maj+Espace, qui fait relire le texte.
 
 « Ce que l’IA fait du texte. ${output} y désigne ta dictée. » Choisis une consigne, modifie-la, ou crée la tienne avec
 « Nouvelle consigne » (un « Nom », des « Instructions », puis « Créer la consigne »). La consigne fournie, Improve
-Transcriptions, corrige l’orthographe, la ponctuation et les nombres sans changer le sens, dans la langue de la
-dictée.
+Transcriptions, corrige l’orthographe et la ponctuation, écrit les nombres en chiffres et retire les hésitations, sans
+changer le sens ni la langue de la dictée.
 
 <p align="center"><img src="media/fr/fonctions/consignes.png" width="480" alt="Les consignes : la consigne choisie, son nom et ses instructions"></p>
 
@@ -323,8 +323,8 @@ Avec un modèle qui écrit en direct, « Personnage » affiche aussi la carte 
 
 #### Libérer la mémoire
 
-« Décharge le modèle quand tu ne dictes plus. » « Jamais » (par défaut), « Tout de suite », ou après 2, 5, 10, 15 minutes ou
-1 heure. Le modèle se recharge à la dictée suivante.
+« Décharge le modèle quand tu ne dictes plus. » « Jamais » (par défaut), « Tout de suite », ou après 2, 5, 10,
+15 minutes ou 1 heure. Le modèle se recharge à la dictée suivante.
 
 <p align="center"><img src="media/fr/fonctions/memoire.png" width="480" alt="Libérer la mémoire et ses délais"></p>
 
@@ -351,8 +351,9 @@ ouvre la note de version après une mise à jour. L’installation se fait dans 
 #### Options avancées
 
 - « Détection de la voix » : « Ignore les silences avant et après la parole. » Activée au départ.
-- « Fonctions expérimentales » : la gestion du clavier, l’accélération (carte graphique ou processeur), « Garder le micro
-  ouvert entre deux dictées » et le détecteur de voix.
+- « Fonctions expérimentales » : « Des fonctions encore en développement. » Une fois activées : la gestion du
+  clavier, l’accélération (carte graphique ou processeur), « Garder le micro ouvert entre deux dictées » et le
+  détecteur de voix.
 - « Mode débogage » : « Affiche les outils de débogage. Aussi avec Ctrl+Maj+D. » La section « Débogage » ajoute les
   journaux, les délais de collage, « Collage fiable (bêta) » et d’autres réglages fins.
 
@@ -436,8 +437,8 @@ modèle a entendu, ce que l’IA a retiré barré).
 ## Les modèles
 
 « Changer » (Réglages › Dictée), « Tous les modèles » (pastille du modèle) ou « Choisir un modèle » ouvrent la liste :
-les 69 modèles du catalogue, « Classés pour le français. » (pour la langue de Windows). En haut « Tes modèles », en dessous
-« À télécharger ». Pour choisir : [modeles.md](modeles.md).
+les 69 modèles du catalogue, « Classés pour le français. » (pour la langue de Windows). En haut « Tes modèles », en
+dessous « À télécharger ». Pour choisir : [modeles.md](modeles.md).
 
 <p align="center">
   <picture>
@@ -448,7 +449,7 @@ les 69 modèles du catalogue, « Classés pour le français. » (pour la langu
 </p>
 
 Chaque modèle montre ses étiquettes (« Recommandé », « Texte en direct »), sa description, ses barres « Précision » et
-« Vitesse », « Traduit en anglais » s’il sait traduire, sa taille et ses langues (« 1,6 Go, 14 langues »).
+« Vitesse », « Traduit en anglais » s’il sait traduire, sa taille et ses langues (« 1,6 Go, 14 langues »).
 
 ### Filtres
 
@@ -470,7 +471,7 @@ corbeille le supprime (après confirmation).
 
 « Bienvenue dans J’écoute » : « Choisis le modèle qui transcrit ta voix. Il tourne sur ton ordinateur, rien ne part sur
 Internet. » Trois modèles sont proposés pour ta langue et ta machine (« Recommandé pour le français » sur le premier) ;
-« Voir les 69 modèles » ouvre le reste. Le bouton dit ce qu’il va faire : « Télécharger Cohere Transcribe (1,6 Go) ». Le
+« Voir les 69 modèles » ouvre le reste. Le bouton dit ce qu’il va faire : « Télécharger Cohere Transcribe (1,6 Go) ». Le
 téléchargement se suit sur place, puis l’accueil s’ouvre.
 
 <p align="center">

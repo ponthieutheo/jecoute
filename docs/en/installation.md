@@ -11,8 +11,8 @@ VIDEO_PRISE_EN_MAIN
 - **Windows 10 or 11, 64-bit (x64).** Version 0.1.0 is only released for Windows x64: no macOS, Linux or ARM build
   yet.
 - **A microphone**: the laptop’s own, a headset or a USB mic.
-- **Room for a model**: from 33 MB to 16 GB depending on the model. Cohere Transcribe, the most accurate of the ones
-  J’écoute recommends, takes 1.6 GB ([models.md](models.md)).
+- **Room for a model**: from 33 MB to 16 GB depending on the model. Cohere Transcribe, the most accurate of the ones
+  J’écoute recommends, takes 1.6 GB ([models.md](models.md)).
 - **A graphics card, ideally.** Models run on the graphics card (Vulkan) when there is one, otherwise on the
   processor.
 - **WebView2**, the Windows display engine: it ships with Windows 11. On Windows 10, the installer downloads it from
@@ -80,7 +80,7 @@ The last page offers to launch J’écoute.
 ## 5. First launch
 
 1. **“Welcome to J’écoute”.** Three models are suggested, chosen for your language and your machine; “See the 69
-   models” opens the rest. Click the download button (“Download Cohere Transcribe (1.6 GB)”, for example): the
+   models” opens the rest. Click the download button (“Download Cohere Transcribe (1.6 GB)”, for example): the
    model comes from Hugging Face, once.
 2. **The microphone.** If Windows blocks microphone access, J’écoute tells you and opens the right settings
    (Settings → Privacy & security → Microphone).
