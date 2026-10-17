@@ -29,7 +29,6 @@ dist-ssr
 
 /target/
 recording_*
-.crush/
 
 # Playwright
 playwright-report/
@@ -38,9 +37,6 @@ blob-report/
 
 .direnv
 .envrc
-
-# Nix build output
-result
 
 # Python bytecode (scripts/)
 __pycache__/
