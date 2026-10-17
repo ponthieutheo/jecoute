@@ -102,7 +102,7 @@ texte alternatif). Données inventées seulement : aucune dictée, aucun réglag
 - `en/reglages-a-propos-sombre.png` (60 Ko, 1392 × 1218) : Settings, About tab: version, updates, source code, app folders, “Based on Handy by CJ Pais” credit (dark theme)
 - `en/reglages-a-propos-clair.png` (61 Ko, 1392 × 1218) : Settings, About tab: version, updates, source code, app folders, “Based on Handy by CJ Pais” credit (light theme)
 - `en/modeles-sombre.png` (64 Ko, 1392 × 1218) : Transcription model list: search, filters, installed models (one is downloading) and models to download (dark theme)
-- `en/modeles-clair.png` (67 Ko, 1392 × 1218) : Transcription model list: search, filters, installed models (one is downloading) and models to download (light theme)
+- `en/modeles-clair.png` (66 Ko, 1392 × 1218) : Transcription model list: search, filters, installed models (one is downloading) and models to download (light theme)
 - `en/bienvenue-sombre.png` (50 Ko, 1392 × 1218) : First launch: “Welcome to J’écoute”, three recommended models and the download button (dark theme)
 - `en/bienvenue-clair.png` (51 Ko, 1392 × 1218) : First launch: “Welcome to J’écoute”, three recommended models and the download button (light theme)
 
