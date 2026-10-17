@@ -43,7 +43,7 @@ pub enum EngineType {
 #[derive(Debug, Clone, Serialize, Deserialize, Type)]
 pub enum ModelSource {
     /// Direct HTTP download from a URL. No bundled model uses it: the legacy
-    /// models were only hosted on the upstream author's server, which J'écoute
+    /// models were only hosted on the upstream author's server, which J’écoute
     /// does not use.
     Url {
         url: String,
@@ -553,7 +553,7 @@ impl ModelManager {
         let mut available_models = HashMap::new();
 
         // Legacy (.bin / ONNX) models. Their only download source was the
-        // upstream author's server (blob.handy.computer), which J'écoute does
+        // upstream author's server (blob.handy.computer), which J’écoute does
         // not use, so they are `Local`: listed and runnable only when their
         // files are already in the models directory (copied over by hand), and
         // hidden otherwise (see `is_listed`). The catalog's Hugging Face GGUFs
