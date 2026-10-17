@@ -87,15 +87,6 @@ body {
   background-color: color-mix(in srgb, var(--color-accent) 28%, transparent);
 }
 
-.container {
-  margin: 0;
-  padding-top: 10vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --color-log-surface: color-mix(in srgb, var(--color-surface), black 35%);
@@ -108,12 +99,6 @@ body {
 
 :root[data-theme="light"] {
   --color-log-surface: color-mix(in srgb, var(--color-background), black 5%);
-}
-
-/* Keep onboarding centered when classic scrollbars consume layout space.
-   Overlay scrollbars do not reserve a gutter, so this has no effect on them. */
-:root[data-onboarding-active] {
-  scrollbar-gutter: stable both-edges;
 }
 
 /* macOS - tint native overlay scrollbar thumb */
@@ -182,20 +167,4 @@ input[type="range"]:disabled::-webkit-slider-thumb {
 input[type="range"]:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
-}
-
-@layer utilities {
-  .text-stroke {
-    -webkit-text-stroke: 2px var(--color-text-stroke);
-  }
-}
-
-.logo-primary {
-  fill: var(--color-logo-primary);
-}
-
-.logo-stroke {
-  fill: var(--color-logo-stroke);
-  stroke: var(--color-logo-stroke);
-  stroke-width: 1;
 }
