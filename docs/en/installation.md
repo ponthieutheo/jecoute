@@ -8,8 +8,9 @@ VIDEO_PRISE_EN_MAIN
 
 ## 1. What you need
 
-- **Windows 10 or 11, 64-bit (x64).** Version 0.1.0 is only released for Windows x64: no macOS, Linux or ARM build
-  yet.
+- **Windows 10 or 11, 64-bit (x64).** Version 0.1.0 is only released for Windows x64: no ready-to-install macOS, Linux or ARM build
+  yet. The code builds on Linux and macOS (see [BUILD.md](../../BUILD.md#linux-et-macos)); a Linux version will come
+  later.
 - **A microphone**: the laptop’s own, a headset or a USB mic.
 - **Room for a model**: from 33 MB to 16 GB depending on the model. Cohere Transcribe, the most accurate of the ones
   J’écoute recommends, takes 1.6 GB ([models.md](models.md)).

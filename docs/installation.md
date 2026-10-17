@@ -9,7 +9,8 @@ VIDEO_PRISE_EN_MAIN
 ## 1. Ce qu’il te faut
 
 - **Windows 10 ou 11, 64 bits (x64).** La version 0.1.0 n’est publiée que pour Windows x64 : pas encore de version
-  macOS, Linux ou ARM.
+  macOS, Linux ou ARM prête à installer. Le code compile sous Linux et macOS (voir [BUILD.md](../BUILD.md#linux-et-macos)) ;
+  une version Linux arrivera ensuite.
 - **Un micro** : celui du portable, un casque ou un micro USB.
 - **De la place pour un modèle** : de 33 Mo à 16 Go selon le modèle. Cohere Transcribe, le plus précis de ceux que
   J’écoute conseille, fait 1,6 Go ([modeles.md](modeles.md)).

@@ -101,6 +101,10 @@ Toutes ses humeurs et ses animations : **[docs/personnage.md](docs/personnage.m
 L’installeur propose aussi une installation portable (un dossier autonome, données comprises). Vérifier le fichier
 téléchargé, mettre à jour, désinstaller : **[docs/installation.md](docs/installation.md)**.
 
+**Linux et macOS :** le code, repris de Handy, tourne aussi sur ces systèmes si tu le compiles toi-même
+(voir [BUILD.md](BUILD.md#linux-et-macos)). Ces versions ne sont pas encore testées ; une version Linux prête à
+installer arrivera dans une prochaine version.
+
 ## Utilisation
 
 1. Place ton curseur là où tu veux écrire.

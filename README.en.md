@@ -100,6 +100,10 @@ All its moods and animations: **[docs/en/character.md](docs/en/character.md)**.
 The installer also offers a portable install (a self-contained folder, data included). Checking the download,
 updating, uninstalling: **[docs/en/installation.md](docs/en/installation.md)**.
 
+**Linux and macOS:** the code, taken from Handy, also runs on these systems if you build it yourself
+(see [BUILD.md](BUILD.md#linux-et-macos)). These builds aren’t tested yet; a ready-to-install Linux version will
+come in a later release.
+
 ## Use
 
 1. Put your cursor where you want to write.
