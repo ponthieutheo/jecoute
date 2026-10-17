@@ -16,8 +16,7 @@ dist-ssr
 *.local.*
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
+.vscode/
 .idea
 .DS_Store
 *.suo
@@ -29,14 +28,6 @@ dist-ssr
 
 /target/
 recording_*
-
-# Playwright
-playwright-report/
-test-results/
-blob-report/
-
-.direnv
-.envrc
 
 # Python bytecode (scripts/)
 __pycache__/

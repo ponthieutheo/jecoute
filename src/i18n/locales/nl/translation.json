@@ -9,27 +9,10 @@
     "cancel": "Annuleren",
     "secureInputWarning": "⚠ Sneltoetsen geblokkeerd door Secure Input"
   },
-  "sidebar": {
-    "general": "Algemeen",
-    "models": "Modellen",
-    "advanced": "Geavanceerd",
-    "postProcessing": "Naverwerking",
-    "history": "Geschiedenis",
-    "debug": "Probleemoplossing",
-    "about": "Over J’écoute"
-  },
   "onboarding": {
-    "subtitle": "Kies een transcriptiemodel om aan de slag te gaan",
-    "existingModelsTitle": "Compatibele modellen",
-    "downloadModelsTitle": "Beschikbaar voor download",
-    "showAllModels": "Toon alle {{total}} modellen",
     "showFewerModels": "Minder modellen tonen",
     "recommended": "Aanbevolen",
     "customModelDescription": "Niet officieel ondersteund",
-    "modelCard": {
-      "accuracy": "nauwkeurigheid",
-      "speed": "snelheid"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Aangepast",
     "legacy": "Klassiek",
-    "streaming": "Streaming",
     "active": "Actief",
     "switching": "Wisselen...",
     "noModelsAvailable": "Geen modellen beschikbaar",
     "verifying": "Verifiëren van {{modelName}}...",
     "verifyingGeneric": "Verifiëren...",
     "extracting": "Uitpakken van {{modelName}}...",
-    "extractingMultiple": "Uitpakken van {{count}} modellen...",
     "extractingGeneric": "Uitpakken...",
     "downloading": "Downloaden {{percentage}}%",
-    "downloadingMultiple": "Downloaden van {{count}} modellen...",
-    "modelReady": "Model gereed",
-    "loading": "Laden van {{modelName}}...",
-    "loadingGeneric": "Laden...",
-    "modelError": "Modelfout",
-    "modelUnloaded": "Model ontladen",
-    "noModelDownloadRequired": "Geen model - Download vereist",
     "deleteModel": "{{modelName}} verwijderen",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Annuleren",
     "cancelDownload": "Download annuleren",
     "capabilities": {
-      "languageSelection": "Ondersteunt meerdere invoertalen",
-      "singleLanguage": "Ondersteunt alleen deze taal",
       "languageCount": "{{total}} talen",
       "languageOnly": "Alleen {{language}}",
       "translation": "Kan vertalen naar het Engels",
-      "translate": "Vertalen",
       "streaming": "Toont live transcriptie tijdens het spreken"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "Instellingen voor {{model}}"
-    },
     "general": {
-      "title": "Algemeen",
       "shortcut": {
         "title": "Sneltoetsen",
         "description": "Configureer sneltoetsen om spraak-naar-tekst-opnames te starten",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Gedrag van sneltoets",
-        "description": "Kies hoe de sneltoets voor dicteren de opname start en stopt.",
         "options": {
           "holdOrToggle": "Automatisch",
           "pushToTalk": "Vasthouden",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Transcriptiemodellen",
-      "description": "Selecteer een transcriptiemodel of download extra modellen. Verschillende modellen bieden variërende niveaus van nauwkeurigheid en snelheid.",
       "searchPlaceholder": "Modellen zoeken op naam...",
       "yourModels": "Gedownloade modellen",
       "availableModels": "Beschikbaar voor download",
@@ -226,16 +190,13 @@
         "translation": "Filter modellen die vertaling naar het Engels ondersteunen"
       },
       "rescan": {
-        "label": "Opnieuw scannen",
         "tooltip": "Scannen naar modellen die buiten J’écoute om zijn toegevoegd aan de modellenmap of Hugging Face-cache"
       },
       "noModelsMatch": "Geen modellen voldoen aan dit filter."
     },
     "sound": {
-      "title": "Geluid",
       "microphone": {
         "title": "Microfoon",
-        "description": "De microfoon die naar je luistert.",
         "placeholder": "Microfoon selecteren...",
         "loading": "Laden..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Signaaluitvoer",
-        "description": "Waar het geluidssignaal te horen is.",
         "placeholder": "Afspeelapparaat selecteren...",
         "loading": "Laden..."
       },
       "volume": {
-        "title": "Signaalvolume",
-        "description": "Pas het volume van de geluidsfeedback aan"
+        "title": "Signaalvolume"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "App",
-        "output": "Uitvoer",
-        "transcription": "Transcriptie",
-        "history": "Geschiedenis",
-        "experimental": "Experimenteel"
-      },
       "experimentalToggle": {
         "label": "Experimentele functies",
         "description": "Functies die nog in ontwikkeling zijn."
@@ -382,7 +334,6 @@
         "title": "Eigen woorden",
         "description": "Namen en vaktermen die ik goed moet schrijven.",
         "placeholder": "Woord toevoegen",
-        "add": "Toevoegen",
         "remove": "{{word}} verwijderen",
         "duplicate": "‘{{word}}’ staat al in de lijst"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Sneltoets"
-      },
       "api": {
         "title": "AI-provider",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "Geschiedenis",
       "openFolder": "Opnamemap",
       "loading": "Geschiedenis laden...",
-      "empty": "Nog geen transcripties. Start met opnemen om je geschiedenis op te bouwen!",
       "copyToClipboard": "Kopiëren",
       "copyError": "Transcriptie naar het klembord kopiëren mislukt.",
       "save": "Aan favorieten toevoegen",
@@ -570,11 +516,6 @@
         "description": "Kies de backend voor sneltoetsen.",
         "bindingsReset": "Sneltoetsen waren incompatibel en zijn teruggezet naar de standaardwaarden"
       },
-      "paths": {
-        "appData": "App-data:",
-        "models": "Modellen:",
-        "settings": "Instellingen:"
-      },
       "pasteDelay": {
         "title": "Plakvertraging (voor)",
         "description": "Vertraging (in milliseconden) na het kopiëren van de tekst, voordat de plak-toetsaanslag wordt verzonden. Verhoog dit als er niets wordt geplakt."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "Over J’écoute",
-      "version": {
-        "title": "Versie",
-        "description": "Huidige versie van J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "Nieuwe functies tonen",
         "description": "Na een update van J’écoute."
@@ -631,15 +567,11 @@
         "description": "Modellen, instellingen, opnames."
       },
       "sourceCode": {
-        "title": "Broncode",
-        "description": "Bekijk de broncode en draag bij",
-        "button": "Bekijk op GitHub"
+        "title": "Broncode"
       },
       "acknowledgments": {
         "title": "Dankbetuigingen",
         "ggml": {
-          "title": "ggml",
-          "description": "Krachtige tensorbibliotheek voor lokale AI-verwerking",
           "details": "J’écoute transcribeert lokaal dankzij ggml. Dank aan Georgi Gerganov en alle bijdragers voor hun geweldige werk."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Controleren op updates...",
     "updateAvailableShort": "Update beschikbaar",
-    "upToDate": "Up-to-date",
     "updateCheckingDisabled": "Updatecontrole uitgeschakeld",
-    "downloading": "Downloaden... {{progress}}%",
     "installing": "Installeren...",
     "preparing": "Voorbereiden...",
-    "checkForUpdates": "Controleren op updates",
     "portableUpdateTitle": "Handmatige update vereist",
     "portableUpdateMessage": "Draagbare (portable) installaties kunnen niet automatisch worden bijgewerkt. Download hieronder het installatiebestand voor je systeem, voer het uit en installeer in dezelfde map — je Data/-map (instellingen, modellen, opnames) blijft behouden.",
     "portableUpdateButton": "Installatiebestand downloaden",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "Laden...",
-    "delete": "Verwijderen",
     "close": "Sluiten",
     "open": "Openen",
     "copy": "Kopiëren",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Weergave",
-    "description": "Kies of J’écoute het systeemthema volgt of licht of donker blijft",
     "options": {
       "system": "Systeem",
       "light": "Licht",

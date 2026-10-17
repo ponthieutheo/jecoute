@@ -37,11 +37,4 @@ export const KeyCombo: React.FC<KeyComboProps> = ({
   );
 };
 
-/** Texte lisible d'un raccourci, pour les lecteurs d'écran et les infobulles. */
-export const useKeyComboText = (combination: string | null | undefined) => {
-  const { t } = useTranslation();
-  const os = useOsType();
-  return keyLabels(combination, t, os).join(` ${PLUS} `);
-};
-
 export default KeyCombo;

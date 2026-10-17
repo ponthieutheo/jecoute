@@ -9,27 +9,10 @@
     "cancel": "ביטול",
     "secureInputWarning": "⚠ קיצורי המקשים חסומים על ידי Secure Input"
   },
-  "sidebar": {
-    "general": "כללי",
-    "models": "מודלים",
-    "advanced": "מתקדם",
-    "postProcessing": "עיבוד משלים",
-    "history": "היסטוריה",
-    "debug": "ניפוי שגיאות",
-    "about": "אודות"
-  },
   "onboarding": {
-    "subtitle": "כדי להתחיל, בחר מודל תמלול",
-    "existingModelsTitle": "מודלים תואמים",
-    "downloadModelsTitle": "זמינים להורדה",
-    "showAllModels": "הצג את כל {{total}} המודלים",
     "showFewerModels": "הצג פחות מודלים",
     "recommended": "מומלץ",
     "customModelDescription": "לא נתמך באופן רשמי",
-    "modelCard": {
-      "accuracy": "דיוק",
-      "speed": "מהירות"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "מותאם אישית",
     "legacy": "מדור קודם",
-    "streaming": "סטרימינג",
     "active": "פעיל",
     "switching": "מחליף...",
     "noModelsAvailable": "אין מודלים זמינים",
     "verifying": "מאמת את {{modelName}}...",
     "verifyingGeneric": "מאמת...",
     "extracting": "מחלץ את {{modelName}}...",
-    "extractingMultiple": "מחלץ {{count}} מודלים...",
     "extractingGeneric": "מחלץ...",
     "downloading": "מוריד {{percentage}}%",
-    "downloadingMultiple": "מוריד {{count}} מודלים...",
-    "modelReady": "המודל מוכן",
-    "loading": "טוען את {{modelName}}...",
-    "loadingGeneric": "טוען...",
-    "modelError": "שגיאת מודל",
-    "modelUnloaded": "המודל נפרק",
-    "noModelDownloadRequired": "אין מודל, נדרשת הורדה",
     "deleteModel": "מחק את {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "ביטול",
     "cancelDownload": "בטל הורדה",
     "capabilities": {
-      "languageSelection": "תומך בכמה שפות קלט",
-      "singleLanguage": "תומך רק בשפה הזו",
       "languageCount": "{{total}} שפות",
       "languageOnly": "{{language}} בלבד",
       "translation": "יכול לתרגם לאנגלית",
-      "translate": "תרגם לאנגלית",
       "streaming": "מציג תמלול חי תוך כדי דיבור"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "הגדרות עבור {{model}}"
-    },
     "general": {
-      "title": "כללי",
       "shortcut": {
         "title": "קיצורי מקשים של J’écoute",
         "description": "הגדר קיצורי מקשים כדי להפעיל הקלטה ותמלול דיבור",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "התנהגות קיצור הדרך",
-        "description": "בחר כיצד קיצור התמלול מתחיל ומפסיק את ההקלטה.",
         "options": {
           "holdOrToggle": "אוטומטי",
           "pushToTalk": "לחיצה ארוכה",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "מודלי תמלול",
-      "description": "בחר מודל תמלול או הורד מודלים נוספים. מודלים שונים מציעים רמות שונות של דיוק ומהירות.",
       "searchPlaceholder": "חיפוש מודלים לפי שם…",
       "yourModels": "מודלים שהורדו",
       "availableModels": "זמינים להורדה",
@@ -226,16 +190,13 @@
         "translation": "סינון דגמים התומכים בתרגום לאנגלית"
       },
       "rescan": {
-        "label": "סריקה מחדש",
         "tooltip": "סריקה מחדש לאיתור מודלים שנוספו לתיקיית המודלים או למטמון של Hugging Face מחוץ ל-J’écoute"
       },
       "noModelsMatch": "אין מודלים שמתאימים לסינון הזה."
     },
     "sound": {
-      "title": "שמע",
       "microphone": {
         "title": "מיקרופון",
-        "description": "המיקרופון שמקשיב לך.",
         "placeholder": "בחר מיקרופון...",
         "loading": "טוען..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "פלט ההתראה",
-        "description": "היכן נשמע צליל ההתראה.",
         "placeholder": "בחר התקן פלט...",
         "loading": "טוען..."
       },
       "volume": {
-        "title": "עוצמת ההתראה",
-        "description": "כוונן את עוצמת צלילי המשוב"
+        "title": "עוצמת ההתראה"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "אפליקציה",
-        "output": "פלט",
-        "transcription": "תמלול",
-        "history": "היסטוריה",
-        "experimental": "ניסיוני"
-      },
       "experimentalToggle": {
         "label": "תכונות ניסיוניות",
         "description": "תכונות שעדיין בפיתוח."
@@ -382,7 +334,6 @@
         "title": "מילים לזיהוי",
         "description": "שמות ומונחים טכניים שעליי לכתוב נכון.",
         "placeholder": "הוסף מילה",
-        "add": "הוסף",
         "remove": "הסר את {{word}}",
         "duplicate": "\"{{word}}\" כבר ברשימה"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "קיצור מקשים"
-      },
       "api": {
         "title": "ספק AI",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "היסטוריה",
       "openFolder": "תיקיית ההקלטות",
       "loading": "טוען היסטוריה...",
-      "empty": "עדיין אין תמלולים. התחל להקליט כדי לבנות את ההיסטוריה שלך!",
       "copyToClipboard": "העתק",
       "copyError": "לא ניתן להעתיק את התמלול ללוח.",
       "save": "הוסף למועדפים",
@@ -570,11 +516,6 @@
         "description": "בחר את מנגנון קיצורי המקלדת.",
         "bindingsReset": "קיצורי המקלדת לא היו תואמים ואופסו לברירות המחדל"
       },
-      "paths": {
-        "appData": "נתוני אפליקציה:",
-        "models": "מודלים:",
-        "settings": "הגדרות:"
-      },
       "pasteDelay": {
         "title": "השהיית הדבקה (לפני)",
         "description": "השהיה (במילישניות) לאחר העתקת הטקסט, לפני שליחת צירוף ההדבקה. הגדל אם דבר אינו מודבק."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "אודות",
-      "version": {
-        "title": "גרסה",
-        "description": "הגרסה הנוכחית של J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "הצג מה חדש",
         "description": "אחרי עדכון של J’écoute."
@@ -631,15 +567,11 @@
         "description": "מודלים, הגדרות, הקלטות."
       },
       "sourceCode": {
-        "title": "קוד מקור",
-        "description": "צפה בקוד המקור ותרום",
-        "button": "צפה ב-GitHub"
+        "title": "קוד מקור"
       },
       "acknowledgments": {
         "title": "תודות",
         "ggml": {
-          "title": "ggml",
-          "description": "הסקה מהירה לביצועים גבוהים עבור מודל זיהוי הדיבור Whisper של OpenAI",
           "details": "J’écoute מתמלל באופן מקומי בזכות ggml. תודה ל-Georgi Gerganov ולתורמים על עבודתם המרשימה."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "בודק עדכונים...",
     "updateAvailableShort": "יש עדכון זמין",
-    "upToDate": "מעודכן",
     "updateCheckingDisabled": "בדיקת העדכונים כבויה",
-    "downloading": "מוריד... {{progress}}%",
     "installing": "מתקין...",
     "preparing": "מכין...",
-    "checkForUpdates": "בדוק עדכונים",
     "portableUpdateTitle": "נדרש עדכון ידני",
     "portableUpdateMessage": "התקנות ניידות אינן מתעדכנות אוטומטית. הורד למטה את המתקין המתאים למערכת שלך, הפעל אותו והתקן לאותה תיקייה — תיקיית Data/ (הגדרות, מודלים, הקלטות) נשמרת במקומה.",
     "portableUpdateButton": "הורדת המתקין",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "טוען...",
-    "delete": "מחק",
     "close": "סגור",
     "open": "פתח",
     "copy": "העתק",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "מראה",
-    "description": "בחר אם J’écoute יעקוב אחר ערכת הנושא של המערכת או יישאר בהיר או כהה",
     "options": {
       "system": "מערכת",
       "light": "בהיר",

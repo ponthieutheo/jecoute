@@ -9,27 +9,10 @@
     "cancel": "Скасувати",
     "secureInputWarning": "⚠ Комбінації клавіш заблоковано Secure Input"
   },
-  "sidebar": {
-    "general": "Загальні",
-    "models": "Моделі",
-    "advanced": "Розширені",
-    "postProcessing": "Постобробка",
-    "history": "Історія",
-    "debug": "Дебаг",
-    "about": "Інфо"
-  },
   "onboarding": {
-    "subtitle": "Для початку оберіть модель транскрипції",
-    "existingModelsTitle": "Сумісні моделі",
-    "downloadModelsTitle": "Доступні для завантаження",
-    "showAllModels": "Показати всі моделі ({{total}})",
     "showFewerModels": "Показати менше моделей",
     "recommended": "Рекомендовано",
     "customModelDescription": "Офіційно не підтримується",
-    "modelCard": {
-      "accuracy": "точність",
-      "speed": "швидкість"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Користувацька",
     "legacy": "Застаріле",
-    "streaming": "Потокове",
     "active": "Активна",
     "switching": "Перемикання...",
     "noModelsAvailable": "Немає доступних моделей",
     "verifying": "Перевірка {{modelName}}...",
     "verifyingGeneric": "Перевірка...",
     "extracting": "Розпакування {{modelName}}...",
-    "extractingMultiple": "Розпакування {{count}} моделей...",
     "extractingGeneric": "Розпакування...",
     "downloading": "Завантаження {{percentage}}%",
-    "downloadingMultiple": "Завантаження {{count}} моделей...",
-    "modelReady": "Модель готова",
-    "loading": "Завантаження {{modelName}}...",
-    "loadingGeneric": "Завантаження...",
-    "modelError": "Помилка моделі",
-    "modelUnloaded": "Модель вивантажена",
-    "noModelDownloadRequired": "Немає моделі - потрібно завантажити",
     "deleteModel": "Видалити {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Скасувати",
     "cancelDownload": "Скасувати завантаження",
     "capabilities": {
-      "languageSelection": "Підтримує кілька мов введення",
-      "singleLanguage": "Підтримує лише цю мову",
       "languageCount": "{{total}} мов",
       "languageOnly": "Лише {{language}}",
       "translation": "Може перекладати на англійську",
-      "translate": "Перекласти на англійську",
       "streaming": "Показує транскрипцію в реальному часі під час мовлення"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "Налаштування {{model}}"
-    },
     "general": {
-      "title": "Загальні",
       "shortcut": {
         "title": "Комбінації клавіш",
         "description": "Налаштуйте клавіатурні скорочення для запуску запису мовлення в текст",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Поведінка комбінації клавіш",
-        "description": "Виберіть, як гаряча клавіша транскрипції запускає та зупиняє запис.",
         "options": {
           "holdOrToggle": "Автоматично",
           "pushToTalk": "Утримання",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Моделі транскрипції",
-      "description": "Виберіть модель транскрипції або завантажте додаткові моделі. Різні моделі пропонують різні рівні точності та швидкості.",
       "searchPlaceholder": "Пошук моделей за назвою…",
       "yourModels": "Завантажені моделі",
       "availableModels": "Доступні для завантаження",
@@ -226,16 +190,13 @@
         "translation": "Фільтрувати моделі з підтримкою перекладу англійською"
       },
       "rescan": {
-        "label": "Пересканувати",
         "tooltip": "Пересканувати моделі, додані до папки моделей або кешу Hugging Face поза межами J’écoute"
       },
       "noModelsMatch": "Жодна модель не відповідає цьому фільтру."
     },
     "sound": {
-      "title": "Звук",
       "microphone": {
         "title": "Мікрофон",
-        "description": "Мікрофон, який вас слухає.",
         "placeholder": "Оберіть мікрофон...",
         "loading": "Завантаження..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Виведення сигналу",
-        "description": "Де звучить сигнал.",
         "placeholder": "Оберіть пристрій виводу...",
         "loading": "Завантаження..."
       },
       "volume": {
-        "title": "Гучність сигналу",
-        "description": "Налаштуйте гучність звукових сповіщень"
+        "title": "Гучність сигналу"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "Додаток",
-        "output": "Вивід",
-        "transcription": "Транскрипція",
-        "history": "Історія",
-        "experimental": "Експериментальне"
-      },
       "experimentalToggle": {
         "label": "Експериментальні функції",
         "description": "Функції, які ще в розробці."
@@ -382,7 +334,6 @@
         "title": "Слова для розпізнавання",
         "description": "Імена й спеціальні терміни, які мені треба писати без помилок.",
         "placeholder": "Додати слово",
-        "add": "Додати",
         "remove": "Видалити {{word}}",
         "duplicate": "«{{word}}» уже є в списку"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Гаряча клавіша"
-      },
       "api": {
         "title": "Провайдер ШІ",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "Історія",
       "openFolder": "Папка записів",
       "loading": "Завантаження історії...",
-      "empty": "Транскрипцій поки немає. Почніть запис, щоб створити історію!",
       "copyToClipboard": "Копіювати",
       "copyError": "Не вдалося скопіювати транскрипцію в буфер обміну.",
       "save": "Додати в обране",
@@ -570,11 +516,6 @@
         "description": "Оберіть бекенд для клавіатурних скорочень.",
         "bindingsReset": "Клавіатурні скорочення були несумісні та скинуті до значень за замовчуванням"
       },
-      "paths": {
-        "appData": "Дані програми:",
-        "models": "Моделі:",
-        "settings": "Налаштування:"
-      },
       "pasteDelay": {
         "title": "Затримка вставки (до)",
         "description": "Затримка (у мілісекундах) після копіювання тексту, перед надсиланням натискання клавіші вставки. Збільшіть, якщо нічого не вставляється."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "Інфо",
-      "version": {
-        "title": "Версія",
-        "description": "Поточна версія J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "Показувати, що нового",
         "description": "Після оновлення J’écoute."
@@ -631,15 +567,11 @@
         "description": "Моделі, налаштування, записи."
       },
       "sourceCode": {
-        "title": "Вихідний код",
-        "description": "Переглянути вихідний код та зробити внесок",
-        "button": "Переглянути на GitHub"
+        "title": "Вихідний код"
       },
       "acknowledgments": {
         "title": "Подяки",
         "ggml": {
-          "title": "ggml",
-          "description": "Високопродуктивний інференс моделі автоматичного розпізнавання мовлення Whisper від OpenAI",
           "details": "J’écoute розпізнає мовлення локально завдяки ggml. Дякуємо Георгію Герганову та учасникам проєкту за їхню чудову роботу."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Перевірка оновлень...",
     "updateAvailableShort": "Доступне оновлення",
-    "upToDate": "Актуальна версія",
     "updateCheckingDisabled": "Перевірка оновлень вимкнена",
-    "downloading": "Завантаження... {{progress}}%",
     "installing": "Встановлення...",
     "preparing": "Підготовка...",
-    "checkForUpdates": "Перевірити оновлення",
     "portableUpdateTitle": "Потрібне ручне оновлення",
     "portableUpdateMessage": "Портативні встановлення не можна оновити автоматично. Завантажте нижче інсталятор для вашої системи, запустіть його та встановіть у ту саму теку — ваша тека Data/ (налаштування, моделі, записи) залишиться на місці.",
     "portableUpdateButton": "Завантажити інсталятор",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "Завантаження...",
-    "delete": "Видалити",
     "close": "Закрити",
     "open": "Відкрити",
     "copy": "Копіювати",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Вигляд",
-    "description": "Виберіть, чи має J’écoute слідувати темі системи, чи залишатися світлою або темною",
     "options": {
       "system": "Системна",
       "light": "Світла",

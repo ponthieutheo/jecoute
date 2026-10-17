@@ -9,27 +9,10 @@
     "cancel": "Zrušit",
     "secureInputWarning": "⚠ Zkratky blokuje Secure Input"
   },
-  "sidebar": {
-    "general": "Obecné",
-    "models": "Modely",
-    "advanced": "Pokročilé",
-    "postProcessing": "Následné zpracování",
-    "history": "Historie",
-    "debug": "Ladění",
-    "about": "O aplikaci"
-  },
   "onboarding": {
-    "subtitle": "Pro začátek vyberte model pro přepis",
-    "existingModelsTitle": "Kompatibilní modely",
-    "downloadModelsTitle": "Dostupné ke stažení",
-    "showAllModels": "Zobrazit všech {{total}} modelů",
     "showFewerModels": "Zobrazit méně modelů",
     "recommended": "Doporučeno",
     "customModelDescription": "Oficiálně nepodporováno",
-    "modelCard": {
-      "accuracy": "přesnost",
-      "speed": "rychlost"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Vlastní",
     "legacy": "Zastaralé",
-    "streaming": "Streaming",
     "active": "Aktivní",
     "switching": "Přepínání...",
     "noModelsAvailable": "Nejsou dostupné žádné modely",
     "verifying": "Ověřování {{modelName}}...",
     "verifyingGeneric": "Ověřování...",
     "extracting": "Rozbaluji {{modelName}}...",
-    "extractingMultiple": "Rozbaluji {{count}} modelů...",
     "extractingGeneric": "Rozbalování...",
     "downloading": "Stahování {{percentage}}%",
-    "downloadingMultiple": "Stahování {{count}} modelů...",
-    "modelReady": "Model připraven",
-    "loading": "Načítám {{modelName}}...",
-    "loadingGeneric": "Načítání...",
-    "modelError": "Chyba modelu",
-    "modelUnloaded": "Model uvolněn",
-    "noModelDownloadRequired": "Žádný model - je nutné stáhnout",
     "deleteModel": "Smazat {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Zrušit",
     "cancelDownload": "Zrušit stahování",
     "capabilities": {
-      "languageSelection": "Podporuje více vstupních jazyků",
-      "singleLanguage": "Podporuje pouze tento jazyk",
       "languageCount": "{{total}} jazyků",
       "languageOnly": "Pouze {{language}}",
       "translation": "Umí překládat do angličtiny",
-      "translate": "Přeložit do angličtiny",
       "streaming": "Zobrazuje přepis živě, jak mluvíte"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "Nastavení {{model}}"
-    },
     "general": {
-      "title": "Obecné",
       "shortcut": {
         "title": "Zkratky J’écoute",
         "description": "Nastavte klávesové zkratky pro spuštění nahrávání řeči na text",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Chování zkratky",
-        "description": "Zvolte, jak má zkratka přepisu spouštět a zastavovat nahrávání.",
         "options": {
           "holdOrToggle": "Automaticky",
           "pushToTalk": "Podržet",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Modely přepisu",
-      "description": "Vyberte model přepisu nebo stáhněte další modely. Různé modely nabízejí různé úrovně přesnosti a rychlosti.",
       "searchPlaceholder": "Hledat modely podle názvu…",
       "yourModels": "Stažené modely",
       "availableModels": "Dostupné ke stažení",
@@ -226,16 +190,13 @@
         "translation": "Filtrovat modely podporující překlad do angličtiny"
       },
       "rescan": {
-        "label": "Znovu prohledat",
         "tooltip": "Znovu prohledat modely přidané do složky modelů nebo mezipaměti Hugging Face mimo J’écoute"
       },
       "noModelsMatch": "Tomuto filtru neodpovídají žádné modely."
     },
     "sound": {
-      "title": "Zvuk",
       "microphone": {
         "title": "Mikrofon",
-        "description": "Mikrofon, který vás poslouchá.",
         "placeholder": "Vyberte mikrofon...",
         "loading": "Načítání..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Výstup signálu",
-        "description": "Kde se zvukový signál přehraje.",
         "placeholder": "Vyberte výstupní zařízení...",
         "loading": "Načítání..."
       },
       "volume": {
-        "title": "Hlasitost signálu",
-        "description": "Upravte hlasitost zvukové odezvy"
+        "title": "Hlasitost signálu"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "Aplikace",
-        "output": "Výstup",
-        "transcription": "Přepis",
-        "history": "Historie",
-        "experimental": "Experimentální"
-      },
       "experimentalToggle": {
         "label": "Experimentální funkce",
         "description": "Funkce, které jsou stále ve vývoji."
@@ -382,7 +334,6 @@
         "title": "Slova k rozpoznání",
         "description": "Jména a odborné termíny, které mám psát správně.",
         "placeholder": "Přidat slovo",
-        "add": "Přidat",
         "remove": "Odebrat {{word}}",
         "duplicate": "„{{word}}“ už v seznamu je"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Klávesová zkratka"
-      },
       "api": {
         "title": "Poskytovatel AI",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "Historie",
       "openFolder": "Složka nahrávek",
       "loading": "Načítám historii...",
-      "empty": "Zatím žádné přepisy. Začněte nahrávat a vytvořte si historii!",
       "copyToClipboard": "Kopírovat",
       "copyError": "Přepis se nepodařilo zkopírovat do schránky.",
       "save": "Přidat do oblíbených",
@@ -570,11 +516,6 @@
         "description": "Zvolte backend pro klávesové zkratky.",
         "bindingsReset": "Klávesové zkratky byly nekompatibilní a byly obnoveny na výchozí hodnoty"
       },
-      "paths": {
-        "appData": "Data aplikace:",
-        "models": "Modely:",
-        "settings": "Nastavení:"
-      },
       "pasteDelay": {
         "title": "Zpoždění vložení (před)",
         "description": "Zpoždění (v milisekundách) po zkopírování textu, před odesláním klávesy pro vložení. Zvyšte, pokud se nic nevloží."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "O aplikaci",
-      "version": {
-        "title": "Verze",
-        "description": "Aktuální verze J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "Zobrazovat novinky",
         "description": "Po aktualizaci J’écoute."
@@ -631,15 +567,11 @@
         "description": "Modely, nastavení, nahrávky."
       },
       "sourceCode": {
-        "title": "Zdrojový kód",
-        "description": "Zobrazit zdrojový kód a přispět",
-        "button": "Zobrazit na GitHubu"
+        "title": "Zdrojový kód"
       },
       "acknowledgments": {
         "title": "Poděkování",
         "ggml": {
-          "title": "ggml",
-          "description": "Vysoce výkonné inferenční zpracování modelu automatického rozpoznávání řeči Whisper od OpenAI",
           "details": "J’écoute přepisuje lokálně díky ggml. Děkujeme Georgimu Gerganovovi a přispěvatelům za jejich skvělou práci."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Kontroluji aktualizace...",
     "updateAvailableShort": "Dostupná aktualizace",
-    "upToDate": "Vše aktuální",
     "updateCheckingDisabled": "Kontrola aktualizací vypnuta",
-    "downloading": "Stahování... {{progress}}%",
     "installing": "Instalace...",
     "preparing": "Příprava...",
-    "checkForUpdates": "Zkontrolovat aktualizace",
     "portableUpdateTitle": "Vyžadována ruční aktualizace",
     "portableUpdateMessage": "Přenosné instalace nelze aktualizovat automaticky. Níže stáhněte instalátor pro svůj systém, spusťte jej a nainstalujte do stejné složky — vaše složka Data/ (nastavení, modely, nahrávky) zůstane na místě.",
     "portableUpdateButton": "Stáhnout instalátor",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "Načítání...",
-    "delete": "Smazat",
     "close": "Zavřít",
     "open": "Otevřít",
     "copy": "Kopírovat",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Vzhled",
-    "description": "Zvolte, zda má J’écoute sledovat motiv systému, nebo zůstat světlý či tmavý",
     "options": {
       "system": "Systém",
       "light": "Světlý",

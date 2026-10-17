@@ -9,27 +9,10 @@
     "cancel": "Annuller",
     "secureInputWarning": "⚠ Genveje blokeret af Secure Input"
   },
-  "sidebar": {
-    "general": "Generelt",
-    "models": "Modeller",
-    "advanced": "Avanceret",
-    "postProcessing": "Efterbehandling",
-    "history": "Historik",
-    "debug": "Fejlfinding",
-    "about": "Om"
-  },
   "onboarding": {
-    "subtitle": "For at komme i gang skal du vælge en transskriptionsmodel",
-    "existingModelsTitle": "Kompatible modeller",
-    "downloadModelsTitle": "Tilgængelig til download",
-    "showAllModels": "Vis alle {{total}} modeller",
     "showFewerModels": "Vis færre modeller",
     "recommended": "Anbefalet",
     "customModelDescription": "Ikke officielt understøttet",
-    "modelCard": {
-      "accuracy": "nøjagtighed",
-      "speed": "hastighed"
-    },
     "models": {
       "small": {
         "name": "Whisper Small",
@@ -124,43 +107,27 @@
   "modelSelector": {
     "custom": "Brugerdefineret",
     "legacy": "Forældet",
-    "streaming": "Streaming",
     "active": "Aktiv",
     "switching": "Skifter...",
     "noModelsAvailable": "Ingen modeller tilgængelige",
     "verifying": "Verificerer {{modelName}}...",
     "verifyingGeneric": "Verificerer...",
     "extracting": "Udpakker {{modelName}}...",
-    "extractingMultiple": "Udpakker {{count}} modeller...",
     "extractingGeneric": "Udpakker...",
     "downloading": "Downloader {{percentage}}%",
-    "downloadingMultiple": "Downloader {{count}} modeller...",
-    "modelReady": "Model klar",
-    "loading": "Indlæser {{modelName}}...",
-    "loadingGeneric": "Indlæser...",
-    "modelError": "Modelfejl",
-    "modelUnloaded": "Model frigjort",
-    "noModelDownloadRequired": "Ingen model - download påkrævet",
     "deleteModel": "Slet {{modelName}}",
     "downloadSpeed": "{{speed}} MB/s",
     "cancel": "Annuller",
     "cancelDownload": "Annuller download",
     "capabilities": {
-      "languageSelection": "Understøtter flere inputsprog",
-      "singleLanguage": "Understøtter kun dette sprog",
       "languageCount": "{{total}} sprog",
       "languageOnly": "Kun {{language}}",
       "translation": "Kan oversætte til engelsk",
-      "translate": "Oversæt",
       "streaming": "Viser live transskription, mens du taler"
     }
   },
   "settings": {
-    "modelSettings": {
-      "title": "{{model}}-indstillinger"
-    },
     "general": {
-      "title": "Generelt",
       "shortcut": {
         "title": "J’écoute-genveje",
         "description": "Konfigurer tastaturgenveje til at udløse tale-til-tekst-optagelse",
@@ -198,7 +165,6 @@
       },
       "shortcutActivation": {
         "title": "Genvejens adfærd",
-        "description": "Vælg, hvordan transskriptionsgenvejen starter og stopper optagelsen.",
         "options": {
           "holdOrToggle": "Automatisk",
           "pushToTalk": "Hold",
@@ -212,8 +178,6 @@
       }
     },
     "models": {
-      "title": "Transskriptionsmodeller",
-      "description": "Vælg en transskriptionsmodel, eller download flere modeller. Forskellige modeller tilbyder varierende niveauer af nøjagtighed og hastighed.",
       "searchPlaceholder": "Søg efter modeller ved navn…",
       "yourModels": "Downloadede modeller",
       "availableModels": "Tilgængelig til download",
@@ -226,16 +190,13 @@
         "translation": "Filtrer modeller, der understøtter oversættelse til engelsk"
       },
       "rescan": {
-        "label": "Søg igen",
         "tooltip": "Søg igen efter modeller, der er tilføjet til modelmappen eller Hugging Face-cachen uden for J’écoute"
       },
       "noModelsMatch": "Ingen modeller matcher dette filter."
     },
     "sound": {
-      "title": "Lyd",
       "microphone": {
         "title": "Mikrofon",
-        "description": "Mikrofonen, der lytter til dig.",
         "placeholder": "Vælg mikrofon...",
         "loading": "Indlæser..."
       },
@@ -251,23 +212,14 @@
       },
       "outputDevice": {
         "title": "Signaludgang",
-        "description": "Hvor lydsignalet afspilles.",
         "placeholder": "Vælg outputenhed...",
         "loading": "Indlæser..."
       },
       "volume": {
-        "title": "Signalets lydstyrke",
-        "description": "Juster lydstyrken for lydfeedback"
+        "title": "Signalets lydstyrke"
       }
     },
     "advanced": {
-      "groups": {
-        "app": "App",
-        "output": "Output",
-        "transcription": "Transskription",
-        "history": "Historik",
-        "experimental": "Eksperimentel"
-      },
       "experimentalToggle": {
         "label": "Eksperimentelle funktioner",
         "description": "Funktioner, der stadig er under udvikling."
@@ -382,7 +334,6 @@
         "title": "Egne ord",
         "description": "Navne og fagudtryk, som jeg skal stave rigtigt.",
         "placeholder": "Tilføj et ord",
-        "add": "Tilføj",
         "remove": "Fjern {{word}}",
         "duplicate": "»{{word}}« er allerede på listen"
       },
@@ -413,9 +364,6 @@
       }
     },
     "postProcessing": {
-      "hotkey": {
-        "title": "Genvejstast"
-      },
       "api": {
         "title": "AI-udbyder",
         "provider": {
@@ -467,10 +415,8 @@
       }
     },
     "history": {
-      "title": "Historik",
       "openFolder": "Mappe med optagelser",
       "loading": "Indlæser historik...",
-      "empty": "Ingen transskriptioner endnu. Start optagelse for at opbygge din historik!",
       "copyToClipboard": "Kopiér",
       "copyError": "Kunne ikke kopiere transskriptionen til udklipsholderen.",
       "save": "Føj til favoritter",
@@ -570,11 +516,6 @@
         "description": "Vælg backend til tastaturgenveje.",
         "bindingsReset": "Tastaturgenveje var inkompatible og blev nulstillet til standard"
       },
-      "paths": {
-        "appData": "Appdata:",
-        "models": "Modeller:",
-        "settings": "Indstillinger:"
-      },
       "pasteDelay": {
         "title": "Forsinkelse af indsættelse (før)",
         "description": "Forsinkelse (i millisekunder) efter kopiering af tekst, før tastetrykket for indsætning sendes. Øg, hvis intet bliver indsat."
@@ -617,11 +558,6 @@
       }
     },
     "about": {
-      "title": "Om",
-      "version": {
-        "title": "Version",
-        "description": "Nuværende version af J’écoute"
-      },
       "whatsNewUpdates": {
         "label": "Vis nyheder",
         "description": "Efter en opdatering af J’écoute."
@@ -631,15 +567,11 @@
         "description": "Modeller, indstillinger, optagelser."
       },
       "sourceCode": {
-        "title": "Kildekode",
-        "description": "Se kildekode og bidrag",
-        "button": "Vis på GitHub"
+        "title": "Kildekode"
       },
       "acknowledgments": {
         "title": "Anerkendelser",
         "ggml": {
-          "title": "ggml",
-          "description": "Højtydende tensor-bibliotek til maskinlæringsinferens på enheden",
           "details": "J’écoute transskriberer lokalt takket være ggml. Tak til Georgi Gerganov og bidragyderne for deres fantastiske arbejde."
         }
       },
@@ -649,12 +581,9 @@
   "footer": {
     "checkingUpdates": "Tjekker for opdateringer...",
     "updateAvailableShort": "Opdatering tilgængelig",
-    "upToDate": "Opdateret",
     "updateCheckingDisabled": "Tjek for opdateringer deaktiveret",
-    "downloading": "Downloader... {{progress}}%",
     "installing": "Installerer...",
     "preparing": "Forbereder...",
-    "checkForUpdates": "Tjek for opdateringer",
     "portableUpdateTitle": "Manuel opdatering påkrævet",
     "portableUpdateMessage": "Flytbare installationer kan ikke opdateres automatisk. Download installeren til dit system nedenfor, kør den, og installer i den samme mappe — din Data/-mappe (indstillinger, modeller, optagelser) bliver bevaret.",
     "portableUpdateButton": "Download installer",
@@ -666,7 +595,6 @@
   },
   "common": {
     "loading": "Indlæser...",
-    "delete": "Slet",
     "close": "Luk",
     "open": "Åbn",
     "copy": "Kopiér",
@@ -703,7 +631,6 @@
   },
   "theme": {
     "title": "Udseende",
-    "description": "Vælg om J’écoute skal følge dit systemtema eller forblive lyst eller mørkt",
     "options": {
       "system": "System",
       "light": "Lys",
