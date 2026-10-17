@@ -90,6 +90,10 @@ Toutes ses humeurs et ses animations : **[docs/personnage.md](docs/personnage.m
 
 ## Installation
 
+De l’installeur à ta première dictée, en 30 secondes :
+
+https://github.com/user-attachments/assets/4e66e7b9-4aaf-48d5-8807-6908f7f5f884
+
 1. **Télécharge** `Jecoute_<version>_x64-setup.exe` sur la page des
    [releases](https://github.com/ponthieutheo/jecoute/releases/latest) (Windows 10 ou 11, 64 bits).
 2. **Lance-le.** L’installeur n’est pas signé (il n’a pas de certificat de signature de code), donc Windows ne le
