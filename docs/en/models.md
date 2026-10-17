@@ -90,9 +90,11 @@ TDT 0.6B v3, Nemotron Streaming 3.5 and Canary 180M Flash without.
 | portable | `Data\huggingface\hub`, next to `jecoute.exe`                                            | `Data\models`                                     |
 
 A catalog model already in the Hugging Face cache is not downloaded again, and other compatible GGUF files found there
-show up in the list. To add a model by hand, copy its `.gguf` file into the `models` folder of the app data
-(Settings › About › “App data”), then click the circular arrow of the list (“Rescan for models added to the models folder or Hugging Face cache outside J’écoute”): it shows up with the
-“Custom” tag.
+show up in the list.
+
+To add a model by hand, copy its `.gguf` file into the `models` folder of the app data (Settings › About ›
+“App data”), then click the circular arrow of the list (“Rescan for models added to the models folder or Hugging
+Face cache outside J’écoute”): it shows up with the “Custom” tag.
 
 A model’s trash can deletes it from disk, Hugging Face cache included. “Free up memory” (Settings › App) unloads it
 from memory when you stop dictating, without deleting it.

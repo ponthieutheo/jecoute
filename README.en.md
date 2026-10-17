@@ -141,7 +141,8 @@ screen. Comparing models: **[docs/en/models.md](docs/en/models.md)**.
 
 - Change the shortcut, and choose between holding the keys and pressing to start.
 - Pick the microphone, mute the computer while you dictate, add a sound signal at the start and the end.
-- Paste or type the text, submit it with Enter for you, remove the “uh”s, teach it your names and technical terms.
+- Paste or type the text, submit it with Enter for you, remove filler words like “uh”, teach it your names and
+  technical terms.
 - Have an AI review the text with your own instructions, then compare the raw and corrected versions word by word.
 - Choose what shows up during a dictation: the character, a minimal pill, live text, or nothing.
 - Find, replay, re-transcribe or star a dictation.
