@@ -10,7 +10,7 @@ assignees: ""
 Merci de signaler ce problème !
 Avant d'envoyer : cherche s'il n'est pas déjà signalé (issues ouvertes et fermées) et jette un œil à la section « Dépannage » du README.
 
-English is welcome: just fill in the same sections.
+English is welcome: just fill in the same sections (version: Settings > About; log folder: Settings > About > Logs).
 -->
 
 ## Le problème
@@ -25,17 +25,19 @@ English is welcome: just fill in the same sections.
 
 ## Ton système
 
-- **Version de J’écoute** : <!-- Paramètres > À propos -->
+- **Version de J’écoute** : <!-- Réglages > À propos -->
 - **Installation** : <!-- installeur .exe, installeur .msi ou version portable -->
 - **Système d'exploitation** : <!-- ex. Windows 11 24H2 -->
 - **Processeur** : <!-- ex. AMD Ryzen 7 5800X, Intel Core i5-1135G7 -->
 - **Carte graphique** : <!-- ex. NVIDIA RTX 4070, Intel UHD Graphics -->
-- **Modèle de transcription** : <!-- ex. Whisper Large v3 Turbo, Parakeet V3 -->
-- **Raccourci** : <!-- ex. Ctrl+Espace, maintenu ou appui simple -->
+- **Modèle de transcription** : <!-- ex. Cohere Transcribe, Parakeet TDT 0.6B v3 -->
+- **Raccourci** : <!-- ex. Ctrl+Espace, maintenu ou appui court -->
+- **Correction par IA** : <!-- désactivée, ou le fournisseur choisi -->
 
 ## Journaux
 
 <!--
-Joins le fichier journal si tu peux. Son dossier est indiqué dans la section Débogage (Ctrl+Maj+D, Cmd+Maj+D sur Mac) > Répertoire des journaux.
-Relis-le avant de l'envoyer : il peut contenir des extraits de tes transcriptions.
+Joins le fichier journal (jecoute.log) si tu peux : Réglages > À propos > Journaux ouvre son dossier.
+Pour un journal plus détaillé : Réglages > Application > Options avancées > Mode débogage (ou Ctrl+Maj+D), puis le niveau de journalisation.
+Relis-le avant de l'envoyer : il peut contenir des extraits de tes dictées.
 -->
