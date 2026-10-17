@@ -154,6 +154,10 @@ if ($BodyPath) {
     "Les installeurs ne sont pas encore signés : Windows SmartScreen peut afficher « Windows a protégé votre ordinateur ». Clique sur « Informations complémentaires », puis sur « Exécuter quand même ».",
     "",
     "Une installation existante se met à jour d'elle-même (``latest.json`` et fichiers ``.sig``).",
+    "",
+    "### Install (English)",
+    "",
+    "Windows 10/11, 64-bit. **``$setup``** is the recommended installer (it also offers a portable install); ``$msi`` is the same app as an MSI package. The installers are not code-signed yet: if Windows SmartScreen says *Windows protected your PC*, click **More info**, then **Run anyway**. Existing installations update themselves.",
     ""
   )
   if ($Attestations) {
