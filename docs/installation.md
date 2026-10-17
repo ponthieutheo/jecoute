@@ -4,7 +4,7 @@
 
 Compte quelques minutes, surtout le temps de télécharger le modèle. La prise en main en vidéo :
 
-VIDEO_PRISE_EN_MAIN
+https://github.com/user-attachments/assets/4e66e7b9-4aaf-48d5-8807-6908f7f5f884
 
 ## 1. Ce qu’il te faut
 

@@ -15,7 +15,7 @@
   <img src="docs/media/apercu.webp" width="720" alt="On maintient Ctrl+Espace : le perso surgit en bas de l’écran, tend l’oreille, tape sur son petit clavier, la phrase apparaît dans l’éditeur, puis il repart">
 </p>
 
-VIDEO_TEASER_16_9
+https://github.com/user-attachments/assets/56bb71ef-4be1-4a21-861d-8c597c0d62b5
 
 <p align="center"><sub>Images et vidéos tournées avec des dictées inventées.</sub></p>
 

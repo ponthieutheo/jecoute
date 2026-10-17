@@ -15,7 +15,7 @@
   <img src="docs/media/apercu-en.webp" width="720" alt="Holding Ctrl+Space: the character pops up at the bottom of the screen, leans in to listen, types on its tiny keyboard, the sentence appears in the editor, then it slips away">
 </p>
 
-VIDEO_TEASER_16_9
+https://github.com/user-attachments/assets/5fd4adf7-0ecc-44f5-8b48-58367ba5c7a9
 
 <p align="center"><sub>Screenshots and videos use made-up dictations.</sub></p>
 

@@ -2,9 +2,9 @@
 
 [Français](../installation.md) · **English**
 
-It takes a few minutes, mostly to download the model. Getting started, on video:
+It takes a few minutes, mostly to download the model. Getting started, on video (on-screen text in French):
 
-VIDEO_PRISE_EN_MAIN
+https://github.com/user-attachments/assets/4e66e7b9-4aaf-48d5-8807-6908f7f5f884
 
 ## 1. What you need
 
