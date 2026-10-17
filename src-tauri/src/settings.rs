@@ -639,7 +639,7 @@ fn default_auto_submit() -> bool {
 }
 
 fn default_history_limit() -> usize {
-    5
+    50
 }
 
 fn default_recording_retention_period() -> RecordingRetentionPeriod {
