@@ -29,8 +29,5 @@ dist-ssr
 /target/
 recording_*
 
-.direnv
-.envrc
-
 # Python bytecode (scripts/)
 __pycache__/
