@@ -330,18 +330,18 @@ Avec un modèle qui écrit en direct, « Personnage » affiche aussi la carte 
 
 #### Taille de l’historique
 
-« Les plus anciennes dictées s’effacent (sauf les favoris). » Le nombre de dictées gardées : 5 au départ. Il
-s’applique tant que « Enregistrements audio » est sur « Garder les 5 plus récents ».
+« Le nombre de dictées gardées quand « Conserver les dictées » est sur les plus récentes. Les favoris ne comptent
+pas. » 50 au départ.
 
 <p align="center"><img src="media/fr/fonctions/historique-limite.png" width="480" alt="Le nombre de dictées gardées dans l’historique"></p>
 
-#### Enregistrements audio
+#### Conserver les dictées
 
-« Supprimer les anciens enregistrements pour gagner de la place. » « Garder les 5 plus récents » (au départ : le
-nombre réglé dans « Historique »), « Les garder » (rien ne s’efface), ou supprimer après 3 jours, 2 semaines ou 3 mois.
+« Les anciennes dictées (texte et audio) s’effacent, sauf les favoris. » « Les 50 plus récentes » (au départ : le
+nombre réglé dans « Historique »), « Toujours » (rien ne s’efface), « 3 jours », « 2 semaines » ou « 3 mois ».
 Une dictée effacée part avec son enregistrement ; les favoris restent toujours.
 
-<p align="center"><img src="media/fr/fonctions/enregistrements.png" width="480" alt="Enregistrements audio : les choix de conservation"></p>
+<p align="center"><img src="media/fr/fonctions/enregistrements.png" width="480" alt="Conserver les dictées : les choix de conservation"></p>
 
 #### Mises à jour et nouveautés
 

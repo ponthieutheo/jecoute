@@ -50,8 +50,8 @@ In a portable install, `Data\` sits next to `jecoute.exe`. Settings › About �
 
 ## What the history keeps
 
-- **By default, your last 5 dictations**, with their recording, plus your favorites. Older ones are erased.
-- **The rule is set** in Settings › App › “Audio recordings”: “Keep latest 5” (the number set in “History”), “Never”
+- **By default, your last 50 dictations**, with their recording, plus your favorites. Older ones are erased.
+- **The rule is set** in Settings › App › “Keep dictations”: “Latest 50” (the number set in “History”), “Forever”
   (nothing is erased), or erase what is older than 3 days, 2 weeks or 3 months. An erased dictation goes with its
   recording; favorites always stay.
 - **A dictation’s trash can** (“Delete”) erases its text and its recording.

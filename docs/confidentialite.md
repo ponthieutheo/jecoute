@@ -52,9 +52,9 @@ ouvrent ces dossiers.
 
 ## Ce que l’historique garde
 
-- **Par défaut, tes 5 dernières dictées**, avec leur enregistrement, plus les favoris. Les plus anciennes s’effacent.
-- **La règle se choisit** dans Réglages › Application › « Enregistrements audio » : « Garder les 5 plus récents » (le
-  nombre réglé dans « Historique »), « Les garder » (rien ne s’efface), ou effacer ce qui a plus de 3 jours, 2 semaines
+- **Par défaut, tes 50 dernières dictées**, avec leur enregistrement, plus les favoris. Les plus anciennes s’effacent.
+- **La règle se choisit** dans Réglages › Application › « Conserver les dictées » : « Les 50 plus récentes » (le
+  nombre réglé dans « Historique »), « Toujours » (rien ne s’efface), ou effacer ce qui a plus de 3 jours, 2 semaines
   ou 3 mois. Une dictée effacée part avec son enregistrement ; les favoris restent toujours.
 - **La corbeille** d’une dictée (« Supprimer ») efface son texte et son enregistrement.
 - **Une dictée corrigée par l’IA** garde ses deux versions, la brute et la corrigée.

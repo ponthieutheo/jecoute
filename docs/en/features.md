@@ -324,18 +324,17 @@ The model loads again on the next dictation.
 
 #### History size
 
-“Older dictations are erased (favorites are kept).” How many dictations to keep: 5 by default. It applies as long as
-“Audio recordings” is set to “Keep latest 5”.
+“How many dictations are kept when “Keep dictations” is set to the latest. Favorites don’t count.” 50 by default.
 
 <p align="center"><img src="../media/en/fonctions/historique-limite.png" width="480" alt="How many dictations the history keeps"></p>
 
-#### Audio recordings
+#### Keep dictations
 
-“Delete old recordings to save space.” “Keep latest 5” (by default: the number set in “History”), “Never” (nothing
-is erased), or delete “After 3 days”, “After 2 weeks” or “After 3 months”. An erased dictation goes with its
+“Older dictations (text and audio) are erased, favorites are kept.” “Latest 50” (by default: the number set in
+“History”), “Forever” (nothing is erased), “3 days”, “2 weeks” or “3 months”. An erased dictation goes with its
 recording; favorites always stay.
 
-<p align="center"><img src="../media/en/fonctions/enregistrements.png" width="480" alt="Audio recordings: the retention options"></p>
+<p align="center"><img src="../media/en/fonctions/enregistrements.png" width="480" alt="Keep dictations: the retention options"></p>
 
 #### Updates and what’s new
 
