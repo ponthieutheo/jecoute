@@ -371,7 +371,8 @@ pub fn notes_schema() -> Value {
 enum AnyTodo {
     Plain(String),
     Detailed {
-        text: String,
+        #[serde(default)]
+        text: Option<String>,
         #[serde(default)]
         owner: Option<String>,
         #[serde(default)]
@@ -379,13 +380,24 @@ enum AnyTodo {
     },
 }
 
+/// `null` where a list is expected: an empty list.
+fn null_as_empty<'de, D, T>(d: D) -> Result<Vec<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: Deserialize<'de>,
+{
+    Ok(Option::<Vec<T>>::deserialize(d)?.unwrap_or_default())
+}
+
 #[derive(Deserialize, Default)]
 #[serde(default)]
 struct AnyNotes {
     title: Option<String>,
     summary: Option<String>,
+    #[serde(deserialize_with = "null_as_empty")]
     key_points: Vec<Option<String>>,
-    todos: Vec<AnyTodo>,
+    #[serde(deserialize_with = "null_as_empty")]
+    todos: Vec<Option<AnyTodo>>,
 }
 
 /// A field the AI may fill with "", "null" or spaces: None then.
@@ -412,14 +424,15 @@ pub fn read_notes(reply: &str) -> Option<Notes> {
         todos: raw
             .todos
             .into_iter()
+            .flatten()
             .filter_map(|t| {
                 let (text, owner, due) = match t {
-                    AnyTodo::Plain(text) => (text, None, None),
+                    AnyTodo::Plain(text) => (Some(text), None, None),
                     AnyTodo::Detailed { text, owner, due } => (text, owner, due),
                 };
                 Some(Todo {
                     id: unique_id(),
-                    text: meaningful(Some(text))?,
+                    text: meaningful(text)?,
                     owner: meaningful(owner),
                     due: meaningful(due),
                     done: false,
@@ -644,6 +657,26 @@ mod tests {
         assert_eq!(notes.todos[1].text, "Relire");
         assert!(read_notes("no json here").is_none());
         assert!(read_notes("{\"summary\":\"\"}").is_none());
+    }
+
+    #[test]
+    fn null_lists_and_fields_read_as_empty() {
+        let notes = read_notes(
+            r#"{"title":null,"summary":"On en reparle lundi.","key_points":null,"todos":null}"#,
+        )
+        .unwrap();
+        assert_eq!(notes.title, None);
+        assert_eq!(notes.summary, "On en reparle lundi.");
+        assert!(notes.key_points.is_empty() && notes.todos.is_empty());
+
+        let notes = read_notes(
+            r#"{"summary":null,"key_points":["a"],"todos":[null,{"text":null,"owner":null},{"text":"Appeler","owner":null,"due":null}]}"#,
+        )
+        .unwrap();
+        assert_eq!(notes.summary, "");
+        assert_eq!(notes.key_points, ["a"]);
+        assert_eq!(notes.todos.len(), 1);
+        assert_eq!(notes.todos[0].text, "Appeler");
     }
 
     #[test]
