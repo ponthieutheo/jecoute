@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Download, Info, Settings2, Users } from "lucide-react";
+import { ArrowLeft, Download, Info, Settings2, Sparkles, Users } from "lucide-react";
 import { commands, type CallListItem, type CallsState } from "@/bindings";
 import { useCallsStore } from "@/stores/callsStore";
 import { useNavigationStore } from "@/stores/navigationStore";
+import { useSettingsStore } from "@/stores/settingsStore";
 import { Switch } from "@/components/ui/ToggleSwitch";
 import { useInert } from "../hooks/useInert";
 import { Popover } from "../ui/Popover";
@@ -125,6 +126,9 @@ const CallSettings: React.FC<{ state: CallsState }> = ({ state }) => {
                   model: state.summary.model,
                 })
               : t("app.calls.settings.summaryMissing")}
+            {state.summary.ready && !state.summary.local && (
+              <> {t("app.calls.summaryRemote")}</>
+            )}
           </p>
           {!state.summary.ready && (
             <button
@@ -256,6 +260,13 @@ export const CallsView: React.FC = () => {
   const rootRef = useInert<HTMLDivElement>(!isOpen);
   const settingsRef = useRef<HTMLButtonElement>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const settings = useSettingsStore((s) => s.settings);
+
+  // Le fournisseur du résumé (et donc ce que dit le pied de page) se règle
+  // ailleurs : relu à l'ouverture et à chaque changement de réglage.
+  useEffect(() => {
+    if (isOpen) void useCallsStore.getState().refresh();
+  }, [isOpen, settings]);
 
   // Échap revient à l'accueil.
   useEffect(() => {
@@ -393,6 +404,13 @@ export const CallsView: React.FC = () => {
           <Info size={14} aria-hidden="true" />
           {t("app.calls.consent")}
         </span>
+        {state?.summary.enabled && state.summary.ready && (
+          <span className="j-c-sent">
+            <Sparkles size={14} aria-hidden="true" />
+            {t("app.calls.summarySent", { provider: state.summary.provider })}
+            {!state.summary.local && ` ${t("app.calls.summaryRemote")}`}
+          </span>
+        )}
       </div>
 
       <Popover

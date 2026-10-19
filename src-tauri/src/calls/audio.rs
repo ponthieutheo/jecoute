@@ -23,6 +23,11 @@ use crate::audio_toolkit::audio::FrameResampler;
 pub const SAMPLE_RATE: u32 = 16_000;
 const RATE: usize = SAMPLE_RATE as usize;
 
+/// Samples of silence standing for the time a device took to open.
+fn lead_in(opening: Duration) -> usize {
+    (opening.as_secs_f64() * RATE as f64).round() as usize
+}
+
 /// Where the sound comes from.
 #[derive(Debug, Clone, PartialEq)]
 pub enum Source {
@@ -123,11 +128,16 @@ impl Capture {
                     in_rate,
                     channels
                 );
+                // Opening the device took a moment: the track starts with that
+                // much silence, so its sample 0 is `t0`, like the other track's.
+                let mut produced = lead_in(t0.elapsed());
+                if produced > 0 {
+                    sink(&vec![0.0; produced]);
+                }
                 let _ = ready_tx.send(Ok(()));
 
                 let mut resampler = FrameResampler::new(in_rate, RATE, Duration::from_millis(20));
                 let mut out: Vec<f32> = Vec::with_capacity(RATE);
-                let mut produced: usize = 0;
                 let mut last_input = Instant::now();
                 let mut raw: Vec<f32> = Vec::with_capacity(in_rate);
                 while !thread_stop.load(Ordering::Relaxed) {
@@ -272,12 +282,18 @@ where
 
 // ── Recording to disk ─────────────────────────────────────────────────────────
 
-/// One side of a call on disk: 16 kHz mono, 16 bits. `sync` (every second
-/// while recording) pushes the samples and the sizes in the header to the
-/// disk, so a crash loses about a second of the call, never the file.
+/// One side of a call on disk: 16 kHz mono, 16 bits. Every second of sound
+/// written, the samples and the sizes in the header are pushed to the disk
+/// by `append` itself (from the capture thread, which never waits for the
+/// model), so a crash loses about a second of the call, never the file.
 pub struct TrackFile {
     writer: hound::WavWriter<std::io::BufWriter<std::fs::File>>,
+    /// Samples written since the header was last brought up to date.
+    unsynced: usize,
 }
+
+/// How much sound, in samples, may wait in memory before reaching the disk.
+const SYNC_EVERY: usize = RATE;
 
 fn track_spec() -> hound::WavSpec {
     hound::WavSpec {
@@ -291,7 +307,10 @@ fn track_spec() -> hound::WavSpec {
 impl TrackFile {
     pub fn create(path: &Path) -> Result<TrackFile, String> {
         hound::WavWriter::create(path, track_spec())
-            .map(|writer| TrackFile { writer })
+            .map(|writer| TrackFile {
+                writer,
+                unsynced: 0,
+            })
             .map_err(|e| e.to_string())
     }
 
@@ -300,10 +319,15 @@ impl TrackFile {
             let v = (s.clamp(-1.0, 1.0) * i16::MAX as f32).round() as i16;
             self.writer.write_sample(v).map_err(|e| e.to_string())?;
         }
+        self.unsynced += samples.len();
+        if self.unsynced >= SYNC_EVERY {
+            self.sync()?;
+        }
         Ok(())
     }
 
     pub fn sync(&mut self) -> Result<(), String> {
+        self.unsynced = 0;
         self.writer.flush().map_err(|e| e.to_string())
     }
 
@@ -324,6 +348,28 @@ pub fn load_track(path: &Path) -> Result<Vec<f32>, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn a_late_device_starts_with_silence() {
+        assert_eq!(lead_in(Duration::ZERO), 0);
+        assert_eq!(lead_in(Duration::from_millis(250)), RATE / 4);
+        assert_eq!(lead_in(Duration::from_secs(2)), 2 * RATE);
+    }
+
+    #[test]
+    fn a_track_reaches_the_disk_every_second_by_itself() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("system.wav");
+        let mut track = TrackFile::create(&path).unwrap();
+        // 2.5 s in 10 ms blocks, as the capture threads hand them over.
+        for _ in 0..250 {
+            track.append(&[0.1; RATE / 100]).unwrap();
+        }
+        // The app is killed here: nobody called `sync` or `close`.
+        let back = load_track(&path).unwrap();
+        assert!(back.len() >= 2 * RATE, "{} samples", back.len());
+        drop(track);
+    }
 
     #[test]
     fn a_track_survives_a_crash_after_a_sync() {

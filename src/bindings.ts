@@ -1480,7 +1480,12 @@ ready: boolean;
 /**
  * The setting "Summary by AI" for calls.
  */
-enabled: boolean; provider: string | null; model: string | null }
+enabled: boolean; provider: string | null; model: string | null; 
+/**
+ * The provider runs on this computer (localhost): the transcript does
+ * not leave it.
+ */
+local: boolean }
 /**
  * UI appearance mode. `System` follows the OS `prefers-color-scheme`; `Light`
  * and `Dark` force one of the two palettes Handy already ships.

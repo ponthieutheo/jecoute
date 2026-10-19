@@ -15,8 +15,11 @@ const FRAME: usize = 256;
 const VOICE_SCORE: f32 = 0.5;
 /// …and when it is not near-silent (Earshot alone can fire on hiss).
 const MIN_RMS: f32 = 0.004;
-/// Longest piece given to the model at once (whisper-family models take 30 s).
-pub const MAX_PIECE_SECONDS: f64 = 28.0;
+/// Longest piece given to the model at once. Whisper-family models would take
+/// 30 s, but a dictation made while a call is written waits for the piece in
+/// progress: short pieces keep that wait short. Most pieces end on a pause
+/// well before this anyway (see `speech_spans`).
+pub const MAX_PIECE_SECONDS: f64 = 15.0;
 
 /// A stretch of the recording, in samples.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -228,6 +231,91 @@ pub fn split_by_voice(spans: &[Span], turns: &[Turn]) -> Vec<(Span, Option<usize
     out
 }
 
+// ── Hearing the echo ─────────────────────────────────────────────────────────
+
+/// Loudness is compared on 20 ms frames.
+const ENV_FRAME: usize = RATE / 50;
+/// Quieter than this (dB) is silence.
+const ENV_FLOOR_DB: f32 = -60.0;
+/// The echo reaches the microphone up to 300 ms after the computer played it
+/// (or 100 ms before, two devices never quite agree on the time).
+const ENV_LAG_AFTER: isize = 15;
+const ENV_LAG_BEFORE: isize = 5;
+/// Correlation of the two loudness curves above which they are one sound.
+const ENV_MATCH: f32 = 0.5;
+/// Shortest stretch, in frames, worth comparing (0.5 s).
+const ENV_MIN_FRAMES: usize = 25;
+
+/// Loudness in dB of `count` frames of `samples` from frame `first` (frames
+/// before the start or past the end are silence).
+fn loudness(samples: &[f32], first: isize, count: usize) -> Vec<f32> {
+    (0..count as isize)
+        .map(|i| {
+            let at = first + i;
+            if at < 0 {
+                return ENV_FLOOR_DB;
+            }
+            let from = at as usize * ENV_FRAME;
+            let Some(frame) = samples.get(from..from + ENV_FRAME) else {
+                return ENV_FLOOR_DB;
+            };
+            let power = frame.iter().map(|s| s * s).sum::<f32>() / ENV_FRAME as f32;
+            (10.0 * power.max(1e-12).log10()).max(ENV_FLOOR_DB)
+        })
+        .collect()
+}
+
+fn correlation(a: &[f32], b: &[f32]) -> f32 {
+    let n = a.len().min(b.len()) as f32;
+    if n < 2.0 {
+        return 0.0;
+    }
+    let mean_a = a.iter().sum::<f32>() / n;
+    let mean_b = b.iter().sum::<f32>() / n;
+    let (mut ab, mut aa, mut bb) = (0.0f32, 0.0f32, 0.0f32);
+    for (x, y) in a.iter().zip(b) {
+        let (x, y) = (x - mean_a, y - mean_b);
+        ab += x * y;
+        aa += x * x;
+        bb += y * y;
+    }
+    if aa <= f32::EPSILON || bb <= f32::EPSILON {
+        return 0.0;
+    }
+    ab / (aa * bb).sqrt()
+}
+
+/// Whether, between `start` and `end` (seconds), the microphone's loudness
+/// rises and falls with the computer's sound, a little later: the microphone
+/// then hears the speakers. False when the computer was silent there. True
+/// when the stretch is too short to tell (the words decide alone).
+pub fn sounds_alike(mic: &[f32], system: &[f32], start: f64, end: f64) -> bool {
+    let first = (start.max(0.0) * RATE as f64) as usize / ENV_FRAME;
+    let last = ((end.max(0.0) * RATE as f64) as usize).min(mic.len()) / ENV_FRAME;
+    let count = last.saturating_sub(first);
+    if count < ENV_MIN_FRAMES {
+        return true;
+    }
+    let heard = loudness(mic, first as isize, count);
+    let played = loudness(
+        system,
+        first as isize - ENV_LAG_AFTER,
+        count + (ENV_LAG_AFTER + ENV_LAG_BEFORE) as usize,
+    );
+    if played.iter().all(|db| *db <= ENV_FLOOR_DB + 10.0) {
+        return false;
+    }
+    // `played[k]` is the computer's frame `first - ENV_LAG_AFTER + k`: the
+    // microphone's frame `first + i` heard it `lag` frames later.
+    let best = (-ENV_LAG_BEFORE..=ENV_LAG_AFTER)
+        .map(|lag| {
+            let offset = (ENV_LAG_AFTER - lag) as usize;
+            correlation(&heard, &played[offset..offset + count])
+        })
+        .fold(f32::MIN, f32::max);
+    best >= ENV_MATCH
+}
+
 /// The sound of one side not yet sent to the live transcript. A stretch is
 /// handed over once someone stops talking for half a second (when it holds
 /// 1.5 s or more), or when it reaches 12 s without a break.
@@ -299,6 +387,30 @@ impl LiveCutter {
     }
 }
 
+/// Test sound: noise shaped like speech (bursts of 120 to 300 ms, each
+/// with its own loudness, and short gaps).
+#[cfg(test)]
+pub(crate) fn babble(seed: u64, seconds: f64) -> Vec<f32> {
+    let mut state = seed;
+    let mut next = move || {
+        state = state
+            .wrapping_mul(6364136223846793005)
+            .wrapping_add(1442695040888963407);
+        ((state >> 33) as f32 / (1u64 << 31) as f32) * 2.0 - 1.0
+    };
+    let total = (RATE as f64 * seconds) as usize;
+    let mut out = Vec::with_capacity(total);
+    while out.len() < total {
+        let burst = RATE / 1000 * (120 + (next().abs() * 180.0) as usize);
+        let level = 0.05 + next().abs() * 0.3;
+        out.extend((0..burst).map(|_| next() * level));
+        let gap = RATE / 1000 * (30 + (next().abs() * 120.0) as usize);
+        out.extend((0..gap).map(|_| next() * 0.002));
+    }
+    out.truncate(total);
+    out
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -327,6 +439,25 @@ mod tests {
         assert_eq!(parts.len(), 2);
         let cut = parts[1].start as f64 / RATE as f64;
         assert!((25.0..=26.0).contains(&cut), "cut at {cut}");
+        assert_eq!(parts.iter().map(|p| p.len()).sum::<usize>(), samples.len());
+    }
+
+    #[test]
+    fn pieces_stay_short_and_end_in_a_pause() {
+        let mut samples = tone(300.0, 12.0);
+        samples.extend(vec![0.0; RATE / 2]); // a pause from 12 s to 12.5 s
+        samples.extend(tone(300.0, 20.0));
+        let parts = split_long(
+            &samples,
+            Span {
+                start: 0,
+                end: samples.len(),
+            },
+            MAX_PIECE_SECONDS,
+        );
+        assert!(parts.iter().all(|p| p.len() <= 15 * RATE));
+        let cut = parts[1].start as f64 / RATE as f64;
+        assert!((12.0..=12.5).contains(&cut), "cut at {cut}");
         assert_eq!(parts.iter().map(|p| p.len()).sum::<usize>(), samples.len());
     }
 
@@ -361,6 +492,26 @@ mod tests {
         let cut = parts[1].0.start as f64 / RATE as f64;
         assert!((3.9..=4.3).contains(&cut), "cut at {cut}");
         assert_eq!(parts[1].0.end, RATE * 10);
+    }
+
+    #[test]
+    fn the_echo_is_heard_and_another_voice_is_not() {
+        let played = babble(1, 6.0);
+        // The speakers, 40 ms later and quieter, plus the room's hiss.
+        let delay = RATE * 40 / 1000;
+        let hiss = babble(9, 6.0);
+        let echo: Vec<f32> = (0..played.len())
+            .map(|i| {
+                let late = i.checked_sub(delay).map_or(0.0, |j| played[j]);
+                late * 0.3 + hiss[i] * 0.01
+            })
+            .collect();
+        assert!(sounds_alike(&echo, &played, 1.0, 5.0));
+        // Someone else, on the microphone, while the computer plays.
+        let other = babble(2, 6.0);
+        assert!(!sounds_alike(&other, &played, 1.0, 5.0));
+        // The computer silent: nothing to echo.
+        assert!(!sounds_alike(&other, &vec![0.0; played.len()], 1.0, 5.0));
     }
 
     #[test]

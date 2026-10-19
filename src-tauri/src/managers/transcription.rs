@@ -355,6 +355,16 @@ enum TranscribeCaller {
     Background,
 }
 
+/// The settings a transcription runs with. A recorded call keeps the
+/// language it was spoken in: the translation into English is a setting of
+/// dictation only (the custom words and the language still apply).
+fn settings_for(caller: TranscribeCaller, mut settings: AppSettings) -> AppSettings {
+    if caller == TranscribeCaller::Background {
+        settings.translate_to_english = false;
+    }
+    settings
+}
+
 /// Longest wait for the engine while another transcription holds it.
 const ENGINE_WAIT_LIMIT: Duration = Duration::from_secs(300);
 
@@ -1490,7 +1500,7 @@ impl TranscriptionManager {
         }
 
         // Get current settings for configuration
-        let settings = get_settings(&self.app_handle);
+        let settings = settings_for(caller, get_settings(&self.app_handle));
 
         // Validate selected language against the model's supported languages.
         // If the language isn't supported, fall back to "auto" to prevent errors.
@@ -2529,6 +2539,20 @@ mod tests {
 
     fn languages(codes: &[&str]) -> Vec<String> {
         codes.iter().map(|code| (*code).to_string()).collect()
+    }
+
+    #[test]
+    fn a_call_is_never_translated_but_keeps_the_other_settings() {
+        let mut settings = crate::settings::get_default_settings();
+        settings.translate_to_english = true;
+        settings.custom_words = vec!["J’écoute".into()];
+        settings.selected_language = "fr".into();
+        let dictation = settings_for(TranscribeCaller::Dictation, settings.clone());
+        assert!(dictation.translate_to_english);
+        let call = settings_for(TranscribeCaller::Background, settings);
+        assert!(!call.translate_to_english);
+        assert_eq!(call.custom_words, ["J’écoute"]);
+        assert_eq!(call.selected_language, "fr");
     }
 
     #[test]

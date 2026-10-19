@@ -991,6 +991,7 @@
       "stop": "Stop",
       "stopWithTime": "Stop · {{time}}",
       "consent": "Tell the people you are recording the call. The sound stays on this computer and is deleted once the call is written.",
+      "summaryRemote": "The transcript leaves this computer.",
       "emptyList": "No recorded calls.",
       "welcomeTitle": "No calls yet",
       "welcomeDesc": "When a call starts (Discord, Meet, Teams…), click “Record a call”. I write who said what, then a summary with the to-dos.",

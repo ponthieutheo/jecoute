@@ -2,7 +2,6 @@
 //! the echo of the speakers removed from the microphone, and the notes the
 //! AI writes about it. Pure functions, nothing here touches the OS.
 
-use std::collections::HashSet;
 use std::sync::atomic::{AtomicU32, Ordering};
 
 use serde::{Deserialize, Serialize};
@@ -108,37 +107,126 @@ pub fn group_into_lines(mut pieces: Vec<Line>) -> Vec<Line> {
         })
 }
 
-/// The words of a text, lower case, without punctuation.
+/// The words of a text as the echo check compares them: lower case, without
+/// punctuation, but "c'est", "aujourd’hui" or "rendez-vous" stay one word.
 pub fn words(text: &str) -> Vec<String> {
-    text.split(|c: char| !c.is_alphanumeric())
+    let inside = |c: char| matches!(c, '\'' | '’' | '-');
+    text.split(|c: char| !(c.is_alphanumeric() || inside(c)))
+        .map(|w| w.trim_matches(inside))
         .filter(|w| !w.is_empty())
-        .map(str::to_lowercase)
+        .map(|w| w.replace('’', "'").to_lowercase())
         .collect()
 }
 
-/// Without headphones, the others come out of the speakers and the
-/// microphone hears them again. A line of the microphone is that echo when
-/// most of its words were said, at the same time, on the computer's sound.
-pub fn without_echo(mine: &[Line], theirs: &[Line]) -> Vec<Line> {
-    let heard_near = |line: &Line, margin: f64| -> HashSet<String> {
-        theirs
-            .iter()
-            .filter(|t| t.start - margin < line.end && line.start - margin < t.end)
-            .flat_map(|t| words(&t.text))
-            .collect()
-    };
-    mine.iter()
-        .filter(|line| {
-            let own = words(&line.text);
-            match own.len() {
-                0 => false,
-                1 => !heard_near(line, 0.8).contains(&own[0]),
-                n => {
-                    let near = heard_near(line, 1.5);
-                    let repeated = own.iter().filter(|w| near.contains(*w)).count();
-                    (repeated as f64) < 0.6 * n as f64
-                }
+/// A piece of the microphone shorter than this is never taken for an echo:
+/// "oui", "d'accord merci" are answers far more often than echoes.
+pub const MIN_ECHO_WORDS: usize = 4;
+/// How far apart in time, in seconds, the echo and what the computer played
+/// may be (the margins of the pieces, the delay of the speakers).
+pub const ECHO_SLACK: f64 = 0.5;
+/// Words in a row that must be the same to count as copied.
+const ECHO_RUN: usize = 3;
+/// Share of the piece's words copied, in runs, from the computer's sound.
+const ECHO_TEXT_SHARE: f64 = 0.6;
+/// Share of the piece's time during which the computer's sound was playing.
+const ECHO_TIME_SHARE: f64 = 0.7;
+
+/// The sound of both sides, to check by ear what the words suggest.
+pub struct Tracks<'a> {
+    pub mic: &'a [f32],
+    pub system: &'a [f32],
+}
+
+/// Share of `own` covered by runs of at least [`ECHO_RUN`] words found, in
+/// the same order, in `heard`.
+fn copied_share(own: &[String], heard: &[String]) -> f64 {
+    if own.is_empty() {
+        return 0.0;
+    }
+    let mut covered = vec![false; own.len()];
+    for i in 0..own.len() {
+        for j in 0..heard.len() {
+            let run = own[i..]
+                .iter()
+                .zip(&heard[j..])
+                .take_while(|(a, b)| a == b)
+                .count();
+            if run >= ECHO_RUN {
+                covered[i..i + run].fill(true);
             }
+        }
+    }
+    covered.iter().filter(|c| **c).count() as f64 / own.len() as f64
+}
+
+/// Share of `piece`'s time during which one of `theirs` (widened by
+/// [`ECHO_SLACK`]) was playing.
+fn time_covered(piece: &Line, theirs: &[&Line]) -> f64 {
+    let length = piece.end - piece.start;
+    if length <= 0.0 {
+        return 0.0;
+    }
+    let mut spans: Vec<(f64, f64)> = theirs
+        .iter()
+        .map(|t| {
+            (
+                (t.start - ECHO_SLACK).max(piece.start),
+                (t.end + ECHO_SLACK).min(piece.end),
+            )
+        })
+        .filter(|(a, b)| b > a)
+        .collect();
+    spans.sort_by(|a, b| a.0.total_cmp(&b.0));
+    let mut covered = 0.0;
+    let mut reached = piece.start;
+    for (a, b) in spans {
+        let a = a.max(reached);
+        if b > a {
+            covered += b - a;
+            reached = b;
+        }
+    }
+    covered / length
+}
+
+/// Without headphones, the others come out of the speakers and the
+/// microphone hears them again. A piece of the microphone (before pieces are
+/// joined into lines) is that echo when, at the same moment, the computer
+/// played the same words in the same order, and, when the sound is given,
+/// the microphone's loudness rose and fell with the computer's. Short pieces
+/// are always kept, and anything doubtful too: a duplicated line is better
+/// than a lost answer.
+pub fn without_echo(mine: &[Line], theirs: &[Line], tracks: Option<&Tracks>) -> Vec<Line> {
+    let mut theirs: Vec<&Line> = theirs.iter().collect();
+    theirs.sort_by(|a, b| a.start.total_cmp(&b.start));
+    mine.iter()
+        .filter(|piece| {
+            let own = words(&piece.text);
+            if own.is_empty() {
+                return false;
+            }
+            if own.len() < MIN_ECHO_WORDS {
+                return true;
+            }
+            let near: Vec<&Line> = theirs
+                .iter()
+                .copied()
+                .filter(|t| t.start - ECHO_SLACK < piece.end && piece.start - ECHO_SLACK < t.end)
+                .collect();
+            if time_covered(piece, &near) < ECHO_TIME_SHARE {
+                return true;
+            }
+            let heard: Vec<String> = near.iter().flat_map(|t| words(&t.text)).collect();
+            if copied_share(&own, &heard) < ECHO_TEXT_SHARE {
+                return true;
+            }
+            let by_ear = tracks
+                .map(|t| super::segment::sounds_alike(t.mic, t.system, piece.start, piece.end));
+            if by_ear == Some(false) {
+                log::debug!("calls: a piece looked like an echo but did not sound like one, kept");
+                return true;
+            }
+            false
         })
         .cloned()
         .collect()
@@ -188,9 +276,15 @@ fn name_people(
 
 /// A call: the microphone is you, the computer's sound is the others
 /// (labelled by the voice separator, or all [`OTHERS`]).
-pub fn cast_call(mine: Vec<Line>, theirs: Vec<Line>, names: &Names) -> (Vec<Speaker>, Vec<Line>) {
+/// The echo is looked for piece by piece, before the pieces are joined.
+pub fn cast_call(
+    mine: Vec<Line>,
+    theirs: Vec<Line>,
+    tracks: Option<&Tracks>,
+    names: &Names,
+) -> (Vec<Speaker>, Vec<Line>) {
+    let mine = group_into_lines(without_echo(&mine, &theirs, tracks));
     let theirs = group_into_lines(theirs);
-    let mine = without_echo(&group_into_lines(mine), &theirs);
     let mut known = Vec::new();
     if !mine.is_empty() || theirs.is_empty() {
         known.push(Speaker {
@@ -277,7 +371,8 @@ pub fn notes_schema() -> Value {
 enum AnyTodo {
     Plain(String),
     Detailed {
-        text: String,
+        #[serde(default)]
+        text: Option<String>,
         #[serde(default)]
         owner: Option<String>,
         #[serde(default)]
@@ -285,13 +380,24 @@ enum AnyTodo {
     },
 }
 
+/// `null` where a list is expected: an empty list.
+fn null_as_empty<'de, D, T>(d: D) -> Result<Vec<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: Deserialize<'de>,
+{
+    Ok(Option::<Vec<T>>::deserialize(d)?.unwrap_or_default())
+}
+
 #[derive(Deserialize, Default)]
 #[serde(default)]
 struct AnyNotes {
     title: Option<String>,
     summary: Option<String>,
+    #[serde(deserialize_with = "null_as_empty")]
     key_points: Vec<Option<String>>,
-    todos: Vec<AnyTodo>,
+    #[serde(deserialize_with = "null_as_empty")]
+    todos: Vec<Option<AnyTodo>>,
 }
 
 /// A field the AI may fill with "", "null" or spaces: None then.
@@ -318,14 +424,15 @@ pub fn read_notes(reply: &str) -> Option<Notes> {
         todos: raw
             .todos
             .into_iter()
+            .flatten()
             .filter_map(|t| {
                 let (text, owner, due) = match t {
-                    AnyTodo::Plain(text) => (text, None, None),
+                    AnyTodo::Plain(text) => (Some(text), None, None),
                     AnyTodo::Detailed { text, owner, due } => (text, owner, due),
                 };
                 Some(Todo {
                     id: unique_id(),
-                    text: meaningful(Some(text))?,
+                    text: meaningful(text)?,
                     owner: meaningful(owner),
                     due: meaningful(due),
                     done: false,
@@ -387,22 +494,125 @@ mod tests {
         assert!(lines.iter().all(|l| l.end - l.start <= LONGEST_LINE));
     }
 
-    #[test]
-    fn the_speakers_heard_again_by_the_microphone_are_removed() {
-        let mine = vec![
-            piece("me", 1.0, 2.0, "on se voit demain"),
-            piece("me", 10.0, 10.2, "oui"),
-            piece("me", 20.0, 22.0, "je préfère vendredi"),
-        ];
-        let theirs = vec![
-            piece("v0", 1.05, 2.05, "On se voit demain."),
-            piece("v0", 20.5, 21.0, "vendredi"),
-        ];
-        let kept: Vec<String> = without_echo(&mine, &theirs)
+    fn kept(mine: &[Line], theirs: &[Line], tracks: Option<&Tracks>) -> Vec<String> {
+        without_echo(mine, theirs, tracks)
             .into_iter()
             .map(|l| l.text)
+            .collect()
+    }
+
+    /// The other person talks for a long while, from 0 to 20 s.
+    fn monologue() -> Vec<Line> {
+        vec![
+            piece(
+                "v0",
+                0.0,
+                11.8,
+                "Alors voilà, je pense que c'est bon pour la sortie, on publie vendredi \
+                 si tout le monde est d'accord, et je pense que c'est bon aussi pour la doc.",
+            ),
+            piece(
+                "v0",
+                12.2,
+                20.0,
+                "Oui, je pense que c'est bon. Il reste à prévenir l'équipe, tu t'en occupes ?",
+            ),
+        ]
+    }
+
+    #[test]
+    fn with_headphones_no_answer_is_taken_for_an_echo() {
+        let theirs = monologue();
+        let mine = vec![
+            // Short answers while they talk.
+            piece("me", 3.0, 3.4, "oui"),
+            piece("me", 8.0, 8.9, "d'accord, c'est bon"),
+            // Their very words, said back while they talk (double talk).
+            piece("me", 14.0, 16.0, "je pense que c'est bon aussi"),
+            // Right after the monologue, mostly the same little words.
+            piece("me", 20.3, 22.0, "oui je pense que c'est bon"),
+            piece("me", 22.5, 25.0, "je m'occupe de prévenir l'équipe"),
+        ];
+        // Headphones: the microphone hears only the user, the computer plays
+        // only the other person.
+        let mut mic = vec![0.0f32; 26 * 16_000];
+        let mut system = vec![0.0f32; 26 * 16_000];
+        let other = crate::calls::segment::babble(1, 20.0);
+        system[..other.len()].copy_from_slice(&other);
+        let me = crate::calls::segment::babble(2, 26.0);
+        for line in &mine {
+            let (a, b) = (
+                (line.start * 16_000.0) as usize,
+                (line.end * 16_000.0) as usize,
+            );
+            mic[a..b].copy_from_slice(&me[a..b]);
+        }
+        let tracks = Tracks {
+            mic: &mic,
+            system: &system,
+        };
+        let all: Vec<String> = mine.iter().map(|l| l.text.clone()).collect();
+        assert_eq!(kept(&mine, &theirs, Some(&tracks)), all);
+        // Even without the sound to check by ear, an answer after the other
+        // person stopped is never removed.
+        assert!(kept(&mine, &theirs, None).contains(&"oui je pense que c'est bon".to_string()));
+    }
+
+    #[test]
+    fn the_speakers_heard_again_by_the_microphone_are_removed() {
+        let theirs = monologue();
+        // No headphones: the microphone hears the speakers (the model writes
+        // the echo a little differently), then the user answers.
+        let mine = vec![
+            piece(
+                "me",
+                0.1,
+                11.9,
+                "alors voilà je pense que c'est bon pour la sortie on publie vendredi si \
+                 tout le monde est d'accord et je pense que c'est bon pour la doc",
+            ),
+            piece(
+                "me",
+                12.3,
+                20.0,
+                "oui je pense que c'est bon il reste à prévenir l'équipe tu t'en occupes",
+            ),
+            piece("me", 20.3, 22.0, "oui je pense que c'est bon"),
+        ];
+        let rate = 16_000;
+        let played = crate::calls::segment::babble(1, 20.0);
+        let mut system = vec![0.0f32; 23 * rate];
+        system[..played.len()].copy_from_slice(&played);
+        let me = crate::calls::segment::babble(2, 23.0);
+        let delay = rate * 30 / 1000;
+        let mic: Vec<f32> = (0..system.len())
+            .map(|i| {
+                let echo = i.checked_sub(delay).map_or(0.0, |j| system[j]) * 0.25;
+                let own = if i >= (20.3 * rate as f64) as usize {
+                    me[i]
+                } else {
+                    0.0
+                };
+                echo + own
+            })
             .collect();
-        assert_eq!(kept, ["oui", "je préfère vendredi"]);
+        let tracks = Tracks {
+            mic: &mic,
+            system: &system,
+        };
+        assert_eq!(
+            kept(&mine, &theirs, Some(&tracks)),
+            ["oui je pense que c'est bon"]
+        );
+        assert_eq!(kept(&mine, &theirs, None), ["oui je pense que c'est bon"]);
+    }
+
+    #[test]
+    fn words_with_an_apostrophe_stay_whole() {
+        assert_eq!(
+            words("C’est l'heure, rendez-vous ! -- 'ok'"),
+            ["c'est", "l'heure", "rendez-vous", "ok"]
+        );
     }
 
     #[test]
@@ -410,6 +620,7 @@ mod tests {
         let (speakers, lines) = cast_call(
             vec![piece("me", 0.0, 0.5, "hello")],
             vec![piece("v1", 2.0, 2.4, "salut"), piece("v0", 6.0, 6.3, "hey")],
+            None,
             &names(),
         );
         let named: Vec<&str> = speakers.iter().map(|s| s.name.as_str()).collect();
@@ -417,7 +628,12 @@ mod tests {
         let who: Vec<&str> = lines.iter().map(|l| l.speaker.as_str()).collect();
         assert_eq!(who, ["me", "p2", "p3"]);
 
-        let (speakers, _) = cast_call(Vec::new(), vec![piece(OTHERS, 1.0, 2.0, "allô")], &names());
+        let (speakers, _) = cast_call(
+            Vec::new(),
+            vec![piece(OTHERS, 1.0, 2.0, "allô")],
+            None,
+            &names(),
+        );
         assert_eq!(speakers.len(), 1);
         assert_eq!(speakers[0].name, "Others");
 
@@ -441,6 +657,26 @@ mod tests {
         assert_eq!(notes.todos[1].text, "Relire");
         assert!(read_notes("no json here").is_none());
         assert!(read_notes("{\"summary\":\"\"}").is_none());
+    }
+
+    #[test]
+    fn null_lists_and_fields_read_as_empty() {
+        let notes = read_notes(
+            r#"{"title":null,"summary":"On en reparle lundi.","key_points":null,"todos":null}"#,
+        )
+        .unwrap();
+        assert_eq!(notes.title, None);
+        assert_eq!(notes.summary, "On en reparle lundi.");
+        assert!(notes.key_points.is_empty() && notes.todos.is_empty());
+
+        let notes = read_notes(
+            r#"{"summary":null,"key_points":["a"],"todos":[null,{"text":null,"owner":null},{"text":"Appeler","owner":null,"due":null}]}"#,
+        )
+        .unwrap();
+        assert_eq!(notes.summary, "");
+        assert_eq!(notes.key_points, ["a"]);
+        assert_eq!(notes.todos.len(), 1);
+        assert_eq!(notes.todos[0].text, "Appeler");
     }
 
     #[test]
