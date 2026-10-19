@@ -7,7 +7,9 @@
     "model": "Model",
     "quit": "Keluar",
     "cancel": "Batal",
-    "secureInputWarning": "⚠ Pintasan diblokir oleh Secure Input"
+    "secureInputWarning": "⚠ Pintasan diblokir oleh Secure Input",
+    "recordCall": "Rekam panggilan",
+    "stopCall": "Berhenti merekam panggilan"
   },
   "onboarding": {
     "showFewerModels": "Tampilkan lebih sedikit model",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "Riwayat",
+      "stats": "Statistik",
       "update": "Pembaruan",
       "recent": "Dikte terbaru",
       "allHistory": "Semua riwayat",
@@ -665,7 +668,10 @@
       "modelPill": "Model transkripsi: {{model}}",
       "languagePill": "Bahasa ucapan: {{language}}",
       "allModels": "Semua model",
-      "downloadPill": "{{model}}, {{percent}}%"
+      "downloadPill": "{{model}}, {{percent}}%",
+      "calls": "Panggilan",
+      "callRecording": "Panggilan sedang direkam. Klik untuk melihatnya.",
+      "callTime": "Panggilan · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "Mendengarkan…",
         "writing": "Menulis…",
         "processing": "Merapikan…",
-        "done": "Ditempel"
+        "done": "Ditempel",
+        "call": "Panggilan…"
+      },
+      "call": {
+        "title": "Merekam panggilan · {{time}}",
+        "desc": "Saya merekam mikrofon Anda dan suara komputer. Beri tahu yang lain.",
+        "descMicOnly": "Saya merekam mikrofon Anda. Beri tahu orang-orang di sekitar Anda.",
+        "deviceLost": "Satu perangkat audio terhenti. Bagian sebelumnya tetap tersimpan.",
+        "open": "Lihat panggilan",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "Lebih dari {{count}} dikte",
       "empty": "Belum ada dikte. Tahan pintasan Anda dan bicaralah!",
       "noResults": "Tidak ada dikte yang cocok."
+    },
+    "stats": {
+      "title": "Statistik",
+      "periods": {
+        "label": "Periode",
+        "week": "Minggu",
+        "month": "Bulan",
+        "all": "Semua"
+      },
+      "words": "Kata yang didikte",
+      "timeSaved": "Waktu dihemat",
+      "timeSavedHint": "dibanding mengetik 45 kata/menit",
+      "speed": "Kecepatan",
+      "speedUnit": "kata/menit",
+      "dictations": "Dikte",
+      "minutes": "{{m}} mnt",
+      "hours": "{{h}} jam {{m}}",
+      "streak_one": "{{formatted}} hari berturut-turut",
+      "streak_other": "{{formatted}} hari berturut-turut",
+      "streakHint": "Hari berturut-turut dengan minimal satu dikte, hingga hari ini atau kemarin.",
+      "perDay": "Kata per hari",
+      "perWeek": "Kata per minggu",
+      "perMonth": "Kata per bulan",
+      "chartLabel": "Grafik kata yang didikte",
+      "wordsCount_one": "{{formatted}} kata",
+      "wordsCount_other": "{{formatted}} kata",
+      "where": "Tempat Anda mendikte",
+      "appsEmpty": "Mendiktelah di sebuah aplikasi, nanti aplikasinya muncul di sini.",
+      "otherApps": "Lainnya",
+      "emptyTitle": "Belum ada angka",
+      "emptyText": "Mendiktelah dengan pintasan Anda: kata-kata Anda, waktu yang dihemat, dan aplikasi tempat Anda mendikte akan muncul di sini.",
+      "private": "Dihitung di komputer ini, tidak pernah dikirim.",
+      "reset": "Atur ulang",
+      "resetTitle": "Atur ulang statistik?",
+      "resetText": "Semua angka akan dihapus: kata, waktu yang dihemat, hari berturut-turut, dan aplikasi. Riwayat dikte Anda tidak tersentuh.",
+      "resetConfirm": "Atur ulang",
+      "resetError": "Gagal mengatur ulang statistik. Coba lagi.",
+      "cancel": "Batal"
     },
     "settings": {
       "title": "Pengaturan",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Ucapan-ke-teks 100 bahasa, deteksi bahasa otomatis, stempel waktu per segmen.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Dioptimalkan untuk Mandarin Taiwan. Mendukung alih kode.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Ucapan-ke-teks 100 bahasa dengan terjemahan, deteksi bahasa otomatis, stempel waktu per segmen."
+    },
+    "calls": {
+      "title": "Panggilan",
+      "list": "Panggilan Anda",
+      "record": "Rekam panggilan",
+      "starting": "Memulai…",
+      "stop": "Berhenti",
+      "stopWithTime": "Berhenti · {{time}}",
+      "consent": "Beri tahu orang-orang bahwa Anda merekam panggilan. Suaranya tetap di komputer ini dan dihapus setelah panggilan selesai ditulis.",
+      "emptyList": "Belum ada panggilan yang direkam.",
+      "welcomeTitle": "Belum ada panggilan",
+      "welcomeDesc": "Saat panggilan dimulai (Discord, Meet, Teams…), klik “Rekam panggilan”. Saya menulis siapa mengatakan apa, lalu ringkasan beserta tugas-tugasnya.",
+      "recordingNow": "Merekam",
+      "writingShort": "Menulis…",
+      "failedShort": "Gagal",
+      "openTodos_one": "{{count}} tugas",
+      "openTodos_other": "{{count}} tugas",
+      "minutes_one": "{{count}} mnt",
+      "minutes_other": "{{count}} mnt",
+      "withSystem": "mikrofon + suara komputer",
+      "micOnly": "hanya mikrofon",
+      "me": "Saya",
+      "others": "Yang lain",
+      "live": "Langsung",
+      "liveHint": "Versi akhir ditulis ulang saat panggilan selesai.",
+      "liveEmpty": "Setiap kalimat muncul di sini beberapa detik setelah diucapkan.",
+      "nobody": "Tidak ada ucapan dalam rekaman ini.",
+      "writing": "Saya sedang menuliskan panggilannya…",
+      "failed": "Terjadi masalah saat menuliskan panggilan ini.",
+      "retry": "Coba lagi",
+      "view": "Tampilkan",
+      "summary": "Ringkasan",
+      "transcript": "Transkripsi",
+      "keyPoints": "Poin penting",
+      "todos": "Tugas",
+      "summaryWriting": "AI sedang membaca panggilan…",
+      "noSummary": "Panggilan ini tidak punya ringkasan.",
+      "summaryFailed": "Ringkasan tidak dapat ditulis.",
+      "summarySent": "Ringkasan ditulis oleh {{provider}}: transkripsi dikirim ke sana.",
+      "writeSummary": "Tulis ringkasan",
+      "writeSummaryAgain": "Tulis ulang ringkasan",
+      "noProviderTitle": "Tanpa AI, tidak ada ringkasan",
+      "noProviderDesc": "Transkripsi sudah siap. Untuk ringkasan dan tugas, aktifkan Koreksi AI di Pengaturan → Teks, lalu pilih penyedia AI dan model.",
+      "openTextSettings": "Buka pengaturan teks",
+      "people": "Peserta",
+      "rename": "Ganti nama",
+      "renameSpeaker": "Klik untuk memberi nama",
+      "copy": "Salin",
+      "copyError": "Gagal menyalin panggilan.",
+      "export": "Ekspor",
+      "exported": "Disimpan di {{path}}",
+      "exportError": "Gagal menyimpan file.",
+      "delete": "Hapus",
+      "deleteConfirm": "Hapus panggilan ini secara permanen?",
+      "deleteError": "Gagal menghapus panggilan ini.",
+      "cancel": "Batal",
+      "errors": {
+        "noModel": "Pilih model transkripsi terlebih dahulu.",
+        "mic": "Saya tidak bisa mendengar mikrofon Anda: mikrofonnya tidak ada atau diblokir.",
+        "busy": "Sebuah panggilan sedang direkam.",
+        "audioGone": "Suara panggilan ini sudah tidak ditemukan."
+      },
+      "voices": {
+        "title": "Pisahkan suara",
+        "desc": "Untuk menulis “Orang 2”, “Orang 3”… alih-alih “Yang lain”, saya mengunduh model kecil ({{size}}), cukup sekali.",
+        "download": "Unduh",
+        "downloading": "Mengunduh model suara",
+        "retry": "Coba lagi",
+        "failed": "Unduhan gagal."
+      },
+      "settings": {
+        "title": "Pengaturan panggilan",
+        "system": "Suara komputer",
+        "systemDesc": "Juga merekam suara yang diputar komputer: suara orang lain. Nonaktif: hanya mikrofon Anda.",
+        "voices": "Pisahkan suara",
+        "voicesReady": "Suara dipisahkan di komputer ini.",
+        "voicesDesc": "Model kecil yang perlu diunduh ({{size}}).",
+        "summary": "Ringkasan AI",
+        "summaryReady": "Ditulis oleh {{provider}} ({{model}}). Transkripsi dikirim ke sana.",
+        "summaryMissing": "Belum ada penyedia AI yang diatur.",
+        "mic": "Mikrofonnya sama dengan mikrofon dikte.",
+        "micLink": "Ganti mikrofon"
+      },
+      "md": {
+        "date": "Tanggal:",
+        "length": "Durasi:",
+        "people": "Peserta:"
+      }
     }
   }
 }

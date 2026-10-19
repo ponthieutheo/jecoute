@@ -7,7 +7,9 @@
     "model": "Mô hình",
     "quit": "Thoát",
     "cancel": "Hủy",
-    "secureInputWarning": "⚠ Phím tắt bị Secure Input chặn"
+    "secureInputWarning": "⚠ Phím tắt bị Secure Input chặn",
+    "recordCall": "Ghi âm cuộc gọi",
+    "stopCall": "Dừng ghi âm cuộc gọi"
   },
   "onboarding": {
     "showFewerModels": "Hiển thị ít mô hình hơn",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "Lịch sử",
+      "stats": "Thống kê",
       "update": "Cập nhật",
       "recent": "Bản ghi gần đây",
       "allHistory": "Toàn bộ lịch sử",
@@ -665,7 +668,10 @@
       "modelPill": "Mô hình chép lời: {{model}}",
       "languagePill": "Ngôn ngữ nói: {{language}}",
       "allModels": "Tất cả mô hình",
-      "downloadPill": "{{model}}, {{percent}}%"
+      "downloadPill": "{{model}}, {{percent}}%",
+      "calls": "Cuộc gọi",
+      "callRecording": "Đang ghi âm một cuộc gọi. Nhấp để xem.",
+      "callTime": "Cuộc gọi · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "Đang nghe…",
         "writing": "Đang viết…",
         "processing": "Đang trau chuốt…",
-        "done": "Đã dán"
+        "done": "Đã dán",
+        "call": "Cuộc gọi…"
+      },
+      "call": {
+        "title": "Đang ghi âm cuộc gọi · {{time}}",
+        "desc": "Mình đang ghi âm micrô của bạn và âm thanh của máy tính. Hãy báo cho những người khác biết.",
+        "descMicOnly": "Mình đang ghi âm micrô của bạn. Hãy báo cho những người xung quanh biết.",
+        "deviceLost": "Một thiết bị âm thanh đã ngắt. Phần trước đó vẫn được giữ lại.",
+        "open": "Xem cuộc gọi",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "Hơn {{count}} bản ghi",
       "empty": "Chưa có bản ghi nào. Hãy giữ phím tắt và nói!",
       "noResults": "Không có bản ghi nào khớp."
+    },
+    "stats": {
+      "title": "Thống kê",
+      "periods": {
+        "label": "Khoảng thời gian",
+        "week": "Tuần",
+        "month": "Tháng",
+        "all": "Tất cả"
+      },
+      "words": "Số từ đã đọc",
+      "timeSaved": "Thời gian tiết kiệm",
+      "timeSavedHint": "so với gõ phím 45 từ/phút",
+      "speed": "Tốc độ",
+      "speedUnit": "từ/phút",
+      "dictations": "Bản ghi",
+      "minutes": "{{m}} phút",
+      "hours": "{{h}} giờ {{m}}",
+      "streak_one": "{{formatted}} ngày liên tiếp",
+      "streak_other": "{{formatted}} ngày liên tiếp",
+      "streakHint": "Số ngày liên tiếp có ít nhất một bản ghi, tính đến hôm nay hoặc hôm qua.",
+      "perDay": "Số từ mỗi ngày",
+      "perWeek": "Số từ mỗi tuần",
+      "perMonth": "Số từ mỗi tháng",
+      "chartLabel": "Biểu đồ số từ đã đọc",
+      "wordsCount_one": "{{formatted}} từ",
+      "wordsCount_other": "{{formatted}} từ",
+      "where": "Nơi bạn đọc chính tả",
+      "appsEmpty": "Hãy đọc chính tả trong một ứng dụng, ứng dụng đó sẽ hiện ở đây.",
+      "otherApps": "Khác",
+      "emptyTitle": "Chưa có số liệu",
+      "emptyText": "Hãy đọc chính tả bằng phím tắt: số từ, thời gian tiết kiệm được và các ứng dụng bạn đọc chính tả sẽ hiện ở đây.",
+      "private": "Được đếm trên máy tính này, không bao giờ gửi đi.",
+      "reset": "Đặt lại",
+      "resetTitle": "Đặt lại thống kê?",
+      "resetText": "Mọi số liệu sẽ bị xóa: số từ, thời gian tiết kiệm, số ngày liên tiếp và ứng dụng. Lịch sử bản ghi của bạn vẫn giữ nguyên.",
+      "resetConfirm": "Đặt lại",
+      "resetError": "Không thể đặt lại thống kê. Hãy thử lại.",
+      "cancel": "Hủy"
     },
     "settings": {
       "title": "Cài đặt",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Chép lời 100 ngôn ngữ, tự nhận diện ngôn ngữ, mốc thời gian theo đoạn.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Tối ưu cho tiếng Quan Thoại Đài Loan. Hỗ trợ chuyển đổi ngôn ngữ.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Chép lời 100 ngôn ngữ, có dịch, tự nhận diện ngôn ngữ, mốc thời gian theo đoạn."
+    },
+    "calls": {
+      "title": "Cuộc gọi",
+      "list": "Cuộc gọi của bạn",
+      "record": "Ghi âm cuộc gọi",
+      "starting": "Đang bắt đầu…",
+      "stop": "Dừng",
+      "stopWithTime": "Dừng · {{time}}",
+      "consent": "Hãy báo cho mọi người biết bạn đang ghi âm cuộc gọi. Âm thanh chỉ nằm trên máy tính này và sẽ bị xóa khi cuộc gọi đã được chép lại.",
+      "emptyList": "Chưa có cuộc gọi nào được ghi âm.",
+      "welcomeTitle": "Chưa có cuộc gọi nào",
+      "welcomeDesc": "Khi cuộc gọi bắt đầu (Discord, Meet, Teams…), hãy nhấp “Ghi âm cuộc gọi”. Mình sẽ ghi lại ai nói gì, rồi viết bản tóm tắt kèm các việc cần làm.",
+      "recordingNow": "Đang ghi",
+      "writingShort": "Đang viết…",
+      "failedShort": "Thất bại",
+      "openTodos_one": "{{count}} việc cần làm",
+      "openTodos_other": "{{count}} việc cần làm",
+      "minutes_one": "{{count}} phút",
+      "minutes_other": "{{count}} phút",
+      "withSystem": "micrô + âm thanh máy tính",
+      "micOnly": "chỉ micrô",
+      "me": "Tôi",
+      "others": "Người khác",
+      "live": "Trực tiếp",
+      "liveHint": "Bản cuối cùng sẽ được viết lại khi cuộc gọi kết thúc.",
+      "liveEmpty": "Mỗi câu sẽ hiện ở đây vài giây sau khi được nói.",
+      "nobody": "Không tìm thấy lời nói nào trong bản ghi âm này.",
+      "writing": "Mình đang chép lại cuộc gọi…",
+      "failed": "Đã có lỗi khi chép lại cuộc gọi này.",
+      "retry": "Thử lại",
+      "view": "Hiển thị",
+      "summary": "Tóm tắt",
+      "transcript": "Bản chép lời",
+      "keyPoints": "Ý chính",
+      "todos": "Việc cần làm",
+      "summaryWriting": "AI đang đọc cuộc gọi…",
+      "noSummary": "Cuộc gọi này không có bản tóm tắt.",
+      "summaryFailed": "Không thể viết bản tóm tắt.",
+      "summarySent": "Bản tóm tắt do {{provider}} viết: bản chép lời được gửi đến dịch vụ này.",
+      "writeSummary": "Viết tóm tắt",
+      "writeSummaryAgain": "Viết lại tóm tắt",
+      "noProviderTitle": "Không có AI thì không có tóm tắt",
+      "noProviderDesc": "Bản chép lời đã sẵn sàng. Để có bản tóm tắt và các việc cần làm, hãy bật Sửa bằng AI trong Cài đặt → Văn bản, rồi chọn nhà cung cấp AI và mô hình.",
+      "openTextSettings": "Mở cài đặt văn bản",
+      "people": "Người tham gia",
+      "rename": "Đổi tên",
+      "renameSpeaker": "Nhấp để đặt tên",
+      "copy": "Sao chép",
+      "copyError": "Không thể sao chép cuộc gọi.",
+      "export": "Xuất",
+      "exported": "Đã lưu vào {{path}}",
+      "exportError": "Không thể lưu tệp.",
+      "delete": "Xóa",
+      "deleteConfirm": "Xóa vĩnh viễn cuộc gọi này?",
+      "deleteError": "Không thể xóa cuộc gọi này.",
+      "cancel": "Hủy",
+      "errors": {
+        "noModel": "Hãy chọn một mô hình chép lời trước.",
+        "mic": "Mình không nghe được micrô của bạn: micrô không có hoặc bị chặn.",
+        "busy": "Đang có một cuộc gọi được ghi âm.",
+        "audioGone": "Không còn tìm thấy âm thanh của cuộc gọi này."
+      },
+      "voices": {
+        "title": "Phân biệt giọng nói",
+        "desc": "Để ghi “Người 2”, “Người 3”… thay vì “Người khác”, mình sẽ tải một mô hình nhỏ ({{size}}), chỉ một lần.",
+        "download": "Tải xuống",
+        "downloading": "Đang tải mô hình giọng nói",
+        "retry": "Thử lại",
+        "failed": "Tải xuống thất bại."
+      },
+      "settings": {
+        "title": "Cài đặt cuộc gọi",
+        "system": "Âm thanh máy tính",
+        "systemDesc": "Ghi cả âm thanh máy tính phát ra: giọng của người khác. Tắt: chỉ micrô của bạn.",
+        "voices": "Phân biệt giọng nói",
+        "voicesReady": "Giọng nói được phân biệt ngay trên máy tính này.",
+        "voicesDesc": "Một mô hình nhỏ cần tải xuống ({{size}}).",
+        "summary": "Tóm tắt bằng AI",
+        "summaryReady": "Do {{provider}} ({{model}}) viết. Bản chép lời được gửi đến dịch vụ này.",
+        "summaryMissing": "Chưa cấu hình nhà cung cấp AI.",
+        "mic": "Micrô dùng chung với đọc chính tả.",
+        "micLink": "Đổi micrô"
+      },
+      "md": {
+        "date": "Ngày:",
+        "length": "Thời lượng:",
+        "people": "Người tham gia:"
+      }
     }
   }
 }
