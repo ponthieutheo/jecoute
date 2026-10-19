@@ -23,6 +23,11 @@ use crate::audio_toolkit::audio::FrameResampler;
 pub const SAMPLE_RATE: u32 = 16_000;
 const RATE: usize = SAMPLE_RATE as usize;
 
+/// Samples of silence standing for the time a device took to open.
+fn lead_in(opening: Duration) -> usize {
+    (opening.as_secs_f64() * RATE as f64).round() as usize
+}
+
 /// Where the sound comes from.
 #[derive(Debug, Clone, PartialEq)]
 pub enum Source {
@@ -123,11 +128,16 @@ impl Capture {
                     in_rate,
                     channels
                 );
+                // Opening the device took a moment: the track starts with that
+                // much silence, so its sample 0 is `t0`, like the other track's.
+                let mut produced = lead_in(t0.elapsed());
+                if produced > 0 {
+                    sink(&vec![0.0; produced]);
+                }
                 let _ = ready_tx.send(Ok(()));
 
                 let mut resampler = FrameResampler::new(in_rate, RATE, Duration::from_millis(20));
                 let mut out: Vec<f32> = Vec::with_capacity(RATE);
-                let mut produced: usize = 0;
                 let mut last_input = Instant::now();
                 let mut raw: Vec<f32> = Vec::with_capacity(in_rate);
                 while !thread_stop.load(Ordering::Relaxed) {
@@ -338,6 +348,13 @@ pub fn load_track(path: &Path) -> Result<Vec<f32>, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn a_late_device_starts_with_silence() {
+        assert_eq!(lead_in(Duration::ZERO), 0);
+        assert_eq!(lead_in(Duration::from_millis(250)), RATE / 4);
+        assert_eq!(lead_in(Duration::from_secs(2)), 2 * RATE);
+    }
 
     #[test]
     fn a_track_reaches_the_disk_every_second_by_itself() {
