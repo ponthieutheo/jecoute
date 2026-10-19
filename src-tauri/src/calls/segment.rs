@@ -15,8 +15,11 @@ const FRAME: usize = 256;
 const VOICE_SCORE: f32 = 0.5;
 /// …and when it is not near-silent (Earshot alone can fire on hiss).
 const MIN_RMS: f32 = 0.004;
-/// Longest piece given to the model at once (whisper-family models take 30 s).
-pub const MAX_PIECE_SECONDS: f64 = 28.0;
+/// Longest piece given to the model at once. Whisper-family models would take
+/// 30 s, but a dictation made while a call is written waits for the piece in
+/// progress: short pieces keep that wait short. Most pieces end on a pause
+/// well before this anyway (see `speech_spans`).
+pub const MAX_PIECE_SECONDS: f64 = 15.0;
 
 /// A stretch of the recording, in samples.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -436,6 +439,25 @@ mod tests {
         assert_eq!(parts.len(), 2);
         let cut = parts[1].start as f64 / RATE as f64;
         assert!((25.0..=26.0).contains(&cut), "cut at {cut}");
+        assert_eq!(parts.iter().map(|p| p.len()).sum::<usize>(), samples.len());
+    }
+
+    #[test]
+    fn pieces_stay_short_and_end_in_a_pause() {
+        let mut samples = tone(300.0, 12.0);
+        samples.extend(vec![0.0; RATE / 2]); // a pause from 12 s to 12.5 s
+        samples.extend(tone(300.0, 20.0));
+        let parts = split_long(
+            &samples,
+            Span {
+                start: 0,
+                end: samples.len(),
+            },
+            MAX_PIECE_SECONDS,
+        );
+        assert!(parts.iter().all(|p| p.len() <= 15 * RATE));
+        let cut = parts[1].start as f64 / RATE as f64;
+        assert!((12.0..=12.5).contains(&cut), "cut at {cut}");
         assert_eq!(parts.iter().map(|p| p.len()).sum::<usize>(), samples.len());
     }
 
