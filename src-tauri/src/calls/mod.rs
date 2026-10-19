@@ -132,12 +132,6 @@ impl Track {
         self.live.push(samples);
     }
 
-    fn sync(&mut self) {
-        if let Some(file) = self.file.as_mut() {
-            let _ = file.sync();
-        }
-    }
-
     fn close(&mut self) {
         if let Some(file) = self.file.take() {
             if let Err(err) = file.close() {
@@ -509,8 +503,9 @@ fn open_call(app: &AppHandle, rec: &Arc<CallRecorder>) -> Result<String, String>
     Ok(id)
 }
 
-/// Once a second during the call: the tracks go to the disk, and each
-/// stretch that ended on a pause is transcribed for the live view. The
+/// Once a second during the call, each stretch that ended on a pause is
+/// transcribed for the live view (the tracks reach the disk on their own,
+/// from the capture threads: see `TrackFile`). The
 /// final transcript does not use these lines: it is written again from the
 /// whole tracks at the end.
 fn run_live_transcript(
@@ -531,7 +526,6 @@ fn run_live_transcript(
                 for track in &tracks {
                     let (label, ready) = {
                         let mut t = track.lock().unwrap();
-                        t.sync();
                         (t.label, t.live.take())
                     };
                     let Some((start, sound)) = ready else {
