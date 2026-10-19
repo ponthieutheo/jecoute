@@ -13,7 +13,10 @@ export const clock = (seconds: number): string => {
 };
 
 /** Durée d'un appel en minutes arrondies, jamais moins d'une. */
-export const minutes = (call: { started_at: number; ended_at: number | null }) => {
+export const minutes = (call: {
+  started_at: number;
+  ended_at: number | null;
+}) => {
   const ms = (call.ended_at ?? Date.now()) - call.started_at;
   return Math.max(1, Math.round(ms / 60_000));
 };
@@ -60,7 +63,8 @@ export const callMarkdown = (call: Call, t: TFunction, language: string) => {
   }
   sections.push(facts.join("\n"));
 
-  if (call.summary) sections.push(`## ${t("app.calls.summary")}\n\n${call.summary}`);
+  if (call.summary)
+    sections.push(`## ${t("app.calls.summary")}\n\n${call.summary}`);
   if (call.key_points.length > 0) {
     const points = call.key_points.map((p) => `- ${p}`).join("\n");
     sections.push(`## ${t("app.calls.keyPoints")}\n\n${points}`);
@@ -77,7 +81,10 @@ export const callMarkdown = (call: Call, t: TFunction, language: string) => {
   }
   if (call.lines.length > 0) {
     const said = call.lines
-      .map((l) => `\`${clock(l.start)}\` **${speakerOf(call, l, t).name}** — ${l.text}`)
+      .map(
+        (l) =>
+          `\`${clock(l.start)}\` **${speakerOf(call, l, t).name}** — ${l.text}`,
+      )
       .join("\n\n");
     sections.push(`## ${t("app.calls.transcript")}\n\n${said}`);
   }

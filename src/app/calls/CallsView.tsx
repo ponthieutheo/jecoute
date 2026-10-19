@@ -1,6 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Download, Info, Settings2, Sparkles, Users } from "lucide-react";
+import {
+  ArrowLeft,
+  Download,
+  Info,
+  Settings2,
+  Sparkles,
+  Users,
+} from "lucide-react";
 import { commands, type CallListItem, type CallsState } from "@/bindings";
 import { useCallsStore } from "@/stores/callsStore";
 import { useNavigationStore } from "@/stores/navigationStore";
@@ -82,8 +89,10 @@ const CallSettings: React.FC<{ state: CallsState }> = ({ state }) => {
   const { t, i18n } = useTranslation();
   const openSettings = useNavigationStore((s) => s.openSettings);
   const vs = state.voice_separation;
-  const set = (option: "system_audio" | "voice_separation" | "summary", enabled: boolean) =>
-    void commands.callsSetOption(option, enabled);
+  const set = (
+    option: "system_audio" | "voice_separation" | "summary",
+    enabled: boolean,
+  ) => void commands.callsSetOption(option, enabled);
 
   return (
     <div className="j-c-settings">
@@ -108,7 +117,9 @@ const CallSettings: React.FC<{ state: CallsState }> = ({ state }) => {
                   size: formatSize(vs.size_mb, i18n.language, t),
                 })}
           </p>
-          {vs.enabled && vs.state !== "ready" && <VoiceDownload state={state} compact />}
+          {vs.enabled && vs.state !== "ready" && (
+            <VoiceDownload state={state} compact />
+          )}
         </div>
         <Switch
           checked={vs.enabled}
@@ -193,7 +204,9 @@ const VoiceDownload: React.FC<{ state: CallsState; compact?: boolean }> = ({
         onClick={() => void commands.callsDownloadVoiceSeparation()}
       >
         <Download size={14} aria-hidden="true" />
-        {vs.state === "failed" ? t("app.calls.voices.retry") : t("app.calls.voices.download")}
+        {vs.state === "failed"
+          ? t("app.calls.voices.retry")
+          : t("app.calls.voices.download")}
       </button>
       {vs.state === "failed" && vs.error && (
         <span className="j-small j-c-err" title={vs.error}>
@@ -307,7 +320,10 @@ export const CallsView: React.FC = () => {
   const errorKey = startError ? startErrorKey(startError) : null;
   const vs = state?.voice_separation;
   const showVoiceCard =
-    !!vs && vs.enabled && vs.state !== "ready" && (state?.calls.length ?? 0) > 0;
+    !!vs &&
+    vs.enabled &&
+    vs.state !== "ready" &&
+    (state?.calls.length ?? 0) > 0;
 
   return (
     <div
@@ -323,7 +339,11 @@ export const CallsView: React.FC = () => {
           aria-label={t("app.history.back")}
           title={t("app.history.back")}
         >
-          <ArrowLeft size={20} aria-hidden="true" className="rtl:-scale-x-100" />
+          <ArrowLeft
+            size={20}
+            aria-hidden="true"
+            className="rtl:-scale-x-100"
+          />
         </button>
         <h2 className="j-title">{t("app.calls.title")}</h2>
         <button
@@ -345,7 +365,11 @@ export const CallsView: React.FC = () => {
         <div className="j-notice warn j-c-banner" role="alert">
           <Info size={16} className="ic" aria-hidden="true" />
           <p>{errorKey ? t(errorKey) : startError}</p>
-          <button type="button" className="j-btn ghost sm" onClick={clearStartError}>
+          <button
+            type="button"
+            className="j-btn ghost sm"
+            onClick={clearStartError}
+          >
             {t("common.close")}
           </button>
         </div>
@@ -364,7 +388,11 @@ export const CallsView: React.FC = () => {
                     key={call.id}
                     call={call}
                     selected={call.id === selectedId}
-                    working={!!state?.working.some((w) => w.id === call.id && w.step === "transcript")}
+                    working={
+                      !!state?.working.some(
+                        (w) => w.id === call.id && w.step === "transcript",
+                      )
+                    }
                     onSelect={() => void select(call.id)}
                   />
                 ))}
@@ -381,7 +409,11 @@ export const CallsView: React.FC = () => {
                 <b>{t("app.calls.voices.title")}</b>
                 <p>
                   {t("app.calls.voices.desc", {
-                    size: formatSize(state.voice_separation.size_mb, i18n.language, t),
+                    size: formatSize(
+                      state.voice_separation.size_mb,
+                      i18n.language,
+                      t,
+                    ),
                   })}
                 </p>
                 <VoiceDownload state={state} />

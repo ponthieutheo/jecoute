@@ -285,7 +285,8 @@ export const CallDetail: React.FC<{ call: Call; state: CallsState }> = ({
       call.id,
       callMarkdown(call, t, i18n.language),
     );
-    if (result.status === "ok") toast(t("app.calls.exported", { path: result.data }));
+    if (result.status === "ok")
+      toast(t("app.calls.exported", { path: result.data }));
     else toast.error(t("app.calls.exportError"));
   };
 
@@ -445,7 +446,11 @@ export const CallDetail: React.FC<{ call: Call; state: CallsState }> = ({
       {confirmDelete && (
         <div className="j-notice warn j-c-confirm" role="alert">
           <p>{t("app.calls.deleteConfirm")}</p>
-          <button type="button" className="j-btn sm" onClick={() => setConfirmDelete(false)}>
+          <button
+            type="button"
+            className="j-btn sm"
+            onClick={() => setConfirmDelete(false)}
+          >
             {t("app.calls.cancel")}
           </button>
           <button type="button" className="j-btn sm primary" onClick={remove}>
@@ -465,7 +470,8 @@ export const CallDetail: React.FC<{ call: Call; state: CallsState }> = ({
                 className="person"
                 onDone={(name) => {
                   setRenamingSpeaker(null);
-                  if (name) void commands.callRenameSpeaker(call.id, s.id, name);
+                  if (name)
+                    void commands.callRenameSpeaker(call.id, s.id, name);
                 }}
               />
             ) : (
