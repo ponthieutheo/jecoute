@@ -1,7 +1,7 @@
 {
   "name": "jecoute",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "J’écoute : dictée vocale locale, tu parles, il écrit là où est ton curseur. Basé sur Handy de CJ Pais.",
   "author": "Théo Ponthieu",
   "contributors": [
