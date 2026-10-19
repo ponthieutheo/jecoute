@@ -8,6 +8,7 @@ import { useNavigationStore } from "@/stores/navigationStore";
 import type { HomeStatus } from "../hooks/useHomeState";
 import { KeyCombo } from "../ui/KeyCombo";
 import { QuickPills } from "./QuickPills";
+import { CallStatus } from "./CallStatus";
 
 const currentPlatform = (): string => {
   try {
@@ -178,6 +179,8 @@ export const Status: React.FC<{ status: HomeStatus }> = ({ status }) => {
       title = t("app.status.processing.title");
       desc = t("app.status.processing.desc");
       break;
+    case "call":
+      return <CallStatus dot={status.dot} />;
     case "done":
       title =
         pasteMethod === "none"

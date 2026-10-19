@@ -7,7 +7,9 @@
     "model": "Model",
     "quit": "Quit",
     "cancel": "Cancel",
-    "secureInputWarning": "⚠ Shortcuts blocked by Secure Input"
+    "secureInputWarning": "⚠ Shortcuts blocked by Secure Input",
+    "recordCall": "Record a call",
+    "stopCall": "Stop recording the call"
   },
   "onboarding": {
     "showFewerModels": "Show fewer models",
@@ -665,7 +667,10 @@
       "modelPill": "Transcription model: {{model}}",
       "languagePill": "Spoken language: {{language}}",
       "allModels": "All models",
-      "downloadPill": "{{model}}, {{percent}}%"
+      "downloadPill": "{{model}}, {{percent}}%",
+      "calls": "Calls",
+      "callRecording": "A call is being recorded. Click to see it.",
+      "callTime": "Call · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +737,16 @@
         "listening": "Listening…",
         "writing": "Writing…",
         "processing": "Polishing…",
-        "done": "Pasted"
+        "done": "Pasted",
+        "call": "Call…"
+      },
+      "call": {
+        "title": "Recording a call · {{time}}",
+        "desc": "I’m recording your microphone and the computer’s sound. Let the others know.",
+        "descMicOnly": "I’m recording your microphone. Let the people around know.",
+        "deviceLost": "An audio device stopped. What came before is kept.",
+        "open": "See the call",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +782,94 @@
       "countMore": "More than {{count}} dictations",
       "empty": "No dictations yet. Hold your shortcut and speak!",
       "noResults": "No dictation matches."
+    },
+    "calls": {
+      "title": "Calls",
+      "list": "Your calls",
+      "record": "Record a call",
+      "starting": "Starting…",
+      "stop": "Stop",
+      "stopWithTime": "Stop · {{time}}",
+      "consent": "Tell the people you are recording the call. The sound stays on this computer and is deleted once the call is written.",
+      "emptyList": "No recorded calls.",
+      "welcomeTitle": "No calls yet",
+      "welcomeDesc": "When a call starts (Discord, Meet, Teams…), click “Record a call”. I write who said what, then a summary with the to-dos.",
+      "recordingNow": "Recording",
+      "writingShort": "Writing…",
+      "failedShort": "Failed",
+      "openTodos_one": "{{count}} to-do",
+      "openTodos_other": "{{count}} to-dos",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "withSystem": "microphone + computer sound",
+      "micOnly": "microphone only",
+      "me": "Me",
+      "others": "The others",
+      "live": "Live",
+      "liveHint": "The final version is written again when the call ends.",
+      "liveEmpty": "Each sentence appears here a few seconds after it is said.",
+      "nobody": "No speech was found in this recording.",
+      "writing": "Putting the call into words…",
+      "failed": "Something went wrong while writing this call.",
+      "retry": "Retry",
+      "view": "Show",
+      "summary": "Summary",
+      "transcript": "Transcript",
+      "keyPoints": "Key points",
+      "todos": "Tasks",
+      "summaryWriting": "The AI is reading the call…",
+      "noSummary": "This call has no summary.",
+      "summaryFailed": "The summary could not be written.",
+      "summarySent": "The summary is written by {{provider}}: the transcript is sent to it.",
+      "writeSummary": "Write the summary",
+      "writeSummaryAgain": "Redo the summary",
+      "noProviderTitle": "No summary without AI",
+      "noProviderDesc": "The transcript is ready. For a summary and the to-dos, turn on AI correction in Settings → Text and choose a provider and a model.",
+      "openTextSettings": "Open the text settings",
+      "people": "The people",
+      "rename": "Rename",
+      "renameSpeaker": "Click to give a name",
+      "copy": "Copy",
+      "copyError": "Could not copy the call.",
+      "export": "Export",
+      "exported": "Saved in {{path}}",
+      "exportError": "Could not save the file.",
+      "delete": "Delete",
+      "deleteConfirm": "Delete this call for good?",
+      "deleteError": "Could not delete this call.",
+      "cancel": "Cancel",
+      "errors": {
+        "noModel": "Choose a transcription model first.",
+        "mic": "I can’t hear your microphone: it is missing or blocked.",
+        "busy": "A call is already being recorded.",
+        "audioGone": "The sound of this call can no longer be found."
+      },
+      "voices": {
+        "title": "Separate the voices",
+        "desc": "To write “Person 2”, “Person 3”… instead of “The others”, I download a small model ({{size}}), once.",
+        "download": "Download",
+        "downloading": "Downloading the voice model",
+        "retry": "Retry",
+        "failed": "The download failed."
+      },
+      "settings": {
+        "title": "Call settings",
+        "system": "Computer sound",
+        "systemDesc": "Also records what the computer plays: the other people’s voices. Off: your microphone only.",
+        "voices": "Separate the voices",
+        "voicesReady": "The voices are told apart on this computer.",
+        "voicesDesc": "A small model to download ({{size}}).",
+        "summary": "AI summary",
+        "summaryReady": "Written by {{provider}} ({{model}}). The transcript is sent to it.",
+        "summaryMissing": "No AI provider is set up.",
+        "mic": "The microphone is the dictation one.",
+        "micLink": "Change microphone"
+      },
+      "md": {
+        "date": "Date:",
+        "length": "Length:",
+        "people": "People:"
+      }
     },
     "settings": {
       "title": "Settings",

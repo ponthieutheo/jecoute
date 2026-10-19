@@ -56,6 +56,10 @@ cpal = "0.16.0"
 rtrb = "0.4.0"
 anyhow = "1.0.95"
 rubato = "0.16.2"
+# The call recorder's voice separator (src/calls/diarize.rs): the same ONNX
+# Runtime binding transcribe-rs already pulls in (pinned to its version, so
+# one onnxruntime is linked, never two).
+ort = "=2.0.0-rc.12"
 hound = "3.5.1"
 log = "0.4.25"
 env_filter = "0.1.0"

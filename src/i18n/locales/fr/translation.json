@@ -7,7 +7,9 @@
     "model": "Modèle",
     "quit": "Quitter",
     "cancel": "Annuler",
-    "secureInputWarning": "⚠ Raccourcis bloqués par Secure Input"
+    "secureInputWarning": "⚠ Raccourcis bloqués par Secure Input",
+    "recordCall": "Enregistrer un appel",
+    "stopCall": "Arrêter l’enregistrement de l’appel"
   },
   "onboarding": {
     "showFewerModels": "Afficher moins de modèles",
@@ -665,7 +667,10 @@
       "modelPill": "Modèle de transcription : {{model}}",
       "languagePill": "Langue parlée : {{language}}",
       "allModels": "Tous les modèles",
-      "downloadPill": "{{model}}, {{percent}} %"
+      "downloadPill": "{{model}}, {{percent}} %",
+      "calls": "Appels",
+      "callRecording": "Un appel est enregistré. Clique pour le voir.",
+      "callTime": "Appel · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +737,16 @@
         "listening": "J’écoute…",
         "writing": "J’écris…",
         "processing": "Je peaufine…",
-        "done": "C’est collé"
+        "done": "C’est collé",
+        "call": "Appel…"
+      },
+      "call": {
+        "title": "Appel en cours · {{time}}",
+        "desc": "J’enregistre ton micro et le son de l’ordinateur. Préviens les autres.",
+        "descMicOnly": "J’enregistre ton micro. Préviens les personnes présentes.",
+        "deviceLost": "Un appareil audio s’est coupé. Ce qui précède est gardé.",
+        "open": "Voir l’appel",
+        "said": "{{name}} :"
       }
     },
     "history": {
@@ -768,6 +782,94 @@
       "countMore": "Plus de {{count}} dictées",
       "empty": "Pas encore de dictée. Maintiens ton raccourci et parle !",
       "noResults": "Aucune dictée ne correspond."
+    },
+    "calls": {
+      "title": "Appels",
+      "list": "Tes appels",
+      "record": "Enregistrer un appel",
+      "starting": "Démarrage…",
+      "stop": "Arrêter",
+      "stopWithTime": "Arrêter · {{time}}",
+      "consent": "Préviens les personnes que tu enregistres l’appel. Le son reste sur cet ordinateur et il est effacé une fois l’appel écrit.",
+      "emptyList": "Aucun appel enregistré.",
+      "welcomeTitle": "Aucun appel pour l’instant",
+      "welcomeDesc": "Quand un appel commence (Discord, Meet, Teams…), clique sur « Enregistrer un appel ». J’écris qui dit quoi, puis un résumé avec les tâches.",
+      "recordingNow": "En cours",
+      "writingShort": "J’écris…",
+      "failedShort": "Échec",
+      "openTodos_one": "{{count}} tâche",
+      "openTodos_other": "{{count}} tâches",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "withSystem": "micro + son de l’ordinateur",
+      "micOnly": "micro seul",
+      "me": "Moi",
+      "others": "Les autres",
+      "live": "En direct",
+      "liveHint": "La version finale est réécrite à la fin de l’appel.",
+      "liveEmpty": "Chaque phrase s’affiche ici quelques secondes après avoir été dite.",
+      "nobody": "Aucune parole trouvée dans cet enregistrement.",
+      "writing": "Je mets l’appel par écrit…",
+      "failed": "Un problème est survenu en écrivant cet appel.",
+      "retry": "Réessayer",
+      "view": "Afficher",
+      "summary": "Résumé",
+      "transcript": "Transcription",
+      "keyPoints": "Points clés",
+      "todos": "Tâches",
+      "summaryWriting": "L’IA lit l’appel…",
+      "noSummary": "Cet appel n’a pas de résumé.",
+      "summaryFailed": "Le résumé n’a pas pu être écrit.",
+      "summarySent": "Le résumé est écrit par {{provider}} : la transcription lui est envoyée.",
+      "writeSummary": "Écrire le résumé",
+      "writeSummaryAgain": "Refaire le résumé",
+      "noProviderTitle": "Pas de résumé sans IA",
+      "noProviderDesc": "La transcription est prête. Pour avoir un résumé et les tâches, active la correction par IA dans Réglages → Texte et choisis un fournisseur et un modèle.",
+      "openTextSettings": "Ouvrir les réglages du texte",
+      "people": "Les personnes",
+      "rename": "Renommer",
+      "renameSpeaker": "Clique pour donner un nom",
+      "copy": "Copier",
+      "copyError": "Impossible de copier l’appel.",
+      "export": "Exporter",
+      "exported": "Enregistré dans {{path}}",
+      "exportError": "Impossible d’enregistrer le fichier.",
+      "delete": "Supprimer",
+      "deleteConfirm": "Supprimer définitivement cet appel ?",
+      "deleteError": "Impossible de supprimer cet appel.",
+      "cancel": "Annuler",
+      "errors": {
+        "noModel": "Choisis d’abord un modèle de transcription.",
+        "mic": "Je n’entends pas ton micro : il est absent ou bloqué.",
+        "busy": "Un appel est déjà en cours.",
+        "audioGone": "Le son de cet appel est introuvable."
+      },
+      "voices": {
+        "title": "Distinguer les voix",
+        "desc": "Pour écrire « Personne 2 », « Personne 3 »… à la place de « Les autres », je télécharge un petit modèle ({{size}}), une seule fois.",
+        "download": "Télécharger",
+        "downloading": "Téléchargement du modèle des voix",
+        "retry": "Réessayer",
+        "failed": "Le téléchargement a échoué."
+      },
+      "settings": {
+        "title": "Réglages des appels",
+        "system": "Son de l’ordinateur",
+        "systemDesc": "Enregistre aussi ce que joue l’ordinateur : la voix des autres. Coupé : ton micro seul.",
+        "voices": "Distinguer les voix",
+        "voicesReady": "Les voix sont séparées sur cet ordinateur.",
+        "voicesDesc": "Un petit modèle à télécharger ({{size}}).",
+        "summary": "Résumé par IA",
+        "summaryReady": "Écrit par {{provider}} ({{model}}). La transcription lui est envoyée.",
+        "summaryMissing": "Aucun fournisseur d’IA configuré.",
+        "mic": "Le micro est celui de la dictée.",
+        "micLink": "Changer de micro"
+      },
+      "md": {
+        "date": "Date :",
+        "length": "Durée :",
+        "people": "Personnes :"
+      }
     },
     "settings": {
       "title": "Réglages",

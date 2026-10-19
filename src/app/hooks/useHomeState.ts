@@ -4,6 +4,7 @@ import { useDictationStore } from "@/stores/dictationStore";
 import { useModelStatusStore } from "@/stores/modelStatusStore";
 import { useModelStore } from "@/stores/modelStore";
 import { useSettingsStore } from "@/stores/settingsStore";
+import { useCallsStore } from "@/stores/callsStore";
 import { modelName } from "../lib/modelText";
 
 export type HomeState =
@@ -17,7 +18,9 @@ export type HomeState =
   | "listening"
   | "writing"
   | "processing"
-  | "done";
+  | "done"
+  /** Un appel est enregistré (et aucune dictée en cours). */
+  | "call";
 
 const MOODS: Record<HomeState, PersoMood> = {
   ready: "pret",
@@ -31,6 +34,7 @@ const MOODS: Record<HomeState, PersoMood> = {
   listening: "ecoute",
   writing: "frappe",
   processing: "chuchote",
+  call: "ecoute",
 };
 
 export type DotKind = "" | "warn" | "err" | "rec";
@@ -47,6 +51,7 @@ const DOTS: Record<HomeState, DotKind> = {
   micDenied: "err",
   error: "err",
   listening: "rec",
+  call: "rec",
 };
 
 export interface HomeStatus {
@@ -78,6 +83,7 @@ export const useHomeState = (): HomeStatus => {
   const downloadStats = useModelStore((s) => s.downloadStats);
   const downloadingModels = useModelStore((s) => s.downloadingModels);
   const inputDeviceCount = useSettingsStore((s) => s.inputDeviceCount);
+  const callRecording = useCallsStore((s) => !!s.state?.recording);
 
   const displayId = pendingModelId || currentModel;
   const current = models.find((m) => m.id === displayId);
@@ -92,6 +98,7 @@ export const useHomeState = (): HomeStatus => {
   else if (dictation === "transcribing") state = "writing";
   else if (dictation === "processing") state = "processing";
   else if (justDone) state = "done";
+  else if (callRecording) state = "call";
   else if (!currentModel) state = downloadingId ? "downloading" : "nomodel";
   else if (status === "error") state = "error";
   else if (status === "loading") state = "loading";

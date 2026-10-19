@@ -916,14 +916,128 @@ async updateRecordingRetentionPeriod(period: string) : Promise<Result<null, stri
 }
 },
 /**
- * Checks if the Mac is a laptop by detecting battery presence
- * 
- * This uses pmset to check for battery information.
- * Returns true if a battery is detected (laptop), false otherwise (desktop)
+ * Stub implementation for non-macOS platforms
+ * Always returns false since laptop detection is macOS-specific
  */
 async isLaptop() : Promise<Result<boolean, string>> {
     try {
     return { status: "ok", data: await TAURI_INVOKE("is_laptop") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callsState() : Promise<Result<CallsState, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("calls_state") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callGet(id: string) : Promise<Result<Call | null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("call_get", { id }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callStart() : Promise<Result<string, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("call_start") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callStop() : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("call_stop") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callRename(id: string, title: string) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("call_rename", { id, title }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callRenameSpeaker(id: string, speaker: string, name: string) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("call_rename_speaker", { id, speaker, name }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callToggleTodo(id: string, todo: string) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("call_toggle_todo", { id, todo }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callDelete(id: string) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("call_delete", { id }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callSummarize(id: string) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("call_summarize", { id }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callRetry(id: string) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("call_retry", { id }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Saves the call as a Markdown file (written by the page, in its language)
+ * in Documents, and shows it in the file explorer.
+ */
+async callExport(id: string, markdown: string) : Promise<Result<string, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("call_export", { id, markdown }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callsDownloadVoiceSeparation() : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("calls_download_voice_separation") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callsRemoveVoiceSeparation() : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("calls_remove_voice_separation") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async callsSetOption(option: CallOption, enabled: boolean) : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("calls_set_option", { option, enabled }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -935,10 +1049,12 @@ async isLaptop() : Promise<Result<boolean, string>> {
 
 
 export const events = __makeEvents__<{
+callsChanged: CallsChanged,
 historyUpdatePayload: HistoryUpdatePayload,
 streamPhaseEvent: StreamPhaseEvent,
 streamTextEvent: StreamTextEvent
 }>({
+callsChanged: "calls-changed",
 historyUpdatePayload: "history-update-payload",
 streamPhaseEvent: "stream-phase-event",
 streamTextEvent: "stream-text-event"
@@ -1017,11 +1133,81 @@ vad_backend?: VadBackend;
  * not gated on this — that follows model capability. Migrated from the old
  * `overlay_position` (position `none` → style `None`).
  */
-overlay_style?: OverlayStyle }
+overlay_style?: OverlayStyle; 
+/**
+ * Recorded calls: also record what the computer plays (the other people
+ * in the call). Off: the microphone alone.
+ */
+call_system_audio?: boolean; 
+/**
+ * Recorded calls: tell the voices apart ("Person 2", "Person 3"…) once
+ * the voice-separation model is downloaded.
+ */
+call_diarization?: boolean; 
+/**
+ * Recorded calls: write a summary with the post-processing provider once
+ * the transcript is ready (the transcript is sent to that provider).
+ */
+call_summary?: boolean }
 export type AudioDevice = { index: string; name: string; is_default: boolean }
 export type AutoSubmitKey = "enter" | "ctrl_enter" | "cmd_enter"
 export type AvailableAccelerators = { transcribe: string[]; ort: string[]; gpu_devices: GpuDeviceOption[] }
 export type BindingResponse = { success: boolean; binding: ShortcutBinding | null; error: string | null }
+/**
+ * A recorded call and its notes.
+ */
+export type Call = { id: string; title: string; 
+/**
+ * Set once you rename the call: the summary then keeps your title.
+ */
+title_edited: boolean; 
+/**
+ * Milliseconds since 1970.
+ */
+started_at: number; ended_at: number | null; status: CallStatus; 
+/**
+ * The computer's sound was recorded too (the other people).
+ */
+system_audio: boolean; speakers: Speaker[]; 
+/**
+ * While recording: the live transcript ("me" / "others"). Then the final one.
+ */
+lines: Line[]; summary: string | null; key_points: string[]; todos: Todo[]; 
+/**
+ * Why the last summary could not be written.
+ */
+summary_error: string | null; 
+/**
+ * Why the transcript could not be written.
+ */
+error: string | null }
+/**
+ * A call in the list (without its transcript).
+ */
+export type CallListItem = { id: string; title: string; started_at: number; ended_at: number | null; status: CallStatus; has_summary: boolean; open_todos: number }
+export type CallOption = "system_audio" | "voice_separation" | "summary"
+export type CallStatus = 
+/**
+ * Being recorded (or left so by a crash: written at the next launch).
+ */
+"recording" | 
+/**
+ * The transcript is being written.
+ */
+"processing" | "ready" | "failed"
+/**
+ * A call being written: "transcript" (with `fraction` done) or "summary".
+ */
+export type CallWork = { id: string; step: string; fraction: number }
+/**
+ * Something about the calls changed (a live line, a transcript, notes, the
+ * voice model…): the page reads the state again.
+ */
+export type CallsChanged = { id: string | null }
+/**
+ * Everything the page shows, read in one go.
+ */
+export type CallsState = { calls: CallListItem[]; recording: RecordingInfo | null; working: CallWork[]; voice_separation: VoiceSeparationState; summary: SummaryAvailability; system_audio: boolean }
 /**
  * Script applied to Mandarin and Cantonese output. Other languages are never
  * converted.
@@ -1058,6 +1244,14 @@ export type KeyboardDiagnosticReport = { secure_input_enabled: boolean; culprit_
 key_down: number; key_up: number; flags_changed: number; mouse: number; duration_ms: number }
 export type KeyboardImplementation = "tauri" | "handy_keys"
 export type LLMPrompt = { id: string; name: string; prompt: string }
+/**
+ * What one person said without a long pause.
+ */
+export type Line = { id?: string; speaker: string; 
+/**
+ * Seconds from the start of the call.
+ */
+start: number; end: number; text: string }
 export type LogLevel = "trace" | "debug" | "info" | "warn" | "error"
 export type ModelInfo = { id: string; name: string; description: string; filename: string; source: ModelSource; size_mb: number; is_downloaded: boolean; is_downloading: boolean; partial_size: number; is_directory: boolean; engine_type: EngineType; accuracy_score: number; speed_score: number; supports_translation: boolean; is_recommended: boolean; supported_languages: string[]; supports_language_selection: boolean; is_custom: boolean; supports_streaming: boolean; supports_language_detection: boolean }
 export type ModelLoadStatus = { is_loaded: boolean; current_model: string | null }
@@ -1087,7 +1281,12 @@ sha256: string | null } } |
  * in a shared cache. Nothing to download.
  */
 "Local"
-export type ModelUnloadTimeout = "never" | "immediately" | "min_2" | "min_5" | "min_10" | "min_15" | "hour_1" | "sec_15"
+export type ModelUnloadTimeout = 
+/**
+ * Default: keep the model resident so every dictation starts instantly.
+ * Reloading a large model after an idle unload can take many seconds.
+ */
+"never" | "immediately" | "min_2" | "min_5" | "min_10" | "min_15" | "hour_1" | "sec_15"
 export type OrtAcceleratorSetting = "auto" | "cpu" | "cuda" | "directml" | "rocm"
 export type OverlayPosition = "top" | "bottom"
 /**
@@ -1104,6 +1303,18 @@ export type PaginatedHistory = { entries: HistoryEntry[]; has_more: boolean }
 export type PasteMethod = "ctrl_v" | "direct" | "none" | "shift_insert" | "ctrl_shift_v" | "external_script"
 export type PermissionAccess = "allowed" | "denied" | "unknown"
 export type PostProcessProvider = { id: string; label: string; base_url: string; allow_base_url_edit?: boolean; models_endpoint?: string | null; supports_structured_output?: boolean }
+/**
+ * The call being recorded.
+ */
+export type RecordingInfo = { id: string; started_at: number; 
+/**
+ * The computer's sound is recorded too (false: the microphone alone).
+ */
+system_audio: boolean; 
+/**
+ * A device stopped answering during the call (unplugged…).
+ */
+device_lost: boolean }
 export type RecordingRetentionPeriod = "never" | "preserve_limit" | "days_3" | "weeks_2" | "months_3"
 export type SecretMap = Partial<{ [key in string]: string }>
 export type SecureInputStatus = { 
@@ -1159,6 +1370,14 @@ export type ShortcutActivation =
 export type ShortcutBinding = { id: string; name: string; description: string; default_binding: string; current_binding: string }
 export type SoundTheme = "marimba" | "pop" | "custom"
 /**
+ * Someone heard in a call. "me" is the microphone of this computer.
+ */
+export type Speaker = { id: string; name: string; 
+/**
+ * Which of the page's speaker colours.
+ */
+color: number; is_me?: boolean }
+/**
  * Phase of the streaming overlay card, emitted to drive its UI state.
  */
 export type StreamPhase = 
@@ -1191,13 +1410,35 @@ export type StreamTextEvent = { committed: string; tentative: string }
  */
 export type StreamWorkKind = "transcribing" | "polishing"
 /**
+ * Whether a summary can be written, and by whom (shown on the page).
+ */
+export type SummaryAvailability = { 
+/**
+ * A provider with a model (and a key when it needs one) is set up.
+ */
+ready: boolean; 
+/**
+ * The setting "Summary by AI" for calls.
+ */
+enabled: boolean; provider: string | null; model: string | null }
+/**
  * UI appearance mode. `System` follows the OS `prefers-color-scheme`; `Light`
  * and `Dark` force one of the two palettes Handy already ships.
  */
 export type Theme = "system" | "light" | "dark"
+export type Todo = { id?: string; text: string; owner?: string | null; due?: string | null; done?: boolean }
 export type TranscribeAcceleratorSetting = "auto" | "cpu" | "gpu"
 export type TypingTool = "auto" | "wtype" | "kwtype" | "dotool" | "ydotool" | "xdotool"
 export type VadBackend = "silero" | "earshot"
+export type VoiceSeparationState = { 
+/**
+ * "missing", "downloading", "ready" or "failed".
+ */
+state: string; fraction: number; error: string | null; size_mb: number; 
+/**
+ * The setting "Tell the voices apart".
+ */
+enabled: boolean }
 export type WindowsMicrophonePermissionStatus = { supported: boolean; overall_access: PermissionAccess; device_access: PermissionAccess; app_access: PermissionAccess; desktop_app_access: PermissionAccess }
 
 /** tauri-specta globals **/
