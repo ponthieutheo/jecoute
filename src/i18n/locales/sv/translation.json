@@ -1021,6 +1021,7 @@
       "noSummary": "Det här samtalet har ingen sammanfattning.",
       "summaryFailed": "Sammanfattningen kunde inte skrivas.",
       "summarySent": "Sammanfattningen skrivs av {{provider}}: transkriptionen skickas dit.",
+      "summaryRemote": "Transkriptionen lämnar den här datorn.",
       "writeSummary": "Skriv sammanfattningen",
       "writeSummaryAgain": "Gör om sammanfattningen",
       "noProviderTitle": "Ingen sammanfattning utan AI",

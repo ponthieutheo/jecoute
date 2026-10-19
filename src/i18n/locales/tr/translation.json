@@ -1021,6 +1021,7 @@
       "noSummary": "Bu görüşmenin özeti yok.",
       "summaryFailed": "Özet yazılamadı.",
       "summarySent": "Özeti {{provider}} yazar: transkript ona gönderilir.",
+      "summaryRemote": "Transkript bu bilgisayardan çıkar.",
       "writeSummary": "Özeti yaz",
       "writeSummaryAgain": "Özeti yeniden yaz",
       "noProviderTitle": "Yapay zekâ olmadan özet yok",

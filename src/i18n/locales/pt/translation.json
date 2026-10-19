@@ -1021,6 +1021,7 @@
       "noSummary": "Esta chamada não tem resumo.",
       "summaryFailed": "Não foi possível escrever o resumo.",
       "summarySent": "O resumo é escrito por {{provider}}: a transcrição é enviada para ele.",
+      "summaryRemote": "A transcrição sai deste computador.",
       "writeSummary": "Escrever o resumo",
       "writeSummaryAgain": "Refazer o resumo",
       "noProviderTitle": "Sem IA, sem resumo",

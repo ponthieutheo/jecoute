@@ -1021,6 +1021,7 @@
       "noSummary": "Dieser Anruf hat keine Zusammenfassung.",
       "summaryFailed": "Die Zusammenfassung konnte nicht erstellt werden.",
       "summarySent": "Die Zusammenfassung erstellt {{provider}}: Dafür wird die Transkription dorthin gesendet.",
+      "summaryRemote": "Die Transkription verlässt diesen Computer.",
       "writeSummary": "Zusammenfassung erstellen",
       "writeSummaryAgain": "Zusammenfassung neu erstellen",
       "noProviderTitle": "Keine Zusammenfassung ohne KI",

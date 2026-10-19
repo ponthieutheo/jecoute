@@ -1021,6 +1021,7 @@
       "noSummary": "Cuộc gọi này không có bản tóm tắt.",
       "summaryFailed": "Không thể viết bản tóm tắt.",
       "summarySent": "Bản tóm tắt do {{provider}} viết: bản chép lời được gửi đến dịch vụ này.",
+      "summaryRemote": "Bản chép lời rời khỏi máy tính này.",
       "writeSummary": "Viết tóm tắt",
       "writeSummaryAgain": "Viết lại tóm tắt",
       "noProviderTitle": "Không có AI thì không có tóm tắt",

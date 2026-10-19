@@ -1021,6 +1021,7 @@
       "noSummary": "Questa chiamata non ha un riassunto.",
       "summaryFailed": "Non è stato possibile scrivere il riassunto.",
       "summarySent": "Il riassunto lo scrive {{provider}}: gli viene inviata la trascrizione.",
+      "summaryRemote": "La trascrizione esce da questo computer.",
       "writeSummary": "Scrivi il riassunto",
       "writeSummaryAgain": "Rifai il riassunto",
       "noProviderTitle": "Niente riassunto senza IA",

@@ -1021,6 +1021,7 @@
       "noSummary": "Dit gesprek heeft geen samenvatting.",
       "summaryFailed": "De samenvatting kon niet worden geschreven.",
       "summarySent": "De samenvatting wordt geschreven door {{provider}}: de transcriptie wordt daarheen gestuurd.",
+      "summaryRemote": "De transcriptie verlaat deze computer.",
       "writeSummary": "Samenvatting schrijven",
       "writeSummaryAgain": "Samenvatting opnieuw maken",
       "noProviderTitle": "Geen samenvatting zonder AI",

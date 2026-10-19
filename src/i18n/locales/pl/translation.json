@@ -1039,6 +1039,7 @@
       "noSummary": "Ta rozmowa nie ma podsumowania.",
       "summaryFailed": "Nie udało się napisać podsumowania.",
       "summarySent": "Podsumowanie pisze {{provider}}: wysyłana jest do niego transkrypcja.",
+      "summaryRemote": "Transkrypcja opuszcza ten komputer.",
       "writeSummary": "Napisz podsumowanie",
       "writeSummaryAgain": "Napisz od nowa",
       "noProviderTitle": "Bez AI nie ma podsumowania",

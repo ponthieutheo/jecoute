@@ -1021,6 +1021,7 @@
       "noSummary": "यो कलको सारांश छैन।",
       "summaryFailed": "सारांश लेख्न सकिएन।",
       "summarySent": "सारांश {{provider}} ले लेख्छ: ट्रान्सक्रिप्ट त्यहाँ पठाइन्छ।",
+      "summaryRemote": "ट्रान्सक्रिप्ट यो कम्प्युटरबाट बाहिर जान्छ।",
       "writeSummary": "सारांश लेख्नुहोस्",
       "writeSummaryAgain": "सारांश फेरि लेख्नुहोस्",
       "noProviderTitle": "AI बिना सारांश छैन",

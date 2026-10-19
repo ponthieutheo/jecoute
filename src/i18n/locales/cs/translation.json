@@ -1030,6 +1030,7 @@
       "noSummary": "Tento hovor nemá shrnutí.",
       "summaryFailed": "Shrnutí se nepodařilo napsat.",
       "summarySent": "Shrnutí píše {{provider}}, kterému se odesílá přepis.",
+      "summaryRemote": "Přepis opouští tento počítač.",
       "writeSummary": "Napsat shrnutí",
       "writeSummaryAgain": "Napsat shrnutí znovu",
       "noProviderTitle": "Bez AI není shrnutí",

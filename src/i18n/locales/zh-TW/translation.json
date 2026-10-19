@@ -1021,6 +1021,7 @@
       "noSummary": "這通通話沒有摘要。",
       "summaryFailed": "無法產生摘要。",
       "summarySent": "摘要由 {{provider}} 撰寫：轉錄內容會傳送給它。",
+      "summaryRemote": "轉錄內容會離開這台電腦。",
       "writeSummary": "產生摘要",
       "writeSummaryAgain": "重新產生摘要",
       "noProviderTitle": "沒有 AI 就沒有摘要",

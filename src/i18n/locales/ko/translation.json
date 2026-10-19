@@ -1021,6 +1021,7 @@
       "noSummary": "이 통화에는 요약이 없습니다.",
       "summaryFailed": "요약을 작성하지 못했습니다.",
       "summarySent": "요약은 {{provider}}에서 작성하며, 녹취록이 그쪽으로 전송됩니다.",
+      "summaryRemote": "녹취록이 이 컴퓨터 밖으로 전송됩니다.",
       "writeSummary": "요약 작성",
       "writeSummaryAgain": "요약 다시 작성",
       "noProviderTitle": "AI 없이는 요약할 수 없습니다",

@@ -1021,6 +1021,7 @@
       "noSummary": "इस कॉल का कोई सारांश नहीं है.",
       "summaryFailed": "सारांश नहीं लिखा जा सका.",
       "summarySent": "सारांश {{provider}} लिखता है: ट्रांसक्रिप्ट उसे भेजा जाता है.",
+      "summaryRemote": "ट्रांसक्रिप्ट इस कंप्यूटर से बाहर जाता है।",
       "writeSummary": "सारांश लिखें",
       "writeSummaryAgain": "सारांश फिर से लिखें",
       "noProviderTitle": "AI के बिना सारांश नहीं",

@@ -1021,6 +1021,7 @@
       "noSummary": "Aquesta trucada no té resum.",
       "summaryFailed": "No s’ha pogut escriure el resum.",
       "summarySent": "El resum l’escriu {{provider}}: se li envia la transcripció.",
+      "summaryRemote": "La transcripció surt d’aquest ordinador.",
       "writeSummary": "Escriu el resum",
       "writeSummaryAgain": "Refés el resum",
       "noProviderTitle": "Sense IA no hi ha resum",

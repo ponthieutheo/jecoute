@@ -1021,6 +1021,7 @@
       "noSummary": "Esta llamada no tiene resumen.",
       "summaryFailed": "No se pudo escribir el resumen.",
       "summarySent": "El resumen lo escribe {{provider}}: se le envía la transcripción.",
+      "summaryRemote": "La transcripción sale de este ordenador.",
       "writeSummary": "Escribir el resumen",
       "writeSummaryAgain": "Rehacer el resumen",
       "noProviderTitle": "Sin IA no hay resumen",

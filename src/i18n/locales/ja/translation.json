@@ -1021,6 +1021,7 @@
       "noSummary": "この通話には要約がありません。",
       "summaryFailed": "要約を作成できませんでした。",
       "summarySent": "要約は {{provider}} が作成します（文字起こしを送信します）。",
+      "summaryRemote": "文字起こしはこのコンピューターの外に送られます。",
       "writeSummary": "要約を作成",
       "writeSummaryAgain": "要約を作り直す",
       "noProviderTitle": "AI なしでは要約できません",

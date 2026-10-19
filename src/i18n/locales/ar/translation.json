@@ -1057,6 +1057,7 @@
       "noSummary": "لا ملخص لهذه المكالمة.",
       "summaryFailed": "تعذّرت كتابة الملخص.",
       "summarySent": "يكتب {{provider}} الملخص: يُرسَل إليه النص المفرّغ.",
+      "summaryRemote": "يغادر النص المفرّغ هذا الحاسوب.",
       "writeSummary": "كتابة الملخص",
       "writeSummaryAgain": "إعادة كتابة الملخص",
       "noProviderTitle": "لا ملخص بدون ذكاء اصطناعي",

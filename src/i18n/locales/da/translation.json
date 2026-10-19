@@ -1021,6 +1021,7 @@
       "noSummary": "Dette opkald har intet resumé.",
       "summaryFailed": "Resuméet kunne ikke skrives.",
       "summarySent": "Resuméet skrives af {{provider}}: transskriptionen sendes dertil.",
+      "summaryRemote": "Transskriptionen forlader denne computer.",
       "writeSummary": "Skriv resuméet",
       "writeSummaryAgain": "Lav resuméet igen",
       "noProviderTitle": "Intet resumé uden AI",

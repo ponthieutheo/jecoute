@@ -1030,6 +1030,7 @@
       "noSummary": "לשיחה הזו אין סיכום.",
       "summaryFailed": "לא ניתן היה לכתוב את הסיכום.",
       "summarySent": "את הסיכום כותב {{provider}}: התמלול נשלח אליו.",
+      "summaryRemote": "התמלול יוצא מהמחשב הזה.",
       "writeSummary": "כתוב סיכום",
       "writeSummaryAgain": "כתוב סיכום מחדש",
       "noProviderTitle": "אין סיכום בלי AI",

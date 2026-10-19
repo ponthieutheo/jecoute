@@ -1021,6 +1021,7 @@
       "noSummary": "Panggilan ini tidak punya ringkasan.",
       "summaryFailed": "Ringkasan tidak dapat ditulis.",
       "summarySent": "Ringkasan ditulis oleh {{provider}}: transkripsi dikirim ke sana.",
+      "summaryRemote": "Transkripsi keluar dari komputer ini.",
       "writeSummary": "Tulis ringkasan",
       "writeSummaryAgain": "Tulis ulang ringkasan",
       "noProviderTitle": "Tanpa AI, tidak ada ringkasan",
