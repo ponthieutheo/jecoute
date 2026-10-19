@@ -76,7 +76,7 @@ const tickLabel = (bar: Bar, bucket: Bucket, language: string): string => {
   return String(bar.start.getDate());
 };
 
-const CHART_H = 150;
+const MIN_CHART_H = 120;
 const AXIS_H = 20;
 
 /** Les mots par jour (ou semaine, ou mois) : des barres en SVG. */
@@ -88,19 +88,25 @@ const WordsChart: React.FC<{
   const { t, i18n } = useTranslation();
   const nf = useNumber(i18n.language);
   const box = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  const width = size.width;
+  const CHART_H = Math.max(MIN_CHART_H, size.height - AXIS_H);
   const [hover, setHover] = useState<number | null>(null);
 
   useLayoutEffect(() => {
     const el = box.current;
     if (!el) return;
-    const observer = new ResizeObserver(() => setWidth(el.clientWidth));
+    const measure = () =>
+      setSize({ width: el.clientWidth, height: el.clientHeight });
+    const observer = new ResizeObserver(measure);
     observer.observe(el);
-    setWidth(el.clientWidth);
+    measure();
     return () => observer.disconnect();
   }, []);
 
   const max = Math.max(1, ...bars.map((b) => b.words));
+  const barHeight = (words: number) =>
+    words ? Math.max(3, (words / max) * (CHART_H - 8)) : 0;
   const slot = bars.length ? width / bars.length : 0;
   const gap = Math.min(6, Math.max(2, slot * 0.25));
   const barW = Math.max(1, slot - gap);
@@ -133,9 +139,7 @@ const WordsChart: React.FC<{
           />
           <line x1={0} x2={width} y1={0.5} y2={0.5} className="grid" />
           {bars.map((bar, i) => {
-            const h = bar.words
-              ? Math.max(3, (bar.words / max) * (CHART_H - 8))
-              : 0;
+            const h = barHeight(bar.words);
             const x = i * slot + gap / 2;
             const r = Math.min(4, barW / 2, h);
             return (
@@ -191,6 +195,8 @@ const WordsChart: React.FC<{
               Math.max(hover * slot + slot / 2, 70),
               Math.max(70, width - 70),
             ),
+            // Au-dessus de la barre, sans sortir de la carte.
+            top: Math.max(44, CHART_H - barHeight(hovered.words) - 6),
           }}
           role="status"
         >
@@ -235,7 +241,11 @@ const AppsList: React.FC<{ apps: AppShare[] }> = ({ apps }) => {
             <span className="name" title={a.name}>
               {a.name}
             </span>
-            <span className="pct j-num">{pf.format(share)}</span>
+            <span className="pct j-num">
+              {share > 0 && share < 0.005
+                ? `< ${pf.format(0.01)}`
+                : pf.format(share)}
+            </span>
             <span className="track" aria-hidden="true">
               <i style={{ width: `${Math.max(2, share * 100)}%` }} />
             </span>
