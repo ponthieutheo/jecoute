@@ -7,7 +7,9 @@
     "model": "Model",
     "quit": "Afslut",
     "cancel": "Annuller",
-    "secureInputWarning": "⚠ Genveje blokeret af Secure Input"
+    "secureInputWarning": "⚠ Genveje blokeret af Secure Input",
+    "recordCall": "Optag et opkald",
+    "stopCall": "Stop optagelsen af opkaldet"
   },
   "onboarding": {
     "showFewerModels": "Vis færre modeller",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "Historik",
+      "stats": "Statistik",
       "update": "Opdatering",
       "recent": "Seneste dikteringer",
       "allHistory": "Hele historikken",
@@ -665,7 +668,10 @@
       "modelPill": "Transskriptionsmodel: {{model}}",
       "languagePill": "Talt sprog: {{language}}",
       "allModels": "Alle modeller",
-      "downloadPill": "{{model}}, {{percent}} %"
+      "downloadPill": "{{model}}, {{percent}} %",
+      "calls": "Opkald",
+      "callRecording": "Et opkald bliver optaget. Klik for at se det.",
+      "callTime": "Opkald · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "Jeg lytter…",
         "writing": "Jeg skriver…",
         "processing": "Finpudser…",
-        "done": "Indsat"
+        "done": "Indsat",
+        "call": "Opkald…"
+      },
+      "call": {
+        "title": "Opkald i gang · {{time}}",
+        "desc": "Jeg optager din mikrofon og computerens lyd. Sig det til de andre.",
+        "descMicOnly": "Jeg optager din mikrofon. Sig det til dem omkring dig.",
+        "deviceLost": "En lydenhed holdt op med at virke. Det, der allerede er optaget, er gemt.",
+        "open": "Se opkaldet",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "Over {{count}} dikteringer",
       "empty": "Ingen dikteringer endnu. Hold din genvej nede og tal!",
       "noResults": "Ingen dikteringer passer."
+    },
+    "stats": {
+      "title": "Statistik",
+      "periods": {
+        "label": "Periode",
+        "week": "Uge",
+        "month": "Måned",
+        "all": "Alt"
+      },
+      "words": "Dikterede ord",
+      "timeSaved": "Sparet tid",
+      "timeSavedHint": "i forhold til at skrive 45 ord/min",
+      "speed": "Hastighed",
+      "speedUnit": "ord/min",
+      "dictations": "Dikteringer",
+      "minutes": "{{m}} min",
+      "hours": "{{h}} t {{m}} min",
+      "streak_one": "{{formatted}} dag i træk",
+      "streak_other": "{{formatted}} dage i træk",
+      "streakHint": "Dage i træk med mindst én diktering, frem til i dag eller i går.",
+      "perDay": "Ord pr. dag",
+      "perWeek": "Ord pr. uge",
+      "perMonth": "Ord pr. måned",
+      "chartLabel": "Diagram over dikterede ord",
+      "wordsCount_one": "{{formatted}} ord",
+      "wordsCount_other": "{{formatted}} ord",
+      "where": "Hvor du dikterer",
+      "appsEmpty": "Diktér i en app, så dukker den op her.",
+      "otherApps": "Andre",
+      "emptyTitle": "Ingen tal endnu",
+      "emptyText": "Diktér med din genvej: dine ord, den sparede tid og de apps, du dikterer i, vises her.",
+      "private": "Talt op på denne computer, aldrig sendt.",
+      "reset": "Nulstil",
+      "resetTitle": "Nulstil statistikken?",
+      "resetText": "Alle tal bliver slettet: ord, sparet tid, dage i træk og apps. Din dikteringshistorik bliver ikke rørt.",
+      "resetConfirm": "Nulstil",
+      "resetError": "Kunne ikke nulstille statistikken. Prøv igen.",
+      "cancel": "Annuller"
     },
     "settings": {
       "title": "Indstillinger",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Transskription på 100 sprog, genkender sproget automatisk, tidsstempler pr. segment.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Optimeret til taiwansk mandarin. Kan skifte mellem sprog.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Transskription på 100 sprog, med oversættelse, genkender sproget automatisk, tidsstempler pr. segment."
+    },
+    "calls": {
+      "title": "Opkald",
+      "list": "Dine opkald",
+      "record": "Optag et opkald",
+      "starting": "Starter…",
+      "stop": "Stop",
+      "stopWithTime": "Stop · {{time}}",
+      "consent": "Fortæl de andre, at du optager opkaldet. Lyden bliver på denne computer og slettes, når opkaldet er skrevet ned.",
+      "emptyList": "Ingen optagede opkald.",
+      "welcomeTitle": "Ingen opkald endnu",
+      "welcomeDesc": "Når et opkald starter (Discord, Meet, Teams…), så klik på »Optag et opkald«. Jeg skriver, hvem der siger hvad, og derefter et resumé med opgaverne.",
+      "recordingNow": "Optager",
+      "writingShort": "Jeg skriver…",
+      "failedShort": "Mislykkedes",
+      "openTodos_one": "{{count}} opgave",
+      "openTodos_other": "{{count}} opgaver",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "withSystem": "mikrofon + computerens lyd",
+      "micOnly": "kun mikrofon",
+      "me": "Mig",
+      "others": "De andre",
+      "live": "Live",
+      "liveHint": "Den endelige version skrives igen, når opkaldet slutter.",
+      "liveEmpty": "Hver sætning vises her få sekunder efter, at den er sagt.",
+      "nobody": "Der blev ikke fundet tale i denne optagelse.",
+      "writing": "Jeg skriver opkaldet ned…",
+      "failed": "Noget gik galt, da opkaldet skulle skrives ned.",
+      "retry": "Prøv igen",
+      "view": "Vis",
+      "summary": "Resumé",
+      "transcript": "Transskription",
+      "keyPoints": "Hovedpunkter",
+      "todos": "Opgaver",
+      "summaryWriting": "AI’en læser opkaldet…",
+      "noSummary": "Dette opkald har intet resumé.",
+      "summaryFailed": "Resuméet kunne ikke skrives.",
+      "summarySent": "Resuméet skrives af {{provider}}: transskriptionen sendes dertil.",
+      "writeSummary": "Skriv resuméet",
+      "writeSummaryAgain": "Lav resuméet igen",
+      "noProviderTitle": "Intet resumé uden AI",
+      "noProviderDesc": "Transskriptionen er klar. For at få et resumé og opgaverne skal du slå AI-korrektur til under Indstillinger → Tekst og vælge en AI-udbyder og en model.",
+      "openTextSettings": "Åbn tekstindstillingerne",
+      "people": "Personer",
+      "rename": "Omdøb",
+      "renameSpeaker": "Klik for at give et navn",
+      "copy": "Kopiér",
+      "copyError": "Kunne ikke kopiere opkaldet.",
+      "export": "Eksportér",
+      "exported": "Gemt i {{path}}",
+      "exportError": "Kunne ikke gemme filen.",
+      "delete": "Slet",
+      "deleteConfirm": "Slet dette opkald for altid?",
+      "deleteError": "Kunne ikke slette dette opkald.",
+      "cancel": "Annuller",
+      "errors": {
+        "noModel": "Vælg først en transskriptionsmodel.",
+        "mic": "Jeg kan ikke høre din mikrofon: den mangler eller er blokeret.",
+        "busy": "Et opkald bliver allerede optaget.",
+        "audioGone": "Lyden fra dette opkald kan ikke længere findes."
+      },
+      "voices": {
+        "title": "Skeln mellem stemmerne",
+        "desc": "For at skrive »Person 2«, »Person 3«… i stedet for »De andre« downloader jeg en lille model ({{size}}), én gang.",
+        "download": "Download",
+        "downloading": "Downloader stemmemodellen",
+        "retry": "Prøv igen",
+        "failed": "Downloaden mislykkedes."
+      },
+      "settings": {
+        "title": "Indstillinger for opkald",
+        "system": "Computerens lyd",
+        "systemDesc": "Optager også det, computeren afspiller: de andres stemmer. Fra: kun din mikrofon.",
+        "voices": "Skeln mellem stemmerne",
+        "voicesReady": "Stemmerne skelnes fra hinanden på denne computer.",
+        "voicesDesc": "En lille model, der skal downloades ({{size}}).",
+        "summary": "AI-resumé",
+        "summaryReady": "Skrives af {{provider}} ({{model}}). Transskriptionen sendes dertil.",
+        "summaryMissing": "Ingen AI-udbyder er sat op.",
+        "mic": "Mikrofonen er den samme som til diktering.",
+        "micLink": "Skift mikrofon"
+      },
+      "md": {
+        "date": "Dato:",
+        "length": "Varighed:",
+        "people": "Personer:"
+      }
     }
   }
 }

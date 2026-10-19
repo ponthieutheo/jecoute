@@ -7,7 +7,9 @@
     "model": "Modell",
     "quit": "Beenden",
     "cancel": "Abbrechen",
-    "secureInputWarning": "⚠ Tastenkürzel durch Secure Input blockiert"
+    "secureInputWarning": "⚠ Tastenkürzel durch Secure Input blockiert",
+    "recordCall": "Anruf aufnehmen",
+    "stopCall": "Anrufaufnahme beenden"
   },
   "onboarding": {
     "showFewerModels": "Weniger Modelle anzeigen",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "Verlauf",
+      "stats": "Statistiken",
       "update": "Update",
       "recent": "Letzte Diktate",
       "allHistory": "Ganzer Verlauf",
@@ -665,7 +668,10 @@
       "modelPill": "Transkriptionsmodell: {{model}}",
       "languagePill": "Gesprochene Sprache: {{language}}",
       "allModels": "Alle Modelle",
-      "downloadPill": "{{model}}, {{percent}} %"
+      "downloadPill": "{{model}}, {{percent}} %",
+      "calls": "Anrufe",
+      "callRecording": "Ein Anruf wird aufgenommen. Klick, um ihn zu sehen.",
+      "callTime": "Anruf · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "Ich höre zu…",
         "writing": "Ich schreibe…",
         "processing": "Feinschliff…",
-        "done": "Eingefügt"
+        "done": "Eingefügt",
+        "call": "Anruf…"
+      },
+      "call": {
+        "title": "Anruf läuft · {{time}}",
+        "desc": "Ich nehme dein Mikrofon und den Ton des Computers auf. Sag den anderen Bescheid.",
+        "descMicOnly": "Ich nehme dein Mikrofon auf. Sag den Leuten um dich herum Bescheid.",
+        "deviceLost": "Ein Audiogerät ist ausgefallen. Was davor aufgenommen wurde, bleibt erhalten.",
+        "open": "Anruf ansehen",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "Mehr als {{count}} Diktate",
       "empty": "Noch keine Diktate. Halte dein Tastenkürzel gedrückt und sprich!",
       "noResults": "Kein Diktat passt dazu."
+    },
+    "stats": {
+      "title": "Statistiken",
+      "periods": {
+        "label": "Zeitraum",
+        "week": "Woche",
+        "month": "Monat",
+        "all": "Gesamt"
+      },
+      "words": "Diktierte Wörter",
+      "timeSaved": "Gesparte Zeit",
+      "timeSavedHint": "gegenüber Tippen mit 45 Wörtern/Min.",
+      "speed": "Tempo",
+      "speedUnit": "Wörter/Min.",
+      "dictations": "Diktate",
+      "minutes": "{{m}} Min.",
+      "hours": "{{h}} Std. {{m}} Min.",
+      "streak_one": "{{formatted}} Tag in Folge",
+      "streak_other": "{{formatted}} Tage in Folge",
+      "streakHint": "Tage in Folge mit mindestens einem Diktat, bis heute oder gestern.",
+      "perDay": "Wörter pro Tag",
+      "perWeek": "Wörter pro Woche",
+      "perMonth": "Wörter pro Monat",
+      "chartLabel": "Diagramm der diktierten Wörter",
+      "wordsCount_one": "{{formatted}} Wort",
+      "wordsCount_other": "{{formatted}} Wörter",
+      "where": "Wo du diktierst",
+      "appsEmpty": "Diktiere in einer App, dann erscheint sie hier.",
+      "otherApps": "Andere",
+      "emptyTitle": "Noch keine Zahlen",
+      "emptyText": "Diktiere mit deinem Tastenkürzel: Deine Wörter, die gesparte Zeit und die Apps, in denen du diktierst, erscheinen hier.",
+      "private": "Auf diesem Computer gezählt, nie gesendet.",
+      "reset": "Zurücksetzen",
+      "resetTitle": "Statistiken zurücksetzen?",
+      "resetText": "Alle Zahlen werden gelöscht: Wörter, gesparte Zeit, Tage in Folge und Apps. Dein Diktatverlauf bleibt unberührt.",
+      "resetConfirm": "Zurücksetzen",
+      "resetError": "Die Statistiken ließen sich nicht zurücksetzen. Versuch es erneut.",
+      "cancel": "Abbrechen"
     },
     "settings": {
       "title": "Einstellungen",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Transkription in 100 Sprachen, erkennt die Sprache automatisch, Zeitstempel pro Abschnitt.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Optimiert für taiwanesisches Mandarin. Versteht Sprachwechsel mitten im Satz.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Transkription in 100 Sprachen, mit Übersetzung, erkennt die Sprache automatisch, Zeitstempel pro Abschnitt."
+    },
+    "calls": {
+      "title": "Anrufe",
+      "list": "Deine Anrufe",
+      "record": "Anruf aufnehmen",
+      "starting": "Startet…",
+      "stop": "Stopp",
+      "stopWithTime": "Stopp · {{time}}",
+      "consent": "Sag den anderen, dass du den Anruf aufnimmst. Der Ton bleibt auf diesem Computer und wird gelöscht, sobald der Anruf aufgeschrieben ist.",
+      "emptyList": "Keine aufgenommenen Anrufe.",
+      "welcomeTitle": "Noch keine Anrufe",
+      "welcomeDesc": "Wenn ein Anruf beginnt (Discord, Meet, Teams…), klick auf „Anruf aufnehmen“. Ich schreibe auf, wer was sagt, dann eine Zusammenfassung mit den Aufgaben.",
+      "recordingNow": "Aufnahme",
+      "writingShort": "Ich schreibe…",
+      "failedShort": "Fehlgeschlagen",
+      "openTodos_one": "{{count}} Aufgabe",
+      "openTodos_other": "{{count}} Aufgaben",
+      "minutes_one": "{{count}} Min.",
+      "minutes_other": "{{count}} Min.",
+      "withSystem": "Mikrofon + Computerton",
+      "micOnly": "nur Mikrofon",
+      "me": "Ich",
+      "others": "Die anderen",
+      "live": "Live",
+      "liveHint": "Die endgültige Fassung wird am Ende des Anrufs neu geschrieben.",
+      "liveEmpty": "Jeder Satz erscheint hier ein paar Sekunden, nachdem er gesagt wurde.",
+      "nobody": "In dieser Aufnahme wurde keine Sprache gefunden.",
+      "writing": "Ich schreibe den Anruf auf…",
+      "failed": "Beim Aufschreiben dieses Anrufs ist etwas schiefgelaufen.",
+      "retry": "Erneut versuchen",
+      "view": "Ansicht",
+      "summary": "Zusammenfassung",
+      "transcript": "Transkription",
+      "keyPoints": "Kernpunkte",
+      "todos": "Aufgaben",
+      "summaryWriting": "Die KI liest den Anruf…",
+      "noSummary": "Dieser Anruf hat keine Zusammenfassung.",
+      "summaryFailed": "Die Zusammenfassung konnte nicht erstellt werden.",
+      "summarySent": "Die Zusammenfassung erstellt {{provider}}: Dafür wird die Transkription dorthin gesendet.",
+      "writeSummary": "Zusammenfassung erstellen",
+      "writeSummaryAgain": "Zusammenfassung neu erstellen",
+      "noProviderTitle": "Keine Zusammenfassung ohne KI",
+      "noProviderDesc": "Die Transkription ist fertig. Für eine Zusammenfassung und die Aufgaben schalte KI-Korrektur unter Einstellungen → Text ein und wähle einen KI-Anbieter und ein Modell.",
+      "openTextSettings": "Text-Einstellungen öffnen",
+      "people": "Personen",
+      "rename": "Umbenennen",
+      "renameSpeaker": "Klick, um einen Namen zu geben",
+      "copy": "Kopieren",
+      "copyError": "Der Anruf konnte nicht kopiert werden.",
+      "export": "Exportieren",
+      "exported": "Gespeichert in {{path}}",
+      "exportError": "Die Datei konnte nicht gespeichert werden.",
+      "delete": "Löschen",
+      "deleteConfirm": "Diesen Anruf endgültig löschen?",
+      "deleteError": "Dieser Anruf konnte nicht gelöscht werden.",
+      "cancel": "Abbrechen",
+      "errors": {
+        "noModel": "Wähle zuerst ein Transkriptionsmodell.",
+        "mic": "Ich höre dein Mikrofon nicht: Es fehlt oder ist blockiert.",
+        "busy": "Es wird bereits ein Anruf aufgenommen.",
+        "audioGone": "Der Ton dieses Anrufs ist nicht mehr auffindbar."
+      },
+      "voices": {
+        "title": "Stimmen unterscheiden",
+        "desc": "Um „Person 2“, „Person 3“… statt „Die anderen“ zu schreiben, lade ich einmalig ein kleines Modell herunter ({{size}}).",
+        "download": "Herunterladen",
+        "downloading": "Stimmenmodell wird heruntergeladen",
+        "retry": "Erneut versuchen",
+        "failed": "Der Download ist fehlgeschlagen."
+      },
+      "settings": {
+        "title": "Anruf-Einstellungen",
+        "system": "Computerton",
+        "systemDesc": "Nimmt auch auf, was der Computer abspielt: die Stimmen der anderen. Aus: nur dein Mikrofon.",
+        "voices": "Stimmen unterscheiden",
+        "voicesReady": "Die Stimmen werden auf diesem Computer unterschieden.",
+        "voicesDesc": "Ein kleines Modell zum Herunterladen ({{size}}).",
+        "summary": "KI-Zusammenfassung",
+        "summaryReady": "Erstellt von {{provider}} ({{model}}). Die Transkription wird dorthin gesendet.",
+        "summaryMissing": "Kein KI-Anbieter eingerichtet.",
+        "mic": "Es ist dasselbe Mikrofon wie beim Diktieren.",
+        "micLink": "Mikrofon wechseln"
+      },
+      "md": {
+        "date": "Datum:",
+        "length": "Dauer:",
+        "people": "Personen:"
+      }
     }
   }
 }

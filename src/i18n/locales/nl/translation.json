@@ -7,7 +7,9 @@
     "model": "Model",
     "quit": "Afsluiten",
     "cancel": "Annuleren",
-    "secureInputWarning": "⚠ Sneltoetsen geblokkeerd door Secure Input"
+    "secureInputWarning": "⚠ Sneltoetsen geblokkeerd door Secure Input",
+    "recordCall": "Gesprek opnemen",
+    "stopCall": "Opname van gesprek stoppen"
   },
   "onboarding": {
     "showFewerModels": "Minder modellen tonen",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "Geschiedenis",
+      "stats": "Statistieken",
       "update": "Update",
       "recent": "Recente dictaten",
       "allHistory": "Hele geschiedenis",
@@ -665,7 +668,10 @@
       "modelPill": "Transcriptiemodel: {{model}}",
       "languagePill": "Gesproken taal: {{language}}",
       "allModels": "Alle modellen",
-      "downloadPill": "{{model}}, {{percent}}%"
+      "downloadPill": "{{model}}, {{percent}}%",
+      "calls": "Gesprekken",
+      "callRecording": "Er wordt een gesprek opgenomen. Klik om het te zien.",
+      "callTime": "Gesprek · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "Ik luister…",
         "writing": "Ik schrijf…",
         "processing": "Bijschaven…",
-        "done": "Geplakt"
+        "done": "Geplakt",
+        "call": "Gesprek…"
+      },
+      "call": {
+        "title": "Gesprek bezig · {{time}}",
+        "desc": "Ik neem je microfoon en het geluid van de computer op. Laat het de anderen weten.",
+        "descMicOnly": "Ik neem je microfoon op. Laat het de mensen om je heen weten.",
+        "deviceLost": "Een audioapparaat is weggevallen. Wat al is opgenomen, blijft bewaard.",
+        "open": "Gesprek bekijken",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "Meer dan {{count}} dictaten",
       "empty": "Nog geen dictaten. Houd je sneltoets ingedrukt en praat!",
       "noResults": "Geen dictaten gevonden."
+    },
+    "stats": {
+      "title": "Statistieken",
+      "periods": {
+        "label": "Periode",
+        "week": "Week",
+        "month": "Maand",
+        "all": "Alles"
+      },
+      "words": "Gedicteerde woorden",
+      "timeSaved": "Tijd bespaard",
+      "timeSavedHint": "t.o.v. typen met 45 woorden/min",
+      "speed": "Snelheid",
+      "speedUnit": "woorden/min",
+      "dictations": "Dictaten",
+      "minutes": "{{m}} min",
+      "hours": "{{h}} u {{m}}",
+      "streak_one": "{{formatted}} dag op rij",
+      "streak_other": "{{formatted}} dagen op rij",
+      "streakHint": "Dagen op rij met minstens één dictaat, tot vandaag of gisteren.",
+      "perDay": "Woorden per dag",
+      "perWeek": "Woorden per week",
+      "perMonth": "Woorden per maand",
+      "chartLabel": "Grafiek van gedicteerde woorden",
+      "wordsCount_one": "{{formatted}} woord",
+      "wordsCount_other": "{{formatted}} woorden",
+      "where": "Waar je dicteert",
+      "appsEmpty": "Dicteer in een app en die verschijnt hier.",
+      "otherApps": "Overige",
+      "emptyTitle": "Nog geen cijfers",
+      "emptyText": "Dicteer met je sneltoets: je woorden, de bespaarde tijd en de apps waarin je dicteert, verschijnen hier.",
+      "private": "Geteld op deze computer, nooit verstuurd.",
+      "reset": "Resetten",
+      "resetTitle": "Statistieken resetten?",
+      "resetText": "Alle cijfers worden gewist: woorden, bespaarde tijd, dagen op rij en apps. Je dicteergeschiedenis blijft onaangeroerd.",
+      "resetConfirm": "Resetten",
+      "resetError": "Statistieken resetten mislukt. Probeer het opnieuw.",
+      "cancel": "Annuleren"
     },
     "settings": {
       "title": "Instellingen",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Transcriptie in 100 talen, herkent de taal automatisch, tijdstempels per segment.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Geoptimaliseerd voor Taiwanees Mandarijn. Kan wisselen tussen talen.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Transcriptie in 100 talen, met vertaling, herkent de taal automatisch, tijdstempels per segment."
+    },
+    "calls": {
+      "title": "Gesprekken",
+      "list": "Je gesprekken",
+      "record": "Gesprek opnemen",
+      "starting": "Starten…",
+      "stop": "Stoppen",
+      "stopWithTime": "Stoppen · {{time}}",
+      "consent": "Laat de anderen weten dat je het gesprek opneemt. Het geluid blijft op deze computer en wordt gewist zodra het gesprek is uitgeschreven.",
+      "emptyList": "Geen opgenomen gesprekken.",
+      "welcomeTitle": "Nog geen gesprekken",
+      "welcomeDesc": "Begint er een gesprek (Discord, Meet, Teams…)? Klik dan op ‘Gesprek opnemen’. Ik schrijf op wie wat zegt, en daarna een samenvatting met de taken.",
+      "recordingNow": "Opname",
+      "writingShort": "Ik schrijf…",
+      "failedShort": "Mislukt",
+      "openTodos_one": "{{count}} taak",
+      "openTodos_other": "{{count}} taken",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "withSystem": "microfoon + computergeluid",
+      "micOnly": "alleen microfoon",
+      "me": "Ik",
+      "others": "De anderen",
+      "live": "Live",
+      "liveHint": "De definitieve versie wordt opnieuw geschreven als het gesprek afloopt.",
+      "liveEmpty": "Elke zin verschijnt hier een paar seconden nadat hij is uitgesproken.",
+      "nobody": "Geen spraak gevonden in deze opname.",
+      "writing": "Ik zet het gesprek op papier…",
+      "failed": "Er ging iets mis bij het uitschrijven van dit gesprek.",
+      "retry": "Opnieuw proberen",
+      "view": "Weergave",
+      "summary": "Samenvatting",
+      "transcript": "Transcriptie",
+      "keyPoints": "Hoofdpunten",
+      "todos": "Taken",
+      "summaryWriting": "De AI leest het gesprek…",
+      "noSummary": "Dit gesprek heeft geen samenvatting.",
+      "summaryFailed": "De samenvatting kon niet worden geschreven.",
+      "summarySent": "De samenvatting wordt geschreven door {{provider}}: de transcriptie wordt daarheen gestuurd.",
+      "writeSummary": "Samenvatting schrijven",
+      "writeSummaryAgain": "Samenvatting opnieuw maken",
+      "noProviderTitle": "Geen samenvatting zonder AI",
+      "noProviderDesc": "De transcriptie is klaar. Voor een samenvatting en de taken zet je AI-correctie aan in Instellingen → Tekst en kies je een AI-provider en een model.",
+      "openTextSettings": "Tekstinstellingen openen",
+      "people": "Personen",
+      "rename": "Naam wijzigen",
+      "renameSpeaker": "Klik om een naam te geven",
+      "copy": "Kopiëren",
+      "copyError": "Het gesprek kon niet worden gekopieerd.",
+      "export": "Exporteren",
+      "exported": "Opgeslagen in {{path}}",
+      "exportError": "Het bestand kon niet worden opgeslagen.",
+      "delete": "Verwijderen",
+      "deleteConfirm": "Dit gesprek definitief verwijderen?",
+      "deleteError": "Dit gesprek kon niet worden verwijderd.",
+      "cancel": "Annuleren",
+      "errors": {
+        "noModel": "Kies eerst een transcriptiemodel.",
+        "mic": "Ik hoor je microfoon niet: hij ontbreekt of is geblokkeerd.",
+        "busy": "Er wordt al een gesprek opgenomen.",
+        "audioGone": "Het geluid van dit gesprek is niet meer te vinden."
+      },
+      "voices": {
+        "title": "Stemmen onderscheiden",
+        "desc": "Om ‘Persoon 2’, ‘Persoon 3’… te schrijven in plaats van ‘De anderen’, download ik eenmalig een klein model ({{size}}).",
+        "download": "Downloaden",
+        "downloading": "Stemmodel wordt gedownload",
+        "retry": "Opnieuw proberen",
+        "failed": "Het downloaden is mislukt."
+      },
+      "settings": {
+        "title": "Gespreksinstellingen",
+        "system": "Computergeluid",
+        "systemDesc": "Neemt ook op wat de computer afspeelt: de stemmen van de anderen. Uit: alleen je microfoon.",
+        "voices": "Stemmen onderscheiden",
+        "voicesReady": "De stemmen worden op deze computer uit elkaar gehouden.",
+        "voicesDesc": "Een klein model om te downloaden ({{size}}).",
+        "summary": "AI-samenvatting",
+        "summaryReady": "Geschreven door {{provider}} ({{model}}). De transcriptie wordt daarheen gestuurd.",
+        "summaryMissing": "Geen AI-provider ingesteld.",
+        "mic": "Het is dezelfde microfoon als bij het dicteren.",
+        "micLink": "Andere microfoon"
+      },
+      "md": {
+        "date": "Datum:",
+        "length": "Duur:",
+        "people": "Personen:"
+      }
     }
   }
 }
