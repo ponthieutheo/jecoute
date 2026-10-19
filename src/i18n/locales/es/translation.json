@@ -7,7 +7,9 @@
     "model": "Modelo",
     "quit": "Salir",
     "cancel": "Cancelar",
-    "secureInputWarning": "⚠ Atajos bloqueados por Secure Input"
+    "secureInputWarning": "⚠ Atajos bloqueados por Secure Input",
+    "recordCall": "Grabar una llamada",
+    "stopCall": "Detener la grabación de la llamada"
   },
   "onboarding": {
     "showFewerModels": "Mostrar menos modelos",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "Historial",
+      "stats": "Estadísticas",
       "update": "Actualización",
       "recent": "Últimos dictados",
       "allHistory": "Todo el historial",
@@ -665,7 +668,10 @@
       "modelPill": "Modelo de transcripción: {{model}}",
       "languagePill": "Idioma hablado: {{language}}",
       "allModels": "Todos los modelos",
-      "downloadPill": "{{model}}, {{percent}} %"
+      "downloadPill": "{{model}}, {{percent}} %",
+      "calls": "Llamadas",
+      "callRecording": "Se está grabando una llamada. Haz clic para verla.",
+      "callTime": "Llamada · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "Te escucho…",
         "writing": "Escribiendo…",
         "processing": "Puliendo…",
-        "done": "Pegado"
+        "done": "Pegado",
+        "call": "Llamada…"
+      },
+      "call": {
+        "title": "Llamada en curso · {{time}}",
+        "desc": "Grabo tu micrófono y el sonido del ordenador. Avisa a los demás.",
+        "descMicOnly": "Grabo tu micrófono. Avisa a quienes estén cerca.",
+        "deviceLost": "Un dispositivo de audio se ha detenido. Lo anterior se conserva.",
+        "open": "Ver la llamada",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "Más de {{count}} dictados",
       "empty": "Aún no hay dictados. ¡Mantén pulsado tu atajo y habla!",
       "noResults": "Ningún dictado coincide."
+    },
+    "stats": {
+      "title": "Estadísticas",
+      "periods": {
+        "label": "Periodo",
+        "week": "Semana",
+        "month": "Mes",
+        "all": "Todo"
+      },
+      "words": "Palabras dictadas",
+      "timeSaved": "Tiempo ahorrado",
+      "timeSavedHint": "frente a teclear a 45 palabras/min",
+      "speed": "Velocidad",
+      "speedUnit": "palabras/min",
+      "dictations": "Dictados",
+      "minutes": "{{m}} min",
+      "hours": "{{h}} h {{m}}",
+      "streak_one": "{{formatted}} día seguido",
+      "streak_other": "{{formatted}} días seguidos",
+      "streakHint": "Días seguidos con al menos un dictado, hasta hoy o ayer.",
+      "perDay": "Palabras por día",
+      "perWeek": "Palabras por semana",
+      "perMonth": "Palabras por mes",
+      "chartLabel": "Gráfico de palabras dictadas",
+      "wordsCount_one": "{{formatted}} palabra",
+      "wordsCount_other": "{{formatted}} palabras",
+      "where": "Dónde dictas",
+      "appsEmpty": "Dicta en una aplicación y aparecerá aquí.",
+      "otherApps": "Otras",
+      "emptyTitle": "Aún no hay cifras",
+      "emptyText": "Dicta con tu atajo: tus palabras, el tiempo ahorrado y las aplicaciones donde dictas aparecerán aquí.",
+      "private": "Se cuenta en este ordenador y nunca se envía.",
+      "reset": "Poner a cero",
+      "resetTitle": "¿Poner las estadísticas a cero?",
+      "resetText": "Se borrarán todas las cifras: palabras, tiempo ahorrado, días seguidos y aplicaciones. Tu historial de dictados no se toca.",
+      "resetConfirm": "Poner a cero",
+      "resetError": "No se pudieron poner a cero las estadísticas. Inténtalo de nuevo.",
+      "cancel": "Cancelar"
     },
     "settings": {
       "title": "Ajustes",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 idiomas, detección automática del idioma, marcas de tiempo por fragmento.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Optimizado para el mandarín de Taiwán. Admite la alternancia de idiomas.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 idiomas, traducción, detección automática del idioma, marcas de tiempo por fragmento."
+    },
+    "calls": {
+      "title": "Llamadas",
+      "list": "Tus llamadas",
+      "record": "Grabar una llamada",
+      "starting": "Iniciando…",
+      "stop": "Detener",
+      "stopWithTime": "Detener · {{time}}",
+      "consent": "Avisa a los demás de que grabas la llamada. El sonido se queda en este ordenador y se borra una vez escrita la llamada.",
+      "emptyList": "Ninguna llamada grabada.",
+      "welcomeTitle": "Aún no hay llamadas",
+      "welcomeDesc": "Cuando empiece una llamada (Discord, Meet, Teams…), haz clic en «Grabar una llamada». Escribo quién dijo qué y luego un resumen con las tareas.",
+      "recordingNow": "Grabando",
+      "writingShort": "Escribiendo…",
+      "failedShort": "Error",
+      "openTodos_one": "{{count}} tarea",
+      "openTodos_other": "{{count}} tareas",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "withSystem": "micrófono + sonido del ordenador",
+      "micOnly": "solo micrófono",
+      "me": "Yo",
+      "others": "Los demás",
+      "live": "En vivo",
+      "liveHint": "La versión final se vuelve a escribir al terminar la llamada.",
+      "liveEmpty": "Cada frase aparece aquí unos segundos después de decirse.",
+      "nobody": "No he encontrado ninguna voz en esta grabación.",
+      "writing": "Estoy pasando la llamada a texto…",
+      "failed": "Algo ha fallado al escribir esta llamada.",
+      "retry": "Reintentar",
+      "view": "Mostrar",
+      "summary": "Resumen",
+      "transcript": "Transcripción",
+      "keyPoints": "Puntos clave",
+      "todos": "Tareas",
+      "summaryWriting": "La IA está leyendo la llamada…",
+      "noSummary": "Esta llamada no tiene resumen.",
+      "summaryFailed": "No se pudo escribir el resumen.",
+      "summarySent": "El resumen lo escribe {{provider}}: se le envía la transcripción.",
+      "writeSummary": "Escribir el resumen",
+      "writeSummaryAgain": "Rehacer el resumen",
+      "noProviderTitle": "Sin IA no hay resumen",
+      "noProviderDesc": "La transcripción está lista. Para tener un resumen y las tareas, activa «Corrección por IA» en Ajustes → Texto y elige un proveedor de IA y un modelo.",
+      "openTextSettings": "Abrir los ajustes de texto",
+      "people": "Las personas",
+      "rename": "Renombrar",
+      "renameSpeaker": "Haz clic para ponerle un nombre",
+      "copy": "Copiar",
+      "copyError": "No se pudo copiar la llamada.",
+      "export": "Exportar",
+      "exported": "Guardado en {{path}}",
+      "exportError": "No se pudo guardar el archivo.",
+      "delete": "Eliminar",
+      "deleteConfirm": "¿Eliminar esta llamada para siempre?",
+      "deleteError": "No se pudo eliminar esta llamada.",
+      "cancel": "Cancelar",
+      "errors": {
+        "noModel": "Primero elige un modelo de transcripción.",
+        "mic": "No oigo tu micrófono: no está o está bloqueado.",
+        "busy": "Ya estoy grabando una llamada.",
+        "audioGone": "Ya no encuentro el sonido de esta llamada."
+      },
+      "voices": {
+        "title": "Distinguir las voces",
+        "desc": "Para escribir «Persona 2», «Persona 3»… en lugar de «Los demás», descargo un modelo pequeño ({{size}}), una sola vez.",
+        "download": "Descargar",
+        "downloading": "Descargando el modelo de voces",
+        "retry": "Reintentar",
+        "failed": "La descarga ha fallado."
+      },
+      "settings": {
+        "title": "Ajustes de llamadas",
+        "system": "Sonido del ordenador",
+        "systemDesc": "También graba lo que suena en el ordenador: la voz de los demás. Desactivado: solo tu micrófono.",
+        "voices": "Distinguir las voces",
+        "voicesReady": "Las voces se distinguen en este ordenador.",
+        "voicesDesc": "Un modelo pequeño que descargar ({{size}}).",
+        "summary": "Resumen por IA",
+        "summaryReady": "Lo escribe {{provider}} ({{model}}). Se le envía la transcripción.",
+        "summaryMissing": "No hay ningún proveedor de IA configurado.",
+        "mic": "El micrófono es el del dictado.",
+        "micLink": "Cambiar de micrófono"
+      },
+      "md": {
+        "date": "Fecha:",
+        "length": "Duración:",
+        "people": "Personas:"
+      }
     }
   }
 }

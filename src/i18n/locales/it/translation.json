@@ -7,7 +7,9 @@
     "model": "Modello",
     "quit": "Esci",
     "cancel": "Annulla",
-    "secureInputWarning": "⚠ Scorciatoie bloccate da Secure Input"
+    "secureInputWarning": "⚠ Scorciatoie bloccate da Secure Input",
+    "recordCall": "Registra una chiamata",
+    "stopCall": "Ferma la registrazione della chiamata"
   },
   "onboarding": {
     "showFewerModels": "Mostra meno modelli",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "Cronologia",
+      "stats": "Statistiche",
       "update": "Aggiornamento",
       "recent": "Ultime dettature",
       "allHistory": "Tutta la cronologia",
@@ -665,7 +668,10 @@
       "modelPill": "Modello di trascrizione: {{model}}",
       "languagePill": "Lingua parlata: {{language}}",
       "allModels": "Tutti i modelli",
-      "downloadPill": "{{model}}, {{percent}}%"
+      "downloadPill": "{{model}}, {{percent}}%",
+      "calls": "Chiamate",
+      "callRecording": "Sto registrando una chiamata. Clicca per vederla.",
+      "callTime": "Chiamata · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "Ti ascolto…",
         "writing": "Scrivo…",
         "processing": "Rifinisco…",
-        "done": "Incollato"
+        "done": "Incollato",
+        "call": "Chiamata…"
+      },
+      "call": {
+        "title": "Chiamata in corso · {{time}}",
+        "desc": "Registro il tuo microfono e l’audio del computer. Avvisa gli altri.",
+        "descMicOnly": "Registro il tuo microfono. Avvisa chi ti sta intorno.",
+        "deviceLost": "Un dispositivo audio si è interrotto. Quello che c’era prima è salvo.",
+        "open": "Vedi la chiamata",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "Più di {{count}} dettature",
       "empty": "Ancora nessuna dettatura. Tieni premuta la scorciatoia e parla!",
       "noResults": "Nessuna dettatura corrisponde."
+    },
+    "stats": {
+      "title": "Statistiche",
+      "periods": {
+        "label": "Periodo",
+        "week": "Settimana",
+        "month": "Mese",
+        "all": "Tutto"
+      },
+      "words": "Parole dettate",
+      "timeSaved": "Tempo risparmiato",
+      "timeSavedHint": "rispetto a digitare a 45 parole/min",
+      "speed": "Velocità",
+      "speedUnit": "parole/min",
+      "dictations": "Dettature",
+      "minutes": "{{m}} min",
+      "hours": "{{h}} h {{m}}",
+      "streak_one": "{{formatted}} giorno di fila",
+      "streak_other": "{{formatted}} giorni di fila",
+      "streakHint": "Giorni di fila con almeno una dettatura, fino a oggi o ieri.",
+      "perDay": "Parole al giorno",
+      "perWeek": "Parole alla settimana",
+      "perMonth": "Parole al mese",
+      "chartLabel": "Grafico delle parole dettate",
+      "wordsCount_one": "{{formatted}} parola",
+      "wordsCount_other": "{{formatted}} parole",
+      "where": "Dove detti",
+      "appsEmpty": "Detta in un’app e comparirà qui.",
+      "otherApps": "Altre",
+      "emptyTitle": "Ancora nessun numero",
+      "emptyText": "Detta con la tua scorciatoia: qui compariranno le tue parole, il tempo risparmiato e le app in cui detti.",
+      "private": "Conteggiato su questo computer, mai inviato.",
+      "reset": "Azzera",
+      "resetTitle": "Azzerare le statistiche?",
+      "resetText": "Tutti i numeri verranno cancellati: parole, tempo risparmiato, giorni di fila e app. La cronologia delle tue dettature resta intatta.",
+      "resetConfirm": "Azzera",
+      "resetError": "Impossibile azzerare le statistiche. Riprova.",
+      "cancel": "Annulla"
     },
     "settings": {
       "title": "Impostazioni",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 lingue, rilevamento automatico della lingua, timestamp per segmento.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Ottimizzato per il mandarino di Taiwan. Gestisce il passaggio da una lingua all’altra.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 lingue, traduzione, rilevamento automatico della lingua, timestamp per segmento."
+    },
+    "calls": {
+      "title": "Chiamate",
+      "list": "Le tue chiamate",
+      "record": "Registra una chiamata",
+      "starting": "Avvio…",
+      "stop": "Ferma",
+      "stopWithTime": "Ferma · {{time}}",
+      "consent": "Avvisa le persone che stai registrando la chiamata. L’audio resta su questo computer e viene cancellato una volta trascritta la chiamata.",
+      "emptyList": "Nessuna chiamata registrata.",
+      "welcomeTitle": "Ancora nessuna chiamata",
+      "welcomeDesc": "Quando inizia una chiamata (Discord, Meet, Teams…), clicca su «Registra una chiamata». Scrivo chi dice cosa, poi un riassunto con le cose da fare.",
+      "recordingNow": "In corso",
+      "writingShort": "Scrivo…",
+      "failedShort": "Errore",
+      "openTodos_one": "{{count}} da fare",
+      "openTodos_other": "{{count}} da fare",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "withSystem": "microfono + audio del computer",
+      "micOnly": "solo microfono",
+      "me": "Io",
+      "others": "Gli altri",
+      "live": "In diretta",
+      "liveHint": "La versione finale viene riscritta alla fine della chiamata.",
+      "liveEmpty": "Ogni frase compare qui pochi secondi dopo essere stata detta.",
+      "nobody": "Non ho trovato nessuna voce in questa registrazione.",
+      "writing": "Sto mettendo la chiamata per iscritto…",
+      "failed": "Qualcosa è andato storto mentre scrivevo questa chiamata.",
+      "retry": "Riprova",
+      "view": "Mostra",
+      "summary": "Riassunto",
+      "transcript": "Trascrizione",
+      "keyPoints": "Punti chiave",
+      "todos": "Da fare",
+      "summaryWriting": "L’IA sta leggendo la chiamata…",
+      "noSummary": "Questa chiamata non ha un riassunto.",
+      "summaryFailed": "Non è stato possibile scrivere il riassunto.",
+      "summarySent": "Il riassunto lo scrive {{provider}}: gli viene inviata la trascrizione.",
+      "writeSummary": "Scrivi il riassunto",
+      "writeSummaryAgain": "Rifai il riassunto",
+      "noProviderTitle": "Niente riassunto senza IA",
+      "noProviderDesc": "La trascrizione è pronta. Per avere un riassunto e le cose da fare, attiva «Correzione IA» in Impostazioni → Testo e scegli un provider di IA e un modello.",
+      "openTextSettings": "Apri le impostazioni del testo",
+      "people": "Le persone",
+      "rename": "Rinomina",
+      "renameSpeaker": "Clicca per dare un nome",
+      "copy": "Copia",
+      "copyError": "Impossibile copiare la chiamata.",
+      "export": "Esporta",
+      "exported": "Salvato in {{path}}",
+      "exportError": "Impossibile salvare il file.",
+      "delete": "Elimina",
+      "deleteConfirm": "Eliminare definitivamente questa chiamata?",
+      "deleteError": "Impossibile eliminare questa chiamata.",
+      "cancel": "Annulla",
+      "errors": {
+        "noModel": "Scegli prima un modello di trascrizione.",
+        "mic": "Non sento il tuo microfono: manca o è bloccato.",
+        "busy": "Sto già registrando una chiamata.",
+        "audioGone": "Non trovo più l’audio di questa chiamata."
+      },
+      "voices": {
+        "title": "Distingui le voci",
+        "desc": "Per scrivere «Persona 2», «Persona 3»… invece di «Gli altri», scarico un piccolo modello ({{size}}), una volta sola.",
+        "download": "Scarica",
+        "downloading": "Sto scaricando il modello delle voci",
+        "retry": "Riprova",
+        "failed": "Il download non è riuscito."
+      },
+      "settings": {
+        "title": "Impostazioni delle chiamate",
+        "system": "Audio del computer",
+        "systemDesc": "Registra anche ciò che riproduce il computer: la voce degli altri. Disattivato: solo il tuo microfono.",
+        "voices": "Distingui le voci",
+        "voicesReady": "Le voci vengono distinte su questo computer.",
+        "voicesDesc": "Un piccolo modello da scaricare ({{size}}).",
+        "summary": "Riassunto con IA",
+        "summaryReady": "Lo scrive {{provider}} ({{model}}). Gli viene inviata la trascrizione.",
+        "summaryMissing": "Nessun provider di IA configurato.",
+        "mic": "Il microfono è quello della dettatura.",
+        "micLink": "Cambia microfono"
+      },
+      "md": {
+        "date": "Data:",
+        "length": "Durata:",
+        "people": "Persone:"
+      }
     }
   }
 }

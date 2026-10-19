@@ -7,7 +7,9 @@
     "model": "Model",
     "quit": "Surt",
     "cancel": "Cancel·la",
-    "secureInputWarning": "⚠ Dreceres blocades per l'entrada segura"
+    "secureInputWarning": "⚠ Dreceres blocades per l'entrada segura",
+    "recordCall": "Enregistra una trucada",
+    "stopCall": "Atura l’enregistrament de la trucada"
   },
   "onboarding": {
     "showFewerModels": "Mostra menys models",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "Historial",
+      "stats": "Estadístiques",
       "update": "Actualització",
       "recent": "Últims dictats",
       "allHistory": "Tot l’historial",
@@ -665,7 +668,10 @@
       "modelPill": "Model de transcripció: {{model}}",
       "languagePill": "Llengua parlada: {{language}}",
       "allModels": "Tots els models",
-      "downloadPill": "{{model}}, {{percent}} %"
+      "downloadPill": "{{model}}, {{percent}} %",
+      "calls": "Trucades",
+      "callRecording": "S’està enregistrant una trucada. Feu clic per veure-la.",
+      "callTime": "Trucada · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "Us escolto…",
         "writing": "Escrivint…",
         "processing": "Polint…",
-        "done": "Enganxat"
+        "done": "Enganxat",
+        "call": "Trucada…"
+      },
+      "call": {
+        "title": "Trucada en curs · {{time}}",
+        "desc": "Enregistro el vostre micròfon i el so de l’ordinador. Aviseu els altres.",
+        "descMicOnly": "Enregistro el vostre micròfon. Aviseu les persones del voltant.",
+        "deviceLost": "S’ha aturat un dispositiu d’àudio. Es conserva el que s’havia enregistrat abans.",
+        "open": "Mostra la trucada",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "Més de {{count}} dictats",
       "empty": "Encara no hi ha cap dictat. Manteniu premuda la drecera i parleu!",
       "noResults": "Cap dictat no hi coincideix."
+    },
+    "stats": {
+      "title": "Estadístiques",
+      "periods": {
+        "label": "Període",
+        "week": "Setmana",
+        "month": "Mes",
+        "all": "Tot"
+      },
+      "words": "Paraules dictades",
+      "timeSaved": "Temps estalviat",
+      "timeSavedHint": "respecte a teclejar a 45 paraules/min",
+      "speed": "Velocitat",
+      "speedUnit": "paraules/min",
+      "dictations": "Dictats",
+      "minutes": "{{m}} min",
+      "hours": "{{h}} h {{m}}",
+      "streak_one": "{{formatted}} dia seguit",
+      "streak_other": "{{formatted}} dies seguits",
+      "streakHint": "Dies seguits amb almenys un dictat, fins avui o ahir.",
+      "perDay": "Paraules per dia",
+      "perWeek": "Paraules per setmana",
+      "perMonth": "Paraules per mes",
+      "chartLabel": "Gràfic de paraules dictades",
+      "wordsCount_one": "{{formatted}} paraula",
+      "wordsCount_other": "{{formatted}} paraules",
+      "where": "On dicteu",
+      "appsEmpty": "Dicteu en una aplicació i apareixerà aquí.",
+      "otherApps": "Altres",
+      "emptyTitle": "Encara no hi ha xifres",
+      "emptyText": "Dicteu amb la vostra drecera: aquí apareixeran les paraules, el temps estalviat i les aplicacions on dicteu.",
+      "private": "Es compta en aquest ordinador i no s’envia mai.",
+      "reset": "Posa a zero",
+      "resetTitle": "Voleu posar les estadístiques a zero?",
+      "resetText": "S’esborraran totes les xifres: paraules, temps estalviat, dies seguits i aplicacions. L’historial de dictats no es toca.",
+      "resetConfirm": "Posa a zero",
+      "resetError": "No s’han pogut posar les estadístiques a zero. Torneu-ho a provar.",
+      "cancel": "Cancel·la"
     },
     "settings": {
       "title": "Configuració",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 llengües, detecció automàtica de la llengua, marques de temps per fragment.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Optimitzat per al mandarí de Taiwan. Admet l’alternança de llengües.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 llengües, traducció, detecció automàtica de la llengua, marques de temps per fragment."
+    },
+    "calls": {
+      "title": "Trucades",
+      "list": "Les vostres trucades",
+      "record": "Enregistra una trucada",
+      "starting": "S’està iniciant…",
+      "stop": "Atura",
+      "stopWithTime": "Atura · {{time}}",
+      "consent": "Aviseu les persones que esteu enregistrant la trucada. El so es queda en aquest ordinador i s’esborra quan la trucada ja és per escrit.",
+      "emptyList": "Cap trucada enregistrada.",
+      "welcomeTitle": "Encara no hi ha cap trucada",
+      "welcomeDesc": "Quan comenci una trucada (Discord, Meet, Teams…), feu clic a «Enregistra una trucada». Escric qui diu què i després un resum amb les tasques.",
+      "recordingNow": "En curs",
+      "writingShort": "Escric…",
+      "failedShort": "Error",
+      "openTodos_one": "{{count}} tasca",
+      "openTodos_other": "{{count}} tasques",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "withSystem": "micròfon + so de l’ordinador",
+      "micOnly": "només micròfon",
+      "me": "Jo",
+      "others": "Els altres",
+      "live": "En directe",
+      "liveHint": "La versió final es torna a escriure quan acaba la trucada.",
+      "liveEmpty": "Cada frase apareix aquí uns segons després de dir-la.",
+      "nobody": "No he trobat cap veu en aquest enregistrament.",
+      "writing": "Estic posant la trucada per escrit…",
+      "failed": "Alguna cosa ha fallat en escriure aquesta trucada.",
+      "retry": "Torna-ho a provar",
+      "view": "Mostra",
+      "summary": "Resum",
+      "transcript": "Transcripció",
+      "keyPoints": "Punts clau",
+      "todos": "Tasques",
+      "summaryWriting": "La IA està llegint la trucada…",
+      "noSummary": "Aquesta trucada no té resum.",
+      "summaryFailed": "No s’ha pogut escriure el resum.",
+      "summarySent": "El resum l’escriu {{provider}}: se li envia la transcripció.",
+      "writeSummary": "Escriu el resum",
+      "writeSummaryAgain": "Refés el resum",
+      "noProviderTitle": "Sense IA no hi ha resum",
+      "noProviderDesc": "La transcripció ja és a punt. Per tenir un resum i les tasques, activeu «Correcció per IA» a Configuració → Text i trieu un proveïdor d’IA i un model.",
+      "openTextSettings": "Obre la configuració del text",
+      "people": "Les persones",
+      "rename": "Canvia el nom",
+      "renameSpeaker": "Feu clic per posar-hi un nom",
+      "copy": "Copia",
+      "copyError": "No s’ha pogut copiar la trucada.",
+      "export": "Exporta",
+      "exported": "Desat a {{path}}",
+      "exportError": "No s’ha pogut desar el fitxer.",
+      "delete": "Suprimeix",
+      "deleteConfirm": "Voleu suprimir definitivament aquesta trucada?",
+      "deleteError": "No s’ha pogut suprimir aquesta trucada.",
+      "cancel": "Cancel·la",
+      "errors": {
+        "noModel": "Primer trieu un model de transcripció.",
+        "mic": "No sento el vostre micròfon: no hi és o està blocat.",
+        "busy": "Ja estic enregistrant una trucada.",
+        "audioGone": "Ja no trobo el so d’aquesta trucada."
+      },
+      "voices": {
+        "title": "Distingir les veus",
+        "desc": "Per escriure «Persona 2», «Persona 3»… en lloc de «Els altres», baixo un model petit ({{size}}), un sol cop.",
+        "download": "Baixa",
+        "downloading": "S’està baixant el model de veus",
+        "retry": "Torna-ho a provar",
+        "failed": "La baixada ha fallat."
+      },
+      "settings": {
+        "title": "Configuració de les trucades",
+        "system": "So de l’ordinador",
+        "systemDesc": "També enregistra el que sona a l’ordinador: la veu dels altres. Desactivat: només el vostre micròfon.",
+        "voices": "Distingir les veus",
+        "voicesReady": "Les veus es distingeixen en aquest ordinador.",
+        "voicesDesc": "Un model petit per baixar ({{size}}).",
+        "summary": "Resum per IA",
+        "summaryReady": "L’escriu {{provider}} ({{model}}). Se li envia la transcripció.",
+        "summaryMissing": "No hi ha cap proveïdor d’IA configurat.",
+        "mic": "El micròfon és el del dictat.",
+        "micLink": "Canvia de micròfon"
+      },
+      "md": {
+        "date": "Data:",
+        "length": "Durada:",
+        "people": "Persones:"
+      }
     }
   }
 }
