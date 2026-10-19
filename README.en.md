@@ -35,6 +35,11 @@ the app you are using, as if you had typed it.
   them with their recording.
 - **An AI can polish it, if you want.** A second shortcut has the text corrected (punctuation, rewording) by the
   provider you choose. It is off by default.
+- **It writes up your calls.** Discord, Meet, Teams… J’écoute records your microphone and the computer’s sound, with
+  no bot in the call, then writes who said what, a summary and the tasks. The sound is deleted once the call is
+  written.
+- **You see what you gain.** Words dictated, time saved over typing, speed, days in a row and the apps you dictate
+  in: statistics counted on your PC, never sent.
 
 ## The character
 
@@ -86,6 +91,24 @@ All its moods and animations: **[docs/en/character.md](docs/en/character.md)**.
       <br><sub>history: search, favorites, playback, raw or corrected</sub>
     </td>
   </tr>
+  <tr>
+    <td align="center" width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/media/en/appels-resume-sombre.png">
+        <source media="(prefers-color-scheme: light)" srcset="docs/media/en/appels-resume-clair.png">
+        <img src="docs/media/en/appels-resume-sombre.png" width="400" alt="A written call: the title, the named people, the summary and the key points">
+      </picture>
+      <br><sub>calls: transcript, summary, tasks</sub>
+    </td>
+    <td align="center" width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/media/en/statistiques-sombre.png">
+        <source media="(prefers-color-scheme: light)" srcset="docs/media/en/statistiques-clair.png">
+        <img src="docs/media/en/statistiques-sombre.png" width="400" alt="The statistics: words dictated, time saved, speed, dictations, the chart of words and Where you dictate">
+      </picture>
+      <br><sub>statistics: words, time saved, speed, apps</sub>
+    </td>
+  </tr>
 </table>
 
 ## Install
@@ -128,12 +151,14 @@ during a dictation. Every change applies right away.
 Transcription is 100% local: your voice is transcribed on your PC, and the audio never leaves it. J’écoute only goes
 online to:
 
-- **download a model**, from Hugging Face, when you pick one;
+- **download a model**, from Hugging Face, when you pick one (or the one that separates the voices of calls);
 - **check for updates**, on GitHub (you can turn it off: Settings › App);
 - **AI correction**, only if you turn it on with an online provider: the dictated text (not the audio) goes to that
-  provider when you use Ctrl+Shift+Space.
+  provider when you use Ctrl+Shift+Space;
+- **a call’s summary**, only if an AI provider is set up: the call’s transcript (not the sound) goes to it.
 
-No account, no usage statistics. The details, and where your data lives: **[docs/en/privacy.md](docs/en/privacy.md)**.
+No account, and no usage statistics sent: your dictation statistics stay on your PC. The details, and where your
+data lives: **[docs/en/privacy.md](docs/en/privacy.md)**.
 
 ## Which model
 
@@ -154,6 +179,8 @@ screen. Comparing models: **[docs/en/models.md](docs/en/models.md)**.
 - Have an AI review the text with your own instructions, then compare the raw and corrected versions word by word.
 - Choose what shows up during a dictation: the character, a minimal pill, live text, or nothing.
 - Find, replay, re-transcribe or star a dictation.
+- Record a call, follow it live, then find its transcript, its summary and its tasks to check off.
+- Follow your statistics: words dictated, time saved, speed, days in a row, the apps you dictate in.
 - Set up the interface (26 languages, light or dark) and launching with Windows.
 
 The full tour, one picture per feature: **[docs/en/features.md](docs/en/features.md)**.
@@ -186,7 +213,7 @@ too late.
 
 ### macOS: the shortcut stopped responding (Secure Input)
 
-_J’écoute 0.1.0 is only released for Windows: this section is for you if you build the app yourself on macOS._
+_J’écoute is only released for Windows: this section is for you if you build the app yourself on macOS._
 
 **Symptom**: a shortcut that includes a regular key (for example Option+Space) no longer triggers, while a
 modifier-only shortcut (fn alone, Left Ctrl alone) still works. This is macOS Secure Input: when a password field or
