@@ -207,7 +207,11 @@ fn put_into_words(app: &AppHandle, rec: &CallRecorder, id: &str) -> Result<(), S
             let plan: Vec<(Span, Option<usize>)> =
                 mic.pieces().into_iter().map(|p| (p, None)).collect();
             let mine = writer.side(&mic, &plan, |_| ME.to_string())?;
-            transcript::cast_call(mine, theirs, &names)
+            let tracks = transcript::Tracks {
+                mic: &mic.sound,
+                system: &system.sound,
+            };
+            transcript::cast_call(mine, theirs, Some(&tracks), &names)
         }
     };
 
