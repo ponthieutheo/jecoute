@@ -143,6 +143,18 @@ impl Track {
 
 type SharedTrack = Arc<Mutex<Track>>;
 
+/// A call taken for work (see `CallRecorder::claim`), given back on drop.
+struct WorkClaim<'a> {
+    rec: &'a CallRecorder,
+    id: String,
+}
+
+impl Drop for WorkClaim<'_> {
+    fn drop(&mut self) {
+        self.rec.work_done(&self.id);
+    }
+}
+
 /// The call in progress.
 struct Ongoing {
     id: String,
@@ -172,6 +184,8 @@ pub struct CallRecorder {
     download: Mutex<Download>,
     /// Calls are written one after the other.
     writing: Mutex<()>,
+    /// One change of a stored call at a time (read, change, save).
+    edits: Mutex<()>,
 }
 
 /// Ids of calls are short lower-case hexadecimal strings (see
@@ -264,12 +278,18 @@ impl CallRecorder {
     }
 
     /// Changes a call as it is stored now, saves it and tells the page.
+    /// Changes are made one at a time: two threads (the live transcript and
+    /// the end of the call, say) never save over each other's change.
     fn update(&self, id: &str, edit: impl FnOnce(&mut Call)) -> Option<Call> {
-        let mut call = self.store.get(id).ok().flatten()?;
-        edit(&mut call);
-        if let Err(err) = self.store.save(&call) {
-            log::error!("calls: {id} could not be saved: {err}");
-        }
+        let call = {
+            let _one_at_a_time = self.edits.lock().unwrap_or_else(|e| e.into_inner());
+            let mut call = self.store.get(id).ok().flatten()?;
+            edit(&mut call);
+            if let Err(err) = self.store.save(&call) {
+                log::error!("calls: {id} could not be saved: {err}");
+            }
+            call
+        };
         self.notify(Some(id));
         Some(call)
     }
@@ -289,6 +309,29 @@ impl CallRecorder {
             });
         }
         self.notify(Some(id));
+    }
+
+    /// Takes the call for one step of work ("transcript" or "summary"),
+    /// unless something already works on it: checked and taken under one
+    /// lock, so two threads never write the same call. The work is given
+    /// back when the returned guard is dropped, whatever happens.
+    fn claim(&self, id: &str, step: &str) -> Option<WorkClaim<'_>> {
+        {
+            let mut work = self.work.lock().unwrap();
+            if work.iter().any(|w| w.id == id) {
+                return None;
+            }
+            work.push(CallWork {
+                id: id.into(),
+                step: step.into(),
+                fraction: 0.0,
+            });
+        }
+        self.notify(Some(id));
+        Some(WorkClaim {
+            rec: self,
+            id: id.to_string(),
+        })
     }
 
     fn work_done(&self, id: &str) {
@@ -359,6 +402,7 @@ pub fn setup(app: &AppHandle) -> anyhow::Result<()> {
         work: Mutex::new(Vec::new()),
         download: Mutex::new(Download::default()),
         writing: Mutex::new(()),
+        edits: Mutex::new(()),
     });
     app.manage(rec.clone());
     for mut call in left_over {

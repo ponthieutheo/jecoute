@@ -237,17 +237,18 @@ fn put_into_words(app: &AppHandle, rec: &CallRecorder, id: &str) -> Result<(), S
 /// Writes a call that has ended (or was left unfinished), then its notes.
 pub fn write_call(app: &AppHandle, id: &str) {
     let Some(rec) = recorder(app) else { return };
-    if rec.busy_with(id) {
-        return;
-    }
-    rec.report_work(id, "transcript", 0.0);
     let outcome = {
-        let _turn = rec.writing.lock().unwrap_or_else(|e| e.into_inner());
-        put_into_words(app, &rec, id)
+        let Some(_claim) = rec.claim(id, "transcript") else {
+            return;
+        };
+        let outcome = {
+            let _turn = rec.writing.lock().unwrap_or_else(|e| e.into_inner());
+            put_into_words(app, &rec, id)
+        };
+        app.state::<Arc<TranscriptionManager>>()
+            .maybe_unload_immediately("call transcript");
+        outcome
     };
-    app.state::<Arc<TranscriptionManager>>()
-        .maybe_unload_immediately("call transcript");
-    rec.work_done(id);
     match outcome {
         Ok(()) => {
             let settings = get_settings(app);
@@ -257,9 +258,12 @@ pub fn write_call(app: &AppHandle, id: &str) {
         }
         Err(err) => {
             log::error!("calls: {id} could not be written: {err}");
+            // A call written meanwhile (its tracks then gone) stays written.
             rec.update(id, |call| {
-                call.status = CallStatus::Failed;
-                call.error = Some(err);
+                if call.status != CallStatus::Ready {
+                    call.status = CallStatus::Failed;
+                    call.error = Some(err);
+                }
             });
         }
     }
@@ -271,14 +275,16 @@ pub fn write_notes(app: &AppHandle, id: &str) {
     let Some(call) = rec.store.get(id).ok().flatten() else {
         return;
     };
-    if call.lines.is_empty() || rec.busy_with(id) {
+    if call.lines.is_empty() {
         return;
     }
     let Some(provider) = summary::provider(&get_settings(app)) else {
         rec.update(id, |c| c.summary_error = Some("no-provider".into()));
         return;
     };
-    rec.report_work(id, "summary", 0.0);
+    let Some(_claim) = rec.claim(id, "summary") else {
+        return;
+    };
     let text = transcript::as_plain_text(&call.speakers, &call.lines);
     match tauri::async_runtime::block_on(summary::summarize(&provider, text)) {
         Ok(notes) => {
@@ -303,5 +309,4 @@ pub fn write_notes(app: &AppHandle, id: &str) {
             rec.update(id, |c| c.summary_error = Some(err));
         }
     }
-    rec.work_done(id);
 }

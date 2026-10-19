@@ -3,6 +3,8 @@
 //! post-processing (Settings → Text). No other key is needed. The transcript
 //! is sent to that provider; nothing is sent when none is set up.
 
+use std::time::Duration;
+
 use serde::Serialize;
 use specta::Type;
 
@@ -11,6 +13,9 @@ use crate::settings::{AppSettings, PostProcessProvider, APPLE_INTELLIGENCE_PROVI
 
 /// The longest transcript sent, in bytes (about 3 h of talk).
 const MAX_TRANSCRIPT: usize = 200_000;
+/// The longest wait for the notes, both tries included: a provider that
+/// never answers must not leave the call "being summarised" forever.
+pub const SUMMARY_TIMEOUT: Duration = Duration::from_secs(120);
 
 /// Whether a summary can be written, and by whom (shown on the page).
 #[derive(Debug, Clone, Serialize, Type)]
@@ -81,8 +86,29 @@ fn capped(mut transcript: String) -> String {
     transcript
 }
 
-/// Asks the provider for the notes of the call.
+/// Asks the provider for the notes of the call, for at most
+/// [`SUMMARY_TIMEOUT`]. (The correction of dictations by the same provider
+/// keeps its own behaviour: it does not go through here.)
 pub async fn summarize(p: &Provider, transcript: String) -> Result<Notes, String> {
+    summarize_within(p, transcript, SUMMARY_TIMEOUT).await
+}
+
+async fn summarize_within(
+    p: &Provider,
+    transcript: String,
+    limit: Duration,
+) -> Result<Notes, String> {
+    tokio::time::timeout(limit, ask(p, transcript))
+        .await
+        .unwrap_or_else(|_| {
+            Err(format!(
+                "the AI did not answer within {} s",
+                limit.as_secs_f64()
+            ))
+        })
+}
+
+async fn ask(p: &Provider, transcript: String) -> Result<Notes, String> {
     let user = format!("<transcript>\n{}\n</transcript>", capped(transcript));
     let disable_reasoning = matches!(p.provider.id.as_str(), "custom" | "openrouter");
     let schema = p
@@ -145,6 +171,40 @@ mod tests {
         {
             assert!(availability(&s).ready);
         }
+    }
+
+    #[test]
+    fn a_provider_that_never_answers_is_given_up() {
+        let runtime = tokio::runtime::Runtime::new().unwrap();
+        runtime.block_on(async {
+            // A server that takes the request and never answers.
+            let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+            let port = listener.local_addr().unwrap().port();
+            tokio::spawn(async move {
+                let mut held = Vec::new();
+                while let Ok((socket, _)) = listener.accept().await {
+                    held.push(socket);
+                }
+            });
+            let p = Provider {
+                provider: PostProcessProvider {
+                    id: "custom".into(),
+                    label: "Local".into(),
+                    base_url: format!("http://127.0.0.1:{port}/v1"),
+                    allow_base_url_edit: true,
+                    models_endpoint: None,
+                    supports_structured_output: false,
+                },
+                model: "m".into(),
+                api_key: String::new(),
+            };
+            let began = std::time::Instant::now();
+            let outcome =
+                summarize_within(&p, "Moi: salut".into(), Duration::from_millis(400)).await;
+            let err = outcome.err().unwrap();
+            assert!(err.contains("did not answer"), "{err}");
+            assert!(began.elapsed() < Duration::from_secs(5));
+        });
     }
 
     #[test]
