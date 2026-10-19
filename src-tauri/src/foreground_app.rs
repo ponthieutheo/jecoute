@@ -1,10 +1,6 @@
 //! L'appli au premier plan au moment du collage, pour « Où tu dictes » dans
 //! les statistiques. Seulement le nom du programme : jamais le titre de la
 //! fenêtre ni son contenu.
-//!
-//! Idée et liste des parties du bureau à ignorer reprises de coucou
-//! (`windows/src-tauri/src/flow/os_windows.rs` et `flow/mod.rs`).
-//! Copyright (c) 2026 Louis Raillé (Louis-CFM / coucou), licence MIT.
 
 use std::path::Path;
 
@@ -16,21 +12,23 @@ pub struct ForegroundApp {
     pub name: String,
 }
 
-/// Parties du bureau lui-même, jamais un endroit où l'on dicte.
+/// Ce qui n'est pas un endroit où l'on dicte : J’écoute elle-même, et les
+/// morceaux de Windows (barre des tâches, menu Démarrer, recherche, écran de
+/// verrouillage, clavier tactile, hôte des applis du Store).
 fn is_shell(id: &str) -> bool {
-    matches!(
-        id,
-        "explorer"
-            | "applicationframehost"
-            | "textinputhost"
-            | "shellexperiencehost"
-            | "searchhost"
-            | "searchapp"
-            | "startmenuexperiencehost"
-            | "lockapp"
-            | "jecoute"
-            | "handy"
-    )
+    const IGNORED: [&str; 10] = [
+        "jecoute",
+        "handy",
+        "explorer",
+        "startmenuexperiencehost",
+        "shellexperiencehost",
+        "searchhost",
+        "searchapp",
+        "lockapp",
+        "textinputhost",
+        "applicationframehost",
+    ];
+    IGNORED.contains(&id)
 }
 
 /// Les noms courts des applis courantes (la description du .exe est parfois

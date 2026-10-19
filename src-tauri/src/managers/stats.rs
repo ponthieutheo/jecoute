@@ -2,11 +2,6 @@
 //! et peut être vidé). Seulement des chiffres, jamais le texte : par jour (mots,
 //! secondes parlées, dictées) et par appli et par jour (mots). Tout reste dans
 //! `stats.db`, à côté de l'historique, sur cet ordinateur.
-//!
-//! Les calculs (comptage des mots, temps gagné face à 45 mots/min, vitesse,
-//! jours d'affilée) sont adaptés de coucou
-//! (`windows/src-tauri/src/flow/text.rs` et `flow/store.rs`).
-//! Copyright (c) 2026 Louis Raillé (Louis-CFM / coucou), licence MIT.
 
 use anyhow::Result;
 use chrono::{DateTime, Duration, Local, NaiveDate, TimeZone, Utc};
@@ -94,16 +89,19 @@ pub fn word_count(text: &str) -> u64 {
 
 /// Mots par minute parlée (0 sous une seconde : rien à mesurer).
 pub fn words_per_minute(words: u64, seconds: f64) -> u64 {
-    if seconds < 1.0 || words == 0 {
-        return 0;
+    if words > 0 && seconds >= 1.0 {
+        (words as f64 * 60.0 / seconds).round() as u64
+    } else {
+        0
     }
-    (words as f64 / (seconds / 60.0)).round() as u64
 }
 
 /// Minutes gagnées : le temps qu'il aurait fallu pour taper les mots à
 /// 45 mots/min, moins le temps passé à les dire. Jamais négatif.
 pub fn minutes_saved(words: u64, seconds: f64) -> f64 {
-    (words as f64 / TYPING_WORDS_PER_MINUTE - seconds / 60.0).max(0.0)
+    let typing = words as f64 / TYPING_WORDS_PER_MINUTE;
+    let speaking = seconds / 60.0;
+    (typing - speaking).max(0.0)
 }
 
 /// Le jour (dans le fuseau donné) d'un instant : une dictée à 23 h 59 compte
@@ -120,14 +118,14 @@ pub fn local_day(instant: DateTime<Utc>) -> NaiveDate {
 /// Jours d'affilée avec au moins une dictée, en remontant depuis aujourd'hui
 /// (ou depuis hier si aujourd'hui n'en a pas encore).
 pub fn streak(days: &BTreeSet<NaiveDate>, today: NaiveDate) -> u32 {
-    let mut day = today;
-    if !days.contains(&day) {
-        day -= Duration::days(1);
-    }
-    let mut count = 0;
-    while days.contains(&day) {
+    let last = if days.contains(&today) {
+        today
+    } else {
+        today - Duration::days(1)
+    };
+    let mut count = 0u32;
+    while days.contains(&(last - Duration::days(i64::from(count)))) {
         count += 1;
-        day -= Duration::days(1);
     }
     count
 }
@@ -533,9 +531,8 @@ impl StatsManager {
 // ── Durée parlée ─────────────────────────────────────────────────────────────
 
 /// Début de l'enregistrement en cours : la durée parlée va du début de
-/// l'enregistrement à l'arrêt demandé (comme chez coucou, le temps où l'on
-/// tient la touche), pas la durée de l'audio gardé, que la détection de voix
-/// raccourcit.
+/// l'enregistrement à l'arrêt demandé (le temps où l'on tient la touche), pas
+/// la durée de l'audio gardé, que la détection de voix raccourcit.
 static RECORDING_STARTED: Mutex<Option<Instant>> = Mutex::new(None);
 
 pub fn recording_started() {
