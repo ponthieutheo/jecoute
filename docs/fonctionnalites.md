@@ -518,7 +518,9 @@ combien il en reste. « Refaire le résumé » le réécrit, par exemple aprè
 
 Le résumé est écrit par le fournisseur d’IA réglé pour la [correction par IA](#correction-par-ia) : J’écoute lui
 envoie la transcription, jamais le son. Sans fournisseur, « Pas de résumé sans IA » : l’appel garde sa transcription,
-sans résumé ni tâches. Le détail : [confidentialite.md](confidentialite.md#les-appels).
+sans résumé ni tâches. Quand le résumé est activé, le bas de la page Appels le rappelle en permanence :
+« Le résumé est écrit par … : la transcription lui est envoyée. », avec « Elle quitte cet ordinateur. » si le
+fournisseur n’est pas sur ton PC. Le détail : [confidentialite.md](confidentialite.md#les-appels).
 
 ### Copier, exporter, supprimer
 

@@ -506,6 +506,8 @@ summary” writes it again, for example after naming the people.
 
 The summary is written by the AI provider set up for [AI correction](#ai-correction): J’écoute sends it the transcript,
 never the sound. Without a provider, “No summary without AI”: the call keeps its transcript, with no summary or tasks.
+When the summary is on, the bottom of the Calls page always says so: “The summary is written by …: the transcript
+is sent to it.”, plus “The transcript leaves this computer.” when the provider is not on your PC.
 The details: [privacy.md](privacy.md#calls).
 
 ### Copy, export, delete
