@@ -222,9 +222,10 @@ fn put_into_words(app: &AppHandle, rec: &CallRecorder, id: &str) -> Result<(), S
         call.status = CallStatus::Ready;
         call.error = None;
     });
-    // The sound is not kept, only the text.
-    if let Err(err) = std::fs::remove_dir_all(&folder) {
-        log::warn!("calls: the tracks of {id} could not be deleted: {err}");
+    // The sound is not kept, only the text (what is left is deleted at the
+    // next launch).
+    if !super::remove_tracks(&folder) {
+        log::warn!("calls: the tracks of {id} could not be deleted yet");
     }
     log::info!(
         "calls: {id} written: {count} lines from {:.0} s of sound in {:.1} s",

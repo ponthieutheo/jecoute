@@ -155,6 +155,22 @@ impl Drop for WorkClaim<'_> {
     }
 }
 
+/// Deletes the tracks of a call, trying again a few times: right after a
+/// call, an antivirus or the indexer may still hold a file for a moment.
+fn remove_tracks(folder: &std::path::Path) -> bool {
+    for attempt in 0..4 {
+        if attempt > 0 {
+            std::thread::sleep(Duration::from_millis(500 * attempt));
+        }
+        match std::fs::remove_dir_all(folder) {
+            Ok(()) => return true,
+            Err(err) if err.kind() == std::io::ErrorKind::NotFound => return true,
+            Err(err) => log::debug!("calls: {} not deleted yet: {err}", folder.display()),
+        }
+    }
+    false
+}
+
 /// The call in progress.
 struct Ongoing {
     id: String,
@@ -392,6 +408,7 @@ pub fn setup(app: &AppHandle) -> anyhow::Result<()> {
     std::fs::create_dir_all(&tracks_dir)?;
     let store = CallStore::open(&data.join("calls.db"))?;
     let left_over = store.unfinished().unwrap_or_default();
+    let stale = stale_track_folders(&tracks_dir, &store);
     let rec = Arc::new(CallRecorder {
         app: app.clone(),
         store,
@@ -422,7 +439,46 @@ pub fn setup(app: &AppHandle) -> anyhow::Result<()> {
         let app = app.clone();
         std::thread::spawn(move || writeup::write_call(&app, &call.id));
     }
+    // Their ids are never used again: deleting them can't race a new call.
+    if !stale.is_empty() {
+        std::thread::spawn(move || {
+            for folder in stale {
+                if remove_tracks(&folder) {
+                    log::info!("calls: leftover tracks {} deleted", folder.display());
+                } else {
+                    log::warn!(
+                        "calls: leftover tracks {} could not be deleted",
+                        folder.display()
+                    );
+                }
+            }
+        });
+    }
     Ok(())
+}
+
+/// Folders of tracks nothing will use any more: their call is written, or
+/// gone from the base. Only folders named like a call are looked at; a call
+/// that failed keeps its tracks (it can be tried again).
+fn stale_track_folders(tracks_dir: &std::path::Path, store: &CallStore) -> Vec<PathBuf> {
+    let Ok(entries) = std::fs::read_dir(tracks_dir) else {
+        return Vec::new();
+    };
+    entries
+        .flatten()
+        .filter_map(|entry| {
+            let name = entry.file_name().into_string().ok()?;
+            let folder = track_folder(tracks_dir, &name)?;
+            if !entry.file_type().ok()?.is_dir() {
+                return None;
+            }
+            match store.get(&name) {
+                Ok(None) => Some(folder),
+                Ok(Some(call)) if call.status == CallStatus::Ready => Some(folder),
+                _ => None,
+            }
+        })
+        .collect()
 }
 
 /// Starts or stops, for the tray and `--toggle-call`. Opening the devices
@@ -668,5 +724,56 @@ mod tests {
         }
         let ok = transcript::unique_id();
         assert_eq!(track_folder(base, &ok), Some(base.join(&ok)));
+    }
+
+    fn stored(store: &CallStore, status: CallStatus) -> String {
+        let id = transcript::unique_id();
+        store
+            .save(&Call {
+                id: id.clone(),
+                title: "Appel".into(),
+                title_edited: false,
+                started_at: 0,
+                ended_at: None,
+                status,
+                system_audio: false,
+                speakers: Vec::new(),
+                lines: Vec::new(),
+                summary: None,
+                key_points: Vec::new(),
+                todos: Vec::new(),
+                summary_error: None,
+                error: None,
+            })
+            .unwrap();
+        id
+    }
+
+    #[test]
+    fn only_tracks_nothing_needs_are_left_to_delete() {
+        let dir = tempfile::tempdir().unwrap();
+        let store = CallStore::in_memory();
+        let ready = stored(&store, CallStatus::Ready);
+        let failed = stored(&store, CallStatus::Failed);
+        let writing = stored(&store, CallStatus::Processing);
+        let gone = transcript::unique_id();
+        for id in [&ready, &failed, &writing, &gone] {
+            std::fs::create_dir(dir.path().join(id)).unwrap();
+        }
+        // Not a call's folder: never touched.
+        std::fs::create_dir(dir.path().join("models")).unwrap();
+        let file = transcript::unique_id();
+        std::fs::write(dir.path().join(&file), "x").unwrap();
+
+        let mut stale = stale_track_folders(dir.path(), &store);
+        stale.sort();
+        let mut expected = vec![dir.path().join(&ready), dir.path().join(&gone)];
+        expected.sort();
+        assert_eq!(stale, expected);
+        for folder in &stale {
+            assert!(remove_tracks(folder));
+        }
+        assert!(dir.path().join(&failed).is_dir() && dir.path().join(&writing).is_dir());
+        assert!(dir.path().join("models").is_dir() && dir.path().join(&file).is_file());
     }
 }
