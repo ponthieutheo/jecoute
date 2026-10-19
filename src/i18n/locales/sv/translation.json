@@ -7,7 +7,9 @@
     "model": "Modell",
     "quit": "Avsluta",
     "cancel": "Avbryt",
-    "secureInputWarning": "⚠ Kortkommandon blockeras av Secure Input"
+    "secureInputWarning": "⚠ Kortkommandon blockeras av Secure Input",
+    "recordCall": "Spela in ett samtal",
+    "stopCall": "Sluta spela in samtalet"
   },
   "onboarding": {
     "showFewerModels": "Visa färre modeller",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "Historik",
+      "stats": "Statistik",
       "update": "Uppdatering",
       "recent": "Senaste dikteringar",
       "allHistory": "Hela historiken",
@@ -665,7 +668,10 @@
       "modelPill": "Transkriptionsmodell: {{model}}",
       "languagePill": "Talat språk: {{language}}",
       "allModels": "Alla modeller",
-      "downloadPill": "{{model}}, {{percent}} %"
+      "downloadPill": "{{model}}, {{percent}} %",
+      "calls": "Samtal",
+      "callRecording": "Ett samtal spelas in. Klicka för att se det.",
+      "callTime": "Samtal · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "Jag lyssnar…",
         "writing": "Jag skriver…",
         "processing": "Finslipar…",
-        "done": "Inklistrat"
+        "done": "Inklistrat",
+        "call": "Samtal…"
+      },
+      "call": {
+        "title": "Samtal pågår · {{time}}",
+        "desc": "Jag spelar in din mikrofon och datorns ljud. Säg till de andra.",
+        "descMicOnly": "Jag spelar in din mikrofon. Säg till dem runt omkring dig.",
+        "deviceLost": "En ljudenhet slutade fungera. Det som spelats in hittills finns kvar.",
+        "open": "Visa samtalet",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "Fler än {{count}} dikteringar",
       "empty": "Inga dikteringar än. Håll ned ditt kortkommando och prata!",
       "noResults": "Inga dikteringar matchar."
+    },
+    "stats": {
+      "title": "Statistik",
+      "periods": {
+        "label": "Period",
+        "week": "Vecka",
+        "month": "Månad",
+        "all": "Allt"
+      },
+      "words": "Dikterade ord",
+      "timeSaved": "Sparad tid",
+      "timeSavedHint": "jämfört med att skriva 45 ord/min",
+      "speed": "Hastighet",
+      "speedUnit": "ord/min",
+      "dictations": "Dikteringar",
+      "minutes": "{{m}} min",
+      "hours": "{{h}} tim {{m}} min",
+      "streak_one": "{{formatted}} dag i rad",
+      "streak_other": "{{formatted}} dagar i rad",
+      "streakHint": "Dagar i rad med minst en diktering, fram till i dag eller i går.",
+      "perDay": "Ord per dag",
+      "perWeek": "Ord per vecka",
+      "perMonth": "Ord per månad",
+      "chartLabel": "Diagram över dikterade ord",
+      "wordsCount_one": "{{formatted}} ord",
+      "wordsCount_other": "{{formatted}} ord",
+      "where": "Var du dikterar",
+      "appsEmpty": "Diktera i en app så dyker den upp här.",
+      "otherApps": "Övriga",
+      "emptyTitle": "Inga siffror än",
+      "emptyText": "Diktera med ditt kortkommando: dina ord, den sparade tiden och apparna du dikterar i visas här.",
+      "private": "Räknat på den här datorn, aldrig skickat.",
+      "reset": "Nollställ",
+      "resetTitle": "Nollställa statistiken?",
+      "resetText": "Alla siffror raderas: ord, sparad tid, dagar i rad och appar. Din dikteringshistorik påverkas inte.",
+      "resetConfirm": "Nollställ",
+      "resetError": "Det gick inte att nollställa statistiken. Försök igen.",
+      "cancel": "Avbryt"
     },
     "settings": {
       "title": "Inställningar",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Transkription på 100 språk, känner igen språket automatiskt, tidsstämplar per segment.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Optimerad för taiwanesisk mandarin. Klarar byten mellan språk.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Transkription på 100 språk, med översättning, känner igen språket automatiskt, tidsstämplar per segment."
+    },
+    "calls": {
+      "title": "Samtal",
+      "list": "Dina samtal",
+      "record": "Spela in ett samtal",
+      "starting": "Startar…",
+      "stop": "Stoppa",
+      "stopWithTime": "Stoppa · {{time}}",
+      "consent": "Berätta för de andra att du spelar in samtalet. Ljudet stannar på den här datorn och raderas när samtalet har skrivits ut.",
+      "emptyList": "Inga inspelade samtal.",
+      "welcomeTitle": "Inga samtal än",
+      "welcomeDesc": "När ett samtal börjar (Discord, Meet, Teams…), klicka på ”Spela in ett samtal”. Jag skriver vem som sa vad och sedan en sammanfattning med uppgifterna.",
+      "recordingNow": "Spelar in",
+      "writingShort": "Jag skriver…",
+      "failedShort": "Misslyckades",
+      "openTodos_one": "{{count}} uppgift",
+      "openTodos_other": "{{count}} uppgifter",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "withSystem": "mikrofon + datorns ljud",
+      "micOnly": "bara mikrofon",
+      "me": "Jag",
+      "others": "De andra",
+      "live": "Live",
+      "liveHint": "Den slutliga versionen skrivs om när samtalet är slut.",
+      "liveEmpty": "Varje mening visas här några sekunder efter att den har sagts.",
+      "nobody": "Inget tal hittades i den här inspelningen.",
+      "writing": "Jag skriver ut samtalet…",
+      "failed": "Något gick fel när samtalet skulle skrivas ut.",
+      "retry": "Försök igen",
+      "view": "Visa",
+      "summary": "Sammanfattning",
+      "transcript": "Transkription",
+      "keyPoints": "Viktiga punkter",
+      "todos": "Uppgifter",
+      "summaryWriting": "AI:n läser samtalet…",
+      "noSummary": "Det här samtalet har ingen sammanfattning.",
+      "summaryFailed": "Sammanfattningen kunde inte skrivas.",
+      "summarySent": "Sammanfattningen skrivs av {{provider}}: transkriptionen skickas dit.",
+      "writeSummary": "Skriv sammanfattningen",
+      "writeSummaryAgain": "Gör om sammanfattningen",
+      "noProviderTitle": "Ingen sammanfattning utan AI",
+      "noProviderDesc": "Transkriptionen är klar. För en sammanfattning och uppgifterna: slå på AI-korrigering i Inställningar → Text och välj en AI-leverantör och en modell.",
+      "openTextSettings": "Öppna textinställningarna",
+      "people": "Personer",
+      "rename": "Byt namn",
+      "renameSpeaker": "Klicka för att ge ett namn",
+      "copy": "Kopiera",
+      "copyError": "Det gick inte att kopiera samtalet.",
+      "export": "Exportera",
+      "exported": "Sparat i {{path}}",
+      "exportError": "Det gick inte att spara filen.",
+      "delete": "Ta bort",
+      "deleteConfirm": "Ta bort det här samtalet för gott?",
+      "deleteError": "Det gick inte att ta bort samtalet.",
+      "cancel": "Avbryt",
+      "errors": {
+        "noModel": "Välj en transkriptionsmodell först.",
+        "mic": "Jag hör inte din mikrofon: den saknas eller är blockerad.",
+        "busy": "Ett samtal spelas redan in.",
+        "audioGone": "Ljudet från det här samtalet finns inte längre."
+      },
+      "voices": {
+        "title": "Skilj på rösterna",
+        "desc": "För att skriva ”Person 2”, ”Person 3”… i stället för ”De andra” laddar jag ner en liten modell ({{size}}), en gång.",
+        "download": "Ladda ner",
+        "downloading": "Laddar ner röstmodellen",
+        "retry": "Försök igen",
+        "failed": "Nedladdningen misslyckades."
+      },
+      "settings": {
+        "title": "Samtalsinställningar",
+        "system": "Datorns ljud",
+        "systemDesc": "Spelar även in det datorn spelar upp: de andras röster. Av: bara din mikrofon.",
+        "voices": "Skilj på rösterna",
+        "voicesReady": "Rösterna särskiljs på den här datorn.",
+        "voicesDesc": "En liten modell att ladda ner ({{size}}).",
+        "summary": "AI-sammanfattning",
+        "summaryReady": "Skrivs av {{provider}} ({{model}}). Transkriptionen skickas dit.",
+        "summaryMissing": "Ingen AI-leverantör är inställd.",
+        "mic": "Mikrofonen är samma som för diktering.",
+        "micLink": "Byt mikrofon"
+      },
+      "md": {
+        "date": "Datum:",
+        "length": "Längd:",
+        "people": "Personer:"
+      }
     }
   }
 }

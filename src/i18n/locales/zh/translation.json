@@ -7,7 +7,9 @@
     "model": "模型",
     "quit": "退出",
     "cancel": "取消",
-    "secureInputWarning": "⚠ 快捷键被 Secure Input 阻止"
+    "secureInputWarning": "⚠ 快捷键被 Secure Input 阻止",
+    "recordCall": "录制通话",
+    "stopCall": "停止录制通话"
   },
   "onboarding": {
     "showFewerModels": "显示较少模型",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "历史记录",
+      "stats": "统计",
       "update": "更新",
       "recent": "最近的听写",
       "allHistory": "全部历史记录",
@@ -665,7 +668,10 @@
       "modelPill": "转录模型：{{model}}",
       "languagePill": "语音语言：{{language}}",
       "allModels": "全部模型",
-      "downloadPill": "{{model}}，{{percent}}%"
+      "downloadPill": "{{model}}，{{percent}}%",
+      "calls": "通话",
+      "callRecording": "正在录制通话。点击查看。",
+      "callTime": "通话 · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "我在听…",
         "writing": "我在写…",
         "processing": "正在润色…",
-        "done": "已粘贴"
+        "done": "已粘贴",
+        "call": "通话中…"
+      },
+      "call": {
+        "title": "正在录制通话 · {{time}}",
+        "desc": "我正在录制您的麦克风和电脑的声音。请告知其他人。",
+        "descMicOnly": "我正在录制您的麦克风。请告知身边的人。",
+        "deviceLost": "有个音频设备停止了。之前的内容已保留。",
+        "open": "查看通话",
+        "said": "{{name}}："
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "超过 {{count}} 条听写",
       "empty": "还没有听写。按住快捷键说话吧！",
       "noResults": "没有匹配的听写。"
+    },
+    "stats": {
+      "title": "统计",
+      "periods": {
+        "label": "时间段",
+        "week": "周",
+        "month": "月",
+        "all": "全部"
+      },
+      "words": "听写字数",
+      "timeSaved": "节省的时间",
+      "timeSavedHint": "对比每分钟打字 45 字",
+      "speed": "速度",
+      "speedUnit": "字/分钟",
+      "dictations": "听写次数",
+      "minutes": "{{m}} 分钟",
+      "hours": "{{h}} 小时 {{m}} 分",
+      "streak_one": "连续 {{formatted}} 天",
+      "streak_other": "连续 {{formatted}} 天",
+      "streakHint": "每天至少听写一次的连续天数，截至今天或昨天。",
+      "perDay": "每日字数",
+      "perWeek": "每周字数",
+      "perMonth": "每月字数",
+      "chartLabel": "听写字数图表",
+      "wordsCount_one": "{{formatted}} 字",
+      "wordsCount_other": "{{formatted}} 字",
+      "where": "您在哪里听写",
+      "appsEmpty": "在应用中听写后，它就会显示在这里。",
+      "otherApps": "其他",
+      "emptyTitle": "还没有数据",
+      "emptyText": "用快捷键听写吧：您的字数、节省的时间和听写所用的应用都会显示在这里。",
+      "private": "仅在这台电脑上统计，绝不上传。",
+      "reset": "重置",
+      "resetTitle": "要重置统计数据吗？",
+      "resetText": "所有数据都会被清除：字数、节省的时间、连续天数和应用。您的听写历史记录不受影响。",
+      "resetConfirm": "重置",
+      "resetError": "无法重置统计数据。请重试。",
+      "cancel": "取消"
     },
     "settings": {
       "title": "设置",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 种语言语音转文字，自动识别语言，带句段级时间戳。",
       "optimized_for_taiwanese_mandarin_code_switching_support": "针对台湾国语优化，支持中英混说。",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 种语言语音转文字，支持翻译，自动识别语言，带句段级时间戳。"
+    },
+    "calls": {
+      "title": "通话",
+      "list": "您的通话",
+      "record": "录制通话",
+      "starting": "正在启动…",
+      "stop": "停止",
+      "stopWithTime": "停止 · {{time}}",
+      "consent": "请告知对方您正在录制通话。声音保存在这台电脑上，通话转成文字后即被删除。",
+      "emptyList": "没有已录制的通话。",
+      "welcomeTitle": "还没有通话",
+      "welcomeDesc": "通话开始时（Discord、Meet、Teams 等），点击“录制通话”。我会写下谁说了什么，再写一份附带待办事项的摘要。",
+      "recordingNow": "录制中",
+      "writingShort": "我在写…",
+      "failedShort": "失败",
+      "openTodos_one": "{{count}} 项待办",
+      "openTodos_other": "{{count}} 项待办",
+      "minutes_one": "{{count}} 分钟",
+      "minutes_other": "{{count}} 分钟",
+      "withSystem": "麦克风 + 电脑声音",
+      "micOnly": "仅麦克风",
+      "me": "我",
+      "others": "其他人",
+      "live": "实时",
+      "liveHint": "通话结束后，我会重新写出最终版本。",
+      "liveEmpty": "每句话说出几秒后，就会显示在这里。",
+      "nobody": "这段录音中没有找到说话声。",
+      "writing": "我正在把通话写成文字…",
+      "failed": "把这次通话写成文字时出了问题。",
+      "retry": "重试",
+      "view": "显示",
+      "summary": "摘要",
+      "transcript": "转录",
+      "keyPoints": "要点",
+      "todos": "待办事项",
+      "summaryWriting": "AI 正在阅读通话内容…",
+      "noSummary": "这次通话没有摘要。",
+      "summaryFailed": "未能生成摘要。",
+      "summarySent": "摘要由 {{provider}} 撰写：转录内容会发送给它。",
+      "writeSummary": "生成摘要",
+      "writeSummaryAgain": "重新生成摘要",
+      "noProviderTitle": "没有 AI 就没有摘要",
+      "noProviderDesc": "转录已完成。如需摘要和待办事项，请在 设置 → 文本 中开启 AI 校对，并选择 AI 服务商和模型。",
+      "openTextSettings": "打开文本设置",
+      "people": "参与者",
+      "rename": "重命名",
+      "renameSpeaker": "点击命名",
+      "copy": "复制",
+      "copyError": "无法复制通话。",
+      "export": "导出",
+      "exported": "已保存到 {{path}}",
+      "exportError": "无法保存文件。",
+      "delete": "删除",
+      "deleteConfirm": "要永久删除这次通话吗？",
+      "deleteError": "无法删除这次通话。",
+      "cancel": "取消",
+      "errors": {
+        "noModel": "请先选择转录模型。",
+        "mic": "我听不到您的麦克风：麦克风未连接或被阻止。",
+        "busy": "已经在录制一个通话了。",
+        "audioGone": "找不到这次通话的声音了。"
+      },
+      "voices": {
+        "title": "区分说话人",
+        "desc": "为了写出“说话人 2”“说话人 3”…而不是“其他人”，我会下载一个小模型（{{size}}），只需一次。",
+        "download": "下载",
+        "downloading": "正在下载说话人识别模型",
+        "retry": "重试",
+        "failed": "下载失败。"
+      },
+      "settings": {
+        "title": "通话设置",
+        "system": "电脑声音",
+        "systemDesc": "同时录制电脑播放的声音，也就是其他人的声音。关闭时：仅录制您的麦克风。",
+        "voices": "区分说话人",
+        "voicesReady": "在这台电脑上区分说话人。",
+        "voicesDesc": "需要下载一个小模型（{{size}}）。",
+        "summary": "AI 摘要",
+        "summaryReady": "由 {{provider}}（{{model}}）撰写。转录内容会发送给它。",
+        "summaryMissing": "未设置 AI 服务商。",
+        "mic": "使用与听写相同的麦克风。",
+        "micLink": "更换麦克风"
+      },
+      "md": {
+        "date": "日期：",
+        "length": "时长：",
+        "people": "参与者："
+      }
     }
   }
 }

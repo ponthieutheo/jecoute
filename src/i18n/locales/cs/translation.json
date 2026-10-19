@@ -7,7 +7,9 @@
     "model": "Model",
     "quit": "Ukončit",
     "cancel": "Zrušit",
-    "secureInputWarning": "⚠ Zkratky blokuje Secure Input"
+    "secureInputWarning": "⚠ Zkratky blokuje Secure Input",
+    "recordCall": "Nahrát hovor",
+    "stopCall": "Zastavit nahrávání hovoru"
   },
   "onboarding": {
     "showFewerModels": "Zobrazit méně modelů",
@@ -657,6 +659,7 @@
   "app": {
     "home": {
       "history": "Historie",
+      "stats": "Statistiky",
       "update": "Aktualizace",
       "recent": "Poslední přepisy",
       "allHistory": "Celá historie",
@@ -667,7 +670,10 @@
       "modelPill": "Model přepisu: {{model}}",
       "languagePill": "Mluvený jazyk: {{language}}",
       "allModels": "Všechny modely",
-      "downloadPill": "{{model}}, {{percent}} %"
+      "downloadPill": "{{model}}, {{percent}} %",
+      "calls": "Hovory",
+      "callRecording": "Nahrává se hovor. Kliknutím ho zobrazíte.",
+      "callTime": "Hovor · {{time}}"
     },
     "status": {
       "ready": {
@@ -734,7 +740,16 @@
         "listening": "Poslouchám…",
         "writing": "Píšu…",
         "processing": "Dolaďuji…",
-        "done": "Vloženo"
+        "done": "Vloženo",
+        "call": "Hovor…"
+      },
+      "call": {
+        "title": "Nahrávám hovor · {{time}}",
+        "desc": "Nahrávám váš mikrofon a zvuk počítače. Dejte o tom vědět ostatním.",
+        "descMicOnly": "Nahrávám váš mikrofon. Dejte o tom vědět lidem kolem sebe.",
+        "deviceLost": "Jedno zvukové zařízení přestalo fungovat. Co se nahrálo předtím, zůstává.",
+        "open": "Zobrazit hovor",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -772,6 +787,46 @@
       "countMore": "Více než {{count}} přepisů",
       "empty": "Zatím žádné přepisy. Podržte svou zkratku a mluvte!",
       "noResults": "Žádný přepis neodpovídá."
+    },
+    "stats": {
+      "title": "Statistiky",
+      "periods": {
+        "label": "Období",
+        "week": "Týden",
+        "month": "Měsíc",
+        "all": "Vše"
+      },
+      "words": "Nadiktovaná slova",
+      "timeSaved": "Ušetřený čas",
+      "timeSavedHint": "oproti psaní rychlostí 45 slov/min",
+      "speed": "Rychlost",
+      "speedUnit": "slov/min",
+      "dictations": "Přepisy",
+      "minutes": "{{m}} min",
+      "hours": "{{h}} h {{m}} min",
+      "streak_one": "{{formatted}} den v řadě",
+      "streak_other": "{{formatted}} dní v řadě",
+      "streak_few": "{{formatted}} dny v řadě",
+      "streakHint": "Dny v řadě s alespoň jedním přepisem, až do dneška nebo včerejška.",
+      "perDay": "Slova za den",
+      "perWeek": "Slova za týden",
+      "perMonth": "Slova za měsíc",
+      "chartLabel": "Graf nadiktovaných slov",
+      "wordsCount_one": "{{formatted}} slovo",
+      "wordsCount_other": "{{formatted}} slov",
+      "wordsCount_few": "{{formatted}} slova",
+      "where": "Kde diktujete",
+      "appsEmpty": "Diktujte v nějaké aplikaci a objeví se tady.",
+      "otherApps": "Ostatní",
+      "emptyTitle": "Zatím žádná čísla",
+      "emptyText": "Diktujte pomocí své zkratky: tady se objeví vaše slova, ušetřený čas a aplikace, ve kterých diktujete.",
+      "private": "Počítá se na tomto počítači, nikdy se neodesílá.",
+      "reset": "Vynulovat",
+      "resetTitle": "Vynulovat statistiky?",
+      "resetText": "Smažou se všechna čísla: slova, ušetřený čas, dny v řadě i aplikace. Historie vašich přepisů zůstane nedotčená.",
+      "resetConfirm": "Vynulovat",
+      "resetError": "Statistiky se nepodařilo vynulovat. Zkuste to znovu.",
+      "cancel": "Zrušit"
     },
     "settings": {
       "title": "Nastavení",
@@ -934,6 +989,96 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "Přepis řeči ve 100 jazycích, automatické rozpoznání jazyka, časové značky po úsecích.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Optimalizováno pro tchajwanskou mandarínštinu. Zvládá přepínání jazyků.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "Přepis řeči ve 100 jazycích, překlad, automatické rozpoznání jazyka, časové značky po úsecích."
+    },
+    "calls": {
+      "title": "Hovory",
+      "list": "Vaše hovory",
+      "record": "Nahrát hovor",
+      "starting": "Spouštím…",
+      "stop": "Zastavit",
+      "stopWithTime": "Zastavit · {{time}}",
+      "consent": "Řekněte ostatním, že hovor nahráváte. Zvuk zůstává na tomto počítači a po přepsání hovoru se smaže.",
+      "emptyList": "Žádné nahrané hovory.",
+      "welcomeTitle": "Zatím žádné hovory",
+      "welcomeDesc": "Když začne hovor (Discord, Meet, Teams…), klikněte na „Nahrát hovor“. Zapíšu, kdo co řekl, a pak shrnutí s úkoly.",
+      "recordingNow": "Nahrává se",
+      "writingShort": "Píšu…",
+      "failedShort": "Selhalo",
+      "openTodos_one": "{{count}} úkol",
+      "openTodos_other": "{{count}} úkolů",
+      "openTodos_few": "{{count}} úkoly",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "minutes_few": "{{count}} min",
+      "withSystem": "mikrofon + zvuk počítače",
+      "micOnly": "jen mikrofon",
+      "me": "Já",
+      "others": "Ostatní",
+      "live": "Živě",
+      "liveHint": "Po skončení hovoru se finální verze napíše znovu.",
+      "liveEmpty": "Každá věta se tu objeví pár sekund poté, co zazní.",
+      "nobody": "V této nahrávce nezazněla žádná řeč.",
+      "writing": "Přepisuji hovor…",
+      "failed": "Při přepisu tohoto hovoru se něco pokazilo.",
+      "retry": "Zkusit znovu",
+      "view": "Zobrazit",
+      "summary": "Shrnutí",
+      "transcript": "Přepis",
+      "keyPoints": "Hlavní body",
+      "todos": "Úkoly",
+      "summaryWriting": "AI čte hovor…",
+      "noSummary": "Tento hovor nemá shrnutí.",
+      "summaryFailed": "Shrnutí se nepodařilo napsat.",
+      "summarySent": "Shrnutí píše {{provider}}, kterému se odesílá přepis.",
+      "writeSummary": "Napsat shrnutí",
+      "writeSummaryAgain": "Napsat shrnutí znovu",
+      "noProviderTitle": "Bez AI není shrnutí",
+      "noProviderDesc": "Přepis je hotový. Pro shrnutí a úkoly zapněte „Oprava pomocí AI“ v Nastavení → Text a vyberte poskytovatele AI a model.",
+      "openTextSettings": "Otevřít nastavení textu",
+      "people": "Účastníci",
+      "rename": "Přejmenovat",
+      "renameSpeaker": "Klikněte a zadejte jméno",
+      "copy": "Kopírovat",
+      "copyError": "Hovor se nepodařilo zkopírovat.",
+      "export": "Exportovat",
+      "exported": "Uloženo do {{path}}",
+      "exportError": "Soubor se nepodařilo uložit.",
+      "delete": "Smazat",
+      "deleteConfirm": "Smazat tento hovor natrvalo?",
+      "deleteError": "Tento hovor se nepodařilo smazat.",
+      "cancel": "Zrušit",
+      "errors": {
+        "noModel": "Nejdřív vyberte model přepisu.",
+        "mic": "Neslyším váš mikrofon: chybí, nebo je zablokovaný.",
+        "busy": "Už se nahrává jiný hovor.",
+        "audioGone": "Zvuk tohoto hovoru už nelze najít."
+      },
+      "voices": {
+        "title": "Rozlišit hlasy",
+        "desc": "Pro zápis „Osoba 2“, „Osoba 3“… místo „Ostatní“ jednou stáhnu malý model ({{size}}).",
+        "download": "Stáhnout",
+        "downloading": "Stahuji model hlasů",
+        "retry": "Zkusit znovu",
+        "failed": "Stahování se nezdařilo."
+      },
+      "settings": {
+        "title": "Nastavení hovorů",
+        "system": "Zvuk počítače",
+        "systemDesc": "Nahrává i to, co přehrává počítač: hlasy ostatních. Vypnuto: jen váš mikrofon.",
+        "voices": "Rozlišit hlasy",
+        "voicesReady": "Hlasy se rozlišují na tomto počítači.",
+        "voicesDesc": "Malý model ke stažení ({{size}}).",
+        "summary": "Shrnutí pomocí AI",
+        "summaryReady": "Píše {{provider}} ({{model}}). Odesílá se mu přepis.",
+        "summaryMissing": "Není nastaven žádný poskytovatel AI.",
+        "mic": "Mikrofon je stejný jako pro diktování.",
+        "micLink": "Změnit mikrofon"
+      },
+      "md": {
+        "date": "Datum:",
+        "length": "Délka:",
+        "people": "Účastníci:"
+      }
     }
   }
 }

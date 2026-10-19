@@ -7,7 +7,9 @@
     "model": "Model",
     "quit": "Çıkış",
     "cancel": "İptal",
-    "secureInputWarning": "⚠ Kısayollar Secure Input tarafından engelleniyor"
+    "secureInputWarning": "⚠ Kısayollar Secure Input tarafından engelleniyor",
+    "recordCall": "Görüşmeyi Kaydet",
+    "stopCall": "Görüşme Kaydını Durdur"
   },
   "onboarding": {
     "showFewerModels": "Daha az model göster",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "Geçmiş",
+      "stats": "İstatistikler",
       "update": "Güncelleme",
       "recent": "Son dikteler",
       "allHistory": "Tüm geçmiş",
@@ -665,7 +668,10 @@
       "modelPill": "Transkripsiyon modeli: {{model}}",
       "languagePill": "Konuşma dili: {{language}}",
       "allModels": "Tüm modeller",
-      "downloadPill": "{{model}}, %{{percent}}"
+      "downloadPill": "{{model}}, %{{percent}}",
+      "calls": "Görüşmeler",
+      "callRecording": "Bir görüşme kaydediliyor. Görmek için tıklayın.",
+      "callTime": "Görüşme · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "Dinliyorum…",
         "writing": "Yazıyorum…",
         "processing": "Düzenliyorum…",
-        "done": "Yapıştırıldı"
+        "done": "Yapıştırıldı",
+        "call": "Görüşme…"
+      },
+      "call": {
+        "title": "Görüşme kaydediliyor · {{time}}",
+        "desc": "Mikrofonunuzu ve bilgisayarın sesini kaydediyorum. Diğerlerine haber verin.",
+        "descMicOnly": "Mikrofonunuzu kaydediyorum. Yanınızdakilere haber verin.",
+        "deviceLost": "Bir ses aygıtı durdu. Öncesinde kaydedilenler korunuyor.",
+        "open": "Görüşmeyi aç",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "{{count}} dikteden fazla",
       "empty": "Henüz dikte yok. Kısayolunuzu basılı tutun ve konuşun!",
       "noResults": "Eşleşen dikte yok."
+    },
+    "stats": {
+      "title": "İstatistikler",
+      "periods": {
+        "label": "Dönem",
+        "week": "Hafta",
+        "month": "Ay",
+        "all": "Tümü"
+      },
+      "words": "Dikte edilen kelimeler",
+      "timeSaved": "Kazanılan zaman",
+      "timeSavedHint": "klavyede 45 kelime/dk hızına göre",
+      "speed": "Hız",
+      "speedUnit": "kelime/dk",
+      "dictations": "Dikteler",
+      "minutes": "{{m}} dk",
+      "hours": "{{h}} sa {{m}} dk",
+      "streak_one": "Üst üste {{formatted}} gün",
+      "streak_other": "Üst üste {{formatted}} gün",
+      "streakHint": "Bugüne ya da düne kadar, en az bir dikte yaptığınız ardışık günler.",
+      "perDay": "Günlük kelime",
+      "perWeek": "Haftalık kelime",
+      "perMonth": "Aylık kelime",
+      "chartLabel": "Dikte edilen kelimelerin grafiği",
+      "wordsCount_one": "{{formatted}} kelime",
+      "wordsCount_other": "{{formatted}} kelime",
+      "where": "Nerede dikte ediyorsunuz",
+      "appsEmpty": "Bir uygulamada dikte edin, burada görünsün.",
+      "otherApps": "Diğerleri",
+      "emptyTitle": "Henüz rakam yok",
+      "emptyText": "Kısayolunuzla dikte edin: kelimeleriniz, kazandığınız zaman ve dikte ettiğiniz uygulamalar burada görünecek.",
+      "private": "Bu bilgisayarda sayılır, asla gönderilmez.",
+      "reset": "Sıfırla",
+      "resetTitle": "İstatistikler sıfırlansın mı?",
+      "resetText": "Tüm rakamlar silinecek: kelimeler, kazanılan zaman, üst üste günler ve uygulamalar. Dikte geçmişinize dokunulmaz.",
+      "resetConfirm": "Sıfırla",
+      "resetError": "İstatistikler sıfırlanamadı. Tekrar deneyin.",
+      "cancel": "İptal"
     },
     "settings": {
       "title": "Ayarlar",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 dilde konuşma tanıma, otomatik dil algılama, bölüm düzeyinde zaman damgaları.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Tayvan Mandarin Çincesi için optimize edildi. Dil değiştirme desteği.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 dilde konuşma tanıma, çeviri, otomatik dil algılama, bölüm düzeyinde zaman damgaları."
+    },
+    "calls": {
+      "title": "Görüşmeler",
+      "list": "Görüşmeleriniz",
+      "record": "Görüşme kaydet",
+      "starting": "Başlatılıyor…",
+      "stop": "Durdur",
+      "stopWithTime": "Durdur · {{time}}",
+      "consent": "Görüşmeyi kaydettiğinizi karşınızdakilere söyleyin. Ses bu bilgisayarda kalır ve görüşme yazıya döküldükten sonra silinir.",
+      "emptyList": "Kaydedilmiş görüşme yok.",
+      "welcomeTitle": "Henüz görüşme yok",
+      "welcomeDesc": "Bir görüşme başladığında (Discord, Meet, Teams…) “Görüşme kaydet” düğmesine tıklayın. Kimin ne dediğini, ardından görevleriyle birlikte bir özet yazarım.",
+      "recordingNow": "Kaydediliyor",
+      "writingShort": "Yazıyorum…",
+      "failedShort": "Başarısız",
+      "openTodos_one": "{{count}} görev",
+      "openTodos_other": "{{count}} görev",
+      "minutes_one": "{{count}} dk",
+      "minutes_other": "{{count}} dk",
+      "withSystem": "mikrofon + bilgisayar sesi",
+      "micOnly": "yalnızca mikrofon",
+      "me": "Ben",
+      "others": "Diğerleri",
+      "live": "Canlı",
+      "liveHint": "Görüşme bitince son sürüm yeniden yazılır.",
+      "liveEmpty": "Her cümle, söylendikten birkaç saniye sonra burada görünür.",
+      "nobody": "Bu kayıtta konuşma bulunamadı.",
+      "writing": "Görüşmeyi yazıya döküyorum…",
+      "failed": "Bu görüşme yazıya dökülürken bir sorun oluştu.",
+      "retry": "Tekrar dene",
+      "view": "Göster",
+      "summary": "Özet",
+      "transcript": "Transkript",
+      "keyPoints": "Önemli noktalar",
+      "todos": "Görevler",
+      "summaryWriting": "Yapay zekâ görüşmeyi okuyor…",
+      "noSummary": "Bu görüşmenin özeti yok.",
+      "summaryFailed": "Özet yazılamadı.",
+      "summarySent": "Özeti {{provider}} yazar: transkript ona gönderilir.",
+      "writeSummary": "Özeti yaz",
+      "writeSummaryAgain": "Özeti yeniden yaz",
+      "noProviderTitle": "Yapay zekâ olmadan özet yok",
+      "noProviderDesc": "Transkript hazır. Özet ve görevler için Ayarlar → Metin bölümünde “Yapay zekâ düzeltmesi” seçeneğini açın, ardından bir yapay zekâ sağlayıcısı ve bir model seçin.",
+      "openTextSettings": "Metin ayarlarını aç",
+      "people": "Katılımcılar",
+      "rename": "Yeniden adlandır",
+      "renameSpeaker": "Ad vermek için tıklayın",
+      "copy": "Kopyala",
+      "copyError": "Görüşme kopyalanamadı.",
+      "export": "Dışa aktar",
+      "exported": "{{path}} konumuna kaydedildi",
+      "exportError": "Dosya kaydedilemedi.",
+      "delete": "Sil",
+      "deleteConfirm": "Bu görüşme kalıcı olarak silinsin mi?",
+      "deleteError": "Bu görüşme silinemedi.",
+      "cancel": "İptal",
+      "errors": {
+        "noModel": "Önce bir transkripsiyon modeli seçin.",
+        "mic": "Mikrofonunuzu duyamıyorum: takılı değil ya da engellenmiş.",
+        "busy": "Zaten bir görüşme kaydediliyor.",
+        "audioGone": "Bu görüşmenin sesi artık bulunamıyor."
+      },
+      "voices": {
+        "title": "Sesleri ayırt et",
+        "desc": "“Diğerleri” yerine “Kişi 2”, “Kişi 3”… yazabilmek için küçük bir model ({{size}}) indiriyorum, yalnızca bir kez.",
+        "download": "İndir",
+        "downloading": "Ses modeli indiriliyor",
+        "retry": "Tekrar dene",
+        "failed": "İndirme başarısız oldu."
+      },
+      "settings": {
+        "title": "Görüşme ayarları",
+        "system": "Bilgisayar sesi",
+        "systemDesc": "Bilgisayarın çaldığı sesi de kaydeder: diğer kişilerin sesleri. Kapalı: yalnızca mikrofonunuz.",
+        "voices": "Sesleri ayırt et",
+        "voicesReady": "Sesler bu bilgisayarda ayırt edilir.",
+        "voicesDesc": "İndirilecek küçük bir model ({{size}}).",
+        "summary": "Yapay zekâ özeti",
+        "summaryReady": "{{provider}} ({{model}}) yazar. Transkript ona gönderilir.",
+        "summaryMissing": "Hiçbir yapay zekâ sağlayıcısı ayarlanmamış.",
+        "mic": "Mikrofon, diktede kullanılan mikrofondur.",
+        "micLink": "Mikrofonu değiştir"
+      },
+      "md": {
+        "date": "Tarih:",
+        "length": "Süre:",
+        "people": "Katılımcılar:"
+      }
     }
   }
 }

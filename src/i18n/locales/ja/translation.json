@@ -7,7 +7,9 @@
     "model": "モデル",
     "quit": "終了",
     "cancel": "キャンセル",
-    "secureInputWarning": "⚠ Secure Input でショートカットがブロック中"
+    "secureInputWarning": "⚠ Secure Input でショートカットがブロック中",
+    "recordCall": "通話を録音",
+    "stopCall": "通話の録音を停止"
   },
   "onboarding": {
     "showFewerModels": "表示を減らす",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "履歴",
+      "stats": "統計",
       "update": "アップデート",
       "recent": "最近の音声入力",
       "allHistory": "すべての履歴",
@@ -665,7 +668,10 @@
       "modelPill": "文字起こしモデル：{{model}}",
       "languagePill": "話す言語：{{language}}",
       "allModels": "すべてのモデル",
-      "downloadPill": "{{model}}、{{percent}}%"
+      "downloadPill": "{{model}}、{{percent}}%",
+      "calls": "通話",
+      "callRecording": "通話を録音しています。クリックで表示します。",
+      "callTime": "通話 · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "聞いています…",
         "writing": "書いています…",
         "processing": "仕上げ中…",
-        "done": "貼り付けました"
+        "done": "貼り付けました",
+        "call": "通話中…"
+      },
+      "call": {
+        "title": "通話を録音中 · {{time}}",
+        "desc": "マイクとパソコンの音を録音しています。相手にひと言伝えてください。",
+        "descMicOnly": "マイクの音を録音しています。周りの人にひと言伝えてください。",
+        "deviceLost": "オーディオデバイスが停止しました。それまでの内容は残っています。",
+        "open": "通話を表示",
+        "said": "{{name}}："
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "{{count}}件以上の音声入力",
       "empty": "まだ音声入力がありません。ショートカットを押しながら話してみてください！",
       "noResults": "一致する音声入力はありません。"
+    },
+    "stats": {
+      "title": "統計",
+      "periods": {
+        "label": "期間",
+        "week": "週",
+        "month": "月",
+        "all": "すべて"
+      },
+      "words": "音声入力した文字数",
+      "timeSaved": "節約できた時間",
+      "timeSavedHint": "毎分45文字のタイピングと比較",
+      "speed": "速度",
+      "speedUnit": "文字/分",
+      "dictations": "音声入力の回数",
+      "minutes": "{{m}}分",
+      "hours": "{{h}}時間{{m}}分",
+      "streak_one": "{{formatted}}日連続",
+      "streak_other": "{{formatted}}日連続",
+      "streakHint": "1回以上音声入力した日が何日続いているかです（今日または昨日まで）。",
+      "perDay": "1日あたりの文字数",
+      "perWeek": "1週間あたりの文字数",
+      "perMonth": "1か月あたりの文字数",
+      "chartLabel": "音声入力した文字数のグラフ",
+      "wordsCount_one": "{{formatted}}文字",
+      "wordsCount_other": "{{formatted}}文字",
+      "where": "音声入力しているアプリ",
+      "appsEmpty": "アプリで音声入力すると、ここに表示されます。",
+      "otherApps": "その他",
+      "emptyTitle": "まだデータがありません",
+      "emptyText": "ショートカットで音声入力してみてください。文字数、節約できた時間、音声入力したアプリがここに表示されます。",
+      "private": "このパソコンの中で集計し、外部には送信しません。",
+      "reset": "リセット",
+      "resetTitle": "統計をリセットしますか？",
+      "resetText": "文字数、節約できた時間、連続日数、アプリなど、すべての数字が消去されます。音声入力の履歴はそのまま残ります。",
+      "resetConfirm": "リセット",
+      "resetError": "統計をリセットできませんでした。もう一度お試しください。",
+      "cancel": "キャンセル"
     },
     "settings": {
       "title": "設定",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100言語の文字起こし。言語の自動判定、セグメント単位のタイムスタンプに対応。",
       "optimized_for_taiwanese_mandarin_code_switching_support": "台湾華語に最適化。中国語と英語が混ざった発話にも対応。",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100言語の文字起こし。翻訳、言語の自動判定、セグメント単位のタイムスタンプに対応。"
+    },
+    "calls": {
+      "title": "通話",
+      "list": "通話一覧",
+      "record": "通話を録音",
+      "starting": "開始しています…",
+      "stop": "停止",
+      "stopWithTime": "停止 · {{time}}",
+      "consent": "録音することを相手に伝えてください。音声はこのパソコンの中に保存され、文字に起こしたあとで削除されます。",
+      "emptyList": "録音した通話はありません。",
+      "welcomeTitle": "まだ通話がありません",
+      "welcomeDesc": "通話が始まったら（Discord、Meet、Teams など）、「通話を録音」をクリックしてください。誰が何を話したかを書き起こして、タスク付きの要約を作ります。",
+      "recordingNow": "録音中",
+      "writingShort": "書いています…",
+      "failedShort": "失敗",
+      "openTodos_one": "タスク{{count}}件",
+      "openTodos_other": "タスク{{count}}件",
+      "minutes_one": "{{count}}分",
+      "minutes_other": "{{count}}分",
+      "withSystem": "マイク＋パソコンの音",
+      "micOnly": "マイクのみ",
+      "me": "自分",
+      "others": "相手",
+      "live": "リアルタイム",
+      "liveHint": "通話が終わったら、最終版をあらためて書き起こします。",
+      "liveEmpty": "話した内容は、数秒後にここに表示されます。",
+      "nobody": "この録音には話し声が見つかりませんでした。",
+      "writing": "通話を文字に起こしています…",
+      "failed": "この通話を書き起こす途中で問題が起きました。",
+      "retry": "再試行",
+      "view": "表示",
+      "summary": "要約",
+      "transcript": "文字起こし",
+      "keyPoints": "要点",
+      "todos": "タスク",
+      "summaryWriting": "AI が通話を読んでいます…",
+      "noSummary": "この通話には要約がありません。",
+      "summaryFailed": "要約を作成できませんでした。",
+      "summarySent": "要約は {{provider}} が作成します（文字起こしを送信します）。",
+      "writeSummary": "要約を作成",
+      "writeSummaryAgain": "要約を作り直す",
+      "noProviderTitle": "AI なしでは要約できません",
+      "noProviderDesc": "文字起こしはできています。要約とタスクを作るには、設定 → テキスト で AI 校正をオンにして、AI プロバイダーとモデルを選んでください。",
+      "openTextSettings": "テキストの設定を開く",
+      "people": "参加者",
+      "rename": "名前を変更",
+      "renameSpeaker": "クリックして名前を付ける",
+      "copy": "コピー",
+      "copyError": "通話をコピーできませんでした。",
+      "export": "エクスポート",
+      "exported": "{{path}} に保存しました",
+      "exportError": "ファイルを保存できませんでした。",
+      "delete": "削除",
+      "deleteConfirm": "この通話を完全に削除しますか？",
+      "deleteError": "この通話を削除できませんでした。",
+      "cancel": "キャンセル",
+      "errors": {
+        "noModel": "先に文字起こしモデルを選んでください。",
+        "mic": "マイクの音が聞こえません。マイクがないか、ブロックされています。",
+        "busy": "すでに通話を録音しています。",
+        "audioGone": "この通話の音声が見つかりません。"
+      },
+      "voices": {
+        "title": "話者を聞き分ける",
+        "desc": "「相手」ではなく「話者 2」「話者 3」…と書き分けるために、小さなモデル（{{size}}）を一度だけダウンロードします。",
+        "download": "ダウンロード",
+        "downloading": "話者モデルをダウンロード中",
+        "retry": "再試行",
+        "failed": "ダウンロードに失敗しました。"
+      },
+      "settings": {
+        "title": "通話の設定",
+        "system": "パソコンの音",
+        "systemDesc": "パソコンで再生される音（相手の声）も録音します。オフにするとマイクのみです。",
+        "voices": "話者を聞き分ける",
+        "voicesReady": "このパソコンの中で話者を聞き分けます。",
+        "voicesDesc": "小さなモデルのダウンロードが必要です（{{size}}）。",
+        "summary": "AI 要約",
+        "summaryReady": "{{provider}}（{{model}}）が作成します。文字起こしが送信されます。",
+        "summaryMissing": "AI プロバイダーが設定されていません。",
+        "mic": "マイクは音声入力と同じものを使います。",
+        "micLink": "マイクを変更"
+      },
+      "md": {
+        "date": "日付：",
+        "length": "通話時間：",
+        "people": "参加者："
+      }
     }
   }
 }

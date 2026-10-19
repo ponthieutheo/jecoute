@@ -7,7 +7,9 @@
     "model": "모델",
     "quit": "종료",
     "cancel": "취소",
-    "secureInputWarning": "⚠ Secure Input으로 단축키가 차단됨"
+    "secureInputWarning": "⚠ Secure Input으로 단축키가 차단됨",
+    "recordCall": "통화 녹음",
+    "stopCall": "통화 녹음 중지"
   },
   "onboarding": {
     "showFewerModels": "간략히 표시",
@@ -655,6 +657,7 @@
   "app": {
     "home": {
       "history": "기록",
+      "stats": "통계",
       "update": "업데이트",
       "recent": "최근 받아쓰기",
       "allHistory": "전체 기록",
@@ -665,7 +668,10 @@
       "modelPill": "음성 인식 모델: {{model}}",
       "languagePill": "말하는 언어: {{language}}",
       "allModels": "모든 모델",
-      "downloadPill": "{{model}}, {{percent}}%"
+      "downloadPill": "{{model}}, {{percent}}%",
+      "calls": "통화",
+      "callRecording": "통화를 녹음하고 있습니다. 클릭해서 확인하세요.",
+      "callTime": "통화 · {{time}}"
     },
     "status": {
       "ready": {
@@ -732,7 +738,16 @@
         "listening": "듣는 중…",
         "writing": "쓰는 중…",
         "processing": "다듬는 중…",
-        "done": "붙여넣음"
+        "done": "붙여넣음",
+        "call": "통화 중…"
+      },
+      "call": {
+        "title": "통화 녹음 중 · {{time}}",
+        "desc": "마이크와 컴퓨터 소리를 녹음하고 있습니다. 상대방에게 알려 주세요.",
+        "descMicOnly": "마이크를 녹음하고 있습니다. 주변 사람들에게 알려 주세요.",
+        "deviceLost": "오디오 장치가 멈췄습니다. 그 전까지의 내용은 남아 있습니다.",
+        "open": "통화 보기",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -768,6 +783,44 @@
       "countMore": "받아쓰기 {{count}}개 이상",
       "empty": "아직 받아쓰기가 없습니다. 단축키를 누른 채로 말해 보세요!",
       "noResults": "일치하는 받아쓰기가 없습니다."
+    },
+    "stats": {
+      "title": "통계",
+      "periods": {
+        "label": "기간",
+        "week": "주",
+        "month": "월",
+        "all": "전체"
+      },
+      "words": "받아쓴 단어",
+      "timeSaved": "절약한 시간",
+      "timeSavedHint": "분당 45단어 타이핑 대비",
+      "speed": "속도",
+      "speedUnit": "단어/분",
+      "dictations": "받아쓰기 횟수",
+      "minutes": "{{m}}분",
+      "hours": "{{h}}시간 {{m}}분",
+      "streak_one": "{{formatted}}일 연속",
+      "streak_other": "{{formatted}}일 연속",
+      "streakHint": "하루 한 번 이상 받아쓰기를 한 날이 이어진 일수입니다(오늘 또는 어제까지).",
+      "perDay": "일별 단어 수",
+      "perWeek": "주별 단어 수",
+      "perMonth": "월별 단어 수",
+      "chartLabel": "받아쓴 단어 수 차트",
+      "wordsCount_one": "{{formatted}}단어",
+      "wordsCount_other": "{{formatted}}단어",
+      "where": "받아쓰기한 앱",
+      "appsEmpty": "앱에서 받아쓰기를 하면 여기에 표시됩니다.",
+      "otherApps": "기타",
+      "emptyTitle": "아직 통계가 없습니다",
+      "emptyText": "단축키로 받아쓰기를 해 보세요. 단어 수, 절약한 시간, 받아쓰기한 앱이 여기에 표시됩니다.",
+      "private": "이 컴퓨터에서만 집계하며, 어디에도 보내지 않습니다.",
+      "reset": "초기화",
+      "resetTitle": "통계를 초기화하시겠습니까?",
+      "resetText": "단어 수, 절약한 시간, 연속 일수, 앱 등 모든 수치가 지워집니다. 받아쓰기 기록은 그대로 남습니다.",
+      "resetConfirm": "초기화",
+      "resetError": "통계를 초기화하지 못했습니다. 다시 시도해 주세요.",
+      "cancel": "취소"
     },
     "settings": {
       "title": "설정",
@@ -929,6 +982,94 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100개 언어 음성 인식, 언어 자동 감지, 구간 단위 타임스탬프.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "대만 중국어에 최적화. 중국어·영어 섞어 말하기 지원.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100개 언어 음성 인식, 번역, 언어 자동 감지, 구간 단위 타임스탬프."
+    },
+    "calls": {
+      "title": "통화",
+      "list": "통화 목록",
+      "record": "통화 녹음",
+      "starting": "시작하는 중…",
+      "stop": "중지",
+      "stopWithTime": "중지 · {{time}}",
+      "consent": "통화를 녹음한다고 상대방에게 알려 주세요. 소리는 이 컴퓨터에만 저장되며, 통화를 글로 옮긴 뒤 삭제됩니다.",
+      "emptyList": "녹음한 통화가 없습니다.",
+      "welcomeTitle": "아직 통화가 없습니다",
+      "welcomeDesc": "통화가 시작되면(Discord, Meet, Teams 등) “통화 녹음”을 클릭하세요. 누가 무슨 말을 했는지 적고, 할 일을 담은 요약을 써 드립니다.",
+      "recordingNow": "녹음 중",
+      "writingShort": "쓰는 중…",
+      "failedShort": "실패",
+      "openTodos_one": "할 일 {{count}}개",
+      "openTodos_other": "할 일 {{count}}개",
+      "minutes_one": "{{count}}분",
+      "minutes_other": "{{count}}분",
+      "withSystem": "마이크 + 컴퓨터 소리",
+      "micOnly": "마이크만",
+      "me": "나",
+      "others": "상대방",
+      "live": "실시간",
+      "liveHint": "통화가 끝나면 최종본을 다시 작성합니다.",
+      "liveEmpty": "말한 문장이 몇 초 뒤에 여기에 표시됩니다.",
+      "nobody": "이 녹음에서 말소리를 찾지 못했습니다.",
+      "writing": "통화 내용을 글로 옮기는 중…",
+      "failed": "이 통화를 글로 옮기는 중에 문제가 발생했습니다.",
+      "retry": "다시 시도",
+      "view": "보기",
+      "summary": "요약",
+      "transcript": "녹취록",
+      "keyPoints": "핵심 내용",
+      "todos": "할 일",
+      "summaryWriting": "AI가 통화 내용을 읽고 있습니다…",
+      "noSummary": "이 통화에는 요약이 없습니다.",
+      "summaryFailed": "요약을 작성하지 못했습니다.",
+      "summarySent": "요약은 {{provider}}에서 작성하며, 녹취록이 그쪽으로 전송됩니다.",
+      "writeSummary": "요약 작성",
+      "writeSummaryAgain": "요약 다시 작성",
+      "noProviderTitle": "AI 없이는 요약할 수 없습니다",
+      "noProviderDesc": "녹취록이 준비되었습니다. 요약과 할 일을 받으려면 설정 → 텍스트에서 AI 교정을 켜고 AI 제공자와 모델을 선택하세요.",
+      "openTextSettings": "텍스트 설정 열기",
+      "people": "참석자",
+      "rename": "이름 변경",
+      "renameSpeaker": "클릭해서 이름 지정",
+      "copy": "복사",
+      "copyError": "통화를 복사하지 못했습니다.",
+      "export": "내보내기",
+      "exported": "{{path}}에 저장했습니다",
+      "exportError": "파일을 저장하지 못했습니다.",
+      "delete": "삭제",
+      "deleteConfirm": "이 통화를 영구적으로 삭제하시겠습니까?",
+      "deleteError": "이 통화를 삭제하지 못했습니다.",
+      "cancel": "취소",
+      "errors": {
+        "noModel": "먼저 음성 인식 모델을 선택하세요.",
+        "mic": "마이크 소리가 들리지 않습니다. 마이크가 없거나 차단되어 있습니다.",
+        "busy": "이미 통화를 녹음하고 있습니다.",
+        "audioGone": "이 통화의 소리를 더 이상 찾을 수 없습니다."
+      },
+      "voices": {
+        "title": "목소리 구분",
+        "desc": "“상대방” 대신 “참석자 2”, “참석자 3”…처럼 쓰려면 작은 모델({{size}})을 한 번만 다운로드합니다.",
+        "download": "다운로드",
+        "downloading": "목소리 구분 모델 다운로드 중",
+        "retry": "다시 시도",
+        "failed": "다운로드에 실패했습니다."
+      },
+      "settings": {
+        "title": "통화 설정",
+        "system": "컴퓨터 소리",
+        "systemDesc": "컴퓨터에서 재생되는 소리, 즉 상대방의 목소리도 녹음합니다. 끄면 마이크만 녹음합니다.",
+        "voices": "목소리 구분",
+        "voicesReady": "이 컴퓨터에서 목소리를 구분합니다.",
+        "voicesDesc": "작은 모델을 다운로드해야 합니다({{size}}).",
+        "summary": "AI 요약",
+        "summaryReady": "{{provider}}({{model}})에서 작성합니다. 녹취록이 그쪽으로 전송됩니다.",
+        "summaryMissing": "설정된 AI 제공자가 없습니다.",
+        "mic": "마이크는 받아쓰기와 같은 마이크를 사용합니다.",
+        "micLink": "마이크 변경"
+      },
+      "md": {
+        "date": "날짜:",
+        "length": "통화 시간:",
+        "people": "참석자:"
+      }
     }
   }
 }
