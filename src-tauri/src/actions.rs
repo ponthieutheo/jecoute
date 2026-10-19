@@ -782,14 +782,18 @@ impl ShortcutAction for TranscribeAction {
                                         let app = front
                                             .as_deref()
                                             .and_then(crate::foreground_app::describe);
-                                        ah_stats
-                                            .state::<Arc<crate::managers::stats::StatsManager>>()
-                                            .record(
+                                        // Absent when stats.db could not be opened.
+                                        if let Some(stats) = ah_stats
+                                            .try_state::<Arc<crate::managers::stats::StatsManager>>(
+                                            )
+                                        {
+                                            stats.record(
                                                 &counted,
                                                 seconds,
                                                 app.as_ref()
                                                     .map(|a| (a.id.as_str(), a.name.as_str())),
                                             );
+                                        }
                                     });
 
                                     match utils::paste(final_text, ah_clone.clone()) {

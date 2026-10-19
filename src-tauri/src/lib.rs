@@ -237,9 +237,15 @@ fn initialize_core_logic(app_handle: &AppHandle) {
     );
     let history_manager =
         Arc::new(HistoryManager::new(app_handle).expect("Failed to initialize history manager"));
-    let stats_manager = Arc::new(
-        managers::stats::StatsManager::new(app_handle).expect("Failed to initialize stats"),
-    );
+    // The statistics are a bonus: an unreadable `stats.db` leaves them out,
+    // never the app.
+    let stats_manager = match managers::stats::StatsManager::new(app_handle) {
+        Ok(stats) => Some(Arc::new(stats)),
+        Err(err) => {
+            log::error!("Stats are off for this run, stats.db could not be opened: {err}");
+            None
+        }
+    };
 
     // Initialize the transcribe-cpp native backend (logging + backend module
     // registration) once, before any whisper model is loaded.
@@ -253,7 +259,9 @@ fn initialize_core_logic(app_handle: &AppHandle) {
     app_handle.manage(model_manager.clone());
     app_handle.manage(transcription_manager.clone());
     app_handle.manage(history_manager.clone());
-    app_handle.manage(stats_manager);
+    if let Some(stats_manager) = stats_manager {
+        app_handle.manage(stats_manager);
+    }
     app_handle.manage(tray::TrayState::new());
 
     // Note: Shortcuts are NOT initialized here.
