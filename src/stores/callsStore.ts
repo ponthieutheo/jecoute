@@ -64,7 +64,8 @@ export const useCallsStore = create<CallsStore>()((set, get) => ({
           if (result.status !== "ok") continue;
           const state = result.data;
           const recordingId = state.recording?.id ?? null;
-          let { selectedId } = get();
+          const chosen = get().selectedId;
+          let selectedId = chosen;
           if (selectedId && !state.calls.some((c) => c.id === selectedId)) {
             selectedId = state.calls[0]?.id ?? null;
           }
@@ -76,12 +77,14 @@ export const useCallsStore = create<CallsStore>()((set, get) => ({
                 : loadCall(recordingId)
               : Promise.resolve(null),
           ]);
-          set({
-            state,
-            selectedId,
-            selected,
-            live: recordingId === selectedId ? selected : live,
-          });
+          const liveCall = recordingId === selectedId ? selected : live;
+          // Another call was chosen during the reads: keep that choice
+          // (`select` loads it), only the list and the live call change.
+          if (get().selectedId !== chosen) {
+            set({ state, live: liveCall });
+            continue;
+          }
+          set({ state, selectedId, selected, live: liveCall });
         } catch (error) {
           console.error("Failed to read the calls:", error);
         }
