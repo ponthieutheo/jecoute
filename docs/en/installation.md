@@ -8,7 +8,7 @@ https://github.com/user-attachments/assets/fafe6b41-6c35-4c18-bb57-bb5b538d340b
 
 ## 1. What you need
 
-- **Windows 10 or 11, 64-bit (x64).** Version 0.1.0 is only released for Windows x64: no ready-to-install macOS, Linux or ARM build
+- **Windows 10 or 11, 64-bit (x64).** J’écoute is only released for Windows x64: no ready-to-install macOS, Linux or ARM build
   yet. The code builds on Linux and macOS (see [BUILD.md](../../BUILD.md#linux-et-macos)); a Linux version will come
   later.
 - **A microphone**: the laptop’s own, a headset or a USB mic.
@@ -96,8 +96,8 @@ The last page offers to launch J’écoute.
 </p>
 
 J’écoute then lives in the notification area, next to the clock. Closing the window does not quit it: the shortcut
-keeps working. A left click on the icon brings the window back, a right click opens the menu (last transcript, model,
-settings, “Quit”). To start it with Windows: Settings › App › “Launch at startup”.
+keeps working. A left click on the icon brings the window back, a right click opens the menu (last transcript, record a
+call, model, settings, “Quit”). To start it with Windows: Settings › App › “Launch at startup”.
 
 ## 6. Update
 
@@ -116,8 +116,8 @@ update required”, with a “Download installer” button. Run it, pick “Port
 **Normal install.** Windows Settings › Apps › Installed apps (“Apps & features” on Windows 10) › J’écoute ›
 Uninstall. The uninstaller offers “Delete the application data”:
 
-- checked, it also erases `%APPDATA%\io.github.ponthieutheo.jecoute` (settings, history, recordings, models added by
-  hand) and `%LOCALAPPDATA%\io.github.ponthieutheo.jecoute` (logs, window data);
+- checked, it also erases `%APPDATA%\io.github.ponthieutheo.jecoute` (settings, history, recordings, calls, statistics,
+  models added by hand) and `%LOCALAPPDATA%\io.github.ponthieutheo.jecoute` (logs, window data);
 - unchecked, these folders stay, and a new install finds them again.
 
 Downloaded models live in the Hugging Face cache, `%USERPROFILE%\.cache\huggingface\hub` (`models--handy-computer--…`

@@ -2,14 +2,17 @@
 
 **Français** · [English](en/features.md)
 
-_Toutes les images de ce guide sont des captures de l’app, faites avec des dictées inventées. Les écrans entiers
-suivent le thème de ton GitHub (clair ou sombre) ; les gros plans sont en thème sombre._
+_Toutes les images de ce guide sont des captures de l’app, faites avec des dictées inventées. Les appels sont un
+dialogue joué par des voix de synthèse, et leur résumé a été écrit pour la démo ; les chiffres des statistiques sont
+inventés. Les écrans entiers suivent le thème de ton GitHub (clair ou sombre) ; les gros plans sont en thème sombre._
 
 - [Les raccourcis clavier](#les-raccourcis-clavier)
 - [L’accueil](#laccueil)
 - [Les réglages](#les-réglages) : [Dictée](#dictée), [Son](#son), [Texte](#texte), [Correction par IA](#correction-par-ia),
   [Application](#application), [À propos](#à-propos)
 - [L’historique](#lhistorique)
+- [Les appels](#les-appels)
+- [Les statistiques](#les-statistiques)
 - [Les modèles](#les-modèles)
 - [Le premier lancement](#le-premier-lancement)
 
@@ -67,8 +70,9 @@ Pendant une dictée, l’accueil suit en direct : le perso tend l’oreille, l�
 Le perso prend l’humeur qui va avec : prêt, chargement, micro absent, erreur, écoute, frappe ou chuchotement (voir
 [personnage.md](personnage.md#ses-humeurs)).
 
-En haut à droite : « Historique », la roue dentée des réglages, et le bouton « Mise à jour » quand une nouvelle version
-est prête.
+En haut à droite : « Appels » (voir [Les appels](#les-appels)), « Historique », « Statistiques » (voir
+[Les statistiques](#les-statistiques)), la roue dentée des réglages, et le bouton « Mise à jour » quand une nouvelle
+version est prête.
 
 ### Les pastilles
 
@@ -298,8 +302,8 @@ L’interface existe en 26 langues. Par défaut, celle de Windows.
 - « Lancer au démarrage » : « J’écoute démarre quand tu ouvres ta session. » Désactivé au départ.
 - « Démarrer masqué » : « Démarrer dans la barre des tâches sans ouvrir la fenêtre. »
 - « Icône dans la barre des tâches » : « Dans la zone de notification, près de l’horloge. » Son menu : copier la
-  dernière transcription, changer de modèle, décharger le modèle, ouvrir les réglages, chercher une mise à jour,
-  quitter.
+  dernière transcription, enregistrer un appel, changer de modèle, décharger le modèle, ouvrir les réglages, chercher
+  une mise à jour, quitter.
 
 <p align="center"><img src="media/fr/fonctions/demarrage.png" width="455" alt="Lancer au démarrage, Démarrer masqué, Icône dans la barre des tâches"></p>
 
@@ -433,6 +437,158 @@ modèle a entendu, ce que l’IA a retiré barré).
 ▶ déplie la ligne et lance l’enregistrement. Un seul joue à la fois ; la barre permet d’avancer ou de revenir.
 
 <p align="center"><img src="media/fr/fonctions/lecture.png" width="692" alt="Le lecteur d’une dictée dépliée, Retranscrire et la corbeille"></p>
+
+## Les appels
+
+« Appels », en haut de l’accueil : J’écoute enregistre un appel (Discord, Meet, Teams…) et le met par écrit. Il garde
+ton micro et le son de l’ordinateur, c’est-à-dire la voix des autres. Aucun robot ne rejoint l’appel : rien ne change
+pour les autres, alors préviens-les que tu enregistres.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="media/fr/appels-direct-sombre.png">
+    <source media="(prefers-color-scheme: light)" srcset="media/fr/appels-direct-clair.png">
+    <img src="media/fr/appels-direct-sombre.png" width="696" alt="La page Appels pendant un appel : « Arrêter » avec la durée, « En direct » et les phrases qui arrivent">
+  </picture>
+</p>
+
+### Démarrer et arrêter
+
+Trois façons de lancer l’enregistrement, et les mêmes pour l’arrêter :
+
+- « Enregistrer un appel », en haut de la page Appels, puis « Arrêter » (avec la durée) ;
+- « Enregistrer un appel » dans le menu de l’icône, près de l’horloge, puis « Arrêter l’enregistrement de l’appel » ;
+- `jecoute.exe --toggle-call`, pour un raccourci ou un script : la commande démarre l’appel, ou l’arrête s’il est en
+  cours.
+
+Pendant l’appel, l’accueil le montre : le chrono en rouge à la place d’« Appels », « Appel en cours » sous le perso,
+la dernière phrase entendue, « Arrêter » et « Voir l’appel ».
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="media/fr/accueil-appel-sombre.png">
+    <source media="(prefers-color-scheme: light)" srcset="media/fr/accueil-appel-clair.png">
+    <img src="media/fr/accueil-appel-sombre.png" width="696" alt="L’accueil pendant un appel : le chrono en haut, « Appel en cours », la dernière phrase entendue, Arrêter et Voir l’appel">
+  </picture>
+</p>
+
+La dictée marche toujours pendant un appel, et elle passe en premier : ton raccourci écrit ta phrase comme d’habitude,
+l’appel attend son tour.
+
+### En direct
+
+Sur la page Appels, « En direct » : « Chaque phrase s’affiche ici quelques secondes après avoir été dite. » « Moi »,
+c’est ton micro, « Les autres », le son de l’ordinateur. « La version finale est réécrite à la fin de l’appel. »
+
+### La transcription
+
+Quand tu arrêtes : « Je mets l’appel par écrit… ». Tout l’appel est retranscrit avec ton modèle, personne par
+personne. « Moi », c’est toujours ton micro ; les autres deviennent « Personne 2 », « Personne 3 »… avec « Distinguer
+les voix » (sinon, « Les autres »). Les voix sont aussi séparées quand plusieurs personnes parlent devant le même PC,
+sans appel.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="media/fr/appels-transcription-sombre.png">
+    <source media="(prefers-color-scheme: light)" srcset="media/fr/appels-transcription-clair.png">
+    <img src="media/fr/appels-transcription-sombre.png" width="696" alt="Un appel écrit, onglet Transcription : chaque phrase avec son heure et le prénom de la personne">
+  </picture>
+</p>
+
+Clique sur une personne pour lui donner un nom (« Clique pour donner un nom ») : la transcription, la copie et
+l’export le reprennent. Le titre de l’appel se change de la même façon.
+
+<p align="center"><img src="media/fr/fonctions/appels-personnes.png" width="456" alt="Les personnes de l’appel, nommées, et le champ pour en renommer une"></p>
+
+### Le résumé et les tâches
+
+Une fois l’appel écrit, l’IA en fait la note : un titre, un résumé en quelques phrases, les « Points clés » et les
+« Tâches », avec qui s’en charge et pour quand. Coche une tâche quand elle est faite : la liste des appels montre
+combien il en reste. « Refaire le résumé » le réécrit, par exemple après avoir nommé les personnes.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="media/fr/appels-resume-sombre.png">
+    <source media="(prefers-color-scheme: light)" srcset="media/fr/appels-resume-clair.png">
+    <img src="media/fr/appels-resume-sombre.png" width="696" alt="Un appel écrit, onglet Résumé : le titre, les personnes, le résumé, les points clés">
+  </picture>
+</p>
+
+<p align="center"><img src="media/fr/fonctions/appels-taches.png" width="458" alt="Les tâches de l’appel à cocher, avec qui s’en charge et pour quand"></p>
+
+Le résumé est écrit par le fournisseur d’IA réglé pour la [correction par IA](#correction-par-ia) : J’écoute lui
+envoie la transcription, jamais le son. Sans fournisseur, « Pas de résumé sans IA » : l’appel garde sa transcription,
+sans résumé ni tâches. Le détail : [confidentialite.md](confidentialite.md#les-appels).
+
+### Copier, exporter, supprimer
+
+« Copier » met l’appel dans le presse-papiers, en Markdown : la date, la durée, les personnes, le résumé, les points
+clés, les tâches, puis la transcription. « Exporter » écrit le même texte dans un fichier `.md`, dans ton dossier
+Documents, et te le montre dans l’Explorateur. La corbeille supprime l’appel, après confirmation.
+
+### Réglages des appels
+
+L’icône des réglages, en haut à droite de la page Appels :
+
+- « Son de l’ordinateur » : « Enregistre aussi ce que joue l’ordinateur : la voix des autres. Coupé : ton micro seul. »
+  Activé au départ.
+- « Distinguer les voix » : il faut un petit modèle (29 Mo), téléchargé une seule fois depuis Hugging Face avec
+  « Télécharger ». Activé au départ.
+- « Résumé par IA » : le fournisseur et le modèle qui l’écrivent, ou « Aucun fournisseur d’IA configuré ». Activé au
+  départ.
+- « Le micro est celui de la dictée. » : « Changer de micro » ouvre Réglages › Son.
+
+<p align="center"><img src="media/fr/fonctions/appels-reglages.png" width="348" alt="Les réglages des appels : son de l’ordinateur, distinguer les voix, résumé par IA, micro"></p>
+
+Si J’écoute s’arrête en plein appel (plantage, « Quitter »), l’appel est écrit au lancement suivant.
+
+## Les statistiques
+
+« Statistiques », en haut de l’accueil : ce que la dictée t’apporte, en chiffres. Tout est compté sur ton ordinateur
+(« Compté sur cet ordinateur, jamais envoyé. »).
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="media/fr/statistiques-sombre.png">
+    <source media="(prefers-color-scheme: light)" srcset="media/fr/statistiques-clair.png">
+    <img src="media/fr/statistiques-sombre.png" width="696" alt="La page Statistiques : jours d’affilée, mots dictés, temps gagné, vitesse, dictées, le graphique des mots par jour et Où tu dictes">
+  </picture>
+</p>
+
+### Les chiffres
+
+Choisis la période en haut : « Semaine » (7 jours), « Mois » (30 jours) ou « Tout ».
+
+| Chiffre             | Ce qu’il compte                                                                                  |
+| ------------------- | ------------------------------------------------------------------------------------------------ |
+| « Mots dictés »     | les mots de tes dictées                                                                          |
+| « Temps gagné »     | le temps qu’il t’aurait fallu pour les taper à 45 mots/min, moins le temps passé à les dire      |
+| « Vitesse »         | tes mots par minute quand tu dictes                                                              |
+| « Dictées »         | le nombre de dictées                                                                             |
+| « jours d’affilée » | « Jours de suite avec au moins une dictée, jusqu’à aujourd’hui ou hier. » (la pastille, en haut) |
+
+<p align="center"><img src="media/fr/fonctions/stats-chiffres.png" width="684" alt="Les chiffres : mots dictés, temps gagné, vitesse, dictées, et la pastille des jours d’affilée"></p>
+
+### Le graphique et « Où tu dictes »
+
+Le graphique montre tes mots par jour (par semaine ou par mois sur une longue période) ; survole une barre pour voir
+son chiffre. « Où tu dictes » range les applis où tes dictées ont été collées, de la plus utilisée à la moins
+utilisée : l’appli au premier plan au moment du collage, seulement le nom du programme.
+
+<p align="center"><img src="media/fr/fonctions/stats-applis.png" width="269" alt="Où tu dictes : les applis et leur part des mots dictés"></p>
+
+### D’où viennent les chiffres
+
+Les statistiques ont leur propre compteur : vider l’historique ne les efface pas. Au premier lancement de la 0.2.0,
+J’écoute reprend les dictées encore dans ton historique avec leur enregistrement (sans les applis, qu’il ne
+connaissait pas). Avant ta première dictée, la page dit « Pas encore de chiffres ».
+
+<p align="center"><img src="media/fr/fonctions/stats-vide.png" width="456" alt="La page Statistiques avant la première dictée : Pas encore de chiffres"></p>
+
+« Remettre à zéro », en bas, efface tous les chiffres, après confirmation. L’historique de tes dictées n’est pas
+touché.
+
+<p align="center"><img src="media/fr/fonctions/stats-remise-a-zero.png" width="496" alt="Remettre les statistiques à zéro ? La confirmation"></p>
 
 ## Les modèles
 

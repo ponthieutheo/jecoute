@@ -35,6 +35,10 @@ l’application ouverte, comme si tu l’avais tapé.
   avec leur enregistrement.
 - **Une IA relit, si tu veux.** Un second raccourci fait corriger le texte (ponctuation, reformulation) par le
   fournisseur de ton choix. C’est désactivé au départ.
+- **Ça écrit tes appels.** Discord, Meet, Teams… J’écoute enregistre ton micro et le son de l’ordinateur, sans robot
+  dans l’appel, puis écrit qui a dit quoi, un résumé et les tâches. Le son est effacé une fois l’appel écrit.
+- **Tu vois ce que tu gagnes.** Mots dictés, temps gagné sur le clavier, vitesse, jours d’affilée et applis où tu
+  dictes : des statistiques comptées sur ton PC, jamais envoyées.
 
 ## Le perso
 
@@ -86,6 +90,24 @@ Toutes ses humeurs et ses animations : **[docs/personnage.md](docs/personnage.m
       <br><sub>l’historique : recherche, favoris, écoute, version brute ou corrigée</sub>
     </td>
   </tr>
+  <tr>
+    <td align="center" width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/media/fr/appels-resume-sombre.png">
+        <source media="(prefers-color-scheme: light)" srcset="docs/media/fr/appels-resume-clair.png">
+        <img src="docs/media/fr/appels-resume-sombre.png" width="400" alt="Un appel écrit : le titre, les personnes nommées, le résumé et les points clés">
+      </picture>
+      <br><sub>les appels : transcription, résumé, tâches</sub>
+    </td>
+    <td align="center" width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/media/fr/statistiques-sombre.png">
+        <source media="(prefers-color-scheme: light)" srcset="docs/media/fr/statistiques-clair.png">
+        <img src="docs/media/fr/statistiques-sombre.png" width="400" alt="Les statistiques : mots dictés, temps gagné, vitesse, dictées, le graphique des mots et Où tu dictes">
+      </picture>
+      <br><sub>les statistiques : mots, temps gagné, vitesse, applis</sub>
+    </td>
+  </tr>
 </table>
 
 ## Installation
@@ -129,12 +151,16 @@ apparaît pendant la dictée. Chaque changement s’applique tout de suite.
 La transcription est 100 % locale : ta voix est transcrite sur ton PC, et l’audio n’en sort jamais. J’écoute ne se
 connecte à Internet que pour :
 
-- **télécharger un modèle**, depuis Hugging Face, quand tu en choisis un ;
+- **télécharger un modèle**, depuis Hugging Face, quand tu en choisis un (ou celui qui distingue les voix des
+  appels) ;
 - **vérifier les mises à jour**, sur GitHub (tu peux le couper : Réglages › Application) ;
 - **la correction par IA**, seulement si tu l’actives avec un fournisseur en ligne : le texte de la dictée (pas
-  l’audio) part chez ce fournisseur quand tu utilises Ctrl+Maj+Espace.
+  l’audio) part chez ce fournisseur quand tu utilises Ctrl+Maj+Espace ;
+- **le résumé d’un appel**, seulement si un fournisseur d’IA est réglé : la transcription de l’appel (pas le son) part
+  chez lui.
 
-Pas de compte, pas de statistiques d’usage. Le détail, et où sont tes données : **[docs/confidentialite.md](docs/confidentialite.md)**.
+Pas de compte, et aucune statistique d’usage envoyée : tes statistiques de dictée restent sur ton PC. Le détail, et
+où sont tes données : **[docs/confidentialite.md](docs/confidentialite.md)**.
 
 ## Quel modèle choisir
 
@@ -155,6 +181,8 @@ depuis l’accueil. Comparer les modèles : **[docs/modeles.md](docs/modeles.md
 - Faire relire par une IA avec tes propres consignes, puis comparer mot à mot la version brute et la version corrigée.
 - Choisir ce qui s’affiche pendant la dictée : le perso, une pastille minimale, le texte en direct, ou rien.
 - Retrouver, réécouter, retranscrire ou mettre en favori une dictée.
+- Enregistrer un appel, le suivre en direct, puis retrouver sa transcription, son résumé et ses tâches à cocher.
+- Suivre tes statistiques : mots dictés, temps gagné, vitesse, jours d’affilée, applis où tu dictes.
 - Régler l’interface (26 langues, clair ou sombre) et le lancement avec Windows.
 
 Le tour complet, une image par fonction : **[docs/fonctionnalites.md](docs/fonctionnalites.md)**.
@@ -188,7 +216,7 @@ lire le presse-papiers trop tard.
 
 ### macOS : le raccourci ne réagit plus (saisie sécurisée)
 
-_J’écoute 0.1.0 n’est publié que pour Windows : cette section sert si tu compiles l’app toi-même sous macOS._
+_J’écoute n’est publié que pour Windows : cette section sert si tu compiles l’app toi-même sous macOS._
 
 **Le symptôme** : un raccourci qui contient une touche normale (par exemple Option+Espace) ne déclenche plus rien,
 alors qu’un raccourci fait seulement de touches de modification (fn seul, Ctrl gauche seul) marche encore. C’est la
