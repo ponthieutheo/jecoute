@@ -485,6 +485,7 @@ impl ShortcutAction for TranscribeAction {
         let recording_start_time = Instant::now();
         match rm.try_start_recording(&binding_id, vad_policy) {
             Ok(readiness) => {
+                crate::managers::stats::recording_started();
                 debug!(
                     "Recording request accepted in {:?}; waiting for first microphone samples",
                     recording_start_time.elapsed()
@@ -583,6 +584,8 @@ impl ShortcutAction for TranscribeAction {
 
         let stop_time = Instant::now();
         debug!("TranscribeAction::stop called for binding: {}", binding_id);
+        // Durée parlée, pour les statistiques.
+        let spoken_seconds = crate::managers::stats::recording_stopped();
 
         let ah = app.clone();
         let rm = Arc::clone(&app.state::<Arc<AudioRecordingManager>>());
@@ -766,6 +769,28 @@ impl ShortcutAction for TranscribeAction {
                                         set_tray_state(&ah_clone, TrayIconState::Idle);
                                         return;
                                     }
+
+                                    // Statistiques : l'appli au premier plan au moment du
+                                    // collage, puis les chiffres (jamais le texte), hors
+                                    // du fil principal.
+                                    let front = crate::foreground_app::foreground_exe();
+                                    let counted = final_text.clone();
+                                    let ah_stats = ah_clone.clone();
+                                    let seconds =
+                                        spoken_seconds.unwrap_or(sample_count as f64 / 16_000.0);
+                                    std::thread::spawn(move || {
+                                        let app = front
+                                            .as_deref()
+                                            .and_then(crate::foreground_app::describe);
+                                        ah_stats
+                                            .state::<Arc<crate::managers::stats::StatsManager>>()
+                                            .record(
+                                                &counted,
+                                                seconds,
+                                                app.as_ref()
+                                                    .map(|a| (a.id.as_str(), a.name.as_str())),
+                                            );
+                                    });
 
                                     match utils::paste(final_text, ah_clone.clone()) {
                                         Ok(()) => debug!(

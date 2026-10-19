@@ -655,6 +655,7 @@
   "app": {
     "home": {
       "history": "History",
+      "stats": "Statistics",
       "update": "Update",
       "recent": "Recent dictations",
       "allHistory": "All history",
@@ -768,6 +769,44 @@
       "countMore": "More than {{count}} dictations",
       "empty": "No dictations yet. Hold your shortcut and speak!",
       "noResults": "No dictation matches."
+    },
+    "stats": {
+      "title": "Statistics",
+      "periods": {
+        "label": "Period",
+        "week": "Week",
+        "month": "Month",
+        "all": "All"
+      },
+      "words": "Words dictated",
+      "timeSaved": "Time saved",
+      "timeSavedHint": "vs typing at 45 words/min",
+      "speed": "Speed",
+      "speedUnit": "words/min",
+      "dictations": "Dictations",
+      "minutes": "{{m}} min",
+      "hours": "{{h}} h {{m}}",
+      "streak_one": "{{formatted}} day in a row",
+      "streak_other": "{{formatted}} days in a row",
+      "streakHint": "Days in a row with at least one dictation, up to today or yesterday.",
+      "perDay": "Words per day",
+      "perWeek": "Words per week",
+      "perMonth": "Words per month",
+      "chartLabel": "Chart of dictated words",
+      "wordsCount_one": "{{formatted}} word",
+      "wordsCount_other": "{{formatted}} words",
+      "where": "Where you dictate",
+      "appsEmpty": "Dictate in an app and it will show up here.",
+      "otherApps": "Others",
+      "emptyTitle": "No numbers yet",
+      "emptyText": "Dictate with your shortcut: your words, the time you saved and the apps you dictate in will show up here.",
+      "private": "Counted on this computer, never sent.",
+      "reset": "Reset",
+      "resetTitle": "Reset the statistics?",
+      "resetText": "All the numbers will be erased: words, time saved, days in a row and apps. Your dictation history is not touched.",
+      "resetConfirm": "Reset",
+      "resetError": "Couldn't reset the statistics. Try again.",
+      "cancel": "Cancel"
     },
     "settings": {
       "title": "Settings",

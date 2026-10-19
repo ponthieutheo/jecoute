@@ -1817,6 +1817,243 @@
   }
 
   /* =========================================================
+     Statistiques (glisse par-dessus l'accueil, comme l'historique)
+     ========================================================= */
+  .j-stats {
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-background);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition:
+      transform 0.45s var(--j-ease),
+      visibility 0s linear 0.45s;
+  }
+  [dir="rtl"] .j-stats {
+    transform: translateX(-100%);
+  }
+  .j-app[data-stats="open"] .j-stats {
+    transform: none;
+    visibility: visible;
+    transition:
+      transform 0.45s var(--j-ease),
+      visibility 0s;
+  }
+  .j-st-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 4px 20px 16px;
+  }
+  .j-st-tiles {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .j-st-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    padding: 12px 14px;
+    border-radius: var(--j-r-m);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+  .j-st-tile .label {
+    color: var(--color-mid-gray);
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+  .j-st-tile b {
+    font: 600 24px/1.2 var(--j-font-t);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .j-st-tile .sub {
+    color: var(--color-mid-gray);
+    font-size: 12px;
+    line-height: 1.3;
+  }
+  .j-st-row {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    gap: 12px;
+    min-height: 220px;
+  }
+  .j-st-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    padding: 12px 14px 14px;
+    border-radius: var(--j-r-m);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+  .j-st-h {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0;
+    font: 600 14px/1.25 var(--j-font-t);
+  }
+  .j-st-h svg {
+    color: var(--color-mid-gray);
+  }
+  .j-st-chart {
+    position: relative;
+    flex: 1;
+    min-height: 140px;
+  }
+  .j-st-chart svg {
+    position: absolute;
+    inset: 0;
+    display: block;
+    overflow: visible;
+  }
+  .j-st-chart .bar {
+    fill: color-mix(in srgb, var(--color-accent) 72%, var(--color-surface));
+    transition: fill 0.15s;
+  }
+  .j-st-chart .bar.current,
+  .j-st-chart .bar.on {
+    fill: var(--color-accent);
+  }
+  .j-st-chart .zero {
+    fill: var(--color-border-mid);
+  }
+  .j-st-chart .hit {
+    fill: transparent;
+  }
+  .j-st-chart .base {
+    stroke: var(--color-border-mid);
+    stroke-width: 1;
+  }
+  .j-st-chart .grid {
+    stroke: var(--color-border);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+  }
+  .j-st-chart .tick {
+    fill: var(--color-mid-gray);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+  }
+  .j-st-chart .tick.current {
+    fill: var(--color-text);
+    font-weight: 600;
+  }
+  .j-st-max {
+    position: absolute;
+    top: -16px;
+    inset-inline-end: 0;
+    color: var(--color-mid-gray);
+    font-size: 11px;
+  }
+  .j-st-tip {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: var(--j-r-s);
+    border: 1px solid var(--color-border-mid);
+    background: var(--color-raise);
+    box-shadow: var(--elevation-popover);
+    font-size: 12px;
+    line-height: 1.35;
+    white-space: nowrap;
+    transform: translate(-50%, -100%);
+    pointer-events: none;
+  }
+  .j-st-tip span {
+    color: var(--color-mid-gray);
+  }
+  .j-st-apps {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .j-st-apps li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 8px;
+    font-size: 13.5px;
+  }
+  .j-st-apps .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .j-st-apps .pct {
+    color: var(--color-mid-gray);
+  }
+  .j-st-apps .track {
+    grid-column: 1 / -1;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--color-surface-2);
+    overflow: hidden;
+  }
+  .j-st-apps .track i {
+    display: block;
+    height: 100%;
+    border-radius: 3px;
+    background: var(--color-accent);
+  }
+  .j-st-apps li.other .name {
+    color: var(--color-mid-gray);
+    font-weight: 400;
+  }
+  .j-st-apps li.other .track i {
+    background: var(--color-border-strong);
+  }
+  .j-st-none {
+    margin: auto 0;
+    padding: 12px 0;
+    color: var(--color-mid-gray);
+    font-size: 13px;
+    text-align: center;
+  }
+  .j-st-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 24px 40px 48px;
+    text-align: center;
+  }
+  .j-st-empty svg {
+    margin-bottom: 10px;
+  }
+  .j-st-empty svg rect {
+    fill: var(--color-surface-2);
+    stroke: var(--color-border-mid);
+    stroke-dasharray: 3 3;
+  }
+  .j-st-empty svg line {
+    stroke: var(--color-border-mid);
+  }
+  .j-st-empty p {
+    max-width: 380px;
+    margin: 0;
+    color: var(--color-mid-gray);
+  }
+
+  /* =========================================================
      Premier lancement
      ========================================================= */
   .j-onb {

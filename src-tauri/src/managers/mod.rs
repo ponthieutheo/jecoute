@@ -4,5 +4,6 @@ pub mod history;
 pub mod model;
 pub mod model_capabilities;
 pub mod recommendation;
+pub mod stats;
 pub mod system_language;
 pub mod transcription;

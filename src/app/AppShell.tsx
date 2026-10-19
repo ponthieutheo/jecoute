@@ -18,6 +18,7 @@ import { Home } from "./home/Home";
 import { SettingsPanel } from "./settings/SettingsPanel";
 import { OnboardingPreviewContext } from "./settings/AppTab";
 import { HistoryView } from "./history/HistoryView";
+import { StatsView } from "./stats/StatsView";
 import { useInert } from "./hooks/useInert";
 
 /** Vérification des mises à jour au démarrage et depuis la barre des tâches. */
@@ -110,7 +111,10 @@ export const AppShell: React.FC<AppShellProps> = ({ onPreviewOnboarding }) => {
   const { i18n } = useTranslation();
   const settingsOpen = useNavigationStore((s) => s.settingsOpen);
   const historyOpen = useNavigationStore((s) => s.historyOpen);
-  const homeRef = useInert<HTMLDivElement>(settingsOpen || historyOpen);
+  const statsOpen = useNavigationStore((s) => s.statsOpen);
+  const homeRef = useInert<HTMLDivElement>(
+    settingsOpen || historyOpen || statsOpen,
+  );
 
   useEffect(() => {
     useDictationStore.getState().initialize();
@@ -152,6 +156,7 @@ export const AppShell: React.FC<AppShellProps> = ({ onPreviewOnboarding }) => {
         dir={getLanguageDirection(i18n.language)}
         data-settings={settingsOpen ? "open" : "closed"}
         data-history={historyOpen ? "open" : "closed"}
+        data-stats={statsOpen ? "open" : "closed"}
       >
         <ErrorBoundary context="What's New">
           <WhatsNewGate />
@@ -161,6 +166,7 @@ export const AppShell: React.FC<AppShellProps> = ({ onPreviewOnboarding }) => {
         </div>
         <SettingsPanel />
         <HistoryView />
+        <StatsView />
         <PortableUpdateDialog />
       </div>
     </OnboardingPreviewContext.Provider>
