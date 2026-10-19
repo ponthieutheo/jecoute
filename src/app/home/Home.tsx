@@ -12,6 +12,7 @@ import { useHomeState } from "../hooks/useHomeState";
 import { usePageVisible } from "../hooks/usePageVisible";
 import { Status } from "./Status";
 import { RecentCards } from "./RecentCards";
+import { CallButton } from "./CallButton";
 
 /** Le perso, au centre ; il se range à gauche quand les réglages s'ouvrent. */
 const Hero: React.FC<{ mood: ReturnType<typeof useHomeState>["mood"] }> = ({
@@ -20,6 +21,7 @@ const Hero: React.FC<{ mood: ReturnType<typeof useHomeState>["mood"] }> = ({
   const settingsOpen = useNavigationStore((s) => s.settingsOpen);
   const historyOpen = useNavigationStore((s) => s.historyOpen);
   const statsOpen = useNavigationStore((s) => s.statsOpen);
+  const callsOpen = useNavigationStore((s) => s.callsOpen);
   const levels = useDictationStore((s) => s.levels);
   const visible = usePageVisible();
 
@@ -31,7 +33,7 @@ const Hero: React.FC<{ mood: ReturnType<typeof useHomeState>["mood"] }> = ({
           mood={mood}
           micLevels={levels}
           lookAt={settingsOpen ? "droite" : "souris"}
-          paused={!visible || historyOpen || statsOpen}
+          paused={!visible || historyOpen || statsOpen || callsOpen}
         />
       </div>
     </div>
@@ -61,6 +63,7 @@ export const Home: React.FC = () => {
               {t("app.home.update")}
             </button>
           )}
+          <CallButton />
           <button
             type="button"
             className="j-btn ghost sm"

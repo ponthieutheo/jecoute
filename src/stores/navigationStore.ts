@@ -16,6 +16,8 @@ interface NavigationStore {
   modelsOpen: boolean;
   historyOpen: boolean;
   statsOpen: boolean;
+  /** La page des appels enregistrés. */
+  callsOpen: boolean;
   /** Ligne de réglage à mettre en avant à l'ouverture (ex. le micro). */
   focusTarget: string | null;
 
@@ -28,6 +30,8 @@ interface NavigationStore {
   closeHistory: () => void;
   openStats: () => void;
   closeStats: () => void;
+  openCalls: () => void;
+  closeCalls: () => void;
   goHome: () => void;
   clearFocusTarget: () => void;
 }
@@ -39,6 +43,7 @@ export const useNavigationStore = create<NavigationStore>()((set) => ({
   modelsOpen: false,
   historyOpen: false,
   statsOpen: false,
+  callsOpen: false,
   focusTarget: null,
 
   openSettings: (tab, focusTarget) =>
@@ -46,6 +51,7 @@ export const useNavigationStore = create<NavigationStore>()((set) => ({
       settingsOpen: true,
       historyOpen: false,
       statsOpen: false,
+      callsOpen: false,
       modelsOpen: false,
       tab: tab ?? s.tab,
       focusTarget: focusTarget ?? null,
@@ -57,6 +63,7 @@ export const useNavigationStore = create<NavigationStore>()((set) => ({
       settingsOpen: true,
       historyOpen: false,
       statsOpen: false,
+      callsOpen: false,
       tab: "dictation",
       modelsOpen: true,
     }),
@@ -65,6 +72,7 @@ export const useNavigationStore = create<NavigationStore>()((set) => ({
     set({
       historyOpen: true,
       statsOpen: false,
+      callsOpen: false,
       settingsOpen: false,
       modelsOpen: false,
     }),
@@ -77,10 +85,20 @@ export const useNavigationStore = create<NavigationStore>()((set) => ({
       modelsOpen: false,
     }),
   closeStats: () => set({ statsOpen: false }),
+  openCalls: () =>
+    set({
+      callsOpen: true,
+      historyOpen: false,
+      statsOpen: false,
+      settingsOpen: false,
+      modelsOpen: false,
+    }),
+  closeCalls: () => set({ callsOpen: false }),
   goHome: () =>
     set({
       historyOpen: false,
       statsOpen: false,
+      callsOpen: false,
       settingsOpen: false,
       modelsOpen: false,
     }),

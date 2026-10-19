@@ -2054,6 +2054,477 @@
   }
 
   /* =========================================================
+     Appels (enregistreur d'appels)
+     ========================================================= */
+  :root {
+    /* Couleurs des personnes : une teinte mêlée au texte, lisible en clair
+       (plus sombre) comme en sombre (plus claire). La 0, c'est toi. */
+    --j-sp-0: var(--color-accent-text);
+    --j-sp-1: color-mix(in srgb, #2f7de1 72%, var(--color-text));
+    --j-sp-2: color-mix(in srgb, #1f9d5a 72%, var(--color-text));
+    --j-sp-3: color-mix(in srgb, #c07a0a 72%, var(--color-text));
+    --j-sp-4: color-mix(in srgb, #8a4fd8 72%, var(--color-text));
+    --j-sp-5: color-mix(in srgb, #0f9aa5 72%, var(--color-text));
+  }
+  .j-calls {
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-background);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition:
+      transform 0.45s var(--j-ease),
+      visibility 0s linear 0.45s;
+  }
+  [dir="rtl"] .j-calls {
+    transform: translateX(-100%);
+  }
+  .j-app[data-calls="open"] .j-calls {
+    transform: none;
+    visibility: visible;
+    transition:
+      transform 0.45s var(--j-ease),
+      visibility 0s;
+  }
+  .j-calls .j-h-head .j-title {
+    margin-inline-end: auto;
+  }
+  .j-c-rec {
+    min-width: 0;
+  }
+  .j-c-recdot,
+  .j-c-stopdot {
+    flex: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .j-c-stopdot {
+    border-radius: 2px;
+  }
+  .j-c-banner {
+    margin: 0 16px 8px;
+    box-shadow: none;
+  }
+  .j-c-main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    border-top: 1px solid var(--color-border);
+  }
+  .j-c-list {
+    flex: none;
+    width: 216px;
+    padding: 0 10px 12px;
+    border-inline-end: 1px solid var(--color-border);
+  }
+  .j-c-list .j-day {
+    padding-inline-start: 8px;
+  }
+  .j-c-none {
+    margin: 16px 8px;
+    color: var(--color-mid-gray);
+    font-size: 13.5px;
+  }
+  .j-c-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    margin-bottom: 2px;
+    padding: 8px 10px;
+    border-radius: var(--j-r-s);
+    text-align: start;
+    transition: background-color 0.15s;
+  }
+  .j-c-item:hover {
+    background: var(--color-surface);
+  }
+  .j-c-item.on {
+    background: var(--color-surface);
+    box-shadow: inset 3px 0 0 var(--color-accent);
+  }
+  [dir="rtl"] .j-c-item.on {
+    box-shadow: inset -3px 0 0 var(--color-accent);
+  }
+  .j-c-item .t {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .j-c-item .m {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-mid-gray);
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+  .j-c-item .m .j-dot {
+    width: 7px;
+    height: 7px;
+  }
+  .j-c-item .m .j-chip {
+    margin-inline-start: auto;
+  }
+  .j-c-pane {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 20px 20px;
+  }
+  .j-c-welcome {
+    display: grid;
+    gap: 6px;
+    max-width: 380px;
+    margin: 48px auto 0;
+    color: var(--color-mid-gray);
+    text-align: center;
+  }
+  .j-c-welcome p {
+    margin: 0;
+  }
+  .j-c-welcome .j-section {
+    color: var(--color-text);
+  }
+  .j-c-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .j-c-title {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+  .j-c-title h2 {
+    cursor: text;
+    overflow-wrap: anywhere;
+  }
+  .j-c-title p {
+    margin: 0;
+  }
+  .j-c-edit {
+    min-width: 0;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: var(--j-r-s);
+    border: 1px solid var(--color-accent);
+    background: var(--color-surface);
+    outline: 0;
+    user-select: text;
+  }
+  .j-c-edit.title {
+    width: 100%;
+    font: 600 18px/1.2 var(--j-font-t);
+  }
+  .j-c-edit.person {
+    width: 150px;
+    height: 28px;
+    font-size: 13px;
+  }
+  .j-c-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .j-c-tools:empty {
+    display: none;
+  }
+  .j-c-confirm {
+    box-shadow: none;
+  }
+  .j-c-people {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .j-c-person {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 28px;
+    padding: 0 10px 0 3px;
+    border-radius: 14px;
+    border: 1px solid var(--color-border-mid);
+    font-size: 13px;
+    font-weight: 500;
+    transition: border-color 0.15s;
+  }
+  .j-c-person:hover {
+    border-color: var(--color-border-strong);
+  }
+  .j-c-person .av {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    color: var(--color-background);
+    font: 700 11.5px var(--j-font-t);
+  }
+  .j-c-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .j-c-tabs {
+    align-self: flex-start;
+  }
+  .j-c-h {
+    margin: 0 0 6px;
+    color: var(--color-mid-gray);
+    font: 600 13px var(--j-font-t);
+    letter-spacing: 0.02em;
+  }
+  .j-c-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .j-c-sum {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--j-r-m);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  .j-c-points {
+    margin: 0;
+    padding-inline-start: 20px;
+    list-style: disc;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 14px;
+  }
+  .j-c-todos {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .j-c-todo {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 -8px;
+    padding: 6px 8px;
+    border-radius: var(--j-r-s);
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .j-c-todo:hover {
+    background: var(--color-surface);
+  }
+  .j-c-todo input {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    accent-color: var(--color-accent-fill);
+    cursor: pointer;
+  }
+  .j-c-todo > span {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .j-c-todo .who {
+    color: var(--color-mid-gray);
+    font-size: 12.5px;
+  }
+  .j-c-todo.done .tx {
+    color: var(--color-mid-gray);
+    text-decoration: line-through;
+  }
+  .j-c-again {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  .j-c-err {
+    color: var(--color-error);
+    font-size: 12.5px;
+    overflow-wrap: anywhere;
+  }
+  .j-c-empty {
+    margin: 4px 0;
+    color: var(--color-mid-gray);
+  }
+  .j-c-pulse {
+    animation: j-pulse 1.6s var(--j-ease-io) infinite;
+  }
+  .j-c-setup {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: var(--j-r-m);
+    border: 1px solid var(--color-border-mid);
+    background: var(--color-surface);
+  }
+  .j-c-setup > svg {
+    flex: none;
+    margin-top: 2px;
+    color: var(--color-accent-text);
+  }
+  .j-c-setup > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 0;
+  }
+  .j-c-setup p {
+    margin: 0;
+    color: var(--color-mid-gray);
+    font-size: 13.5px;
+  }
+  .j-c-setup.warn {
+    border-color: color-mix(in srgb, var(--color-warning) 45%, transparent);
+  }
+  .j-c-voices {
+    margin-bottom: 14px;
+  }
+  .j-c-dl {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .j-c-dl .j-bar {
+    flex: 1;
+    max-width: 200px;
+  }
+  .j-c-lines {
+    display: flex;
+    flex-direction: column;
+  }
+  .j-c-line {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 10px;
+    padding: 7px 0;
+  }
+  .j-c-line + .j-c-line {
+    border-top: 1px solid var(--color-border);
+  }
+  .j-c-line .ts {
+    padding-top: 1px;
+    color: var(--color-mid-gray);
+    font: 600 12.5px/20px var(--j-font-t);
+  }
+  .j-c-line b {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .j-c-line p {
+    margin: 1px 0 0;
+    font-size: 14.5px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+  .j-c-live {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+  }
+  .j-c-writing {
+    display: grid;
+    gap: 8px;
+    max-width: 320px;
+  }
+  .j-c-writing p {
+    margin: 0;
+  }
+  .j-c-foot > span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    white-space: normal;
+    line-height: 1.35;
+    font-size: 12.5px;
+  }
+  .j-c-foot > span > svg {
+    flex: none;
+  }
+  .j-c-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px 8px;
+  }
+  .j-c-set {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 9px 4px;
+  }
+  .j-c-set + .j-c-set {
+    border-top: 1px solid var(--color-border);
+  }
+  .j-c-set > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    min-width: 0;
+  }
+  .j-c-set b {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .j-c-set p {
+    margin: 0;
+    color: var(--color-mid-gray);
+    font-size: 12.5px;
+    line-height: 1.4;
+  }
+  .j-c-set .j-toggle {
+    margin-top: 2px;
+  }
+  .j-c-set-foot {
+    margin: 4px 4px 2px;
+    padding-top: 8px;
+    border-top: 1px solid var(--color-border);
+  }
+  .j-c-set-foot .j-link {
+    font-size: 12.5px;
+  }
+
+  /* L'appel en cours vu de l'accueil. */
+  .j-call-pill {
+    color: var(--color-accent-text);
+  }
+  .j-call-pill .j-dot {
+    width: 8px;
+    height: 8px;
+  }
+  .j-call-live {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+  }
+  .j-call-live b {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  /* =========================================================
      Premier lancement
      ========================================================= */
   .j-onb {

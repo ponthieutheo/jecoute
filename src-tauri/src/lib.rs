@@ -4,6 +4,7 @@ mod apple_intelligence;
 mod audio_feedback;
 pub mod audio_toolkit;
 mod autostart;
+mod calls;
 mod catalog;
 mod chinese_script;
 pub mod cli;
@@ -335,6 +336,9 @@ fn initialize_core_logic(app_handle: &AppHandle) {
                     let _ = app.emit("check-for-updates", ());
                 }
             }
+            "call_toggle" => {
+                calls::toggle(app);
+            }
             "copy_last_transcript" => {
                 tray::copy_last_transcript(app);
             }
@@ -404,6 +408,12 @@ fn initialize_core_logic(app_handle: &AppHandle) {
 
     // Create the recording overlay window (hidden by default)
     utils::create_recording_overlay(app_handle);
+
+    // The call recorder (after the transcription manager it uses). A call
+    // left half-written by the last run is written now, in the background.
+    if let Err(e) = calls::setup(app_handle) {
+        log::error!("Failed to initialize the call recorder: {}", e);
+    }
 }
 
 #[tauri::command]
@@ -803,11 +813,26 @@ pub fn run(cli_args: CliArgs) {
             commands::stats::get_dictation_stats,
             commands::stats::reset_dictation_stats,
             helpers::clamshell::is_laptop,
+            calls::commands::calls_state,
+            calls::commands::call_get,
+            calls::commands::call_start,
+            calls::commands::call_stop,
+            calls::commands::call_rename,
+            calls::commands::call_rename_speaker,
+            calls::commands::call_toggle_todo,
+            calls::commands::call_delete,
+            calls::commands::call_summarize,
+            calls::commands::call_retry,
+            calls::commands::call_export,
+            calls::commands::calls_download_voice_separation,
+            calls::commands::calls_remove_voice_separation,
+            calls::commands::calls_set_option,
         ])
         .events(collect_events![
             managers::history::HistoryUpdatePayload,
             managers::transcription::StreamTextEvent,
             managers::transcription::StreamPhaseEvent,
+            calls::CallsChanged,
         ]);
 
     #[cfg(debug_assertions)] // <- Only export on non-release builds
@@ -893,6 +918,8 @@ pub fn run(cli_args: CliArgs) {
                 signal_handle::send_transcription_input(app, "transcribe", "CLI");
             } else if args.iter().any(|a| a == "--toggle-post-process") {
                 signal_handle::send_transcription_input(app, "transcribe_with_post_process", "CLI");
+            } else if args.iter().any(|a| a == "--toggle-call") {
+                calls::toggle(app);
             } else if args.iter().any(|a| a == "--cancel") {
                 crate::utils::cancel_current_operation(app);
             } else {
@@ -1185,6 +1212,9 @@ pub fn run(cli_args: CliArgs) {
         }
         // Teardown transcribe.cpp before exit
         tauri::RunEvent::Exit => {
+            // A call being recorded: its files are closed properly and its
+            // transcript is written at the next launch.
+            calls::on_exit(app);
             if let Some(tm) = app.try_state::<Arc<TranscriptionManager>>() {
                 let _ = tm.unload_model();
             }

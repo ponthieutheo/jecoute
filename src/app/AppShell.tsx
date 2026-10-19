@@ -12,6 +12,7 @@ import { useNavigationStore } from "@/stores/navigationStore";
 import { useHistoryStore } from "@/stores/historyStore";
 import { useDictationStore } from "@/stores/dictationStore";
 import { useModelStatusStore } from "@/stores/modelStatusStore";
+import { useCallsStore } from "@/stores/callsStore";
 import { useUpdateStore } from "@/stores/updateStore";
 import { getLanguageDirection } from "@/lib/utils/rtl";
 import { Home } from "./home/Home";
@@ -19,6 +20,7 @@ import { SettingsPanel } from "./settings/SettingsPanel";
 import { OnboardingPreviewContext } from "./settings/AppTab";
 import { HistoryView } from "./history/HistoryView";
 import { StatsView } from "./stats/StatsView";
+import { CallsView } from "./calls/CallsView";
 import { useInert } from "./hooks/useInert";
 
 /** Vérification des mises à jour au démarrage et depuis la barre des tâches. */
@@ -112,14 +114,16 @@ export const AppShell: React.FC<AppShellProps> = ({ onPreviewOnboarding }) => {
   const settingsOpen = useNavigationStore((s) => s.settingsOpen);
   const historyOpen = useNavigationStore((s) => s.historyOpen);
   const statsOpen = useNavigationStore((s) => s.statsOpen);
+  const callsOpen = useNavigationStore((s) => s.callsOpen);
   const homeRef = useInert<HTMLDivElement>(
-    settingsOpen || historyOpen || statsOpen,
+    settingsOpen || historyOpen || statsOpen || callsOpen,
   );
 
   useEffect(() => {
     useDictationStore.getState().initialize();
     void useHistoryStore.getState().initialize();
     void useModelStatusStore.getState().initialize();
+    void useCallsStore.getState().initialize();
   }, []);
 
   // Micros branchés ou retirés pendant que la fenêtre était cachée.
@@ -157,6 +161,7 @@ export const AppShell: React.FC<AppShellProps> = ({ onPreviewOnboarding }) => {
         data-settings={settingsOpen ? "open" : "closed"}
         data-history={historyOpen ? "open" : "closed"}
         data-stats={statsOpen ? "open" : "closed"}
+        data-calls={callsOpen ? "open" : "closed"}
       >
         <ErrorBoundary context="What's New">
           <WhatsNewGate />
@@ -167,6 +172,7 @@ export const AppShell: React.FC<AppShellProps> = ({ onPreviewOnboarding }) => {
         <SettingsPanel />
         <HistoryView />
         <StatsView />
+        <CallsView />
         <PortableUpdateDialog />
       </div>
     </OnboardingPreviewContext.Provider>

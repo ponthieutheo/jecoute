@@ -536,6 +536,22 @@ pub struct AppSettings {
     /// `overlay_position` (position `none` → style `None`).
     #[serde(default = "default_overlay_style")]
     pub overlay_style: OverlayStyle,
+    /// Recorded calls: also record what the computer plays (the other people
+    /// in the call). Off: the microphone alone.
+    #[serde(default = "default_true")]
+    pub call_system_audio: bool,
+    /// Recorded calls: tell the voices apart ("Person 2", "Person 3"…) once
+    /// the voice-separation model is downloaded.
+    #[serde(default = "default_true")]
+    pub call_diarization: bool,
+    /// Recorded calls: write a summary with the post-processing provider once
+    /// the transcript is ready (the transcript is sent to that provider).
+    #[serde(default = "default_true")]
+    pub call_summary: bool,
+}
+
+fn default_true() -> bool {
+    true
 }
 
 fn default_model() -> String {
@@ -1000,6 +1016,9 @@ pub fn get_default_settings() -> AppSettings {
         vad_enabled: default_vad_enabled(),
         vad_backend: VadBackend::default(),
         overlay_style: default_overlay_style(),
+        call_system_audio: true,
+        call_diarization: true,
+        call_summary: true,
     }
 }
 

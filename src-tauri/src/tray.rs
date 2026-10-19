@@ -24,7 +24,7 @@ use crate::managers::history::{HistoryEntry, HistoryManager};
 use crate::managers::model::ModelManager;
 use crate::managers::transcription::TranscriptionManager;
 use crate::settings;
-use crate::tray_i18n::get_tray_translations;
+use crate::tray_i18n::{get_tray_translations, TrayStrings};
 use log::{debug, error, info, trace, warn};
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -63,6 +63,8 @@ struct MenuInputs {
     downloaded_models: Vec<(String, String)>,
     locale: String,
     update_checks_enabled: bool,
+    /// A call is being recorded (the record entry becomes "stop").
+    call_recording: bool,
 }
 
 /// Complete description of what the tray should look like.
@@ -334,6 +336,7 @@ fn compute_desired(app: &AppHandle, icon_state: TrayIconState) -> TrayDesired {
             downloaded_models,
             locale: settings.app_language,
             update_checks_enabled: settings.update_checks_enabled,
+            call_recording: crate::calls::is_recording(app),
         },
     }
 }
@@ -510,6 +513,23 @@ fn build_menu(app: &AppHandle, inputs: &MenuInputs) -> tauri::Result<(Menu<tauri
         None::<&str>,
     )?;
     let quit_i = MenuItem::with_id(app, "quit", &strings.quit, true, quit_accelerator)?;
+    // Record a call / stop it, always at hand (English until a locale has it).
+    let call_label = {
+        let pick = |s: &TrayStrings| {
+            if inputs.call_recording {
+                s.stop_call.clone()
+            } else {
+                s.record_call.clone()
+            }
+        };
+        let label = pick(&strings);
+        if label.is_empty() {
+            pick(&get_tray_translations(Some("en".to_string())))
+        } else {
+            label
+        }
+    };
+    let call_i = MenuItem::with_id(app, "call_toggle", &call_label, true, None::<&str>)?;
     let separator = || PredefinedMenuItem::separator(app);
 
     let menu = if inputs.busy {
@@ -522,6 +542,7 @@ fn build_menu(app: &AppHandle, inputs: &MenuInputs) -> tauri::Result<(Menu<tauri
                 &cancel_i,
                 &separator()?,
                 &copy_last_transcript_i,
+                &call_i,
                 &separator()?,
                 &settings_i,
                 &check_updates_i,
@@ -560,6 +581,7 @@ fn build_menu(app: &AppHandle, inputs: &MenuInputs) -> tauri::Result<(Menu<tauri
                 &version_i,
                 &separator()?,
                 &copy_last_transcript_i,
+                &call_i,
                 &separator()?,
                 &model_submenu,
                 &unload_model_i,
@@ -694,6 +716,7 @@ mod tests {
             downloaded_models: vec![("small".to_string(), "Small".to_string())],
             locale: "en".to_string(),
             update_checks_enabled: true,
+            call_recording: false,
         }
     }
 
