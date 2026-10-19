@@ -355,10 +355,6 @@ impl CallRecorder {
         self.notify(Some(id));
     }
 
-    fn busy_with(&self, id: &str) -> bool {
-        self.work.lock().unwrap().iter().any(|w| w.id == id)
-    }
-
     fn recording_info(&self) -> Option<RecordingInfo> {
         let ongoing = self.ongoing.lock().unwrap();
         let o = ongoing.as_ref()?;

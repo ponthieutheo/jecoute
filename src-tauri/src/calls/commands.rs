@@ -5,14 +5,25 @@ use std::sync::Arc;
 
 use tauri::{AppHandle, Manager};
 
-use super::store::Call;
+use super::store::{Call, CallStatus};
 use super::{
-    diarize, recorder, valid_id, writeup, CallOption, CallRecorder, CallsState, Download, ERR_BUSY,
+    diarize, recorder, remove_tracks, valid_id, writeup, CallOption, CallRecorder, CallsState,
+    Download, ERR_BUSY,
 };
 use crate::settings::{get_settings, write_settings};
 
 fn the_recorder(app: &AppHandle) -> Result<Arc<CallRecorder>, String> {
     recorder(app).ok_or_else(|| "the call recorder is not ready".to_string())
+}
+
+/// Runs a command's work off the main thread: SQLite, files and the export
+/// must never hold up the main thread, which pastes the dictations.
+async fn off_main<T: Send + 'static>(
+    work: impl FnOnce() -> Result<T, String> + Send + 'static,
+) -> Result<T, String> {
+    tauri::async_runtime::spawn_blocking(work)
+        .await
+        .map_err(|e| e.to_string())?
 }
 
 /// Every id sent by the page is checked before anything uses it (it may end
@@ -27,18 +38,21 @@ fn check_id(id: &str) -> Result<(), String> {
 
 #[tauri::command]
 #[specta::specta]
-pub fn calls_state(app: AppHandle) -> Result<CallsState, String> {
-    Ok(the_recorder(&app)?.state())
+pub async fn calls_state(app: AppHandle) -> Result<CallsState, String> {
+    off_main(move || Ok(the_recorder(&app)?.state())).await
 }
 
 #[tauri::command]
 #[specta::specta]
-pub fn call_get(app: AppHandle, id: String) -> Result<Option<Call>, String> {
+pub async fn call_get(app: AppHandle, id: String) -> Result<Option<Call>, String> {
     check_id(&id)?;
-    the_recorder(&app)?
-        .store
-        .get(&id)
-        .map_err(|e| e.to_string())
+    off_main(move || {
+        the_recorder(&app)?
+            .store
+            .get(&id)
+            .map_err(|e| e.to_string())
+    })
+    .await
 }
 
 #[tauri::command]
@@ -59,57 +73,71 @@ pub async fn call_stop(app: AppHandle) -> Result<(), String> {
 
 #[tauri::command]
 #[specta::specta]
-pub fn call_rename(app: AppHandle, id: String, title: String) -> Result<(), String> {
+pub async fn call_rename(app: AppHandle, id: String, title: String) -> Result<(), String> {
     check_id(&id)?;
-    let title = title.trim();
-    if !title.is_empty() {
+    let title = title.trim().to_string();
+    if title.is_empty() {
+        return Ok(());
+    }
+    off_main(move || {
         the_recorder(&app)?.update(&id, |call| {
-            call.title = title.to_string();
+            call.title = title;
             call.title_edited = true;
         });
-    }
-    Ok(())
+        Ok(())
+    })
+    .await
 }
 
 #[tauri::command]
 #[specta::specta]
-pub fn call_rename_speaker(
+pub async fn call_rename_speaker(
     app: AppHandle,
     id: String,
     speaker: String,
     name: String,
 ) -> Result<(), String> {
     check_id(&id)?;
-    let name = name.trim();
-    if !name.is_empty() {
+    let name = name.trim().to_string();
+    if name.is_empty() {
+        return Ok(());
+    }
+    off_main(move || {
         the_recorder(&app)?.update(&id, |call| {
             for s in call.speakers.iter_mut().filter(|s| s.id == speaker) {
-                s.name = name.to_string();
+                s.name = name.clone();
             }
         });
-    }
-    Ok(())
+        Ok(())
+    })
+    .await
 }
 
 #[tauri::command]
 #[specta::specta]
-pub fn call_toggle_todo(app: AppHandle, id: String, todo: String) -> Result<(), String> {
+pub async fn call_toggle_todo(app: AppHandle, id: String, todo: String) -> Result<(), String> {
     check_id(&id)?;
-    the_recorder(&app)?.update(&id, |call| {
-        for t in call.todos.iter_mut().filter(|t| t.id == todo) {
-            t.done = !t.done;
-        }
-    });
-    Ok(())
+    off_main(move || {
+        the_recorder(&app)?.update(&id, |call| {
+            for t in call.todos.iter_mut().filter(|t| t.id == todo) {
+                t.done = !t.done;
+            }
+        });
+        Ok(())
+    })
+    .await
 }
 
 #[tauri::command]
 #[specta::specta]
-pub fn call_delete(app: AppHandle, id: String) -> Result<(), String> {
+pub async fn call_delete(app: AppHandle, id: String) -> Result<(), String> {
     check_id(&id)?;
-    let rec = the_recorder(&app)?;
+    off_main(move || delete(&*the_recorder(&app)?, &id)).await
+}
+
+fn delete(rec: &CallRecorder, id: &str) -> Result<(), String> {
     // Only a call that exists has a folder that may be deleted.
-    if rec.store.get(&id).map_err(|e| e.to_string())?.is_none() {
+    if rec.store.get(id).map_err(|e| e.to_string())?.is_none() {
         return Err("this call no longer exists".into());
     }
     let recording = rec
@@ -118,14 +146,16 @@ pub fn call_delete(app: AppHandle, id: String) -> Result<(), String> {
         .unwrap()
         .as_ref()
         .is_some_and(|o| o.id == id);
-    if recording || rec.busy_with(&id) {
+    if recording {
         return Err(ERR_BUSY.into());
     }
-    rec.store.delete(&id).map_err(|e| e.to_string())?;
-    if let Some(folder) = rec.folder(&id) {
-        let _ = std::fs::remove_dir_all(folder);
+    // Nothing may start writing it while it is deleted.
+    let _claim = rec.claim(id, "delete").ok_or(ERR_BUSY)?;
+    rec.store.delete(id).map_err(|e| e.to_string())?;
+    if let Some(folder) = rec.folder(id) {
+        // What is left now is deleted at the next launch.
+        remove_tracks(&folder);
     }
-    rec.notify(Some(&id));
     Ok(())
 }
 
@@ -139,10 +169,24 @@ pub fn call_summarize(app: AppHandle, id: String) -> Result<(), String> {
 
 #[tauri::command]
 #[specta::specta]
-pub fn call_retry(app: AppHandle, id: String) -> Result<(), String> {
+pub async fn call_retry(app: AppHandle, id: String) -> Result<(), String> {
     check_id(&id)?;
-    std::thread::spawn(move || writeup::write_call(&app, &id));
-    Ok(())
+    off_main(move || {
+        // Only a call whose writing failed is written again: a call being
+        // written or already written is left alone.
+        let status = the_recorder(&app)?
+            .store
+            .get(&id)
+            .map_err(|e| e.to_string())?
+            .ok_or("this call no longer exists")?
+            .status;
+        if status != CallStatus::Failed {
+            return Err(ERR_BUSY.into());
+        }
+        std::thread::spawn(move || writeup::write_call(&app, &id));
+        Ok(())
+    })
+    .await
 }
 
 /// A file name Windows accepts, from the call's title.
@@ -183,11 +227,15 @@ fn free_path(dir: &Path, stem: &str) -> PathBuf {
 /// in Documents, and shows it in the file explorer.
 #[tauri::command]
 #[specta::specta]
-pub fn call_export(app: AppHandle, id: String, markdown: String) -> Result<String, String> {
+pub async fn call_export(app: AppHandle, id: String, markdown: String) -> Result<String, String> {
     check_id(&id)?;
-    let call = the_recorder(&app)?
+    off_main(move || export(&app, &id, markdown)).await
+}
+
+fn export(app: &AppHandle, id: &str, markdown: String) -> Result<String, String> {
+    let call = the_recorder(app)?
         .store
-        .get(&id)
+        .get(id)
         .map_err(|e| e.to_string())?
         .ok_or("this call no longer exists")?;
     let documents = app.path().document_dir().ok().filter(|d| d.is_dir());
@@ -238,17 +286,20 @@ pub fn calls_download_voice_separation(app: AppHandle) -> Result<(), String> {
 
 #[tauri::command]
 #[specta::specta]
-pub fn calls_remove_voice_separation(app: AppHandle) -> Result<(), String> {
-    let rec = the_recorder(&app)?;
-    let mut d = rec.download.lock().unwrap();
-    if d.running {
-        return Err(ERR_BUSY.into());
-    }
-    let _ = std::fs::remove_dir_all(&rec.voices_dir);
-    d.error = None;
-    drop(d);
-    rec.notify(None);
-    Ok(())
+pub async fn calls_remove_voice_separation(app: AppHandle) -> Result<(), String> {
+    off_main(move || {
+        let rec = the_recorder(&app)?;
+        let mut d = rec.download.lock().unwrap();
+        if d.running {
+            return Err(ERR_BUSY.into());
+        }
+        let _ = std::fs::remove_dir_all(&rec.voices_dir);
+        d.error = None;
+        drop(d);
+        rec.notify(None);
+        Ok(())
+    })
+    .await
 }
 
 #[tauri::command]
