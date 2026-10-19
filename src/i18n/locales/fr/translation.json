@@ -655,6 +655,7 @@
   "app": {
     "home": {
       "history": "Historique",
+      "stats": "Statistiques",
       "update": "Mise à jour",
       "recent": "Dernières dictées",
       "allHistory": "Tout l’historique",
@@ -768,6 +769,44 @@
       "countMore": "Plus de {{count}} dictées",
       "empty": "Pas encore de dictée. Maintiens ton raccourci et parle !",
       "noResults": "Aucune dictée ne correspond."
+    },
+    "stats": {
+      "title": "Statistiques",
+      "periods": {
+        "label": "Période",
+        "week": "Semaine",
+        "month": "Mois",
+        "all": "Tout"
+      },
+      "words": "Mots dictés",
+      "timeSaved": "Temps gagné",
+      "timeSavedHint": "face à 45 mots/min au clavier",
+      "speed": "Vitesse",
+      "speedUnit": "mots/min",
+      "dictations": "Dictées",
+      "minutes": "{{m}} min",
+      "hours": "{{h}} h {{m}}",
+      "streak_one": "{{formatted}} jour d’affilée",
+      "streak_other": "{{formatted}} jours d’affilée",
+      "streakHint": "Jours de suite avec au moins une dictée, jusqu’à aujourd’hui ou hier.",
+      "perDay": "Mots par jour",
+      "perWeek": "Mots par semaine",
+      "perMonth": "Mots par mois",
+      "chartLabel": "Graphique des mots dictés",
+      "wordsCount_one": "{{formatted}} mot",
+      "wordsCount_other": "{{formatted}} mots",
+      "where": "Où tu dictes",
+      "appsEmpty": "Dicte dans une appli et elle apparaîtra ici.",
+      "otherApps": "Autres",
+      "emptyTitle": "Pas encore de chiffres",
+      "emptyText": "Dicte avec ton raccourci : tes mots, le temps gagné et les applis où tu dictes s’afficheront ici.",
+      "private": "Compté sur cet ordinateur, jamais envoyé.",
+      "reset": "Remettre à zéro",
+      "resetTitle": "Remettre les statistiques à zéro ?",
+      "resetText": "Tous les chiffres seront effacés : mots, temps gagné, jours d’affilée et applis. L’historique de tes dictées n’est pas touché.",
+      "resetConfirm": "Remettre à zéro",
+      "resetError": "Impossible de remettre les statistiques à zéro. Réessaie.",
+      "cancel": "Annuler"
     },
     "settings": {
       "title": "Réglages",

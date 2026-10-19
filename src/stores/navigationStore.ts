@@ -15,6 +15,7 @@ interface NavigationStore {
   tab: SettingsTab;
   modelsOpen: boolean;
   historyOpen: boolean;
+  statsOpen: boolean;
   /** Ligne de réglage à mettre en avant à l'ouverture (ex. le micro). */
   focusTarget: string | null;
 
@@ -25,6 +26,8 @@ interface NavigationStore {
   closeModels: () => void;
   openHistory: () => void;
   closeHistory: () => void;
+  openStats: () => void;
+  closeStats: () => void;
   goHome: () => void;
   clearFocusTarget: () => void;
 }
@@ -35,12 +38,14 @@ export const useNavigationStore = create<NavigationStore>()((set) => ({
   tab: "dictation",
   modelsOpen: false,
   historyOpen: false,
+  statsOpen: false,
   focusTarget: null,
 
   openSettings: (tab, focusTarget) =>
     set((s) => ({
       settingsOpen: true,
       historyOpen: false,
+      statsOpen: false,
       modelsOpen: false,
       tab: tab ?? s.tab,
       focusTarget: focusTarget ?? null,
@@ -51,14 +56,33 @@ export const useNavigationStore = create<NavigationStore>()((set) => ({
     set({
       settingsOpen: true,
       historyOpen: false,
+      statsOpen: false,
       tab: "dictation",
       modelsOpen: true,
     }),
   closeModels: () => set({ modelsOpen: false }),
   openHistory: () =>
-    set({ historyOpen: true, settingsOpen: false, modelsOpen: false }),
+    set({
+      historyOpen: true,
+      statsOpen: false,
+      settingsOpen: false,
+      modelsOpen: false,
+    }),
   closeHistory: () => set({ historyOpen: false }),
+  openStats: () =>
+    set({
+      statsOpen: true,
+      historyOpen: false,
+      settingsOpen: false,
+      modelsOpen: false,
+    }),
+  closeStats: () => set({ statsOpen: false }),
   goHome: () =>
-    set({ historyOpen: false, settingsOpen: false, modelsOpen: false }),
+    set({
+      historyOpen: false,
+      statsOpen: false,
+      settingsOpen: false,
+      modelsOpen: false,
+    }),
   clearFocusTarget: () => set({ focusTarget: null }),
 }));

@@ -916,6 +916,28 @@ async updateRecordingRetentionPeriod(period: string) : Promise<Result<null, stri
 }
 },
 /**
+ * Les chiffres de la page Statistiques (calculés ici, jamais envoyés).
+ */
+async getDictationStats() : Promise<Result<DictationStats, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("get_dictation_stats") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
+ * Remet les statistiques à zéro ; l'historique n'est pas touché.
+ */
+async resetDictationStats() : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("reset_dictation_stats") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+/**
  * Checks if the Mac is a laptop by detecting battery presence
  * 
  * This uses pmset to check for battery information.
@@ -1018,6 +1040,7 @@ vad_backend?: VadBackend;
  * `overlay_position` (position `none` → style `None`).
  */
 overlay_style?: OverlayStyle }
+export type AppShare = { app: string; name: string; words: number }
 export type AudioDevice = { index: string; name: string; is_default: boolean }
 export type AutoSubmitKey = "enter" | "ctrl_enter" | "cmd_enter"
 export type AvailableAccelerators = { transcribe: string[]; ort: string[]; gpu_devices: GpuDeviceOption[] }
@@ -1033,6 +1056,8 @@ export type ChineseScript =
 "as_transcribed" | "simplified" | "traditional"
 export type ClipboardHandling = "dont_modify" | "copy_to_clipboard"
 export type CustomSounds = { start: boolean; stop: boolean }
+export type DayStats = { day: string; words: number; seconds: number; dictations: number }
+export type DictationStats = { today: string; streak: number; week: PeriodStats; month: PeriodStats; all: PeriodStats; days: DayStats[] }
 export type EngineType = 
 /**
  * Any GGML/GGUF model loaded through transcribe-cpp (Whisper, Parakeet,
@@ -1102,6 +1127,7 @@ export type OverlayPosition = "top" | "bottom"
 export type OverlayStyle = "none" | "minimal" | "live" | "character"
 export type PaginatedHistory = { entries: HistoryEntry[]; has_more: boolean }
 export type PasteMethod = "ctrl_v" | "direct" | "none" | "shift_insert" | "ctrl_shift_v" | "external_script"
+export type PeriodStats = { words: number; seconds: number; dictations: number; words_per_minute: number; minutes_saved: number; apps: AppShare[] }
 export type PermissionAccess = "allowed" | "denied" | "unknown"
 export type PostProcessProvider = { id: string; label: string; base_url: string; allow_base_url_edit?: boolean; models_endpoint?: string | null; supports_structured_output?: boolean }
 export type RecordingRetentionPeriod = "never" | "preserve_limit" | "days_3" | "weeks_2" | "months_3"

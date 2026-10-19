@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ArrowUpCircle, History, Settings } from "lucide-react";
+import { ArrowUpCircle, ChartColumn, History, Settings } from "lucide-react";
 import { Perso } from "@/character/Perso";
 import JecouteWordmark from "@/components/icons/JecouteWordmark";
 import AccessibilityPermissions from "@/components/AccessibilityPermissions";
@@ -19,6 +19,7 @@ const Hero: React.FC<{ mood: ReturnType<typeof useHomeState>["mood"] }> = ({
 }) => {
   const settingsOpen = useNavigationStore((s) => s.settingsOpen);
   const historyOpen = useNavigationStore((s) => s.historyOpen);
+  const statsOpen = useNavigationStore((s) => s.statsOpen);
   const levels = useDictationStore((s) => s.levels);
   const visible = usePageVisible();
 
@@ -30,7 +31,7 @@ const Hero: React.FC<{ mood: ReturnType<typeof useHomeState>["mood"] }> = ({
           mood={mood}
           micLevels={levels}
           lookAt={settingsOpen ? "droite" : "souris"}
-          paused={!visible || historyOpen}
+          paused={!visible || historyOpen || statsOpen}
         />
       </div>
     </div>
@@ -42,6 +43,7 @@ export const Home: React.FC = () => {
   const status = useHomeState();
   const openSettings = useNavigationStore((s) => s.openSettings);
   const openHistory = useNavigationStore((s) => s.openHistory);
+  const openStats = useNavigationStore((s) => s.openStats);
   const updateAvailable = useUpdateStore((s) => s.result === "available");
 
   return (
@@ -66,6 +68,10 @@ export const Home: React.FC = () => {
           >
             <History size={16} aria-hidden="true" />
             {t("app.home.history")}
+          </button>
+          <button type="button" className="j-btn ghost sm" onClick={openStats}>
+            <ChartColumn size={16} aria-hidden="true" />
+            {t("app.home.stats")}
           </button>
           <button
             type="button"
