@@ -7,7 +7,9 @@
     "model": "النموذج",
     "quit": "إنهاء",
     "cancel": "إلغاء",
-    "secureInputWarning": "⚠ الاختصارات محجوبة بواسطة Secure Input"
+    "secureInputWarning": "⚠ الاختصارات محجوبة بواسطة Secure Input",
+    "recordCall": "تسجيل مكالمة",
+    "stopCall": "إيقاف تسجيل المكالمة"
   },
   "onboarding": {
     "showFewerModels": "عرض عدد أقل من النماذج",
@@ -663,6 +665,7 @@
   "app": {
     "home": {
       "history": "السجل",
+      "stats": "الإحصاءات",
       "update": "تحديث",
       "recent": "آخر الإملاءات",
       "allHistory": "السجل كاملًا",
@@ -673,7 +676,10 @@
       "modelPill": "نموذج النسخ: {{model}}",
       "languagePill": "لغة الكلام: {{language}}",
       "allModels": "كل النماذج",
-      "downloadPill": "{{model}}، {{percent}}%"
+      "downloadPill": "{{model}}، {{percent}}%",
+      "calls": "المكالمات",
+      "callRecording": "يجري تسجيل مكالمة. انقر لعرضها.",
+      "callTime": "مكالمة · {{time}}"
     },
     "status": {
       "ready": {
@@ -740,7 +746,16 @@
         "listening": "أستمع…",
         "writing": "أكتب…",
         "processing": "أنقّح…",
-        "done": "تم اللصق"
+        "done": "تم اللصق",
+        "call": "مكالمة…"
+      },
+      "call": {
+        "title": "أسجّل مكالمة · {{time}}",
+        "desc": "أسجّل ميكروفونك وصوت الكمبيوتر. أخبر الآخرين بذلك.",
+        "descMicOnly": "أسجّل ميكروفونك. أخبر من حولك بذلك.",
+        "deviceLost": "توقّف أحد أجهزة الصوت. ما سُجّل قبل ذلك محفوظ.",
+        "open": "عرض المكالمة",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -784,6 +799,52 @@
       "countMore": "أكثر من {{count}} إملاء",
       "empty": "لا إملاءات بعد. اضغط مطوّلًا على اختصارك وتكلّم!",
       "noResults": "لا يوجد إملاء مطابق."
+    },
+    "stats": {
+      "title": "الإحصاءات",
+      "periods": {
+        "label": "الفترة",
+        "week": "أسبوع",
+        "month": "شهر",
+        "all": "الكل"
+      },
+      "words": "الكلمات المُملاة",
+      "timeSaved": "الوقت الموفَّر",
+      "timeSavedHint": "مقارنةً بالكتابة بسرعة 45 كلمة/دقيقة",
+      "speed": "السرعة",
+      "speedUnit": "كلمة/دقيقة",
+      "dictations": "الإملاءات",
+      "minutes": "{{m}} د",
+      "hours": "{{h}} س {{m}} د",
+      "streak_one": "{{formatted}} يوم على التوالي",
+      "streak_other": "{{formatted}} يوم على التوالي",
+      "streak_zero": "{{formatted}} يوم على التوالي",
+      "streak_two": "يومان على التوالي",
+      "streak_few": "{{formatted}} أيام على التوالي",
+      "streak_many": "{{formatted}} يومًا على التوالي",
+      "streakHint": "أيام متتالية فيها إملاء واحد على الأقل، حتى اليوم أو الأمس.",
+      "perDay": "الكلمات يوميًا",
+      "perWeek": "الكلمات أسبوعيًا",
+      "perMonth": "الكلمات شهريًا",
+      "chartLabel": "مخطط الكلمات المُملاة",
+      "wordsCount_one": "{{formatted}} كلمة",
+      "wordsCount_other": "{{formatted}} كلمة",
+      "wordsCount_zero": "{{formatted}} كلمة",
+      "wordsCount_two": "كلمتان",
+      "wordsCount_few": "{{formatted}} كلمات",
+      "wordsCount_many": "{{formatted}} كلمةً",
+      "where": "أين تُملي",
+      "appsEmpty": "أمْلِ في أي تطبيق وسيظهر هنا.",
+      "otherApps": "أخرى",
+      "emptyTitle": "لا أرقام بعد",
+      "emptyText": "أمْلِ باستخدام اختصارك: ستظهر هنا كلماتك والوقت الذي وفّرته والتطبيقات التي تُملي فيها.",
+      "private": "تُحسب على هذا الكمبيوتر ولا تُرسَل أبدًا.",
+      "reset": "تصفير",
+      "resetTitle": "تصفير الإحصاءات؟",
+      "resetText": "ستُمحى كل الأرقام: الكلمات والوقت الموفَّر والأيام المتتالية والتطبيقات. لن يُمَسّ سجل إملاءاتك.",
+      "resetConfirm": "تصفير",
+      "resetError": "تعذّر تصفير الإحصاءات. حاول مجددًا.",
+      "cancel": "إلغاء"
     },
     "settings": {
       "title": "الإعدادات",
@@ -949,6 +1010,102 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "تحويل الكلام إلى نص في 100 لغة، مع كشف تلقائي للغة وتوقيت كل مقطع.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "محسّن للماندرين التايوانية. يدعم التبديل بين اللغات.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "تحويل الكلام إلى نص في 100 لغة، مع الترجمة وكشف تلقائي للغة وتوقيت كل مقطع."
+    },
+    "calls": {
+      "title": "المكالمات",
+      "list": "مكالماتك",
+      "record": "تسجيل مكالمة",
+      "starting": "جارٍ البدء…",
+      "stop": "إيقاف",
+      "stopWithTime": "إيقاف · {{time}}",
+      "consent": "أخبر الآخرين بأنك تسجّل المكالمة. يبقى الصوت على هذا الكمبيوتر ويُحذف بمجرد تدوين المكالمة.",
+      "emptyList": "لا مكالمات مسجّلة.",
+      "welcomeTitle": "لا مكالمات بعد",
+      "welcomeDesc": "عند بدء مكالمة (Discord وMeet وTeams…)، انقر على «تسجيل مكالمة». أكتب من قال ماذا، ثم ملخصًا مع المهام.",
+      "recordingNow": "قيد التسجيل",
+      "writingShort": "أكتب…",
+      "failedShort": "فشل",
+      "openTodos_one": "مهمة واحدة",
+      "openTodos_other": "{{count}} مهمة",
+      "openTodos_zero": "لا مهام",
+      "openTodos_two": "مهمتان",
+      "openTodos_few": "{{count}} مهام",
+      "openTodos_many": "{{count}} مهمةً",
+      "minutes_one": "{{count}} د",
+      "minutes_other": "{{count}} د",
+      "minutes_zero": "{{count}} د",
+      "minutes_two": "{{count}} د",
+      "minutes_few": "{{count}} د",
+      "minutes_many": "{{count}} د",
+      "withSystem": "الميكروفون + صوت الكمبيوتر",
+      "micOnly": "الميكروفون فقط",
+      "me": "أنا",
+      "others": "الآخرون",
+      "live": "مباشر",
+      "liveHint": "تُكتب النسخة النهائية من جديد عند انتهاء المكالمة.",
+      "liveEmpty": "تظهر كل جملة هنا بعد بضع ثوانٍ من قولها.",
+      "nobody": "لم يُعثر على كلام في هذا التسجيل.",
+      "writing": "أدوّن المكالمة…",
+      "failed": "حدث خطأ أثناء تدوين هذه المكالمة.",
+      "retry": "إعادة المحاولة",
+      "view": "عرض",
+      "summary": "الملخص",
+      "transcript": "النص المفرّغ",
+      "keyPoints": "النقاط الرئيسية",
+      "todos": "المهام",
+      "summaryWriting": "يقرأ الذكاء الاصطناعي المكالمة…",
+      "noSummary": "لا ملخص لهذه المكالمة.",
+      "summaryFailed": "تعذّرت كتابة الملخص.",
+      "summarySent": "يكتب {{provider}} الملخص: يُرسَل إليه النص المفرّغ.",
+      "writeSummary": "كتابة الملخص",
+      "writeSummaryAgain": "إعادة كتابة الملخص",
+      "noProviderTitle": "لا ملخص بدون ذكاء اصطناعي",
+      "noProviderDesc": "النص المفرّغ جاهز. للحصول على ملخص ومهام، فعّل «التصحيح بالذكاء الاصطناعي» في الإعدادات ← النص، واختر مزود الذكاء الاصطناعي ونموذجًا.",
+      "openTextSettings": "فتح إعدادات النص",
+      "people": "المشاركون",
+      "rename": "إعادة التسمية",
+      "renameSpeaker": "انقر لإعطاء اسم",
+      "copy": "نسخ",
+      "copyError": "تعذّر نسخ المكالمة.",
+      "export": "تصدير",
+      "exported": "حُفظ في {{path}}",
+      "exportError": "تعذّر حفظ الملف.",
+      "delete": "حذف",
+      "deleteConfirm": "حذف هذه المكالمة نهائيًا؟",
+      "deleteError": "تعذّر حذف هذه المكالمة.",
+      "cancel": "إلغاء",
+      "errors": {
+        "noModel": "اختر نموذج نسخ أولًا.",
+        "mic": "لا أسمع ميكروفونك: إنه غير موصول أو محجوب.",
+        "busy": "هناك مكالمة قيد التسجيل بالفعل.",
+        "audioGone": "لم يعد صوت هذه المكالمة موجودًا."
+      },
+      "voices": {
+        "title": "تمييز الأصوات",
+        "desc": "لأكتب «المتحدث 2» و«المتحدث 3»… بدلًا من «الآخرون»، أنزّل نموذجًا صغيرًا ({{size}}) مرة واحدة فقط.",
+        "download": "تنزيل",
+        "downloading": "أنزّل نموذج الأصوات",
+        "retry": "إعادة المحاولة",
+        "failed": "فشل التنزيل."
+      },
+      "settings": {
+        "title": "إعدادات المكالمات",
+        "system": "صوت الكمبيوتر",
+        "systemDesc": "يسجّل أيضًا ما يشغّله الكمبيوتر: أصوات الآخرين. عند الإيقاف: ميكروفونك فقط.",
+        "voices": "تمييز الأصوات",
+        "voicesReady": "تُميَّز الأصوات على هذا الكمبيوتر.",
+        "voicesDesc": "نموذج صغير للتنزيل ({{size}}).",
+        "summary": "ملخص بالذكاء الاصطناعي",
+        "summaryReady": "يكتبه {{provider}} ({{model}}). يُرسَل إليه النص المفرّغ.",
+        "summaryMissing": "لم يُضبط أي مزود للذكاء الاصطناعي.",
+        "mic": "الميكروفون هو نفسه ميكروفون الإملاء.",
+        "micLink": "تغيير الميكروفون"
+      },
+      "md": {
+        "date": "التاريخ:",
+        "length": "المدة:",
+        "people": "المشاركون:"
+      }
     }
   }
 }

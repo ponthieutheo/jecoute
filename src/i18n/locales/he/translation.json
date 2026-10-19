@@ -7,7 +7,9 @@
     "model": "מודל",
     "quit": "יציאה",
     "cancel": "ביטול",
-    "secureInputWarning": "⚠ קיצורי המקשים חסומים על ידי Secure Input"
+    "secureInputWarning": "⚠ קיצורי המקשים חסומים על ידי Secure Input",
+    "recordCall": "הקלט שיחה",
+    "stopCall": "עצור את הקלטת השיחה"
   },
   "onboarding": {
     "showFewerModels": "הצג פחות מודלים",
@@ -657,6 +659,7 @@
   "app": {
     "home": {
       "history": "היסטוריה",
+      "stats": "סטטיסטיקה",
       "update": "עדכון",
       "recent": "הכתבות אחרונות",
       "allHistory": "כל ההיסטוריה",
@@ -667,7 +670,10 @@
       "modelPill": "מודל תמלול: {{model}}",
       "languagePill": "שפת הדיבור: {{language}}",
       "allModels": "כל המודלים",
-      "downloadPill": "{{model}}, {{percent}}%"
+      "downloadPill": "{{model}}, {{percent}}%",
+      "calls": "שיחות",
+      "callRecording": "שיחה מוקלטת עכשיו. לחץ כדי לראות אותה.",
+      "callTime": "שיחה · {{time}}"
     },
     "status": {
       "ready": {
@@ -734,7 +740,16 @@
         "listening": "מקשיב…",
         "writing": "כותב…",
         "processing": "מלטש…",
-        "done": "הודבק"
+        "done": "הודבק",
+        "call": "שיחה…"
+      },
+      "call": {
+        "title": "מקליט שיחה · {{time}}",
+        "desc": "אני מקליט את המיקרופון שלך ואת השמע של המחשב. עדכן את האחרים.",
+        "descMicOnly": "אני מקליט את המיקרופון שלך. עדכן את האנשים שסביבך.",
+        "deviceLost": "התקן שמע הפסיק לפעול. מה שהוקלט לפני כן נשמר.",
+        "open": "הצג את השיחה",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -772,6 +787,46 @@
       "countMore": "יותר מ-{{count}} הכתבות",
       "empty": "עדיין אין הכתבות. החזק את קיצור המקשים ודבר!",
       "noResults": "אין הכתבה תואמת."
+    },
+    "stats": {
+      "title": "סטטיסטיקה",
+      "periods": {
+        "label": "תקופה",
+        "week": "שבוע",
+        "month": "חודש",
+        "all": "הכול"
+      },
+      "words": "מילים שהוכתבו",
+      "timeSaved": "זמן שנחסך",
+      "timeSavedHint": "לעומת הקלדה של 45 מילים/דקה",
+      "speed": "מהירות",
+      "speedUnit": "מילים/דקה",
+      "dictations": "הכתבות",
+      "minutes": "{{m}} דק׳",
+      "hours": "{{h}} שע׳ {{m}} דק׳",
+      "streak_one": "{{formatted}} יום ברצף",
+      "streak_other": "{{formatted}} ימים ברצף",
+      "streak_two": "יומיים ברצף",
+      "streakHint": "ימים רצופים עם הכתבה אחת לפחות, עד היום או אתמול.",
+      "perDay": "מילים ביום",
+      "perWeek": "מילים בשבוע",
+      "perMonth": "מילים בחודש",
+      "chartLabel": "תרשים המילים שהוכתבו",
+      "wordsCount_one": "{{formatted}} מילה",
+      "wordsCount_other": "{{formatted}} מילים",
+      "wordsCount_two": "{{formatted}} מילים",
+      "where": "איפה אתה מכתיב",
+      "appsEmpty": "הכתב באפליקציה כלשהי והיא תופיע כאן.",
+      "otherApps": "אחרות",
+      "emptyTitle": "עדיין אין מספרים",
+      "emptyText": "הכתב עם קיצור המקשים שלך: המילים שלך, הזמן שחסכת והאפליקציות שבהן אתה מכתיב יופיעו כאן.",
+      "private": "נספר במחשב הזה, אף פעם לא נשלח.",
+      "reset": "איפוס",
+      "resetTitle": "לאפס את הסטטיסטיקה?",
+      "resetText": "כל המספרים יימחקו: מילים, זמן שנחסך, ימים ברצף ואפליקציות. היסטוריית ההכתבות שלך לא תיפגע.",
+      "resetConfirm": "אפס",
+      "resetError": "איפוס הסטטיסטיקה נכשל. נסה שוב.",
+      "cancel": "ביטול"
     },
     "settings": {
       "title": "הגדרות",
@@ -934,6 +989,96 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "דיבור לטקסט ב-100 שפות, עם זיהוי שפה אוטומטי וחותמות זמן לכל קטע.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "מותאם למנדרינית טאיוואנית. תומך במעבר בין שפות.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "דיבור לטקסט ב-100 שפות, עם תרגום, זיהוי שפה אוטומטי וחותמות זמן לכל קטע."
+    },
+    "calls": {
+      "title": "שיחות",
+      "list": "השיחות שלך",
+      "record": "הקלט שיחה",
+      "starting": "מתחיל…",
+      "stop": "עצור",
+      "stopWithTime": "עצור · {{time}}",
+      "consent": "ספר למשתתפים שאתה מקליט את השיחה. השמע נשאר במחשב הזה ונמחק ברגע שהשיחה תומללה.",
+      "emptyList": "אין שיחות מוקלטות.",
+      "welcomeTitle": "עדיין אין שיחות",
+      "welcomeDesc": "כששיחה מתחילה (Discord, Meet, Teams…), לחץ על \"הקלט שיחה\". אני כותב מי אמר מה, ואחר כך סיכום עם המשימות.",
+      "recordingNow": "מקליט",
+      "writingShort": "כותב…",
+      "failedShort": "נכשל",
+      "openTodos_one": "משימה אחת",
+      "openTodos_other": "{{count}} משימות",
+      "openTodos_two": "שתי משימות",
+      "minutes_one": "{{count}} דק׳",
+      "minutes_other": "{{count}} דק׳",
+      "minutes_two": "{{count}} דק׳",
+      "withSystem": "מיקרופון + שמע המחשב",
+      "micOnly": "מיקרופון בלבד",
+      "me": "אני",
+      "others": "האחרים",
+      "live": "בזמן אמת",
+      "liveHint": "הגרסה הסופית נכתבת מחדש בסוף השיחה.",
+      "liveEmpty": "כל משפט מופיע כאן כמה שניות אחרי שנאמר.",
+      "nobody": "לא נמצא דיבור בהקלטה הזו.",
+      "writing": "מתמלל את השיחה…",
+      "failed": "משהו השתבש בתמלול השיחה הזו.",
+      "retry": "נסה שוב",
+      "view": "הצג",
+      "summary": "סיכום",
+      "transcript": "תמלול",
+      "keyPoints": "נקודות עיקריות",
+      "todos": "משימות",
+      "summaryWriting": "ה-AI קורא את השיחה…",
+      "noSummary": "לשיחה הזו אין סיכום.",
+      "summaryFailed": "לא ניתן היה לכתוב את הסיכום.",
+      "summarySent": "את הסיכום כותב {{provider}}: התמלול נשלח אליו.",
+      "writeSummary": "כתוב סיכום",
+      "writeSummaryAgain": "כתוב סיכום מחדש",
+      "noProviderTitle": "אין סיכום בלי AI",
+      "noProviderDesc": "התמלול מוכן. כדי לקבל סיכום ומשימות, הפעל את \"תיקון AI\" ב\"הגדרות > טקסט\" ובחר ספק AI ומודל.",
+      "openTextSettings": "פתח את הגדרות הטקסט",
+      "people": "משתתפים",
+      "rename": "שנה שם",
+      "renameSpeaker": "לחץ כדי לתת שם",
+      "copy": "העתק",
+      "copyError": "העתקת השיחה נכשלה.",
+      "export": "ייצא",
+      "exported": "נשמר ב-{{path}}",
+      "exportError": "שמירת הקובץ נכשלה.",
+      "delete": "מחק",
+      "deleteConfirm": "למחוק את השיחה הזו לצמיתות?",
+      "deleteError": "מחיקת השיחה נכשלה.",
+      "cancel": "ביטול",
+      "errors": {
+        "noModel": "בחר קודם מודל תמלול.",
+        "mic": "אני לא שומע את המיקרופון שלך: הוא לא מחובר או חסום.",
+        "busy": "כבר מוקלטת שיחה.",
+        "audioGone": "השמע של השיחה הזו כבר לא נמצא."
+      },
+      "voices": {
+        "title": "הפרדת קולות",
+        "desc": "כדי לכתוב \"דובר 2\", \"דובר 3\"… במקום \"האחרים\", אני מוריד מודל קטן ({{size}}), פעם אחת בלבד.",
+        "download": "הורד",
+        "downloading": "מוריד את מודל הקולות",
+        "retry": "נסה שוב",
+        "failed": "ההורדה נכשלה."
+      },
+      "settings": {
+        "title": "הגדרות שיחות",
+        "system": "שמע המחשב",
+        "systemDesc": "מקליט גם את מה שהמחשב משמיע: הקולות של האחרים. כבוי: המיקרופון שלך בלבד.",
+        "voices": "הפרדת קולות",
+        "voicesReady": "הקולות מופרדים במחשב הזה.",
+        "voicesDesc": "מודל קטן להורדה ({{size}}).",
+        "summary": "סיכום AI",
+        "summaryReady": "נכתב על ידי {{provider}} ({{model}}). התמלול נשלח אליו.",
+        "summaryMissing": "לא הוגדר ספק AI.",
+        "mic": "המיקרופון הוא זה של ההכתבה.",
+        "micLink": "החלף מיקרופון"
+      },
+      "md": {
+        "date": "תאריך:",
+        "length": "משך:",
+        "people": "משתתפים:"
+      }
     }
   }
 }
