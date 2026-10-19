@@ -991,6 +991,7 @@
       "stop": "Arrêter",
       "stopWithTime": "Arrêter · {{time}}",
       "consent": "Préviens les personnes que tu enregistres l’appel. Le son reste sur cet ordinateur et il est effacé une fois l’appel écrit.",
+      "summaryRemote": "Elle quitte cet ordinateur.",
       "emptyList": "Aucun appel enregistré.",
       "welcomeTitle": "Aucun appel pour l’instant",
       "welcomeDesc": "Quand un appel commence (Discord, Meet, Teams…), clique sur « Enregistrer un appel ». J’écris qui dit quoi, puis un résumé avec les tâches.",

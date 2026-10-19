@@ -26,6 +26,9 @@ pub struct SummaryAvailability {
     pub enabled: bool,
     pub provider: Option<String>,
     pub model: Option<String>,
+    /// The provider runs on this computer (localhost): the transcript does
+    /// not leave it.
+    pub local: bool,
 }
 
 pub struct Provider {
@@ -71,6 +74,22 @@ pub fn availability(settings: &AppSettings) -> SummaryAvailability {
         enabled: settings.call_summary,
         provider: p.as_ref().map(|p| p.provider.label.clone()),
         model: p.as_ref().map(|p| p.model.clone()),
+        local: p.as_ref().is_some_and(|p| is_local(&p.provider.base_url)),
+    }
+}
+
+/// Whether an address points at this computer (localhost, 127.x.x.x, ::1).
+fn is_local(base_url: &str) -> bool {
+    let Ok(url) = reqwest::Url::parse(base_url.trim()) else {
+        return false;
+    };
+    let Some(host) = url.host_str() else {
+        return false;
+    };
+    let bare = host.trim_start_matches('[').trim_end_matches(']');
+    match bare.parse::<std::net::IpAddr>() {
+        Ok(ip) => ip.is_loopback(),
+        Err(_) => host.eq_ignore_ascii_case("localhost"),
     }
 }
 
@@ -170,6 +189,28 @@ mod tests {
             .is_some_and(|p| p.id != APPLE_INTELLIGENCE_PROVIDER_ID)
         {
             assert!(availability(&s).ready);
+        }
+    }
+
+    #[test]
+    fn only_this_computer_counts_as_local() {
+        for local in [
+            "http://localhost:11434/v1",
+            "http://LOCALHOST/v1",
+            "http://127.0.0.1:8080/v1",
+            "http://127.1.2.3/v1",
+            "http://[::1]:1234/v1",
+        ] {
+            assert!(is_local(local), "{local}");
+        }
+        for remote in [
+            "https://api.openai.com/v1",
+            "http://192.168.1.73:11434/v1",
+            "http://localhost.example.com/v1",
+            "http://127.0.0.1.nip.io/v1",
+            "not a url",
+        ] {
+            assert!(!is_local(remote), "{remote}");
         }
     }
 
