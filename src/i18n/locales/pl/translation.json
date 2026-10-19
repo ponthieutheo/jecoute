@@ -7,7 +7,9 @@
     "model": "Model",
     "quit": "Zamknij",
     "cancel": "Anuluj",
-    "secureInputWarning": "⚠ Skróty zablokowane przez Secure Input"
+    "secureInputWarning": "⚠ Skróty zablokowane przez Secure Input",
+    "recordCall": "Nagraj rozmowę",
+    "stopCall": "Zatrzymaj nagrywanie rozmowy"
   },
   "onboarding": {
     "showFewerModels": "Pokaż mniej modeli",
@@ -659,6 +661,7 @@
   "app": {
     "home": {
       "history": "Historia",
+      "stats": "Statystyki",
       "update": "Aktualizacja",
       "recent": "Ostatnie dyktowania",
       "allHistory": "Cała historia",
@@ -669,7 +672,10 @@
       "modelPill": "Model transkrypcji: {{model}}",
       "languagePill": "Język dyktowania: {{language}}",
       "allModels": "Wszystkie modele",
-      "downloadPill": "{{model}}, {{percent}}%"
+      "downloadPill": "{{model}}, {{percent}}%",
+      "calls": "Rozmowy",
+      "callRecording": "Trwa nagrywanie rozmowy. Kliknij, aby ją zobaczyć.",
+      "callTime": "Rozmowa · {{time}}"
     },
     "status": {
       "ready": {
@@ -736,7 +742,16 @@
         "listening": "Słucham…",
         "writing": "Piszę…",
         "processing": "Szlifuję…",
-        "done": "Wklejono"
+        "done": "Wklejono",
+        "call": "Rozmowa…"
+      },
+      "call": {
+        "title": "Nagrywanie rozmowy · {{time}}",
+        "desc": "Nagrywam Twój mikrofon i dźwięk komputera. Uprzedź rozmówców.",
+        "descMicOnly": "Nagrywam Twój mikrofon. Uprzedź osoby obok.",
+        "deviceLost": "Urządzenie audio przestało działać. To, co nagrano wcześniej, zostało zachowane.",
+        "open": "Zobacz rozmowę",
+        "said": "{{name}}:"
       }
     },
     "history": {
@@ -776,6 +791,48 @@
       "countMore": "Ponad {{count}} dyktowań",
       "empty": "Nic jeszcze nie podyktowano. Przytrzymaj skrót i mów!",
       "noResults": "Brak pasujących dyktowań."
+    },
+    "stats": {
+      "title": "Statystyki",
+      "periods": {
+        "label": "Okres",
+        "week": "Tydzień",
+        "month": "Miesiąc",
+        "all": "Wszystko"
+      },
+      "words": "Podyktowane słowa",
+      "timeSaved": "Zaoszczędzony czas",
+      "timeSavedHint": "w porównaniu z pisaniem 45 słów/min",
+      "speed": "Tempo",
+      "speedUnit": "słów/min",
+      "dictations": "Dyktowania",
+      "minutes": "{{m}} min",
+      "hours": "{{h}} h {{m}}",
+      "streak_one": "{{formatted}} dzień z rzędu",
+      "streak_other": "{{formatted}} dnia z rzędu",
+      "streak_few": "{{formatted}} dni z rzędu",
+      "streak_many": "{{formatted}} dni z rzędu",
+      "streakHint": "Kolejne dni z co najmniej jednym dyktowaniem, do dziś lub wczoraj.",
+      "perDay": "Słowa dziennie",
+      "perWeek": "Słowa tygodniowo",
+      "perMonth": "Słowa miesięcznie",
+      "chartLabel": "Wykres podyktowanych słów",
+      "wordsCount_one": "{{formatted}} słowo",
+      "wordsCount_other": "{{formatted}} słowa",
+      "wordsCount_few": "{{formatted}} słowa",
+      "wordsCount_many": "{{formatted}} słów",
+      "where": "Gdzie dyktujesz",
+      "appsEmpty": "Podyktuj coś w aplikacji, a pojawi się tutaj.",
+      "otherApps": "Inne",
+      "emptyTitle": "Na razie brak liczb",
+      "emptyText": "Dyktuj za pomocą skrótu: tutaj pojawią się Twoje słowa, zaoszczędzony czas i aplikacje, w których dyktujesz.",
+      "private": "Liczone na tym komputerze, nigdy niewysyłane.",
+      "reset": "Wyzeruj",
+      "resetTitle": "Wyzerować statystyki?",
+      "resetText": "Wszystkie liczby zostaną usunięte: słowa, zaoszczędzony czas, dni z rzędu i aplikacje. Historia Twoich dyktowań pozostanie nienaruszona.",
+      "resetConfirm": "Wyzeruj",
+      "resetError": "Nie udało się wyzerować statystyk. Spróbuj ponownie.",
+      "cancel": "Anuluj"
     },
     "settings": {
       "title": "Ustawienia",
@@ -939,6 +996,98 @@
       "100_language_speech_to_text_with_auto_language_detection_segment_level_timestamps": "100 języków, automatyczne wykrywanie języka, znaczniki czasu dla fragmentów.",
       "optimized_for_taiwanese_mandarin_code_switching_support": "Zoptymalizowany dla mandaryńskiego z Tajwanu. Obsługuje przełączanie języków.",
       "100_language_speech_to_text_with_translation_auto_language_detection_segment_level_timestamps": "100 języków, tłumaczenie, automatyczne wykrywanie języka, znaczniki czasu dla fragmentów."
+    },
+    "calls": {
+      "title": "Rozmowy",
+      "list": "Twoje rozmowy",
+      "record": "Nagraj rozmowę",
+      "starting": "Uruchamianie…",
+      "stop": "Zatrzymaj",
+      "stopWithTime": "Zatrzymaj · {{time}}",
+      "consent": "Uprzedź rozmówców, że nagrywasz rozmowę. Dźwięk zostaje na tym komputerze i jest usuwany, gdy tylko rozmowa zostanie spisana.",
+      "emptyList": "Brak nagranych rozmów.",
+      "welcomeTitle": "Na razie brak rozmów",
+      "welcomeDesc": "Gdy zaczyna się rozmowa (Discord, Meet, Teams…), kliknij „Nagraj rozmowę”. Zapisuję, kto co powiedział, a potem piszę podsumowanie z zadaniami.",
+      "recordingNow": "Nagrywanie",
+      "writingShort": "Piszę…",
+      "failedShort": "Błąd",
+      "openTodos_one": "{{count}} zadanie",
+      "openTodos_other": "{{count}} zadania",
+      "openTodos_few": "{{count}} zadania",
+      "openTodos_many": "{{count}} zadań",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "minutes_few": "{{count}} min",
+      "minutes_many": "{{count}} min",
+      "withSystem": "mikrofon + dźwięk komputera",
+      "micOnly": "tylko mikrofon",
+      "me": "Ja",
+      "others": "Pozostali",
+      "live": "Na żywo",
+      "liveHint": "Ostateczna wersja zostanie spisana ponownie po zakończeniu rozmowy.",
+      "liveEmpty": "Każde zdanie pojawia się tutaj kilka sekund po wypowiedzeniu.",
+      "nobody": "W tym nagraniu nie znaleziono mowy.",
+      "writing": "Spisuję rozmowę…",
+      "failed": "Coś poszło nie tak podczas spisywania tej rozmowy.",
+      "retry": "Ponów",
+      "view": "Pokaż",
+      "summary": "Podsumowanie",
+      "transcript": "Transkrypcja",
+      "keyPoints": "Najważniejsze punkty",
+      "todos": "Zadania",
+      "summaryWriting": "AI czyta rozmowę…",
+      "noSummary": "Ta rozmowa nie ma podsumowania.",
+      "summaryFailed": "Nie udało się napisać podsumowania.",
+      "summarySent": "Podsumowanie pisze {{provider}}: wysyłana jest do niego transkrypcja.",
+      "writeSummary": "Napisz podsumowanie",
+      "writeSummaryAgain": "Napisz od nowa",
+      "noProviderTitle": "Bez AI nie ma podsumowania",
+      "noProviderDesc": "Transkrypcja jest gotowa. Aby dostać podsumowanie i zadania, włącz korektę AI w Ustawienia → Tekst i wybierz dostawcę AI oraz model.",
+      "openTextSettings": "Otwórz ustawienia tekstu",
+      "people": "Uczestnicy",
+      "rename": "Zmień nazwę",
+      "renameSpeaker": "Kliknij, aby nadać imię",
+      "copy": "Kopiuj",
+      "copyError": "Nie udało się skopiować rozmowy.",
+      "export": "Eksportuj",
+      "exported": "Zapisano w {{path}}",
+      "exportError": "Nie udało się zapisać pliku.",
+      "delete": "Usuń",
+      "deleteConfirm": "Usunąć tę rozmowę na zawsze?",
+      "deleteError": "Nie udało się usunąć tej rozmowy.",
+      "cancel": "Anuluj",
+      "errors": {
+        "noModel": "Najpierw wybierz model transkrypcji.",
+        "mic": "Nie słyszę Twojego mikrofonu: nie ma go albo jest zablokowany.",
+        "busy": "Rozmowa jest już nagrywana.",
+        "audioGone": "Nie można już znaleźć dźwięku tej rozmowy."
+      },
+      "voices": {
+        "title": "Rozróżniaj głosy",
+        "desc": "Aby pisać „Osoba 2”, „Osoba 3”… zamiast „Pozostali”, jednorazowo pobiorę mały model ({{size}}).",
+        "download": "Pobierz",
+        "downloading": "Pobieranie modelu głosów",
+        "retry": "Ponów",
+        "failed": "Pobieranie nie powiodło się."
+      },
+      "settings": {
+        "title": "Ustawienia rozmów",
+        "system": "Dźwięk komputera",
+        "systemDesc": "Nagrywa też to, co odtwarza komputer: głosy rozmówców. Wyłączone: tylko Twój mikrofon.",
+        "voices": "Rozróżniaj głosy",
+        "voicesReady": "Głosy są rozróżniane na tym komputerze.",
+        "voicesDesc": "Mały model do pobrania ({{size}}).",
+        "summary": "Podsumowanie AI",
+        "summaryReady": "Pisze je {{provider}} ({{model}}). Wysyłana jest do niego transkrypcja.",
+        "summaryMissing": "Nie skonfigurowano dostawcy AI.",
+        "mic": "Mikrofon jest ten sam co do dyktowania.",
+        "micLink": "Zmień mikrofon"
+      },
+      "md": {
+        "date": "Data:",
+        "length": "Czas trwania:",
+        "people": "Uczestnicy:"
+      }
     }
   }
 }
