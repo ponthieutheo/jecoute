@@ -8,7 +8,7 @@ https://github.com/user-attachments/assets/4e66e7b9-4aaf-48d5-8807-6908f7f5f884
 
 ## 1. Ce qu’il te faut
 
-- **Windows 10 ou 11, 64 bits (x64).** La version 0.1.0 n’est publiée que pour Windows x64 : pas encore de version
+- **Windows 10 ou 11, 64 bits (x64).** J’écoute n’est publié que pour Windows x64 : pas encore de version
   macOS, Linux ou ARM prête à installer. Le code compile sous Linux et macOS (voir [BUILD.md](../BUILD.md#linux-et-macos)) ;
   une version Linux arrivera ensuite.
 - **Un micro** : celui du portable, un casque ou un micro USB.
@@ -98,8 +98,8 @@ La dernière page propose de lancer J’écoute.
 
 J’écoute vit ensuite dans la zone de notification, près de l’horloge. Fermer la fenêtre ne le quitte pas : le
 raccourci marche toujours. Un clic gauche sur l’icône rouvre la fenêtre, un clic droit ouvre le menu (dernière
-transcription, modèle, réglages, « Quitter »). Pour qu’il démarre avec Windows : Réglages › Application › « Lancer au
-démarrage ».
+transcription, enregistrer un appel, modèle, réglages, « Quitter »). Pour qu’il démarre avec Windows :
+Réglages › Application › « Lancer au démarrage ».
 
 ## 6. Mettre à jour
 
@@ -119,8 +119,9 @@ l’icône), ou couper la vérification (Réglages › Application › « Véri
 fonctionnalités » sous Windows 10) › J’écoute › Désinstaller. Le désinstalleur propose « Delete the application
 data » :
 
-- coché, il efface aussi `%APPDATA%\io.github.ponthieutheo.jecoute` (réglages, historique, enregistrements, modèles
-  ajoutés à la main) et `%LOCALAPPDATA%\io.github.ponthieutheo.jecoute` (journaux, données de la fenêtre) ;
+- coché, il efface aussi `%APPDATA%\io.github.ponthieutheo.jecoute` (réglages, historique, enregistrements, appels,
+  statistiques, modèles ajoutés à la main) et `%LOCALAPPDATA%\io.github.ponthieutheo.jecoute` (journaux, données de
+  la fenêtre) ;
 - non coché, ces dossiers restent, et une nouvelle installation les retrouve.
 
 Les modèles téléchargés sont dans le cache Hugging Face, `%USERPROFILE%\.cache\huggingface\hub` (dossiers

@@ -2,14 +2,17 @@
 
 [Français](../fonctionnalites.md) · **English**
 
-_Every picture in this guide is a screenshot of the app, taken with made-up dictations. Full screens follow your
-GitHub theme (light or dark); close-ups are in the dark theme._
+_Every picture in this guide is a screenshot of the app, taken with made-up dictations. The calls are a dialogue
+played by synthetic voices, and their summary was written for the demo; the statistics are made up. Full screens
+follow your GitHub theme (light or dark); close-ups are in the dark theme._
 
 - [Keyboard shortcuts](#keyboard-shortcuts)
 - [Home](#home)
 - [Settings](#settings): [Dictation](#dictation), [Sound](#sound), [Text](#text), [AI correction](#ai-correction),
   [App](#app), [About](#about)
 - [History](#history)
+- [Calls](#calls)
+- [Statistics](#statistics)
 - [Models](#models)
 - [First launch](#first-launch)
 
@@ -67,7 +70,8 @@ During a dictation, the home screen follows along: the character leans in to lis
 The character takes the matching mood: ready, loading, no microphone, error, listening, typing or whispering (see
 [character.md](character.md#its-moods)).
 
-Top right: “History”, the settings gear, and the “Update” button when a new version is ready.
+Top right: “Calls” (see [Calls](#calls)), “History”, “Statistics” (see [Statistics](#statistics)), the settings gear,
+and the “Update” button when a new version is ready.
 
 ### The pills
 
@@ -292,8 +296,8 @@ The interface comes in 26 languages. By default, the Windows one.
 
 - “Launch at startup”: “J’écoute starts when you sign in.” Off by default.
 - “Start hidden”: “Start in the taskbar without opening the window.”
-- “Taskbar icon”: “In the notification area, next to the clock.” Its menu: copy the last transcript, switch models,
-  unload the model, open the settings, check for updates, quit.
+- “Taskbar icon”: “In the notification area, next to the clock.” Its menu: copy the last transcript, record a call,
+  switch models, unload the model, open the settings, check for updates, quit.
 
 <p align="center"><img src="../media/en/fonctions/demarrage.png" width="455" alt="Launch at startup, Start hidden, Taskbar icon"></p>
 
@@ -423,6 +427,154 @@ model heard, with what the AI removed struck through).
 ▶ expands the row and plays the recording. Only one plays at a time; the bar lets you skip ahead or back.
 
 <p align="center"><img src="../media/en/fonctions/lecture.png" width="692" alt="The player of an expanded dictation, Re-transcribe and the trash can"></p>
+
+## Calls
+
+“Calls”, at the top of the home screen: J’écoute records a call (Discord, Meet, Teams…) and puts it into words. It keeps
+your microphone and the computer’s sound, that is, the other people’s voices. No bot joins the call: nothing changes for
+the others, so tell them you are recording.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../media/en/appels-direct-sombre.png">
+    <source media="(prefers-color-scheme: light)" srcset="../media/en/appels-direct-clair.png">
+    <img src="../media/en/appels-direct-sombre.png" width="696" alt="The Calls page during a call: “Stop” with the length, “Live” and the sentences coming in">
+  </picture>
+</p>
+
+### Start and stop
+
+Three ways to start recording, and the same ones to stop:
+
+- “Record a call”, at the top of the Calls page, then “Stop” (with the length);
+- “Record a call” in the tray icon menu, next to the clock, then “Stop recording the call”;
+- `jecoute.exe --toggle-call`, for a shortcut or a script: it starts the call, or stops it if one is being recorded.
+
+During the call, the home screen shows it: the timer in red instead of “Calls”, “Recording a call” under the character,
+the last sentence heard, “Stop” and “See the call”.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../media/en/accueil-appel-sombre.png">
+    <source media="(prefers-color-scheme: light)" srcset="../media/en/accueil-appel-clair.png">
+    <img src="../media/en/accueil-appel-sombre.png" width="696" alt="Home during a call: the timer at the top, “Recording a call”, the last sentence heard, Stop and See the call">
+  </picture>
+</p>
+
+Dictation keeps working during a call, and it goes first: your shortcut writes your sentence as usual, the call waits
+its turn.
+
+### Live
+
+On the Calls page, “Live”: “Each sentence appears here a few seconds after it is said.” “Me” is your microphone, “The
+others” the computer’s sound. “The final version is written again when the call ends.”
+
+### The transcript
+
+When you stop: “Putting the call into words…”. The whole call is transcribed again with your model, person by person.
+“Me” is always your microphone; the others become “Person 2”, “Person 3”… with “Separate the voices” (otherwise, “The
+others”). Voices are also told apart when several people talk in front of the same PC, without a call.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../media/en/appels-transcription-sombre.png">
+    <source media="(prefers-color-scheme: light)" srcset="../media/en/appels-transcription-clair.png">
+    <img src="../media/en/appels-transcription-sombre.png" width="696" alt="A written call, Transcript tab: each sentence with its time and the person’s first name">
+  </picture>
+</p>
+
+Click a person to give them a name (“Click to give a name”): the transcript, the copy and the export use it. The call’s
+title is changed the same way.
+
+<p align="center"><img src="../media/en/fonctions/appels-personnes.png" width="456" alt="The people in the call, named, and the field to rename one"></p>
+
+### The summary and the tasks
+
+Once the call is written, the AI takes notes: a title, a summary in a few sentences, the “Key points” and the “Tasks”,
+with who does what and when. Check a task off when it is done: the call list shows how many are left. “Redo the
+summary” writes it again, for example after naming the people.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../media/en/appels-resume-sombre.png">
+    <source media="(prefers-color-scheme: light)" srcset="../media/en/appels-resume-clair.png">
+    <img src="../media/en/appels-resume-sombre.png" width="696" alt="A written call, Summary tab: the title, the people, the summary, the key points">
+  </picture>
+</p>
+
+<p align="center"><img src="../media/en/fonctions/appels-taches.png" width="458" alt="The call’s tasks to check off, with who does them and when"></p>
+
+The summary is written by the AI provider set up for [AI correction](#ai-correction): J’écoute sends it the transcript,
+never the sound. Without a provider, “No summary without AI”: the call keeps its transcript, with no summary or tasks.
+The details: [privacy.md](privacy.md#calls).
+
+### Copy, export, delete
+
+“Copy” puts the call on the clipboard, in Markdown: the date, the length, the people, the summary, the key points, the
+tasks, then the transcript. “Export” writes the same text to a `.md` file in your Documents folder, and shows it to you
+in File Explorer. The trash can deletes the call, after you confirm.
+
+### Call settings
+
+The settings icon, at the top right of the Calls page:
+
+- “Computer sound”: “Also records what the computer plays: the other people’s voices. Off: your microphone only.” On by
+  default.
+- “Separate the voices”: it needs a small model (29 MB), downloaded once from Hugging Face with “Download”. On by
+  default.
+- “AI summary”: the provider and the model that write it, or “No AI provider is set up”. On by default.
+- “The microphone is the dictation one.”: “Change microphone” opens Settings › Sound.
+
+<p align="center"><img src="../media/en/fonctions/appels-reglages.png" width="348" alt="The call settings: computer sound, separate the voices, AI summary, microphone"></p>
+
+If J’écoute stops in the middle of a call (crash, “Quit”), the call is written at the next launch.
+
+## Statistics
+
+“Statistics”, at the top of the home screen: what dictation does for you, in numbers. Everything is counted on your
+computer (“Counted on this computer, never sent.”).
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../media/en/statistiques-sombre.png">
+    <source media="(prefers-color-scheme: light)" srcset="../media/en/statistiques-clair.png">
+    <img src="../media/en/statistiques-sombre.png" width="696" alt="The Statistics page: days in a row, words dictated, time saved, speed, dictations, the chart of words per day and Where you dictate">
+  </picture>
+</p>
+
+### The numbers
+
+Pick the period at the top: “Week” (7 days), “Month” (30 days) or “All”.
+
+| Number           | What it counts                                                                                |
+| ---------------- | --------------------------------------------------------------------------------------------- |
+| “Words dictated” | the words in your dictations                                                                  |
+| “Time saved”     | the time it would have taken to type them at 45 words/min, minus the time spent saying them   |
+| “Speed”          | your words per minute when you dictate                                                        |
+| “Dictations”     | the number of dictations                                                                      |
+| “days in a row”  | “Days in a row with at least one dictation, up to today or yesterday.” (the pill, at the top) |
+
+<p align="center"><img src="../media/en/fonctions/stats-chiffres.png" width="684" alt="The numbers: words dictated, time saved, speed, dictations, and the days-in-a-row pill"></p>
+
+### The chart and “Where you dictate”
+
+The chart shows your words per day (per week or per month over a long period); hover a bar to see its number. “Where
+you dictate” lists the apps your dictations were pasted into, from the most used to the least: the app in the
+foreground when pasting, only the program’s name.
+
+<p align="center"><img src="../media/en/fonctions/stats-applis.png" width="269" alt="Where you dictate: the apps and their share of the words dictated"></p>
+
+### Where the numbers come from
+
+The statistics have their own counter: clearing the history does not erase them. On the first launch of 0.2.0,
+J’écoute picks up the dictations still in your history with their recording (without the apps, which it did not know).
+Before your first dictation, the page says “No numbers yet”.
+
+<p align="center"><img src="../media/en/fonctions/stats-vide.png" width="456" alt="The Statistics page before the first dictation: No numbers yet"></p>
+
+“Reset”, at the bottom, erases all the numbers, after you confirm. Your dictation history is not touched.
+
+<p align="center"><img src="../media/en/fonctions/stats-remise-a-zero.png" width="496" alt="Reset the statistics? The confirmation"></p>
 
 ## Models
 

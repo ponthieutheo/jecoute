@@ -1,7 +1,9 @@
 # Médias de J’écoute
 
 Liste des images et animations de `docs/media/`, avec une ligne de description pour chacune (elle sert de
-texte alternatif). Données inventées seulement : aucune dictée, aucun réglage ni fichier réel.
+texte alternatif). Données inventées seulement : aucune dictée, aucun réglage ni fichier réel. Les appels sont de
+vrais enregistrements d’un dialogue joué par des voix de synthèse ; leur résumé est écrit pour la démo, d’après la
+transcription obtenue. Les chiffres des statistiques sont inventés.
 
 - Captures de l’interface : PNG, nettes en 2x (fenêtre 696 × 609, image 1392 × 1218), 256 couleurs optimisées.
   Chaque écran existe en `-sombre` et `-clair` (afficher selon le thème du visiteur avec `<picture>`).
@@ -18,8 +20,8 @@ texte alternatif). Données inventées seulement : aucune dictée, aucun réglag
 
 ## Écrans (français)
 
-- `fr/accueil-sombre.png` (59 Ko, 1392 × 1218) : Accueil : le perso au centre, l’état « Prêt » avec le raccourci Ctrl + Espace, le modèle et la langue, puis les trois dernières dictées (thème sombre)
-- `fr/accueil-clair.png` (58 Ko, 1392 × 1218) : Accueil : le perso au centre, l’état « Prêt » avec le raccourci Ctrl + Espace, le modèle et la langue, puis les trois dernières dictées (thème clair)
+- `fr/accueil-sombre.png` (58 Ko, 1392 × 1218) : Accueil : le perso au centre, en haut Appels, Historique et Statistiques, l’état « Prêt » avec le raccourci Ctrl + Espace, le modèle et la langue, puis les trois dernières dictées (thème sombre)
+- `fr/accueil-clair.png` (58 Ko, 1392 × 1218) : Accueil : le perso au centre, en haut Appels, Historique et Statistiques, l’état « Prêt » avec le raccourci Ctrl + Espace, le modèle et la langue, puis les trois dernières dictées (thème clair)
 - `fr/accueil-ecoute-sombre.png` (58 Ko, 1392 × 1218) : Accueil pendant une dictée : le perso tend l’oreille, « J’écoute… », relâcher Ctrl + Espace pour finir (thème sombre)
 - `fr/accueil-ecoute-clair.png` (59 Ko, 1392 × 1218) : Accueil pendant une dictée : le perso tend l’oreille, « J’écoute… », relâcher Ctrl + Espace pour finir (thème clair)
 - `fr/historique-sombre.png` (54 Ko, 1392 × 1218) : Historique : les dictées par jour, la recherche et les filtres ; une dictée corrigée par l’IA est dépliée, avec son enregistrement et les mots ajoutés surlignés (thème sombre)
@@ -42,6 +44,16 @@ texte alternatif). Données inventées seulement : aucune dictée, aucun réglag
 - `fr/modeles-clair.png` (65 Ko, 1392 × 1218) : Liste des modèles de transcription : recherche, filtres, modèles installés (l’un se télécharge) et modèles à télécharger (thème clair)
 - `fr/bienvenue-sombre.png` (50 Ko, 1392 × 1218) : Premier lancement : « Bienvenue dans J’écoute », trois modèles recommandés et le bouton de téléchargement (thème sombre)
 - `fr/bienvenue-clair.png` (53 Ko, 1392 × 1218) : Premier lancement : « Bienvenue dans J’écoute », trois modèles recommandés et le bouton de téléchargement (thème clair)
+- `fr/accueil-appel-sombre.png` (61 Ko, 1392 × 1218) : Accueil pendant un appel : le chrono en haut, « Appel en cours », la dernière phrase entendue, Arrêter et Voir l’appel (thème sombre)
+- `fr/accueil-appel-clair.png` (61 Ko, 1392 × 1218) : Accueil pendant un appel : le chrono en haut, « Appel en cours », la dernière phrase entendue, Arrêter et Voir l’appel (thème clair)
+- `fr/appels-direct-sombre.png` (46 Ko, 1392 × 1218) : Page Appels pendant un appel : Arrêter avec la durée, la transcription en direct (« Les autres ») (thème sombre)
+- `fr/appels-direct-clair.png` (46 Ko, 1392 × 1218) : Page Appels pendant un appel : Arrêter avec la durée, la transcription en direct (« Les autres ») (thème clair)
+- `fr/appels-resume-sombre.png` (56 Ko, 1392 × 1218) : Un appel écrit, onglet Résumé : le titre, les personnes nommées, le résumé, les points clés (thème sombre)
+- `fr/appels-resume-clair.png` (57 Ko, 1392 × 1218) : Un appel écrit, onglet Résumé : le titre, les personnes nommées, le résumé, les points clés (thème clair)
+- `fr/appels-transcription-sombre.png` (47 Ko, 1392 × 1218) : Un appel écrit, onglet Transcription : chaque phrase avec son heure et le prénom de la personne (thème sombre)
+- `fr/appels-transcription-clair.png` (47 Ko, 1392 × 1218) : Un appel écrit, onglet Transcription : chaque phrase avec son heure et le prénom de la personne (thème clair)
+- `fr/statistiques-sombre.png` (35 Ko, 1392 × 1218) : Statistiques sur un mois : jours d’affilée, mots dictés, temps gagné, vitesse, dictées, mots par jour, Où tu dictes (thème sombre)
+- `fr/statistiques-clair.png` (35 Ko, 1392 × 1218) : Statistiques sur un mois : jours d’affilée, mots dictés, temps gagné, vitesse, dictées, mots par jour, Où tu dictes (thème clair)
 
 ## Une image par fonction (français)
 
@@ -78,11 +90,18 @@ texte alternatif). Données inventées seulement : aucune dictée, aucun réglag
 - `fr/fonctions/lecture.png` (21 Ko, 1384 × 454) : Dictée dépliée : écouter l’enregistrement, retranscrire, supprimer
 - `fr/fonctions/modeles-filtres.png` (37 Ko, 910 × 1086) : Liste des modèles filtrée : seulement ceux qui écrivent en direct
 - `fr/fonctions/modele-telechargement.png` (11 Ko, 910 × 300) : Un modèle en cours de téléchargement : progression et bouton Annuler
+- `fr/fonctions/appels-reglages.png` (20 Ko, 696 × 572) : Réglages des appels : son de l’ordinateur, distinguer les voix, résumé par IA, micro
+- `fr/fonctions/appels-personnes.png` (11 Ko, 912 × 280) : Un appel : renommer une personne
+- `fr/fonctions/appels-taches.png` (19 Ko, 916 × 608) : Les tâches d’un appel, à cocher, avec qui et quand
+- `fr/fonctions/stats-chiffres.png` (15 Ko, 1368 × 352) : Statistiques : jours d’affilée, mots dictés, temps gagné, vitesse, dictées
+- `fr/fonctions/stats-applis.png` (9 Ko, 538 × 600) : Statistiques : Où tu dictes, la part de chaque appli
+- `fr/fonctions/stats-remise-a-zero.png` (15 Ko, 992 × 356) : Statistiques : la confirmation de la remise à zéro
+- `fr/fonctions/stats-vide.png` (10 Ko, 912 × 400) : Statistiques avant la première dictée : « Pas encore de chiffres »
 
 ## Screens (English)
 
-- `en/accueil-sombre.png` (56 Ko, 1392 × 1218) : Home: the character in the middle, the “Ready” status with the Ctrl + Space shortcut, the model and the language, then the three latest dictations (dark theme)
-- `en/accueil-clair.png` (57 Ko, 1392 × 1218) : Home: the character in the middle, the “Ready” status with the Ctrl + Space shortcut, the model and the language, then the three latest dictations (light theme)
+- `en/accueil-sombre.png` (57 Ko, 1392 × 1218) : Home: the character in the middle, Calls, History and Statistics at the top, the “Ready” status with the Ctrl + Space shortcut, the model and the language, then the three latest dictations (dark theme)
+- `en/accueil-clair.png` (56 Ko, 1392 × 1218) : Home: the character in the middle, Calls, History and Statistics at the top, the “Ready” status with the Ctrl + Space shortcut, the model and the language, then the three latest dictations (light theme)
 - `en/accueil-ecoute-sombre.png` (57 Ko, 1392 × 1218) : Home during a dictation: the character is listening, “Listening…”, release Ctrl + Space to finish (dark theme)
 - `en/accueil-ecoute-clair.png` (59 Ko, 1392 × 1218) : Home during a dictation: the character is listening, “Listening…”, release Ctrl + Space to finish (light theme)
 - `en/historique-sombre.png` (53 Ko, 1392 × 1218) : History: dictations by day, search and filters; an AI-corrected dictation is expanded, with its recording and the added words highlighted (dark theme)
@@ -105,6 +124,16 @@ texte alternatif). Données inventées seulement : aucune dictée, aucun réglag
 - `en/modeles-clair.png` (66 Ko, 1392 × 1218) : Transcription model list: search, filters, installed models (one is downloading) and models to download (light theme)
 - `en/bienvenue-sombre.png` (50 Ko, 1392 × 1218) : First launch: “Welcome to J’écoute”, three recommended models and the download button (dark theme)
 - `en/bienvenue-clair.png` (51 Ko, 1392 × 1218) : First launch: “Welcome to J’écoute”, three recommended models and the download button (light theme)
+- `en/accueil-appel-sombre.png` (60 Ko, 1392 × 1218) : Home during a call: the timer at the top, “Recording a call”, the last sentence heard, Stop and See the call (dark theme)
+- `en/accueil-appel-clair.png` (60 Ko, 1392 × 1218) : Home during a call: the timer at the top, “Recording a call”, the last sentence heard, Stop and See the call (light theme)
+- `en/appels-direct-sombre.png` (45 Ko, 1392 × 1218) : Calls page during a call: Stop with the length, the live transcript (“The others”) (dark theme)
+- `en/appels-direct-clair.png` (45 Ko, 1392 × 1218) : Calls page during a call: Stop with the length, the live transcript (“The others”) (light theme)
+- `en/appels-resume-sombre.png` (50 Ko, 1392 × 1218) : A written call, Summary tab: the title, the named people, the summary, the key points (dark theme)
+- `en/appels-resume-clair.png` (50 Ko, 1392 × 1218) : A written call, Summary tab: the title, the named people, the summary, the key points (light theme)
+- `en/appels-transcription-sombre.png` (44 Ko, 1392 × 1218) : A written call, Transcript tab: each sentence with its time and the person’s first name (dark theme)
+- `en/appels-transcription-clair.png` (44 Ko, 1392 × 1218) : A written call, Transcript tab: each sentence with its time and the person’s first name (light theme)
+- `en/statistiques-sombre.png` (35 Ko, 1392 × 1218) : Statistics over a month: days in a row, words dictated, time saved, speed, dictations, words per day, Where you dictate (dark theme)
+- `en/statistiques-clair.png` (34 Ko, 1392 × 1218) : Statistics over a month: days in a row, words dictated, time saved, speed, dictations, words per day, Where you dictate (light theme)
 
 ## One image per feature (English)
 
@@ -141,6 +170,13 @@ texte alternatif). Données inventées seulement : aucune dictée, aucun réglag
 - `en/fonctions/lecture.png` (21 Ko, 1384 × 454) : Expanded dictation: play the recording, re-transcribe, delete
 - `en/fonctions/modeles-filtres.png` (35 Ko, 910 × 1042) : Filtered model list: only the ones with live text
 - `en/fonctions/modele-telechargement.png` (11 Ko, 910 × 336) : A model being downloaded: progress and Cancel button
+- `en/fonctions/appels-reglages.png` (21 Ko, 696 × 642) : Call settings: computer sound, separate the voices, AI summary, microphone
+- `en/fonctions/appels-personnes.png` (11 Ko, 912 × 280) : A call: renaming a person
+- `en/fonctions/appels-taches.png` (19 Ko, 916 × 608) : A call’s tasks, to check off, with who and when
+- `en/fonctions/stats-chiffres.png` (15 Ko, 1368 × 352) : Statistics: days in a row, words dictated, time saved, speed, dictations
+- `en/fonctions/stats-applis.png` (10 Ko, 538 × 600) : Statistics: Where you dictate, each app’s share
+- `en/fonctions/stats-remise-a-zero.png` (14 Ko, 992 × 356) : Statistics: the reset confirmation
+- `en/fonctions/stats-vide.png` (10 Ko, 912 × 400) : Statistics before the first dictation: “No numbers yet”
 
 ## Le perso (sans texte, valable dans les deux langues)
 
@@ -158,4 +194,4 @@ texte alternatif). Données inventées seulement : aucune dictée, aucun réglag
 - `perso/LICENSE` (5 Ko) : Licence PolyForm Noncommercial 1.0.0 des images du perso / PolyForm Noncommercial 1.0.0 license of the character images
 - `perso/README.md` (200 o) : Le dossier perso/ est sous licence PolyForm Noncommercial / The perso/ folder is under the PolyForm Noncommercial license
 
-Poids de ces fichiers : 7,38 Mo (hors `apercu.webp` et `apercu-en.webp`).
+Poids de ces fichiers : 8,51 Mo (hors `apercu.webp` et `apercu-en.webp`).
