@@ -39,6 +39,80 @@ use transcribe_rs::{
 
 const STREAM_PERF_LOG_INTERVAL: Duration = Duration::from_secs(5);
 const STREAM_FINALIZE_REPLY_TIMEOUT: Duration = Duration::from_secs(30);
+const COHERE_CHUNK_SECONDS: usize = 30;
+const COHERE_CHUNK_OVERLAP_SECONDS: usize = 1;
+const TRANSCRIPTION_SAMPLE_RATE: usize = 16_000;
+
+/// Cohere's decoder can enter a repetition loop when given long continuous
+/// dictations. Keep each inference within a short window and overlap adjacent
+/// windows so words at a cut are still heard in full.
+fn transcribe_audio_in_chunks(
+    audio: &[f32],
+    mut transcribe: impl FnMut(&[f32]) -> Result<String>,
+) -> Result<String> {
+    let chunk_samples = COHERE_CHUNK_SECONDS * TRANSCRIPTION_SAMPLE_RATE;
+    let overlap_samples = COHERE_CHUNK_OVERLAP_SECONDS * TRANSCRIPTION_SAMPLE_RATE;
+
+    if audio.len() <= chunk_samples {
+        return transcribe(audio);
+    }
+
+    let step_samples = chunk_samples - overlap_samples;
+    let mut transcript = String::new();
+    let mut start = 0;
+
+    while start < audio.len() {
+        let mut end = (start + chunk_samples).min(audio.len());
+        // Avoid sending a tiny final fragment with too little context. A
+        // slightly longer last window is still short enough to avoid the
+        // long-form repetition failure this split is meant to prevent.
+        if audio.len().saturating_sub(end) < 10 * TRANSCRIPTION_SAMPLE_RATE {
+            end = audio.len();
+        }
+        debug!(
+            "Cohere chunk: {:.1}s",
+            (end - start) as f64 / TRANSCRIPTION_SAMPLE_RATE as f64
+        );
+        let chunk = transcribe(&audio[start..end])?;
+
+        if !transcript.is_empty() && !chunk.is_empty() {
+            // Remove words repeated because of the one-second audio overlap.
+            // Match normalized words but keep the original spelling and
+            // punctuation from the newly decoded chunk.
+            let previous_words: Vec<&str> = transcript.split_whitespace().collect();
+            let next_words: Vec<&str> = chunk.split_whitespace().collect();
+            let max_overlap = previous_words.len().min(next_words.len()).min(32);
+            let overlap = (1..=max_overlap)
+                .rev()
+                .find(|&count| {
+                    previous_words[previous_words.len() - count..]
+                        .iter()
+                        .zip(&next_words[..count])
+                        .all(|(left, right)| {
+                            left.trim_matches(|c: char| !c.is_alphanumeric())
+                                .eq_ignore_ascii_case(
+                                    right.trim_matches(|c: char| !c.is_alphanumeric()),
+                                )
+                        })
+                })
+                .unwrap_or(0);
+            let suffix = next_words[overlap..].join(" ");
+            if !suffix.is_empty() {
+                transcript.push(' ');
+                transcript.push_str(&suffix);
+            }
+        } else {
+            transcript.push_str(&chunk);
+        }
+
+        if end == audio.len() {
+            break;
+        }
+        start += step_samples;
+    }
+
+    Ok(transcript)
+}
 
 fn panic_payload_message(payload: &(dyn std::any::Any + Send)) -> String {
     if let Some(message) = payload.downcast_ref::<&str>() {
@@ -1536,6 +1610,7 @@ impl TranscriptionManager {
         // with INVALID_ARG, so the whisper extension must be gated on the
         // arch, not on the feature (see #1601).
         let mut model_is_whisper = false;
+        let mut model_is_cohere_gguf = false;
 
         // Perform transcription with the appropriate engine.
         // We use catch_unwind to prevent engine panics from poisoning the mutex,
@@ -1566,6 +1641,7 @@ impl TranscriptionManager {
                 let caps = model.capabilities();
                 model_takes_initial_prompt = model.supports(Feature::InitialPrompt);
                 model_is_whisper = model.arch() == "whisper";
+                model_is_cohere_gguf = model.arch().starts_with("cohere");
                 model_supports_translate = caps.supports_translate;
                 model_languages = caps.languages;
                 debug!(
@@ -1619,17 +1695,33 @@ impl TranscriptionManager {
                             run_options.family.is_some()
                         );
 
-                        session
-                            .run(&audio, &run_options)
-                            .map(|t| {
-                                // Whisper's audio-based LID (auto mode only;
-                                // `None` when a language hint was passed).
-                                model_detected_language = t.language;
-                                t.text
+                        if model_is_cohere_gguf {
+                            transcribe_audio_in_chunks(&audio, |samples| {
+                                session
+                                    .run(samples, &run_options)
+                                    .map(|t| {
+                                        if model_detected_language.is_none() {
+                                            model_detected_language = t.language;
+                                        }
+                                        t.text
+                                    })
+                                    .map_err(|e| {
+                                        anyhow::anyhow!("Cohere transcription failed: {}", e)
+                                    })
                             })
-                            .map_err(|e| {
-                                anyhow::anyhow!("transcribe-cpp transcription failed: {}", e)
-                            })
+                        } else {
+                            session
+                                .run(&audio, &run_options)
+                                .map(|t| {
+                                    // Whisper's audio-based LID (auto mode only;
+                                    // `None` when a language hint was passed).
+                                    model_detected_language = t.language;
+                                    t.text
+                                })
+                                .map_err(|e| {
+                                    anyhow::anyhow!("transcribe-cpp transcription failed: {}", e)
+                                })
+                        }
                     }
                     LoadedEngine::Parakeet(parakeet_engine) => {
                         let params = ParakeetParams {
@@ -1703,10 +1795,12 @@ impl TranscriptionManager {
                             language: lang,
                             ..Default::default()
                         };
-                        cohere_engine
-                            .transcribe(&audio, &options)
-                            .map(|r| r.text)
-                            .map_err(|e| anyhow::anyhow!("Cohere transcription failed: {}", e))
+                        transcribe_audio_in_chunks(&audio, |samples| {
+                            cohere_engine
+                                .transcribe(samples, &options)
+                                .map(|result| result.text)
+                                .map_err(|e| anyhow::anyhow!("Cohere transcription failed: {}", e))
+                        })
                     }
                 }
             }));
